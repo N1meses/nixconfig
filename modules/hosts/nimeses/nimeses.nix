@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   registry.hosts.nimeses = {
     username = "nimeses";
     system = "x86_64-linux";

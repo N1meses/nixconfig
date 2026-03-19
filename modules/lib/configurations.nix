@@ -6,14 +6,10 @@
           module = lib.mkOption {
             type = lib.types.deferredModule;
           };
-          hardware-configuration = lib.mkOption {
-            type = lib.types.nullOr lib.types.path;
-            default = null;
-            description = "Path to hardware-configuration.nix";
-          };
         };
       });
       default = {};
+      description = "Nixos configuration compositions per host";
     };
 
     home-manager = lib.mkOption {
