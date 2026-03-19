@@ -6,8 +6,7 @@
         inputs.nixpkgs.lib.nixosSystem {
           modules = [
             cfg.module
-          ] ++ lib.optional (cfg.hardwareConfig != null) cfg.hardwareConfig
-          ++ [
+          ] ++ [
             inputs.home-manager.nixosModules.home-manager
             {
               networking.hostName = name;

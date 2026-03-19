@@ -8,9 +8,9 @@
     module = {
       imports = with config.flake.modules.nixos; [
         users
+        hardware-nimeses
       ];
     };
-    hardware-configuration = ./hardware-configuration.nix;
   };
   configurations.home-manager.nimeses.module = {
     home.packages = with pkgs; [ btop ];
