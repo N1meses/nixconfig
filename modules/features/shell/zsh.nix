@@ -6,7 +6,7 @@
       programs.zsh.enable = true;
     };
 
-    homeManager.zsh = {lib, ...}: {
+    homeManager.zsh = {lib, config, ...}: {
       programs = {
 
         eza = {
@@ -17,6 +17,7 @@
 
         zsh = {
           enable = true;
+          dotDir = "${config.xdg.configHome}/zsh";
           enableCompletion = lib.mkDefault true;
           autosuggestion.enable = lib.mkDefault true;
           syntaxHighlighting = {

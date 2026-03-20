@@ -26,6 +26,30 @@
       core
     ];
 
+
+    programs.ssh.matchBlocks = {
+      "hephaistos" = {
+        hostname = "100.127.108.44";
+        user = "hephaistos";
+      };
+
+      "prometheus" = {
+        hostname = "100.93.27.90";
+        user = "prometheus";
+      };
+
+      "nimeses" = {
+        hostname = "100.83.164.93";
+        user = "nimeses";
+      };
+
+      "forgejo" = {
+        hostname = "100.127.108.44";
+        user = "git";
+        port = 2222;
+      };
+    };
+
     home.packages = with pkgs; [ btop ];
   };
 }

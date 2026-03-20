@@ -11,6 +11,7 @@
       shell-tools
       starship
       zsh
+      ssh
     ];
   };
 }

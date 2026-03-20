@@ -2,7 +2,7 @@
   flake.nixosConfigurations = lib.mapAttrs (
     name: cfg:
       let host = config.registry.hosts.${name};
-      in withSystem host.system ({ pkgs, ... }:
+      in withSystem host.system ({...}:
         inputs.nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs; };
           modules = [
