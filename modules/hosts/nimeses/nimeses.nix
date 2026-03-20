@@ -14,12 +14,18 @@
       core
       hardware-nimeses
       base
+      shell
     ];
 
     boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
   };
 
-  configurations.home-manager.nimeses.module = {pkgs, ...}: {
+  configurations.homeManager.nimeses.module = {pkgs, ...}: {
+    imports = with config.flake.modules.homeManager; [
+      shell
+      core
+    ];
+
     home.packages = with pkgs; [ btop ];
   };
 }

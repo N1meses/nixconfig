@@ -14,7 +14,7 @@
               system.stateVersion = host.stateVersion;
               nixpkgs.hostPlatform = host.system;
               home-manager.users.${host.username} =
-                let homeConfig = config.configurations.home-manager.${name} or null;
+                let homeConfig = config.configurations.homeManager.${name} or null;
                 in lib.mkIf (homeConfig != null) {
                   imports = [ homeConfig.module ];
                   home = {

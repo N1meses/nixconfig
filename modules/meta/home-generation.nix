@@ -18,5 +18,5 @@
         }
       )
   )
-  config.configurations.home-manager;
+  config.configurations.homeManager;
 }

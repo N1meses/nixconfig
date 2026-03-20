@@ -12,7 +12,7 @@
       description = "Nixos configuration compositions per host";
     };
 
-    home-manager = lib.mkOption {
+    homeManager = lib.mkOption {
       type = lib.types.lazyAttrsOf (lib.types.submodule {
         options.module = lib.mkOption {
           type = lib.types.deferredModule;
