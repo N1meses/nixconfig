@@ -3,7 +3,7 @@
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    hardware.url = "github:NixOS/nixos-hardware/master";
 
     flake-parts = {
       url = "github:hercules-ci/flake-parts";

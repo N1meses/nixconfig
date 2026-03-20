@@ -4,6 +4,7 @@
       let host = config.registry.hosts.${name};
       in withSystem host.system ({ pkgs, ... }:
         inputs.nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
           modules = [
             cfg.module
           ] ++ [

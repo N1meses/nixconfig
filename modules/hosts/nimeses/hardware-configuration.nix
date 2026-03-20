@@ -1,26 +1,10 @@
 {... }:
 {
-  flake.modules.nixos.hardware-nimeses = { pkgs, config, lib, ... }: {
-    boot = {
-      kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-server;
+  flake.modules.nixos.hardware-nimeses = {inputs, pkgs, config, lib, ... }: {
 
-      plymouth.enable = lib.mkDefault true;
-
-      loader = {
-        grub.enable = lib.mkForce false;
-        systemd-boot = {
-          enable = lib.mkDefault true;
-          editor = lib.mkDefault false;
-          configurationLimit = lib.mkDefault 10;
-        };
-        efi.canTouchEfiVariables = lib.mkDefault true;
-      };
-
-      initrd.systemd.enable = lib.mkDefault true;
-      initrd.verbose = lib.mkDefault false;
-
-      supportedFilesystems = lib.mkDefault ["ntfs3"];
-    };
+    imports = [
+      inputs.hardware.nixosModules.framework-13-7040-amd
+    ];
 
     boot.initrd.availableKernelModules = ["nvme" "xhci_pci" "thunderbolt" "uas" "sd_mod"];
     boot.initrd.kernelModules = [];

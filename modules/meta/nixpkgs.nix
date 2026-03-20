@@ -7,9 +7,6 @@
       config = {
         allowUnfree = false;
       };
-      overlays = [
-        inputs.nix-cachyos-kernel.overlays.pinned
-      ];
     };
   };
 }
