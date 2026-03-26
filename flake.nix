@@ -58,11 +58,6 @@
       inputs.noctalia-qs.follows = "noctalia-qs";
     };
 
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     opencode = {
       url = "github:anomalyco/opencode/dev";
       inputs.nixpkgs.follows = "nixpkgs";

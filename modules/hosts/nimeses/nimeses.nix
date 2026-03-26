@@ -1,31 +1,42 @@
-{
-  config,
-  ...
-}: {
+{config, ...}: {
   registry.hosts.nimeses = {
     username = "nimeses";
     system = "x86_64-linux";
     stateVersion = "25.11";
   };
 
+  features = {
+    dev = {
+      editors = {
+        helix.enable = true;
+        zed.enable = true;
+      };
+
+      languages = {
+        nix.enable = true;
+        python.enable = true;
+      };
+
+      tools = {
+        ai.enable = true;
+      };
+    };
+  };
+
   configurations.nixos.nimeses.module = {pkgs, ...}: {
     imports = with config.flake.modules.nixos; [
-      users
-      core
       hardware-nimeses
-      base
-      shell
+      common
     ];
 
     boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
   };
 
-  configurations.homeManager.nimeses.module = {pkgs, ...}: {
+  configurations.homeManager.nimeses.module = {...}: {
     imports = with config.flake.modules.homeManager; [
-      shell
-      core
+      common
+      dev
     ];
-
 
     programs.ssh.matchBlocks = {
       "hephaistos" = {
@@ -49,7 +60,5 @@
         port = 2222;
       };
     };
-
-    home.packages = with pkgs; [ btop ];
   };
 }
