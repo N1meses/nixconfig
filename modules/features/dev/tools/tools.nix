@@ -31,6 +31,12 @@ in {
         watchexec
         sd
         bandwhich
+        gnumake
+        cmake
+        pkg-config
+        httpie
+        yq
+        btop
       ];
     };
   };

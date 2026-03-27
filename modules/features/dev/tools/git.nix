@@ -1,13 +1,23 @@
-{...}:
-{
-  flake.modules.homeManager.git = {...}: {
+{...}: {
+  flake.modules.homeManager.git = {pkgs, ...}: {
     programs = {
-      git = {
+      git.enable = true;
+
+      delta = {
         enable = true;
-        delta.enable = true;
+        enableGitIntegration = true;
       };
 
       lazygit.enable = true;
     };
+
+    home.packages = with pkgs; [
+      pre-commit
+      commitizen
+      lefthook
+      tig
+      git-branchless
+      git-absorb
+    ];
   };
 }

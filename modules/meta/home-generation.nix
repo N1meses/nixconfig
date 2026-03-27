@@ -8,6 +8,7 @@
           modules = [
             module
             {
+              nixpkgs.config.allowUnfree = true;
               home = {
                 username = host.username;
                 homeDirectory = host.homeDirectory;

@@ -181,10 +181,10 @@ in {
 
         wayland.windowManager.hyprland = {
           enable = true;
-          package = lib.mkDefault (
+          package = lib.mkForce (
             if cfg.hyprland.package != null
             then cfg.hyprland.package
-            else pkgs.hyprland
+            else inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland
           );
           portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
 

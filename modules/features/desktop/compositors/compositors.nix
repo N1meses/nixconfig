@@ -252,25 +252,23 @@ in {
     };
   };
 
-  config = {
-    assertions = [
-      {
-        assertion = (cfg.niri.enable || cfg.hyprland.enable) -> (cfg.monitors != null && builtins.attrNames cfg.monitors != []);
-        message = ''
-          You have to configure at least one monitor when enabling a compositor!
+  config.flake.modules = {
+    nixos.compositors = {lib, ...}: {
+        assertions = [
+          {
+            assertion = (cfg.niri.enable || cfg.hyprland.enable) -> (cfg.monitors != null && builtins.attrNames cfg.monitors != []);
+            message = ''
+              You have to configure at least one monitor when enabling a compositor!
 
-          Example:
-            features.compositors.monitors."eDP-1" = {
-              resolution = { width = 2880; height = 1920; };
-              refreshRate = 120.0;
-              scale = 1.6;
-            };
-        '';
-      }
-    ];
-
-    flake.modules = {
-      nixos.compositors = {lib, ...}: {
+              Example:
+                features.compositors.monitors."eDP-1" = {
+                  resolution = { width = 2880; height = 1920; };
+                  refreshRate = 120.0;
+                  scale = 1.6;
+                };
+            '';
+          }
+        ];
         imports = with config.flake.modules.nixos;
           []
           ++ lib.optional cfg.niri.enable niri
@@ -288,8 +286,10 @@ in {
           wf-recorder
           swappy
           wayland-utils
+          wl-clipboard
         ];
+
+        services.wl-clip-persist.enable = true;
       };
-    };
   };
 }

@@ -257,7 +257,7 @@ in {
           package = lib.mkDefault (
             if cfg.niri.package != null
             then cfg.niri.package
-            else inputs.niri.packages.${pkgs.system}.niri
+            else inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.niri-unstable
           );
 
           settings = {
@@ -268,7 +268,7 @@ in {
               path = lib.mkDefault (
                 if cfg.xwaylandSatellitePackage != null
                 then (lib.getExe cfg.xwaylandSatellitePackage)
-                else (lib.getExe inputs.niri.packages.${pkgs.system}.xwayland-satellite)
+                else (lib.getExe inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.xwayland-satellite-unstable)
               );
             };
 
