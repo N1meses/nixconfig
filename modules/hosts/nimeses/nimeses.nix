@@ -136,7 +136,7 @@ in {
       common
       desktop
     ];
-
+    users.users.nimeses.initialPassword = "test";
     boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
   };
 
@@ -155,10 +155,6 @@ in {
       "prometheus" = {
         hostname = "100.93.27.90";
         user = "prometheus";
-      };
-      "nimeses" = {
-        hostname = "100.83.164.93";
-        user = "nimeses";
       };
       "forgejo" = {
         hostname = "100.127.108.44";
