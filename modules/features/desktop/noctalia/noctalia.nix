@@ -14,8 +14,16 @@
     };
 
     config = lib.mkIf cfg.enable {
-      features.compositors.niri.autoStart = ["noctalia-shell"];
-      features.compositors.hyprland.autoStart = ["noctalia-shell"];
+      programs.niri.settings = {
+        spawn-at-startup = [{argv = ["noctalia-shell"];}];
+        layer-rules = [
+          {
+            matches = [{namespace = "^noctalia-wallpaper.*";}];
+            place-within-backdrop = true;
+          }
+        ];
+      };
+      wayland.windowManager.hyprland.settings.exec-once = ["noctalia-shell"];
 
       programs.noctalia-shell = {
         enable = true;

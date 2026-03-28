@@ -156,6 +156,7 @@
         docker_context.disabled = lib.mkDefault true;
         package.disabled = lib.mkDefault true;
         battery.disabled = lib.mkDefault true;
+        bun.disabled = true;
       };
     };
   };

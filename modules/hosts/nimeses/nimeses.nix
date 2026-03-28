@@ -26,6 +26,9 @@ in {
       greetd.enable = true;
     };
 
+    networking.firewall.trustedInterfaces = ["tailscale0"];
+    services.tailscale.enable = true;
+
     users.users.nimeses.initialPassword = "test";
     boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
   };
@@ -128,9 +131,17 @@ in {
       };
     };
 
+    home.pointerCursor = {
+      package = pkgs.nordzy-cursor-theme;
+      name = "Nordzy-cursors";
+      size = 24;
+      gtk.enable = true;
+    };
+
     home.packages = with pkgs; [
       gemini-cli
       claude-code
+      vesktop
     ];
 
     programs.ssh.matchBlocks = {

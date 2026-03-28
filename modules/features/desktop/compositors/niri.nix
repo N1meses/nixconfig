@@ -241,14 +241,8 @@ in {
 
               {
                 matches = [
-                  {
-                    app-id = "^com\\.brave\\.Browser$";
-                    is-focused = true;
-                  }
-                  {
-                    app-id = "^brave-browser$";
-                    is-focused = true;
-                  }
+                  {app-id = "^com\\.brave\\.Browser$";}
+                  {app-id = "^brave-browser$";}
                 ];
                 opacity = 1.0;
               }
@@ -271,7 +265,7 @@ in {
             binds = defaultBinds // mouseBinds // config.features.compositors.niri.extraBinds;
 
             cursor = {
-              theme = lib.mkDefault "default";
+              theme = lib.mkDefault "Nordzy-cursors";
               size = lib.mkDefault 24;
               hide-on-key-press = lib.mkDefault true;
               hide-after-inactive-ms = lib.mkDefault 3000;

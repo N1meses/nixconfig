@@ -20,21 +20,15 @@
           package = pkgs.adw-gtk3;
         };
 
-        gtk3.extraConfig = {
-          gtk-application-prefer-dark-theme = true;
-          extraCss = ''
-            @import "${config.xdg.configHome}/gtk-3.0/colors.css";
-          '';
+        iconTheme = {
+          name = "Pop";
+          package = pkgs.pop-icon-theme;
         };
 
-        gtk4.theme = config.gtk.theme;
+        gtk3.extraConfig.gtk-application-prefer-dark-theme = true;
 
-        gtk4.extraConfig = {
-          gtk-application-prefer-dark-theme = true;
-          extraCss = ''
-            @import "${config.xdg.configHome}/gtk-4.0/colors.css";
-          '';
-        };
+        gtk4.extraConfig.gtk-application-prefer-dark-theme = true;
+        gtk4.theme = null;
       };
     };
   };
