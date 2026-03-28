@@ -1,20 +1,16 @@
-{config, lib, ...}: let
-  cfg = config.features.services.greetd;
-in {
-  options.features.services.greetd.sessionCmd = lib.mkOption {
-    type = lib.types.str;
-    default = "niri";
-    description = "Session command launched by tuigreet (passed to --cmd)";
-  };
+{...}: {
+  flake.modules.nixos.greetd = {pkgs, config, lib, ...}: {
+    options.features.services.greetd.enable = lib.mkEnableOption "greetd display manager";
 
-  config.flake.modules.nixos.greetd = {pkgs, ...}: {
-    services.greetd = {
-      enable = true;
-      settings.default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session --cmd ${cfg.sessionCmd}";
-        user = "greeter";
+    config = lib.mkIf config.features.services.greetd.enable {
+      services.greetd = {
+        enable = true;
+        settings.default_session = {
+          command = lib.mkDefault "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session --cmd niri";
+          user = "greeter";
+        };
       };
+      security.pam.services.greetd.enableGnomeKeyring = true;
     };
-    security.pam.services.greetd.enableGnomeKeyring = true;
   };
 }

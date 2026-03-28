@@ -1,11 +1,8 @@
 {
-  config,
   lib,
   inputs,
   ...
 }: let
-  cfg = config.features.compositors;
-
   workspace_binds = [
     "SUPER,1,workspace,1"
     "SUPER,2,workspace,2"
@@ -53,118 +50,35 @@
     "SUPER,E,exec,ghostty -e yazi"
   ];
 in {
-  options.features.compositors.hyprland = {
-    appearance = {
-      gaps = lib.mkOption {
-        type = lib.types.int;
-        default = cfg.appearance.gaps or 8;
-        description = "Gap size between windows.";
-      };
-
-      border = {
-        enable = lib.mkOption {
-          type = lib.types.bool;
-          default = cfg.appearance.border.enable or false;
-          description = "Enable window borders.";
-        };
-        width = lib.mkOption {
-          type = lib.types.int;
-          default = cfg.appearance.border.width or 2;
-          description = "Border width in pixels.";
-        };
-      };
-
-      radius = lib.mkOption {
-        type = lib.types.int;
-        default = cfg.appearance.radius or 16;
-        description = "Window corner radius.";
-      };
-
-      opacity = {
-        active = lib.mkOption {
-          type = lib.types.float;
-          default = cfg.appearance.opacity.active or 0.95;
-          description = "Opacity for active windows.";
-        };
-        inactive = lib.mkOption {
-          type = lib.types.float;
-          default = cfg.appearance.opacity.inactive or 0.9;
-          description = "Opacity for inactive windows.";
-        };
-      };
+  flake.modules = {
+    nixos.hyprland = {...}: {
+      programs.hyprland.enable = true;
     };
 
-    animations.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = cfg.animations.enable or false;
-      description = "Whether to enable animations.";
-    };
+    homeManager.hyprland = {
+      config,
+      lib,
+      pkgs,
+      ...
+    }: {
+      imports = [inputs.hyprland.homeManagerModules.default];
 
-    focus = {
-      followsMouse = lib.mkOption {
-        type = lib.types.bool;
-        default = cfg.focus.followMouse or false;
-        description = "Whether to follow the mouse cursor when focusing windows.";
-      };
-      onActivate = lib.mkOption {
-        type = lib.types.bool;
-        default = cfg.focus.onActivate or true;
-        description = "Whether to focus the window when it is activated.";
-      };
-    };
-
-    autoStart = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
-      default = cfg.autoStart or [];
-      description = "Commands to run at startup, in addition to shared autoStart.";
-    };
-
-    input = {
-      touchpad = {
-        enable = lib.mkOption {
-          type = lib.types.bool;
-          default = cfg.input.touchpad.enable or false;
-          description = "Whether to enable touchpad settings.";
+      options.features.compositors.hyprland = {
+        enable = lib.mkEnableOption "Hyprland compositor";
+        extraBinds = lib.mkOption {
+          type = lib.types.listOf lib.types.str;
+          default = [];
+          description = "Extra keybinds to add to the hyprland config.";
         };
-        naturalScrolling = lib.mkOption {
-          type = lib.types.bool;
-          default = cfg.input.touchpad.naturalScrolling or true;
-          description = "Whether to enable natural scrolling.";
+        autoStart = lib.mkOption {
+          type = lib.types.listOf lib.types.str;
+          default = [];
+          description = "Commands to run at startup.";
         };
-        tapToClick = lib.mkOption {
-          type = lib.types.bool;
-          default = cfg.input.touchpad.tapToClick or true;
-          description = "Whether to enable tap-to-click.";
-        };
-        disableWhileTyping = lib.mkOption {
-          type = lib.types.bool;
-          default = cfg.input.touchpad.disableWhileTyping or true;
-          description = "Whether to disable touchpad while typing.";
-        };
-        scrollFactor = lib.mkOption {
-          type = lib.types.float;
-          default = cfg.input.touchpad.scrollFactor or 1.0;
-          description = "Touchpad scroll speed multiplier.";
-        };
-      };
-    };
-  };
-
-  config = {
-    flake.modules = {
-      nixos.hyprland = {...}: {
-        programs.hyprland.enable = true;
+        input.touchpad.enable = lib.mkEnableOption "touchpad input and gestures";
       };
 
-      homeManager.hyprland = {
-        lib,
-        pkgs,
-        ...
-      }: {
-        imports = [
-          inputs.hyprland.homeManagerModules.default
-        ];
-
+      config = lib.mkIf config.features.compositors.hyprland.enable {
         xdg.portal = {
           enable = lib.mkDefault true;
           extraPortals = [
@@ -181,57 +95,48 @@ in {
 
         wayland.windowManager.hyprland = {
           enable = true;
-          package = lib.mkForce (
-            if cfg.hyprland.package != null
-            then cfg.hyprland.package
-            else inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland
-          );
+          package = lib.mkDefault inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
           portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
 
           settings = {
             monitor =
-              if cfg.monitors != null
+              if config.features.compositors.monitors != null
               then
-                lib.mapAttrsToList (name: m: "${name},${toString m.resolution.width}x${toString m.resolution.height}@${toString (builtins.floor m.refreshRate)},${toString m.position.x}x${toString m.position.y},${toString m.scale}")
-                cfg.monitors
+                lib.mapAttrsToList
+                (name: m: "${name},${toString m.resolution.width}x${toString m.resolution.height}@${toString (builtins.floor m.refreshRate)},${toString m.position.x}x${toString m.position.y},${toString m.scale}")
+                config.features.compositors.monitors
               else [];
 
-            env =
-              [
-                "NIXOS_OZONE_WL,1"
-                "MOZ_ENABLE_WAYLAND,1"
-                "GDK_BACKEND,wayland,x11"
-                "QT_QPA_PLATFORM,wayland"
-                "XDG_CURRENT_DESKTOP,Hyprland"
-                "XDG_SESSION_TYPE,wayland"
-                "XDG_SESSION_DESKTOP,Hyprland"
-                "SDL_VIDEODRIVER,wayland"
-                "_JAVA_AWT_WM_NONREPARENTING,1"
-                "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
-                "AWT_TOOLKIT,MToolkit"
-                "QT_QPA_PLATFORMTHEME,gtk3"
-                "NVD_BACKEND,direct"
-                "ELECTRON_OZONE_PLATFORM_HINT,auto"
-                "XCURSOR_SIZE,${toString cfg.cursor.size}"
-                "HYPRCURSOR_SIZE,${toString cfg.cursor.size}"
-              ]
-              ++ lib.optional (cfg.cursor.theme != "") "XCURSOR_THEME,${cfg.cursor.theme}"
-              ++ lib.optional (cfg.cursor.theme != "") "HYPRCURSOR_THEME,${cfg.cursor.theme}";
+            env = [
+              "NIXOS_OZONE_WL,1"
+              "MOZ_ENABLE_WAYLAND,1"
+              "GDK_BACKEND,wayland,x11"
+              "QT_QPA_PLATFORM,wayland"
+              "XDG_CURRENT_DESKTOP,Hyprland"
+              "XDG_SESSION_TYPE,wayland"
+              "XDG_SESSION_DESKTOP,Hyprland"
+              "SDL_VIDEODRIVER,wayland"
+              "_JAVA_AWT_WM_NONREPARENTING,1"
+              "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
+              "AWT_TOOLKIT,MToolkit"
+              "QT_QPA_PLATFORMTHEME,gtk3"
+              "NVD_BACKEND,direct"
+              "ELECTRON_OZONE_PLATFORM_HINT,auto"
+              "XCURSOR_SIZE,24"
+              "HYPRCURSOR_SIZE,24"
+            ];
 
             exec-once =
               [
                 "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
                 "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
               ]
-              ++ cfg.hyprland.autoStart;
+              ++ config.features.compositors.hyprland.autoStart;
 
             general = {
-              gaps_in = cfg.hyprland.appearance.gaps / 2;
-              gaps_out = cfg.hyprland.appearance.gaps;
-              border_size =
-                if cfg.hyprland.appearance.border.enable
-                then cfg.hyprland.appearance.border.width
-                else 0;
+              gaps_in = lib.mkDefault 4;
+              gaps_out = lib.mkDefault 8;
+              border_size = lib.mkDefault 2;
               "col.active_border" = "rgb(50C878)";
               "col.inactive_border" = "rgb(595959)";
               resize_on_border = true;
@@ -263,14 +168,14 @@ in {
             ];
 
             decoration = {
-              rounding = cfg.hyprland.appearance.radius;
-              active_opacity = cfg.hyprland.appearance.opacity.active;
-              inactive_opacity = cfg.hyprland.appearance.opacity.inactive;
+              rounding = lib.mkDefault 16;
+              active_opacity = lib.mkDefault 0.95;
+              inactive_opacity = lib.mkDefault 0.9;
               shadow.enabled = false;
             };
 
             animations = {
-              enabled = cfg.hyprland.animations.enable;
+              enabled = lib.mkDefault true;
               bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
               animation = [
                 "windows, 1, 3, myBezier"
@@ -283,31 +188,24 @@ in {
             };
 
             input = {
-              kb_layout = lib.mkDefault (
-                if cfg.input.keyboard.layout != ""
-                then cfg.input.keyboard.layout
-                else "de"
-              );
-              follow_mouse =
-                if cfg.hyprland.focus.followsMouse
-                then 1
-                else 0;
-              touchpad = lib.mkIf cfg.hyprland.input.touchpad.enable {
-                natural_scroll = cfg.hyprland.input.touchpad.naturalScrolling;
-                disable_while_typing = cfg.hyprland.input.touchpad.disableWhileTyping;
-                clickfinger_behavior = cfg.hyprland.input.touchpad.tapToClick;
-                scroll_factor = cfg.hyprland.input.touchpad.scrollFactor;
+              kb_layout = lib.mkDefault "de";
+              follow_mouse = lib.mkDefault 1;
+              touchpad = lib.mkIf config.features.compositors.hyprland.input.touchpad.enable {
+                natural_scroll = lib.mkDefault true;
+                disable_while_typing = lib.mkDefault true;
+                clickfinger_behavior = lib.mkDefault true;
+                scroll_factor = lib.mkDefault 1.0;
               };
             };
 
             cursor = {
-              hide_on_touch = cfg.cursor.hideWhileTyping;
-              inactive_timeout = cfg.cursor.hideTimeout;
+              hide_on_touch = lib.mkDefault true;
+              inactive_timeout = lib.mkDefault 3;
             };
 
             misc = {
               disable_hyprland_logo = true;
-              focus_on_activate = cfg.hyprland.focus.onActivate;
+              focus_on_activate = lib.mkDefault true;
               disable_hyprland_guiutils_check = true;
             };
 
@@ -316,7 +214,7 @@ in {
             debug.disable_logs = false;
 
             windowrule = [
-              "opacity ${toString cfg.hyprland.appearance.opacity.active} ${toString cfg.hyprland.appearance.opacity.inactive}"
+              "opacity 0.95 0.9"
               "opacity 1.0 0.9, match:class ^com\\.brave\\.Browser$"
               "opacity 1.0 0.9, match:class ^brave-browser$"
               "opacity 0.95 0.90, match:class ^com\\.mitchellh\\.ghostty$"
@@ -327,9 +225,9 @@ in {
               "match:title ^(Picture-in-Picture)$, size 640 360"
             ];
 
-            bind = [] ++ window_binds ++ workspace_binds ++ launching_binds ++ cfg.hyprland.extraBinds;
+            bind = [] ++ window_binds ++ workspace_binds ++ launching_binds ++ config.features.compositors.hyprland.extraBinds;
 
-            gestures = lib.mkIf cfg.hyprland.input.touchpad.enable {
+            gestures = lib.mkIf config.features.compositors.hyprland.input.touchpad.enable {
               workspace_swipe = true;
               workspace_swipe_fingers = 3;
             };

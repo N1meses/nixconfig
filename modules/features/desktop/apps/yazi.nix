@@ -1,26 +1,25 @@
-{
-  config,
-  lib,
-  ...
-}: let
-  cfg = config.features.apps.yazi;
-  terminal = cfg.terminalFilechooser.terminal;
-in {
-  options.features.apps.yazi.terminalFilechooser = {
-    enable = lib.mkEnableOption "terminal file chooser portal via yazi";
-    terminal = lib.mkOption {
-      type = lib.types.str;
-      default = "ghostty";
-      description = "Terminal emulator to use for the file chooser.";
+{...}: {
+  flake.modules.homeManager.yazi = {
+    pkgs,
+    config,
+    lib,
+    ...
+  }: let
+    cfg = config.features.apps.yazi;
+  in {
+    options.features.apps.yazi = {
+      enable = lib.mkEnableOption "yazi file manager";
+      terminalFilechooser = {
+        enable = lib.mkEnableOption "terminal file chooser portal via yazi";
+        terminal = lib.mkOption {
+          type = lib.types.str;
+          default = "ghostty";
+          description = "Terminal emulator to use for the file chooser.";
+        };
+      };
     };
-  };
 
-  config = lib.mkIf cfg.enable {
-    flake.modules.homeManager.yazi = {
-      pkgs,
-      config,
-      ...
-    }: {
+    config = lib.mkIf cfg.enable {
       programs.yazi = {
         enable = true;
         enableBashIntegration = true;
@@ -64,13 +63,13 @@ in {
             fi
 
             if [ "$save" = "1" ]; then
-              exec ${pkgs.${terminal}}/bin/${terminal} --title=termfilechooser -e ${pkgs.yazi}/bin/yazi --chooser-file="$out" "$path"
+              exec ${pkgs.${cfg.terminalFilechooser.terminal}}/bin/${cfg.terminalFilechooser.terminal} --title=termfilechooser -e ${pkgs.yazi}/bin/yazi --chooser-file="$out" "$path"
             elif [ "$directory" = "1" ]; then
-              exec ${pkgs.${terminal}}/bin/${terminal} --title=termfilechooser -e ${pkgs.yazi}/bin/yazi --chooser-file="$out" --cwd-file="$out.1" "$path"
+              exec ${pkgs.${cfg.terminalFilechooser.terminal}}/bin/${cfg.terminalFilechooser.terminal} --title=termfilechooser -e ${pkgs.yazi}/bin/yazi --chooser-file="$out" --cwd-file="$out.1" "$path"
             elif [ "$multiple" = "1" ]; then
-              exec ${pkgs.${terminal}}/bin/${terminal} --title=termfilechooser -e ${pkgs.yazi}/bin/yazi --chooser-file="$out" "$path"
+              exec ${pkgs.${cfg.terminalFilechooser.terminal}}/bin/${cfg.terminalFilechooser.terminal} --title=termfilechooser -e ${pkgs.yazi}/bin/yazi --chooser-file="$out" "$path"
             else
-              exec ${pkgs.${terminal}}/bin/${terminal} --title=termfilechooser -e ${pkgs.yazi}/bin/yazi --chooser-file="$out" "$path"
+              exec ${pkgs.${cfg.terminalFilechooser.terminal}}/bin/${cfg.terminalFilechooser.terminal} --title=termfilechooser -e ${pkgs.yazi}/bin/yazi --chooser-file="$out" "$path"
             fi
           '';
         };

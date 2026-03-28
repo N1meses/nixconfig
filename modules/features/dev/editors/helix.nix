@@ -1,9 +1,8 @@
 {...}: {
-  flake.modules.homeManager.helix = {...}: {
-    home.sessionVariables = {
-      EDITOR = "hx";
-    };
+  flake.modules.homeManager.helix = {config, lib, ...}: {
+    options.features.dev.editors.helix.enable = lib.mkEnableOption "helix editor";
 
+    config = lib.mkIf config.features.dev.editors.helix.enable {
     programs.helix = {
       enable = true;
 
@@ -31,6 +30,7 @@
           ];
         };
       };
+    };
     };
   };
 }

@@ -1,43 +1,30 @@
-{
-  config,
-  lib,
-  ...
-}: let
-  cfg = config.features.dev.tools;
+{ config, ... }: let
+  flakeConfig = config;
 in {
-  options.features.dev.tools = {
-    database.enable = lib.mkEnableOption "Enable the database tools";
-    ai.enable = lib.mkEnableOption "Enable the AI tools";
-    security.enable = lib.mkEnableOption "Enable the security tools";
-  };
+  flake.modules.homeManager.tools = {pkgs, ...}: {
+    imports = with flakeConfig.flake.modules.homeManager; [
+      git
+      direnv
+      database
+      opencode
+      security
+    ];
 
-  config = {
-    flake.modules.homeManager.tools = {pkgs, ...}: {
-      imports = with config.flake.modules.homeManager;
-        [
-          git
-          direnv
-        ]
-        ++ lib.optional cfg.database.enable database
-        ++ lib.optional cfg.ai.enable ai
-        ++ lib.optional cfg.security.enable security;
-
-      home.packages = with pkgs; [
-        jq
-        just
-        hyperfine
-        gh
-        tokei
-        watchexec
-        sd
-        bandwhich
-        gnumake
-        cmake
-        pkg-config
-        httpie
-        yq
-        btop
-      ];
-    };
+    home.packages = with pkgs; [
+      jq
+      just
+      hyperfine
+      gh
+      tokei
+      watchexec
+      sd
+      bandwhich
+      gnumake
+      cmake
+      pkg-config
+      httpie
+      yq
+      btop
+    ];
   };
 }

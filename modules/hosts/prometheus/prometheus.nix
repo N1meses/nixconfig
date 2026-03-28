@@ -14,126 +14,6 @@ in {
     extraGroups = ["gamemode" "libvirtd" "kvm"];
   };
 
-  features = {
-    compositors = {
-      niri.enable = true;
-      hyprland.enable = true;
-
-      monitors."HDMI-A-1" = {
-        resolution = {
-          width = 3840;
-          height = 2160;
-        };
-        refreshRate = 119.880;
-        scale = 1.2;
-        transform = "0";
-        vrr.enable = false;
-        position = {
-          x = 0;
-          y = 0;
-        };
-      };
-
-      animations.enable = true;
-
-      appearance = {
-        gaps = 8;
-        border = {
-          enable = true;
-          width = 2;
-        };
-      };
-
-      niri.extraBinds = {
-        "F10".action.spawn = mkNoctalia "volume increase";
-        "F9".action.spawn = mkNoctalia "volume decrease";
-        "F5".action.spawn = mkNoctalia "volume muteOutput";
-
-        "F7".action.spawn = mkNoctalia "media playPause";
-        "F8".action.spawn = mkNoctalia "media next";
-        "F6".action.spawn = mkNoctalia "media previous";
-
-        "Mod+Shift+q".action.spawn = mkNoctalia "lockScreen lock";
-        "Mod+n".action.spawn = mkNoctalia "launcher toggle";
-        "Mod+b".action.spawn = mkNoctalia "bar toggle";
-
-        "F12".action.spawn = ["sh" "-c" "grim - | wl-copy"];
-        "Shift+F12".action.spawn = ["sh" "-c" "grim ~/pictures/screenshot-$(date +%Y%m%d-%H%M%S).png"];
-        "Mod+F12".action.spawn = ["sh" "-c" "grim -g \"$(slurp)\" - | wl-copy"];
-        "Mod+Shift+F12".action.spawn = ["sh" "-c" "grim -g \"$(slurp)\" ~/pictures/screenshot-$(date +%Y%m%d-%H%M%S).png"];
-      };
-
-      hyprland.extraBinds = [
-        ", F10, exec, noctalia-shell ipc call volume increase"
-        ", F9, exec, noctalia-shell ipc call volume decrease"
-        ", F5, exec, noctalia-shell ipc call volume muteOutput"
-
-        ", F7, exec, noctalia-shell ipc call media playPause"
-        ", F8, exec, noctalia-shell ipc call media next"
-        ", F6, exec, noctalia-shell ipc call media previous"
-
-        "SUPERSHIFT, Q, exec, noctalia-shell ipc call lockScreen lock"
-        "SUPER, N, exec, noctalia-shell ipc call launcher toggle"
-        "SUPER, B, exec, noctalia-shell ipc call bar toggle"
-
-        ",F12, exec, grim - | wl-copy"
-        "SHIFT, F12, exec, grim ~/pictures/screenshot-$(date +%Y%m%d-%H%M%S).png"
-        "SUPER, F12, exec, grim -g \"$(slurp)\" - | wl-copy"
-        "SUPERSHIFT, F12, exec, grim -g \"$(slurp)\" ~/pictures/screenshot-$(date +%Y%m%d-%H%M%S).png"
-      ];
-
-      niri.autoStart = ["noctalia-shell"];
-      hyprland.autoStart = ["noctalia-shell"];
-    };
-
-    apps = {
-      ghostty.enable = true;
-      yazi.enable = true;
-      gtk.enable = true;
-      nh.enable = true;
-      fastfetch.enable = true;
-      browser = {
-        enable = true;
-        brave.enable = true;
-        defaultBrowser = "brave";
-      };
-    };
-
-    desktop.noctalia = {
-      enable = true;
-      bar = {
-        mode = "always_visible";
-        position = "top";
-      };
-    };
-
-    dev = {
-      editors = {
-        helix.enable = true;
-        zed.enable = true;
-        defaultEditor = "helix";
-      };
-      languages = {
-        nix.enable = true;
-        bash.enable = true;
-        rust.enable = true;
-        markdown.enable = true;
-      };
-      tools.ai.enable = true;
-    };
-
-    services = {
-      audio.enable = true;
-      bluetooth.enable = true;
-      greetd.enable = true;
-      user = {
-        gnomeKeyring.enable = true;
-        security.gpg-agent.enable = true;
-        storage.udiskie.enable = true;
-      };
-    };
-  };
-
   configurations.nixos.prometheus.module = {pkgs, ...}: {
     imports = with config.flake.modules.nixos; [
       hardware-prometheus
@@ -143,6 +23,12 @@ in {
       performance
       virtualisation
     ];
+
+    features.services = {
+      audio.enable = true;
+      bluetooth.enable = true;
+      greetd.enable = true;
+    };
 
     networking = {
       hostName = "prometheus";
@@ -180,6 +66,98 @@ in {
       dev
       desktop
     ];
+
+    features = {
+      apps = {
+        ghostty.enable = true;
+        yazi.enable = true;
+        gtk.enable = true;
+        nh.enable = true;
+        fastfetch.enable = true;
+        browser = {
+          enable = true;
+          brave.enable = true;
+          defaultBrowser = "brave";
+        };
+      };
+
+      desktop.noctalia.enable = true;
+
+      dev = {
+        editors = {
+          helix.enable = true;
+          zed.enable = true;
+          defaultEditor = "helix";
+        };
+        tools.opencode.enable = true;
+      };
+
+      services.user = {
+        gnomeKeyring.enable = true;
+        security.gpg-agent.enable = true;
+        storage.udiskie.enable = true;
+      };
+
+      compositors = {
+        niri.enable = true;
+        hyprland.enable = true;
+
+        monitors."HDMI-A-1" = {
+          resolution = {
+            width = 3840;
+            height = 2160;
+          };
+          refreshRate = 119.880;
+          scale = 1.2;
+          transform = "0";
+          vrr.enable = false;
+          position = {
+            x = 0;
+            y = 0;
+          };
+        };
+
+        niri.extraBinds = {
+          "F10".action.spawn = mkNoctalia "volume increase";
+          "F9".action.spawn = mkNoctalia "volume decrease";
+          "F5".action.spawn = mkNoctalia "volume muteOutput";
+
+          "F7".action.spawn = mkNoctalia "media playPause";
+          "F8".action.spawn = mkNoctalia "media next";
+          "F6".action.spawn = mkNoctalia "media previous";
+
+          "Mod+Shift+q".action.spawn = mkNoctalia "lockScreen lock";
+          "Mod+n".action.spawn = mkNoctalia "launcher toggle";
+          "Mod+b".action.spawn = mkNoctalia "bar toggle";
+
+          "F12".action.spawn = ["sh" "-c" "grim - | wl-copy"];
+          "Shift+F12".action.spawn = ["sh" "-c" "grim ~/pictures/screenshot-$(date +%Y%m%d-%H%M%S).png"];
+          "Mod+F12".action.spawn = ["sh" "-c" "grim -g \"$(slurp)\" - | wl-copy"];
+          "Mod+Shift+F12".action.spawn = ["sh" "-c" "grim -g \"$(slurp)\" ~/pictures/screenshot-$(date +%Y%m%d-%H%M%S).png"];
+        };
+
+        hyprland.extraBinds = [
+          ", F10, exec, noctalia-shell ipc call volume increase"
+          ", F9, exec, noctalia-shell ipc call volume decrease"
+          ", F5, exec, noctalia-shell ipc call volume muteOutput"
+
+          ", F7, exec, noctalia-shell ipc call media playPause"
+          ", F8, exec, noctalia-shell ipc call media next"
+          ", F6, exec, noctalia-shell ipc call media previous"
+
+          "SUPERSHIFT, Q, exec, noctalia-shell ipc call lockScreen lock"
+          "SUPER, N, exec, noctalia-shell ipc call launcher toggle"
+          "SUPER, B, exec, noctalia-shell ipc call bar toggle"
+
+          ",F12, exec, grim - | wl-copy"
+          "SHIFT, F12, exec, grim ~/pictures/screenshot-$(date +%Y%m%d-%H%M%S).png"
+          "SUPER, F12, exec, grim -g \"$(slurp)\" - | wl-copy"
+          "SUPERSHIFT, F12, exec, grim -g \"$(slurp)\" ~/pictures/screenshot-$(date +%Y%m%d-%H%M%S).png"
+        ];
+      };
+    };
+
+    programs.noctalia-shell.settings.bar.position = "top";
 
     home.sessionVariables = {
       GDK_SCALE = "1";

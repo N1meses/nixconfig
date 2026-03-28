@@ -1,14 +1,14 @@
-{
-  config,
-  inputs,
-  ...
-}: {
-  flake.modules.homeManager.ai = {
+{inputs, ...}: {
+  flake.modules.homeManager.opencode = {
     pkgs,
     config,
+    lib,
     ...
   }: {
-    programs.opencode = {
+    options.features.dev.tools.opencode.enable = lib.mkEnableOption "opencode and AI tools";
+
+    config = lib.mkIf config.features.dev.tools.opencode.enable {
+      programs.opencode = {
       package = inputs.opencode.packages.${pkgs.system}.default;
       enable = true;
       enableMcpIntegration = true;
@@ -109,11 +109,7 @@
           - Potential bugs
         '';
       };
+      };
     };
-
-    home.packages = with pkgs; [
-      claude-code
-      gemini-cli
-    ];
   };
 }

@@ -16,7 +16,6 @@
       commitizen
       lefthook
       tig
-      git-branchless
       git-absorb
     ];
   };
