@@ -1,0 +1,18 @@
+scheme: "Tokyo Night Storm"
+author: "enkia"
+base00: "24283b" # background
+base01: "1d202f"
+base02: "444b6a"
+base03: "787c99"
+base04: "acb0d0"
+base05: "c0caf5" # foreground
+base06: "e0af68"
+base07: "bb9af7"
+base08: "f7768e"
+base09: "ff9e64"
+base0A: "e0af68"
+base0B: "9ece6a"
+base0C: "449dab"
+base0D: "7aa2f7"
+base0E: "ad8ee6"
+base0F: "ff7a93"

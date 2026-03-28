@@ -1,4 +1,4 @@
-{...}: {
+{inputs, ...}: {
   flake.modules.homeManager.helix = {config, lib, ...}: {
     options.features.dev.editors.helix.enable = lib.mkEnableOption "helix editor";
 
@@ -6,7 +6,10 @@
     programs.helix = {
       enable = true;
 
+      themes = import "${inputs.self}/assets/themes/nox-default.nix";
+
       settings = {
+        theme = "nox-default";
         editor = {
           line-number = "relative";
           mouse = true;
