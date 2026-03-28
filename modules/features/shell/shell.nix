@@ -8,7 +8,7 @@
 
   flake.modules.homeManager.shell = {...}: {
     imports = with config.flake.modules.homeManager; [
-      shell-tools
+      shellTools
       starship
       zsh
       ssh

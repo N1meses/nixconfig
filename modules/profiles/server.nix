@@ -15,7 +15,7 @@ in {
 
   config.flake.modules.nixos.server = {inputs, ...}: {
     imports = with config.flake.modules.nixos;
-      [inputs.sops-nix.nixosModules.sops server-core nginx]
+      [inputs.sops-nix.nixosModules.sops serverCore nginx]
       ++ lib.optional cfg.forgejo.enable forgejo
       ++ lib.optional cfg.jellyfin.enable jellyfin
       ++ lib.optional cfg.vaultwarden.enable vaultwarden

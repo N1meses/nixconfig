@@ -1,6 +1,6 @@
 {...}:
 {
-  flake.modules.homeManager.shell-tools = {...}: {
+  flake.modules.homeManager.shellTools = {...}: {
     programs = {
 
       zoxide = {

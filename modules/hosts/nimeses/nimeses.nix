@@ -15,7 +15,7 @@ in {
 
   configurations.nixos.nimeses.module = {pkgs, ...}: {
     imports = with config.flake.modules.nixos; [
-      hardware-nimeses
+      hardwareNimeses
       common
       desktop
     ];

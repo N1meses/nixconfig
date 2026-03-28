@@ -1,8 +1,4 @@
-{
-  lib,
-  inputs,
-  ...
-}: let
+{inputs, ...}: let
   mouseBinds = {
     "Mod+WheelScrollDown".action.focus-column-right = [];
     "Mod+WheelScrollUp".action.focus-column-left = [];
@@ -97,15 +93,14 @@ in {
       };
 
       config = lib.mkIf config.features.compositors.niri.enable {
-        systemd.user.services.libinput-gestures =
-          lib.mkIf config.features.compositors.niri.input.touchpad.enable {
-            gestures = {
-              "swipe left 3" = "niri msg action focus-column-left-or-last";
-              "swipe right 3" = "niri msg action focus-column-right-or-first";
-              "swipe up 3" = "niri msg action focus-column-prev";
-              "swipe down 3" = "niri msg action focus-column-next";
-            };
+        systemd.user.services.libinput-gestures = lib.mkIf config.features.compositors.niri.input.touchpad.enable {
+          gestures = {
+            "swipe left 3" = "niri msg action focus-column-left-or-last";
+            "swipe right 3" = "niri msg action focus-column-right-or-first";
+            "swipe up 3" = "niri msg action focus-column-prev";
+            "swipe down 3" = "niri msg action focus-column-next";
           };
+        };
 
         xdg.portal = {
           enable = lib.mkDefault true;

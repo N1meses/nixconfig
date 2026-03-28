@@ -3,7 +3,7 @@
   lib,
   ...
 }: {
-  flake.modules.nixos.hardware-hephaistos = {
+  flake.modules.nixos.hardwareHephaistos = {
     config,
     lib,
     ...

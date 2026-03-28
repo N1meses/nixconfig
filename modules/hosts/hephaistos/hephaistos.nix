@@ -21,7 +21,7 @@
 
   configurations.nixos.hephaistos.module = {pkgs, ...}: {
     imports = with config.flake.modules.nixos; [
-      hardware-hephaistos
+      hardwareHephaistos
       common
       server
     ];

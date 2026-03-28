@@ -1,8 +1,4 @@
-{
-  lib,
-  inputs,
-  ...
-}: let
+{inputs, ...}: let
   workspace_binds = [
     "SUPER,1,workspace,1"
     "SUPER,2,workspace,2"
@@ -95,8 +91,7 @@ in {
 
         wayland.windowManager.hyprland = {
           enable = true;
-          package = lib.mkDefault inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-          portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+          portalPackage = lib.mkDefault inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
 
           settings = {
             monitor =

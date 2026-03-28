@@ -11,7 +11,7 @@ in {
     description = "Port for the SSH daemon";
   };
 
-  config.flake.modules.nixos.server-core = {
+  config.flake.modules.nixos.serverCore = {
     lib,
     pkgs,
     ...

@@ -16,7 +16,7 @@ in {
 
   configurations.nixos.prometheus.module = {pkgs, ...}: {
     imports = with config.flake.modules.nixos; [
-      hardware-prometheus
+      hardwarePrometheus
       common
       desktop
       gaming

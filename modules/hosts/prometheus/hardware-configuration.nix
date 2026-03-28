@@ -1,8 +1,7 @@
 {...}: {
-  flake.modules.nixos.hardware-prometheus = {
+  flake.modules.nixos.hardwarePrometheus = {
     config,
     lib,
-    pkgs,
     ...
   }: {
     boot.initrd.availableKernelModules = ["nvme" "xhci_pci" "ahci" "usbhid" "uas" "sd_mod"];
