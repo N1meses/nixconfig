@@ -18,6 +18,7 @@ in {
       hardwareNimeses
       common
       desktop
+      gaming
     ];
 
     features.services = {

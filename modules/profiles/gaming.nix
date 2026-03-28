@@ -1,5 +1,9 @@
 {...}: {
-  flake.modules.nixos.gaming = {pkgs, lib, ...}: {
+  flake.modules.nixos.gaming = {
+    pkgs,
+    lib,
+    ...
+  }: {
     programs.steam = {
       enable = true;
       remotePlay.openFirewall = true;
@@ -66,13 +70,13 @@
     environment.systemPackages = with pkgs; [
       mangohud
       goverlay
+      wineWow64Packages.staging
       nvtopPackages.full
       lutris
       bottles
       vulkan-tools
       vulkan-validation-layers
       vulkan-loader
-      wineWowPackages.waylandFull
       winetricks
       libnotify
     ];
