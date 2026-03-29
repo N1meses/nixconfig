@@ -120,23 +120,23 @@ modules/
 
 ### Aggregators
 
-| Module        | Side       | Imports                                                                            |
-|---------------|------------|------------------------------------------------------------------------------------|
-| `desktop`     | nixos + HM | nixos: services, compositors, noctalia · HM: apps, compositors, noctalia, services |
-| `apps`        | HM         | ghostty, yazi, browser, gtk, nh, fastfetch                                         |
-| `compositors` | nixos + HM | niri, hyprland                                                                     |
-| `services`    | nixos + HM | nixos: graphics, fonts, portals, audio, bluetooth, greetd · HM: userServices       |
+| Module | Side | Imports |
+|--------|------|---------|
+| `desktop` | nixos + HM | nixos: services, compositors, noctalia · HM: apps, compositors, noctalia, services |
+| `apps` | HM | ghostty, yazi, browser, gtk, nh, fastfetch |
+| `compositors` | nixos + HM | niri, hyprland |
+| `services` | nixos + HM | nixos: graphics, fonts, portals, audio, bluetooth, greetd · HM: userServices |
 
 ### Apps
 
-| Module      | Side | Packages                                              | Options                                                              |
-|-------------|------|-------------------------------------------------------|----------------------------------------------------------------------|
-| `browser`   | HM   | brave                                                 | `features.apps.browser.defaultBrowser` (brave\|firefox\|chromium)    |
-| `fastfetch` | HM   | —                                                     | —                                                                    |
-| `ghostty`   | HM   | ghostty                                               | —                                                                    |
-| `gtk`       | HM   | adw-gtk3, pop-icon-theme                              | —                                                                    |
-| `nh`        | HM   | —                                                     | —                                                                    |
-| `yazi`      | HM   | xdg-desktop-portal-termfilechooser, xdg-terminal-exec | `features.apps.yazi.terminalFilechooser.terminal` (default: ghostty) |
+| Module | Side | Packages | Options |
+|--------|------|----------|---------|
+| `browser` | HM | brave | `features.apps.browser.defaultBrowser` (brave\|firefox\|chromium) |
+| `fastfetch` | HM | — | — |
+| `ghostty` | HM | ghostty | — |
+| `gtk` | HM | adw-gtk3, pop-icon-theme | — |
+| `nh` | HM | — | — |
+| `yazi` | HM | xdg-desktop-portal-termfilechooser, xdg-terminal-exec | `features.apps.yazi.terminalFilechooser.terminal` (default: ghostty) |
 
 ### Compositors
 
