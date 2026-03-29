@@ -19,16 +19,10 @@ in {
       common
       desktop
       gaming
+      tailscale
     ];
 
-    features.services = {
-      audio.enable = true;
-      bluetooth.enable = true;
-      greetd.enable = true;
-    };
-
-    networking.firewall.trustedInterfaces = ["tailscale0"];
-    services.tailscale.enable = true;
+    features.server.tailscale.enable = true;
 
     users.users.nimeses.initialPassword = "test";
     boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
@@ -37,36 +31,15 @@ in {
   configurations.homeManager.nimeses.module = {pkgs, ...}: {
     imports = with config.flake.modules.homeManager; [
       common
-      dev
       desktop
+      helix
+      zed
+      nix
+      python
+      markdown
     ];
 
     features = {
-      apps = {
-        ghostty.enable = true;
-        yazi = {
-          enable = true;
-          terminalFilechooser.enable = true;
-        };
-        browser.enable = true;
-        gtk.enable = true;
-        nh.enable = true;
-        fastfetch.enable = true;
-      };
-
-      desktop.noctalia.enable = true;
-
-      dev.editors = {
-        helix.enable = true;
-        zed.enable = true;
-      };
-
-      services.user = {
-        gnomeKeyring.enable = true;
-        security.gpg-agent.enable = true;
-        storage.udiskie.enable = true;
-      };
-
       compositors = {
         niri.enable = true;
         hyprland.enable = true;

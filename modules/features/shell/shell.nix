@@ -1,13 +1,14 @@
-{config, ...}:
-{
+{config, ...}: let
+  flakeConfig = config;
+in {
   flake.modules.nixos.shell = {...}: {
-    imports = with config.flake.modules.nixos; [
+    imports = with flakeConfig.flake.modules.nixos; [
       zsh
     ];
   };
 
   flake.modules.homeManager.shell = {...}: {
-    imports = with config.flake.modules.homeManager; [
+    imports = with flakeConfig.flake.modules.homeManager; [
       shellTools
       starship
       zsh

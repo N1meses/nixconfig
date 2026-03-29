@@ -1,5 +1,4 @@
-{config, ...}:
-{
+{config, ...}: {
   flake.modules = {
     nixos.common = {...}: {
       imports = with config.flake.modules.nixos; [

@@ -1,19 +1,21 @@
-{config, ...}: {
+{config, ...}: let
+  flakeConfig = config;
+in {
   flake.modules = {
     nixos.desktop = {...}: {
-      imports = with config.flake.modules.nixos; [
-        desktopServices
+      imports = with flakeConfig.flake.modules.nixos; [
+        services
         compositors
         noctalia
       ];
     };
 
     homeManager.desktop = {...}: {
-      imports = with config.flake.modules.homeManager; [
+      imports = with flakeConfig.flake.modules.homeManager; [
         apps
         compositors
         noctalia
-        userServices
+        services
       ];
     };
   };

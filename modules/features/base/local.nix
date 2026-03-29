@@ -1,7 +1,5 @@
-{...}:
-{
-  flake.modules.nixos.german = {lib, ...}: {
-
+{...}: {
+  flake.modules.nixos.local = {lib, ...}: {
     time.timeZone = lib.mkDefault "Europe/Berlin";
     console.keyMap = lib.mkDefault "de";
 

@@ -1,9 +1,6 @@
 {...}: {
-  flake.modules.homeManager.zed = {config, lib, pkgs, ...}: {
-    options.features.dev.editors.zed.enable = lib.mkEnableOption "zed editor";
-
-    config = lib.mkIf config.features.dev.editors.zed.enable {
-      home.packages = [pkgs.zed-editor-fhs];
-    };
+  flake.modules.homeManager.zed = {pkgs, ...}: {
+    home.packages = [pkgs.zed-editor-fhs];
+    home.sessionVariables.VISUAL = "zeditor --wait";
   };
 }

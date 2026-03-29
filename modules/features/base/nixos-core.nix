@@ -1,7 +1,9 @@
-{...}:
-{
-  flake.modules.nixos.core = {pkgs, lib, ...}: {
-
+{...}: {
+  flake.modules.nixos.core = {
+    pkgs,
+    lib,
+    ...
+  }: {
     boot = {
       kernelPackages = lib.mkDefault pkgs.linuxPackages;
 
@@ -25,7 +27,6 @@
 
     nix = {
       settings = {
-
         experimental-features = [
           "nix-command"
           "flakes"

@@ -22,21 +22,13 @@ in {
       gaming
       performance
       virtualisation
+      tailscale
     ];
-
-    features.services = {
-      audio.enable = true;
-      bluetooth.enable = true;
-      greetd.enable = true;
-    };
 
     networking = {
       hostName = "prometheus";
       interfaces.eno1.wakeOnLan.enable = true;
-      firewall = {
-        enable = true;
-        trustedInterfaces = ["tailscale0"];
-      };
+      firewall.enable = true;
       networkmanager.dispatcherScripts = [
         {
           source = pkgs.writeText "wol-enable" ''
@@ -50,7 +42,7 @@ in {
       ];
     };
 
-    services.tailscale.enable = true;
+    features.server.tailscale.enable = true;
 
     boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto;
 
@@ -63,40 +55,14 @@ in {
   configurations.homeManager.prometheus.module = {pkgs, ...}: {
     imports = with config.flake.modules.homeManager; [
       common
-      dev
       desktop
+      helix
+      zed
+      opencode
     ];
 
     features = {
-      apps = {
-        ghostty.enable = true;
-        yazi.enable = true;
-        gtk.enable = true;
-        nh.enable = true;
-        fastfetch.enable = true;
-        browser = {
-          enable = true;
-          brave.enable = true;
-          defaultBrowser = "brave";
-        };
-      };
 
-      desktop.noctalia.enable = true;
-
-      dev = {
-        editors = {
-          helix.enable = true;
-          zed.enable = true;
-          defaultEditor = "helix";
-        };
-        tools.opencode.enable = true;
-      };
-
-      services.user = {
-        gnomeKeyring.enable = true;
-        security.gpg-agent.enable = true;
-        storage.udiskie.enable = true;
-      };
 
       compositors = {
         niri.enable = true;

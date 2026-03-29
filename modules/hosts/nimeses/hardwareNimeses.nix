@@ -1,7 +1,10 @@
-{... }:
-{
-  flake.modules.nixos.hardwareNimeses = {inputs, pkgs, config, lib, ... }: {
-
+{...}: {
+  flake.modules.nixos.hardwareNimeses = {
+    inputs,
+    config,
+    lib,
+    ...
+  }: {
     imports = [
       inputs.hardware.nixosModules.framework-13-7040-amd
     ];

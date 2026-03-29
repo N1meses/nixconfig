@@ -1,35 +1,26 @@
 {...}: {
-  flake.modules.homeManager.gtk = {
-    config,
-    lib,
-    pkgs,
-    ...
-  }: {
-    options.features.apps.gtk.enable = lib.mkEnableOption "gtk theming";
-
-    config = lib.mkIf config.features.apps.gtk.enable {
-      gtk = {
-        enable = true;
-        font = {
-          name = "IBM Plex Sans";
-          size = 10;
-        };
-
-        theme = {
-          name = "adw-gtk3";
-          package = pkgs.adw-gtk3;
-        };
-
-        iconTheme = {
-          name = "Pop";
-          package = pkgs.pop-icon-theme;
-        };
-
-        gtk3.extraConfig.gtk-application-prefer-dark-theme = true;
-
-        gtk4.extraConfig.gtk-application-prefer-dark-theme = true;
-        gtk4.theme = null;
+  flake.modules.homeManager.gtk = {pkgs, ...}: {
+    gtk = {
+      enable = true;
+      font = {
+        name = "IBM Plex Sans";
+        size = 10;
       };
+
+      theme = {
+        name = "adw-gtk3";
+        package = pkgs.adw-gtk3;
+      };
+
+      iconTheme = {
+        name = "Pop";
+        package = pkgs.pop-icon-theme;
+      };
+
+      gtk3.extraConfig.gtk-application-prefer-dark-theme = true;
+
+      gtk4.extraConfig.gtk-application-prefer-dark-theme = true;
+      gtk4.theme = null;
     };
   };
 }

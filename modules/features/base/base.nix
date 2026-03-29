@@ -1,9 +1,10 @@
-{config, ...}:
-{
+{config, ...}: let
+  flakeConfig = config;
+in {
   flake.modules.nixos.base = {...}: {
-    imports = with config.flake.modules.nixos; [
+    imports = with flakeConfig.flake.modules.nixos; [
       cachyosKernel
-      german
+      local
     ];
   };
 }

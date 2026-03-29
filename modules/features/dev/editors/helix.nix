@@ -1,8 +1,15 @@
 {inputs, ...}: {
-  flake.modules.homeManager.helix = {config, lib, ...}: {
-    options.features.dev.editors.helix.enable = lib.mkEnableOption "helix editor";
+  flake.modules.homeManager.helix = {lib, ...}: {
+    home.sessionVariables = {
+      EDITOR = "hx";
+      VISUAL = lib.mkDefault "hx";
+    };
 
-    config = lib.mkIf config.features.dev.editors.helix.enable {
+    xdg.mimeApps.defaultApplications = {
+      "text/plain" = lib.mkDefault ["Helix.desktop"];
+      "text/x-nix" = lib.mkDefault ["Helix.desktop"];
+    };
+
     programs.helix = {
       enable = true;
 
@@ -33,7 +40,6 @@
           ];
         };
       };
-    };
     };
   };
 }

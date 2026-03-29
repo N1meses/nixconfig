@@ -1,8 +1,4 @@
-{
-  lib,
-  config,
-  ...
-}: let
+{config, ...}: let
   flakeConfig = config;
 in {
   flake.modules = {
@@ -106,7 +102,8 @@ in {
           {
             assertion =
               (config.features.compositors.niri.enable || config.features.compositors.hyprland.enable)
-              -> (config.features.compositors.monitors != null
+              -> (config.features.compositors.monitors
+                != null
                 && builtins.attrNames config.features.compositors.monitors != []);
             message = ''
               You have to configure at least one monitor when enabling a compositor!

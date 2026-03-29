@@ -1,22 +1,8 @@
-{
-  config,
-  ...
-}: {
+{config, ...}: {
   registry.hosts.hephaistos = {
     username = "hephaistos";
     system = "x86_64-linux";
     stateVersion = "25.05";
-  };
-
-  # server options remain at flake-parts level — single host, out of scope
-  features.server = {
-    # TODO: switch to nimeses.com once Cloudflare Tunnel is configured
-    domain = "hephaistos.tail4109e2.ts.net";
-    forgejo.enable = true;
-    jellyfin.enable = true;
-    vaultwarden.enable = true;
-    croc.enable = true;
-    cloudflared.enable = true;
   };
 
   configurations.nixos.hephaistos.module = {pkgs, ...}: {
@@ -26,12 +12,17 @@
       server
     ];
 
-    networking = {
-      hostName = "hephaistos";
-      firewall.trustedInterfaces = ["tailscale0"];
-    };
+    networking.hostName = "hephaistos";
 
-    services.tailscale.enable = true;
+    features.server = {
+      domain = "hephaistos.tail4109e2.ts.net";
+      tailscale.enable = true;
+      forgejo.enable = true;
+      jellyfin.enable = true;
+      vaultwarden.enable = true;
+      croc.enable = true;
+      cloudflared.enable = true;
+    };
 
     boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-server;
 
@@ -41,26 +32,17 @@
       wget
       wol
       wakeonlan
-      # wake-prometheus needs sops secrets — add after sops setup
     ];
   };
 
   configurations.homeManager.hephaistos.module = {pkgs, ...}: {
     imports = with config.flake.modules.homeManager; [
       common
-      dev
-      apps
+      helix
+      yazi
+      nh
+      fastfetch
     ];
-
-    features = {
-      apps = {
-        yazi.enable = true;
-        nh.enable = true;
-        fastfetch.enable = true;
-      };
-
-      dev.editors.helix.enable = true;
-    };
 
     home.packages = with pkgs; [
       trash-cli
