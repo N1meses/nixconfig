@@ -24,7 +24,6 @@ in {
 
     features.server.tailscale.enable = true;
 
-    users.users.nimeses.initialPassword = "test";
     boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
   };
 
