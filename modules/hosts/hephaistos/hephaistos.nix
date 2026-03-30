@@ -1,4 +1,4 @@
-{config, ...}: {
+{config, inputs, ...}: {
   registry.hosts.hephaistos = {
     username = "hephaistos";
     system = "x86_64-linux";
@@ -6,23 +6,23 @@
   };
 
   configurations.nixos.hephaistos.module = {pkgs, ...}: {
-    imports = with config.flake.modules.nixos; [
+    imports = [ inputs.sops-nix.nixosModules.sops ] ++ (with config.flake.modules.nixos; [
       hardwareHephaistos
       common
-      server
-    ];
+      serverCore
+      ssh
+      nginx
+      tailscale
+      forgejo
+      jellyfin
+      vaultwarden
+      croc
+      cloudflared
+    ]);
 
     networking.hostName = "hephaistos";
 
-    features.server = {
-      domain = "hephaistos.tail4109e2.ts.net";
-      tailscale.enable = true;
-      forgejo.enable = true;
-      jellyfin.enable = true;
-      vaultwarden.enable = true;
-      croc.enable = true;
-      cloudflared.enable = true;
-    };
+    features.server.domain = "hephaistos.tail4109e2.ts.net";
 
     boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-server;
 
@@ -42,6 +42,8 @@
       yazi
       nh
       fastfetch
+      git
+      network
     ];
 
     home.packages = with pkgs; [

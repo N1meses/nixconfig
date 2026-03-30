@@ -20,9 +20,8 @@ in {
       desktop
       gaming
       tailscale
+      laptop
     ];
-
-    features.server.tailscale.enable = true;
 
     boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
   };
@@ -36,6 +35,9 @@ in {
       nix
       python
       markdown
+      git
+      direnv
+      cli
     ];
 
     features = {

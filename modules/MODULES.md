@@ -67,34 +67,23 @@ modules/
 │   │       ├── network.nix           # httpie, bandwhich
 │   │       ├── opencode.nix          # opencode + MCP + agents
 │   │       └── security.nix          # nmap, netcat, mtr, tcpdump
-│   ├── server/
-│   │   ├── server.nix                # aggregator → all server modules
+│   ├── server/                       # all nixos, import = enable
 │   │   ├── serverCore.nix            # firewall, fail2ban base, htop/tmux/rsync
 │   │   ├── ssh.nix                   # OpenSSH + fail2ban sshd jail
 │   │   ├── nginx.nix                 # nginx + fail2ban http jails
-│   │   ├── tailscale.nix             # Tailscale (enable option)
-│   │   ├── forgejo.nix               # Forgejo git forge (enable option)
-│   │   ├── jellyfin.nix              # Jellyfin media server (enable option)
-│   │   ├── vaultwarden.nix           # Vaultwarden (enable option)
-│   │   ├── croc.nix                  # Croc relay (enable option)
-│   │   ├── cloudflared.nix           # Cloudflare tunnel (enable option)
-│   │   └── ollama.nix                # Ollama + ROCm (enable option)
+│   │   ├── tailscale.nix             # Tailscale
+│   │   ├── forgejo.nix               # Forgejo git forge
+│   │   ├── jellyfin.nix              # Jellyfin media server
+│   │   ├── vaultwarden.nix           # Vaultwarden
+│   │   ├── croc.nix                  # Croc relay
+│   │   ├── cloudflared.nix           # Cloudflare tunnel
+│   │   └── ollama.nix                # Ollama + ROCm
 │   └── shell/
 │       ├── shell.nix                 # aggregator → zsh, shellTools, starship, ssh
 │       ├── shell-tools.nix           # zoxide, fzf, ripgrep, fd
 │       ├── ssh.nix                   # SSH config + YubiKey FIDO2 identities
 │       ├── starship.nix              # Starship prompt
 │       └── zsh.nix                   # zsh + eza aliases + fastfetch on login
-├── hosts/
-│   ├── nimeses/
-│   │   ├── hardwareNimeses.nix       # hardware-configuration
-│   │   └── nimeses.nix               # desktop laptop config
-│   ├── prometheus/
-│   │   ├── hardwarePrometheus.nix    # hardware-configuration
-│   │   └── prometheus.nix            # desktop PC (NVIDIA, gaming)
-│   └── hephaistos/
-│       ├── hardwareHephaistos.nix    # hardware-configuration
-│       └── hephaistos.nix            # server config
 ├── lib/
 │   ├── configurations.nix            # host configuration wiring
 │   └── registry.nix                  # host registry
@@ -144,7 +133,7 @@ modules/
 |--------|------|---------|
 | `niri` | nixos + HM | `features.compositors.niri.enable`, `.extraBinds`, `.autoStart`, `.input.touchpad.enable` |
 | `hyprland` | nixos + HM | `features.compositors.hyprland.enable`, `.extraBinds`, `.autoStart`, `.input.touchpad.enable` |
-| `compositors` | HM | `features.compositors.monitors.<name>.{resolution, refreshRate, scale, transform, position, vrr.enable, primary}` |
+| `compositors` | nixos + HM | `features.compositors.monitors.<name>.{resolution, refreshRate, scale, transform, position, vrr.enable, primary}` |
 
 ### Services
 
@@ -178,20 +167,22 @@ modules/
 
 ### Tools
 
-| Module | Side | Packages |
-|--------|------|----------|
-| `build` | HM | gnumake, cmake, pkg-config |
-| `cli` | HM | jq, yq, sd, just, hyperfine, tokei, watchexec, btop, gh |
-| `database` | HM | sqlite, postgresql |
-| `direnv` | HM | direnv + nix-direnv |
-| `git` | HM | git, delta, lazygit, pre-commit, commitizen, lefthook, tig, git-absorb |
-| `network` | HM | httpie, bandwhich |
-| `opencode` | HM | opencode (from inputs), MCP integration, custom agents |
-| `security` | HM | nmap, netcat, mtr, tcpdump, traceroute |
+All HM side. Import = enable.
+
+| Module | Packages |
+|--------|----------|
+| `build` | gnumake, cmake, pkg-config |
+| `cli` | jq, yq, sd, just, hyperfine, tokei, watchexec, btop, gh |
+| `database` | sqlite, postgresql |
+| `direnv` | direnv + nix-direnv |
+| `git` | git, delta, lazygit, pre-commit, commitizen, lefthook, tig, git-absorb |
+| `network` | httpie, bandwhich |
+| `opencode` | opencode (from inputs), MCP integration, custom agents |
+| `security` | nmap, netcat, mtr, tcpdump, traceroute |
 
 ### Languages
 
-All language modules are `homeManager` side. Import = enable.
+All HM side. Import = enable.
 
 | Module | Packages | Helix LSP |
 |--------|----------|-----------|
@@ -216,26 +207,20 @@ All language modules are `homeManager` side. Import = enable.
 
 ## Server
 
-### Aggregator
+All nixos side. Import = enable. `features.server.domain` must be set when importing nginx or any service with a reverse proxy.
 
-| Module | Side | Imports |
-|--------|------|---------|
-| `server` | nixos | serverCore, ssh, nginx, forgejo, jellyfin, vaultwarden, tailscale, croc, cloudflared, ollama |
-
-### Modules
-
-| Module | Side | Options | Configures |
-|--------|------|---------|------------|
-| `serverCore` | nixos | — | Firewall, fail2ban base, lid-switch, no docs, htop/tmux/rsync |
-| `ssh` | nixos | `features.server.sshPort` (default 22) | OpenSSH (no root, key-only), fail2ban sshd jail |
-| `nginx` | nixos | `features.server.domain` | Nginx + gzip + fail2ban http jails |
-| `tailscale` | nixos | `features.server.tailscale.enable` | Tailscale, trusts tailscale0 interface |
-| `forgejo` | nixos | `features.server.forgejo.enable` | Forgejo (sqlite, LFS, SSH :2222), nginx proxy |
-| `jellyfin` | nixos | `features.server.jellyfin.enable` | Jellyfin, nginx proxy (media.${domain}) |
-| `vaultwarden` | nixos | `features.server.vaultwarden.enable` | Vaultwarden (port 8222), nginx proxy, sops env |
-| `croc` | nixos | `features.server.croc.enable` | Croc relay, firewall ports 9009-9013 on tailscale0 |
-| `cloudflared` | nixos | `features.server.cloudflared.enable` | Cloudflare tunnel (forgejo, vault, media) |
-| `ollama` | nixos | `features.server.ollama.enable` | Ollama with ROCm (localhost:11434) |
+| Module | Configures | Options |
+|--------|------------|---------|
+| `serverCore` | Firewall, fail2ban base, lid-switch, no docs, htop/tmux/rsync | — |
+| `ssh` | OpenSSH (no root, key-only), fail2ban sshd jail | `features.server.sshPort` (default 22) |
+| `nginx` | Nginx + gzip + fail2ban http jails | `features.server.domain` |
+| `tailscale` | Tailscale, trusts tailscale0 interface | — |
+| `forgejo` | Forgejo (sqlite, LFS, SSH :2222), nginx proxy | — |
+| `jellyfin` | Jellyfin, nginx proxy (media.${domain}) | — |
+| `vaultwarden` | Vaultwarden (port 8222), nginx proxy, sops env | — |
+| `croc` | Croc relay, firewall ports 9009-9013 on tailscale0 | — |
+| `cloudflared` | Cloudflare tunnel (forgejo, vault, media) | — |
+| `ollama` | Ollama with ROCm (localhost:11434) | — |
 
 ---
 
@@ -253,6 +238,8 @@ All language modules are `homeManager` side. Import = enable.
 | `laptop` | nixos | upower, thermald, power-profiles, libinput touchpad |
 | `performance` | nixos | TCP tuning, zram (zstd 50%), Nix daemon scheduling |
 | `virtualisation` | nixos | libvirtd, KVM, virt-manager, KSM, hugepages |
+
+---
 
 ## Shell
 

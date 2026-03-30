@@ -42,8 +42,6 @@ in {
       ];
     };
 
-    features.server.tailscale.enable = true;
-
     boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto;
 
     environment = {
@@ -59,6 +57,7 @@ in {
       helix
       zed
       opencode
+      git
     ];
 
     features = {
