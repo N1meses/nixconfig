@@ -8,7 +8,10 @@
   configurations.nixos.hephaistos.module = {pkgs, ...}: {
     imports = [ inputs.sops-nix.nixosModules.sops ] ++ (with config.flake.modules.nixos; [
       hardwareHephaistos
-      common
+      users
+      core
+      base
+      shell
       serverCore
       ssh
       nginx
@@ -37,7 +40,8 @@
 
   configurations.homeManager.hephaistos.module = {pkgs, ...}: {
     imports = with config.flake.modules.homeManager; [
-      common
+      core
+      shell
       helix
       yazi
       nh

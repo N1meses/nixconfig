@@ -1,6 +1,12 @@
-{inputs, config, ...}: let
+{inputs, config, lib, ...}: let
   flakeConfig = config;
 in {
+  flake.lib.mkNoctaliaNiri = cmd:
+    ["noctalia-shell" "ipc" "call"] ++ (lib.splitString " " cmd);
+
+  flake.lib.mkNoctaliaHypr = cmd:
+    "exec, noctalia-shell ipc call ${cmd}";
+
   flake.modules = {
     nixos.noctalia = {...}: {
       nix.settings = {

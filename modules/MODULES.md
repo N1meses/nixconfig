@@ -67,6 +67,11 @@ modules/
 │   │       ├── network.nix           # httpie, bandwhich
 │   │       ├── opencode.nix          # opencode + MCP + agents
 │   │       └── security.nix          # nmap, netcat, mtr, tcpdump
+│   ├── profiles/                     # all nixos, import = enable
+│   │   ├── gaming.nix                # Steam, Proton, GameMode, Gamescope
+│   │   ├── laptop.nix                # upower, thermald, libinput touchpad
+│   │   ├── performance.nix           # TCP tuning, zram, Nix daemon scheduling
+│   │   └── virtualisation.nix        # libvirtd, KVM, virt-manager
 │   ├── server/                       # all nixos, import = enable
 │   │   ├── serverCore.nix            # firewall, fail2ban base, htop/tmux/rsync
 │   │   ├── ssh.nix                   # OpenSSH + fail2ban sshd jail
@@ -94,12 +99,6 @@ modules/
 │   ├── nixpkgs.nix                   # nixpkgs config + overlays
 │   ├── overlays.nix                  # package overlays
 │   └── users.nix                     # user account definitions
-├── profiles/
-│   ├── common.nix                    # aggregator → users, core, base, shell
-│   ├── gaming.nix                    # Steam, Proton, GameMode, Gamescope
-│   ├── laptop.nix                    # upower, thermald, libinput touchpad
-│   ├── performance.nix               # TCP tuning, zram, Nix daemon scheduling
-│   └── virtualisation.nix            # libvirtd, KVM, virt-manager
 └── MODULES.md                        # this file
 ```
 
@@ -153,6 +152,13 @@ modules/
 |--------|------|------------|
 | `noctalia` | nixos + HM | noctalia-shell shell layer, spawn-at-startup, layer rules |
 | `noctaliaSettings` | HM | Full noctalia config (bar, launcher, audio, notifications, wallpaper, etc.) |
+
+`noctalia.nix` also exposes two shared lib functions:
+
+| Function | Usage | Output |
+|----------|-------|--------|
+| `config.flake.lib.mkNoctaliaNiri` | `mkNoctaliaNiri "volume increase"` | `["noctalia-shell" "ipc" "call" "volume" "increase"]` |
+| `config.flake.lib.mkNoctaliaHypr` | `mkNoctaliaHypr "volume increase"` | `"exec, noctalia-shell ipc call volume increase"` |
 
 ---
 
@@ -228,16 +234,22 @@ All nixos side. Import = enable. `features.server.domain` must be set when impor
 
 | Module | Side | Configures |
 |--------|------|------------|
-| `common` | nixos + HM | Aggregator: nixos(users, core, base, shell) · HM(shell, core) |
 | `core` (nixos) | nixos | systemd-boot, Plymouth, Nix flakes/cache/GC, NetworkManager |
 | `core` (HM) | HM | home-manager, XDG base dirs |
 | `base` | nixos | Aggregator: cachyosKernel, local |
 | `cachyosKernel` | nixos | CachyOS Nix substituters |
 | `local` | nixos | Timezone (Europe/Berlin), locale (en_US / de_DE), keymap (de) |
-| `gaming` | nixos | Steam, Proton, GameMode, Gamescope, Vulkan, DXVK |
-| `laptop` | nixos | upower, thermald, power-profiles, libinput touchpad |
-| `performance` | nixos | TCP tuning, zram (zstd 50%), Nix daemon scheduling |
-| `virtualisation` | nixos | libvirtd, KVM, virt-manager, KSM, hugepages |
+
+## Profiles
+
+All nixos side. Import = enable.
+
+| Module | Configures |
+|--------|------------|
+| `gaming` | Steam, Proton, GameMode, Gamescope, Vulkan, DXVK |
+| `laptop` | upower, thermald, power-profiles, libinput touchpad |
+| `performance` | TCP tuning, zram (zstd 50%), Nix daemon scheduling |
+| `virtualisation` | libvirtd, KVM, virt-manager, KSM, hugepages |
 
 ---
 

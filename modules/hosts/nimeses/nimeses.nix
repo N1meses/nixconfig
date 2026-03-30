@@ -1,11 +1,6 @@
-{
-  config,
-  lib,
-  ...
-}: let
-  mkNoctalia = cmd:
-    ["noctalia-shell" "ipc" "call"]
-    ++ (lib.splitString " " cmd);
+{config, ...}: let
+  mkNoctaliaNiri = config.flake.lib.mkNoctaliaNiri;
+  mkNoctaliaHypr = config.flake.lib.mkNoctaliaHypr;
 in {
   registry.hosts.nimeses = {
     username = "nimeses";
@@ -16,7 +11,10 @@ in {
   configurations.nixos.nimeses.module = {pkgs, ...}: {
     imports = with config.flake.modules.nixos; [
       hardwareNimeses
-      common
+      users
+      core
+      base
+      shell
       desktop
       gaming
       tailscale
@@ -28,7 +26,8 @@ in {
 
   configurations.homeManager.nimeses.module = {pkgs, ...}: {
     imports = with config.flake.modules.homeManager; [
-      common
+      core
+      shell
       desktop
       helix
       zed
@@ -63,19 +62,19 @@ in {
         niri.input.touchpad.enable = true;
 
         niri.extraBinds = {
-          "XF86AudioRaiseVolume".action.spawn = mkNoctalia "volume increase";
-          "XF86AudioLowerVolume".action.spawn = mkNoctalia "volume decrease";
-          "XF86AudioMute".action.spawn = mkNoctalia "volume muteOutput";
-          "XF86MonBrightnessUp".action.spawn = mkNoctalia "brightness increase";
-          "XF86MonBrightnessDown".action.spawn = mkNoctalia "brightness decrease";
+          "XF86AudioRaiseVolume".action.spawn = mkNoctaliaNiri "volume increase";
+          "XF86AudioLowerVolume".action.spawn = mkNoctaliaNiri "volume decrease";
+          "XF86AudioMute".action.spawn = mkNoctaliaNiri "volume muteOutput";
+          "XF86MonBrightnessUp".action.spawn = mkNoctaliaNiri "brightness increase";
+          "XF86MonBrightnessDown".action.spawn = mkNoctaliaNiri "brightness decrease";
 
-          "XF86AudioPlay".action.spawn = mkNoctalia "media playPause";
-          "XF86AudioNext".action.spawn = mkNoctalia "media next";
-          "XF86AudioPrev".action.spawn = mkNoctalia "media previous";
+          "XF86AudioPlay".action.spawn = mkNoctaliaNiri "media playPause";
+          "XF86AudioNext".action.spawn = mkNoctaliaNiri "media next";
+          "XF86AudioPrev".action.spawn = mkNoctaliaNiri "media previous";
 
-          "Mod+Shift+q".action.spawn = mkNoctalia "lockScreen lock";
-          "Mod+n".action.spawn = mkNoctalia "launcher toggle";
-          "Mod+b".action.spawn = mkNoctalia "bar toggle";
+          "Mod+Shift+q".action.spawn = mkNoctaliaNiri "lockScreen lock";
+          "Mod+n".action.spawn = mkNoctaliaNiri "launcher toggle";
+          "Mod+b".action.spawn = mkNoctaliaNiri "bar toggle";
 
           "Print".action.spawn = ["sh" "-c" "grim - | wl-copy"];
           "Shift+Print".action.spawn = ["sh" "-c" "grim ~/pictures/screenshot-$(date +%Y%m%d-%H%M%S).png"];
@@ -84,19 +83,19 @@ in {
         };
 
         hyprland.extraBinds = [
-          ", XF86AudioRaiseVolume, exec, noctalia-shell ipc call volume increase"
-          ", XF86AudioLowerVolume, exec, noctalia-shell ipc call volume decrease"
-          ", XF86AudioMute, exec, noctalia-shell ipc call volume muteOutput"
-          ", XF86MonBrightnessUp, exec, noctalia-shell ipc call brightness increase"
-          ", XF86MonBrightnessDown, exec, noctalia-shell ipc call brightness decrease"
+          ", XF86AudioRaiseVolume, ${mkNoctaliaHypr "volume increase"}"
+          ", XF86AudioLowerVolume, ${mkNoctaliaHypr "volume decrease"}"
+          ", XF86AudioMute, ${mkNoctaliaHypr "volume muteOutput"}"
+          ", XF86MonBrightnessUp, ${mkNoctaliaHypr "brightness increase"}"
+          ", XF86MonBrightnessDown, ${mkNoctaliaHypr "brightness decrease"}"
 
-          ", XF86AudioPlay, exec, noctalia-shell ipc call media playPause"
-          ", XF86AudioNext, exec, noctalia-shell ipc call media next"
-          ", XF86AudioPrev, exec, noctalia-shell ipc call media previous"
+          ", XF86AudioPlay, ${mkNoctaliaHypr "media playPause"}"
+          ", XF86AudioNext, ${mkNoctaliaHypr "media next"}"
+          ", XF86AudioPrev, ${mkNoctaliaHypr "media previous"}"
 
-          "SUPERSHIFT, Q, exec, noctalia-shell ipc call lockScreen lock"
-          "SUPER, N, exec, noctalia-shell ipc call launcher toggle"
-          "SUPER, B, exec, noctalia-shell ipc call bar toggle"
+          "SUPERSHIFT, Q, ${mkNoctaliaHypr "lockScreen lock"}"
+          "SUPER, N, ${mkNoctaliaHypr "launcher toggle"}"
+          "SUPER, B, ${mkNoctaliaHypr "bar toggle"}"
 
           ",Print, exec, grim - | wl-copy"
           "SHIFT, Print, exec, grim ~/pictures/screenshot-$(date +%Y%m%d-%H%M%S).png"

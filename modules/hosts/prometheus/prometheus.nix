@@ -1,11 +1,6 @@
-{
-  config,
-  lib,
-  ...
-}: let
-  mkNoctalia = cmd:
-    ["noctalia-shell" "ipc" "call"]
-    ++ (lib.splitString " " cmd);
+{config, ...}: let
+  mkNoctaliaNiri = config.flake.lib.mkNoctaliaNiri;
+  mkNoctaliaHypr = config.flake.lib.mkNoctaliaHypr;
 in {
   registry.hosts.prometheus = {
     username = "prometheus";
@@ -17,7 +12,10 @@ in {
   configurations.nixos.prometheus.module = {pkgs, ...}: {
     imports = with config.flake.modules.nixos; [
       hardwarePrometheus
-      common
+      users
+      core
+      base
+      shell
       desktop
       gaming
       performance
@@ -52,7 +50,8 @@ in {
 
   configurations.homeManager.prometheus.module = {pkgs, ...}: {
     imports = with config.flake.modules.homeManager; [
-      common
+      core
+      shell
       desktop
       helix
       zed
@@ -83,17 +82,17 @@ in {
         };
 
         niri.extraBinds = {
-          "F10".action.spawn = mkNoctalia "volume increase";
-          "F9".action.spawn = mkNoctalia "volume decrease";
-          "F5".action.spawn = mkNoctalia "volume muteOutput";
+          "F10".action.spawn = mkNoctaliaNiri "volume increase";
+          "F9".action.spawn = mkNoctaliaNiri "volume decrease";
+          "F5".action.spawn = mkNoctaliaNiri "volume muteOutput";
 
-          "F7".action.spawn = mkNoctalia "media playPause";
-          "F8".action.spawn = mkNoctalia "media next";
-          "F6".action.spawn = mkNoctalia "media previous";
+          "F7".action.spawn = mkNoctaliaNiri "media playPause";
+          "F8".action.spawn = mkNoctaliaNiri "media next";
+          "F6".action.spawn = mkNoctaliaNiri "media previous";
 
-          "Mod+Shift+q".action.spawn = mkNoctalia "lockScreen lock";
-          "Mod+n".action.spawn = mkNoctalia "launcher toggle";
-          "Mod+b".action.spawn = mkNoctalia "bar toggle";
+          "Mod+Shift+q".action.spawn = mkNoctaliaNiri "lockScreen lock";
+          "Mod+n".action.spawn = mkNoctaliaNiri "launcher toggle";
+          "Mod+b".action.spawn = mkNoctaliaNiri "bar toggle";
 
           "F12".action.spawn = ["sh" "-c" "grim - | wl-copy"];
           "Shift+F12".action.spawn = ["sh" "-c" "grim ~/pictures/screenshot-$(date +%Y%m%d-%H%M%S).png"];
@@ -102,17 +101,17 @@ in {
         };
 
         hyprland.extraBinds = [
-          ", F10, exec, noctalia-shell ipc call volume increase"
-          ", F9, exec, noctalia-shell ipc call volume decrease"
-          ", F5, exec, noctalia-shell ipc call volume muteOutput"
+          ", F10, ${mkNoctaliaHypr "volume increase"}"
+          ", F9, ${mkNoctaliaHypr "volume decrease"}"
+          ", F5, ${mkNoctaliaHypr "volume muteOutput"}"
 
-          ", F7, exec, noctalia-shell ipc call media playPause"
-          ", F8, exec, noctalia-shell ipc call media next"
-          ", F6, exec, noctalia-shell ipc call media previous"
+          ", F7, ${mkNoctaliaHypr "media playPause"}"
+          ", F8, ${mkNoctaliaHypr "media next"}"
+          ", F6, ${mkNoctaliaHypr "media previous"}"
 
-          "SUPERSHIFT, Q, exec, noctalia-shell ipc call lockScreen lock"
-          "SUPER, N, exec, noctalia-shell ipc call launcher toggle"
-          "SUPER, B, exec, noctalia-shell ipc call bar toggle"
+          "SUPERSHIFT, Q, ${mkNoctaliaHypr "lockScreen lock"}"
+          "SUPER, N, ${mkNoctaliaHypr "launcher toggle"}"
+          "SUPER, B, ${mkNoctaliaHypr "bar toggle"}"
 
           ",F12, exec, grim - | wl-copy"
           "SHIFT, F12, exec, grim ~/pictures/screenshot-$(date +%Y%m%d-%H%M%S).png"
