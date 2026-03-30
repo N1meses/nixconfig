@@ -7,10 +7,10 @@ modules/
 ├── features/
 │   ├── base/
 │   │   ├── base.nix                  # aggregator → cachyosKernel + local
-│   │   ├── cachyOS-kernel.nix        # CachyOS Nix substituters
-│   │   ├── homeManager-core.nix      # home-manager, XDG base dirs
+│   │   ├── cachyosKernel.nix         # CachyOS Nix substituters
+│   │   ├── homeManagerCore.nix       # home-manager, XDG base dirs
 │   │   ├── local.nix                 # timezone, locale, keymap
-│   │   └── nixos-core.nix            # boot, Nix settings, GC, NetworkManager
+│   │   └── nixosCore.nix             # boot, Nix settings, GC, NetworkManager
 │   ├── desktop/
 │   │   ├── desktop.nix               # aggregator → services, compositors, noctalia, apps
 │   │   ├── apps/
@@ -85,7 +85,7 @@ modules/
 │   │   └── ollama.nix                # Ollama + ROCm
 │   └── shell/
 │       ├── shell.nix                 # aggregator → zsh, shellTools, starship, ssh
-│       ├── shell-tools.nix           # zoxide, fzf, ripgrep, fd
+│       ├── shellTools.nix            # zoxide, fzf, ripgrep, fd
 │       ├── ssh.nix                   # SSH config + YubiKey FIDO2 identities
 │       ├── starship.nix              # Starship prompt
 │       └── zsh.nix                   # zsh + eza aliases + fastfetch on login
@@ -93,9 +93,9 @@ modules/
 │   ├── configurations.nix            # host configuration wiring
 │   └── registry.nix                  # host registry
 ├── meta/
-│   ├── flake-parts.nix               # flake-parts setup
-│   ├── home-generation.nix           # HM generation logic
-│   ├── nixos-generation.nix          # NixOS generation logic
+│   ├── flakeParts.nix                # flake-parts setup
+│   ├── homeGeneration.nix            # HM generation logic
+│   ├── nixosGeneration.nix           # NixOS generation logic
 │   ├── nixpkgs.nix                   # nixpkgs config + overlays
 │   ├── overlays.nix                  # package overlays
 │   └── users.nix                     # user account definitions

@@ -117,21 +117,5 @@ in {
       claude-code
       vesktop
     ];
-
-    programs.ssh.matchBlocks = {
-      "hephaistos" = {
-        hostname = "100.127.108.44";
-        user = "hephaistos";
-      };
-      "prometheus" = {
-        hostname = "100.93.27.90";
-        user = "prometheus";
-      };
-      "forgejo" = {
-        hostname = "100.127.108.44";
-        user = "git";
-        port = 2222;
-      };
-    };
   };
 }
