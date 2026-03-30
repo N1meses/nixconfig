@@ -32,6 +32,9 @@
             image_alloc = 536870912;
             image_bound = [65535 65535];
           };
+          opener = {
+            edit = [{ run = ''hx "$@"''; block = true; }];
+          };
         };
       };
 

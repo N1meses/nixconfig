@@ -226,7 +226,7 @@ All nixos side. Import = enable. `features.server.domain` must be set when impor
 | `vaultwarden` | Vaultwarden (port 8222), nginx proxy, sops env | — |
 | `croc` | Croc relay, firewall ports 9009-9013 on tailscale0 | — |
 | `cloudflared` | Cloudflare tunnel (forgejo, vault, media) | — |
-| `ollama` | Ollama with ROCm (localhost:11434) | — |
+| `ollama` | Ollama with configurable acceleration | `features.server.ollama.{host, port, acceleration}` (rocm\|cuda\|null) |
 
 ---
 
