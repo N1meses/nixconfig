@@ -30,6 +30,10 @@
           user = lib.mkDefault "git";
           port = lib.mkDefault 2222;
         };
+        "athena" = {
+          hostname = lib.mkDefault "100.75.163.80";
+          user = lib.mkDefault "athena";
+        };
       };
     };
   };
