@@ -31,7 +31,6 @@ All `.nix` files under `modules/` are picked up automatically by `import-tree` â
 ## First-time Installation
 
 
-
 ### 1. Clone the repo
 
 ```bash
@@ -53,7 +52,7 @@ Create `modules/hosts/<hostname>/<hostname>.nix` â€” use an existing host as ref
   registry.hosts.<hostname> = {
     username = "<username>";
     system = "x86_64-linux";
-    stateVersion = "<current-nixos-version>";  # e.g. "25.11"
+    stateVersion = "<current-nixos-version>";  
   };
 
   configurations.nixos.<hostname>.module = {pkgs, ...}: {

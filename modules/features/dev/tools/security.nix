@@ -6,6 +6,7 @@
       mtr
       tcpdump
       traceroute
+      autopsy
     ];
   };
 }
