@@ -3,7 +3,7 @@
     services.greetd = {
       enable = true;
       settings.default_session = {
-        command = lib.mkDefault "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session --cmd niri";
+        command = lib.mkDefault "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session --cmd niri-session";
         user = "greeter";
       };
     };

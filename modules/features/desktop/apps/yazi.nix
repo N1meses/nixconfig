@@ -38,10 +38,7 @@
         };
       };
 
-      home.packages = [
-        pkgs.xdg-desktop-portal-termfilechooser
-        pkgs.xdg-terminal-exec
-      ];
+      home.packages = with pkgs; [ xdg-terminal-exec xdg-desktop-portal-termfilechooser ];
 
       xdg.configFile."xdg-desktop-portal-termfilechooser/yazi-wrapper.sh" = {
         executable = true;

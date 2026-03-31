@@ -116,6 +116,7 @@ in {
       gemini-cli
       claude-code
       vesktop
+      ani-cli
     ];
   };
 }
