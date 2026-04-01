@@ -53,8 +53,6 @@
       DXVK_ASYNC = "1";
       WINE_ENABLE_NTSYNC = "1";
       PROTON_FORCE_LARGE_ADDRESS_AWARE = "1";
-      DXVK_HDR = "1";
-      ENABLE_HDR_WSI = "1";
       VKD3D_CONFIG = "dxr11";
     };
 

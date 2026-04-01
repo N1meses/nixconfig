@@ -19,18 +19,20 @@
         description = "allowed user for ssh";
       };
     };
-    
+
     config = {
       services.openssh = {
         enable = true;
         ports = [cfg.sshPort];
-        settings = {
-          PermitRootLogin = lib.mkDefault "no";
-          PasswordAuthentication = lib.mkDefault false;
-          AcceptEnv = ["TERM"];
-        } // lib.optionalAttrs (cfg.allowedUsers != []) {
+        settings =
+          {
+            PermitRootLogin = lib.mkDefault "no";
+            PasswordAuthentication = lib.mkDefault false;
+            AcceptEnv = ["TERM"];
+          }
+          // lib.optionalAttrs (cfg.allowedUsers != []) {
             AllowUsers = cfg.allowedUsers;
-        };
+          };
       };
 
       networking.firewall.interfaces.tailscale0.allowedTCPPorts = [cfg.sshPort];

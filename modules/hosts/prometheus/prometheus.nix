@@ -60,8 +60,6 @@ in {
     ];
 
     features = {
-
-
       compositors = {
         niri.enable = true;
         hyprland.enable = true;
@@ -130,7 +128,6 @@ in {
       QT_AUTO_SCREEN_SCALE_FACTOR = "0";
       __GLX_VENDOR_LIBRARY_NAME = "nvidia";
       LIBVA_DRIVER_NAME = "nvidia";
-      DXVK_HDR = "1";
       ENABLE_VKBASALT = "1";
       TERMCMD = "ghostty -e";
     };

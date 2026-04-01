@@ -78,7 +78,13 @@ Create `modules/hosts/<hostname>/<hostname>.nix` — use an existing host as ref
 ### 4. Install
 
 ```bash
-nixos-install --flake .#<hostname> --extra-experimental-features "nix-command flakes"
+nixos-install --flake .#<hostname>  --option "--experimental-features" "nix-command flakes"
+```
+
+or when rebuilding the first time after a grafical install 
+
+```bash
+sudo nixos-rebuild switch --flake .#<hostname> --option "extra-experimental-features" "nix-command flakes"
 ```
 
 > After the first build, experimental features are enabled permanently via the `core` module — subsequent rebuilds don't need the flag.
