@@ -1,4 +1,8 @@
-{config, inputs, ...}: {
+{
+  config,
+  inputs,
+  ...
+}: {
   registry.hosts.athena = {
     username = "athena";
     system = "x86_64-linux";
@@ -6,25 +10,33 @@
   };
 
   configurations.nixos.athena.module = {pkgs, ...}: {
-    imports = [ inputs.sops-nix.nixosModules.sops ] ++ (with config.flake.modules.nixos; [
-      hardwareAthena
-      users
-      core
-      base
-      shell
-      serverCore
-      ssh
-      nginx
-      tailscale
-      forgejo
-      jellyfin
-    ]);
+    imports =
+      [inputs.sops-nix.nixosModules.sops]
+      ++ (with config.flake.modules.nixos; [
+        hardwareAthena
+        users
+        core
+        base
+        shell
+        serverCore
+        ssh
+        nginx
+        tailscale
+        forgejo
+        jellyfin
+        cloudflared
+      ]);
+
+    sops = {
+      defaultSopsFile = ../../../secrets/athena.yaml;
+      age.sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
+    };
 
     networking.hostName = "athena";
 
     features.server = {
-      domain = "athena.tail4109e2.ts.net";
-      allowedUsers =  ["athena"];
+      domain = "nimeses.com";
+      allowedUsers = ["athena"];
     };
 
     boot.kernelPackages = pkgs.linuxPackages_latest;

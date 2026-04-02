@@ -10,7 +10,7 @@
       plymouth.enable = lib.mkDefault true;
 
       loader = {
-        grub.enable = lib.mkForce false;
+        grub.enable = lib.mkDefault false;
         systemd-boot = {
           enable = lib.mkDefault true;
           editor = lib.mkDefault false;

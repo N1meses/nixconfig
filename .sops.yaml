@@ -1,0 +1,7 @@
+keys:
+  - &athena age1frcsej5tq83vejgw596kasp2ewhvh2gpcg7p440cvgke9ykv2veqfdp9az
+creation_rules:
+  - path_regex: secrets/athena\.yaml$
+    key_groups:
+      - age:
+          - *athena

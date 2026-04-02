@@ -4,7 +4,7 @@
   in {
     services.jellyfin.enable = true;
 
-    services.nginx.virtualHosts."media.${cfg.domain}" = {
+    services.nginx.virtualHosts."jellyfin.${cfg.domain}" = {
       locations."/" = {
         proxyPass = "http://127.0.0.1:8096";
         proxyWebsockets = true;

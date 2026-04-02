@@ -1,4 +1,8 @@
-{config, inputs, ...}: {
+{
+  config,
+  inputs,
+  ...
+}: {
   registry.hosts.hephaistos = {
     username = "hephaistos";
     system = "x86_64-linux";
@@ -6,22 +10,23 @@
   };
 
   configurations.nixos.hephaistos.module = {pkgs, ...}: {
-    imports = [ inputs.sops-nix.nixosModules.sops ] ++ (with config.flake.modules.nixos; [
-      hardwareHephaistos
-      users
-      core
-      base
-      shell
-      serverCore
-      ssh
-      nginx
-      tailscale
-      forgejo
-      jellyfin
-      vaultwarden
-      croc
-      cloudflared
-    ]);
+    imports =
+      [inputs.sops-nix.nixosModules.sops]
+      ++ (with config.flake.modules.nixos; [
+        hardwareHephaistos
+        users
+        core
+        base
+        shell
+        serverCore
+        ssh
+        nginx
+        tailscale
+        forgejo
+        jellyfin
+        vaultwarden
+        croc
+      ]);
 
     networking.hostName = "hephaistos";
 

@@ -9,10 +9,10 @@
       settings = {
         server = {
           DOMAIN = "forgejo.${cfg.domain}";
-          ROOT_URL = "https://git.${cfg.domain}";
+          ROOT_URL = "https://forgejo.${cfg.domain}";
           HTTP_ADDR = "127.0.0.1";
           HTTP_PORT = 3000;
-          SSH_DOMAIN = "git.${cfg.domain}";
+          SSH_DOMAIN = "forgejo.${cfg.domain}";
           SSH_PORT = 2222;
           START_SSH_SERVER = false;
         };
