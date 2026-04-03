@@ -7,6 +7,9 @@
     config = {
       networking.firewall.enable = lib.mkDefault true;
 
+      services.udev.packages = [ pkgs.libfido2 ];
+      users.groups.plugdev = {};
+
       services.logind.settings.Login = {
         HandleLidSwitch = "ignore";
         HandleLidSwitchDocked = "ignore";

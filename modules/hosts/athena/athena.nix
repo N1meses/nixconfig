@@ -7,6 +7,7 @@
     username = "athena";
     system = "x86_64-linux";
     stateVersion = "25.05";
+    extraGroups = ["plugdev"];
   };
 
   configurations.nixos.athena.module = {pkgs, ...}: {
@@ -61,6 +62,11 @@
       git
       network
     ];
+
+    programs.git = {
+      userName = "N1meses";
+      userEmail = "nilshasenthal@gmail.com";
+    };
 
     home.packages = with pkgs; [
       trash-cli
