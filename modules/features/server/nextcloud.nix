@@ -13,7 +13,7 @@
       maxUploadSize = "16G";
       database.createLocally = true;
 
-secretFile = config.sops.secrets."nextcloud-secret".path;
+      secretFile = config.sops.secrets."nextcloud-secret".path;
 
       config = {
         adminpassFile = config.sops.secrets."nextcloud-adminpass".path;
