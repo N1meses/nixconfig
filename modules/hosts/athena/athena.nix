@@ -25,6 +25,8 @@
         tailscale
         forgejo
         jellyfin
+        nextcloud
+        navidrome
         cloudflared
       ]);
 
@@ -48,6 +50,7 @@
       wget
       wol
       wakeonlan
+      sops
     ];
   };
 
@@ -63,9 +66,9 @@
       network
     ];
 
-    programs.git = {
-      userName = "N1meses";
-      userEmail = "nilshasenthal@gmail.com";
+    programs.git.settings.user = {
+      name = "N1meses";
+      email = "nilshasenthal@gmail.com";
     };
 
     home.packages = with pkgs; [

@@ -7,8 +7,13 @@
     config = {
       networking.firewall.enable = lib.mkDefault true;
 
-      services.udev.packages = [ pkgs.libfido2 ];
+      services.udev.packages = [pkgs.libfido2];
       users.groups.plugdev = {};
+
+      users.groups.media = {};
+      systemd.tmpfiles.rules = [
+        "d /media 0775 root media - -"
+      ];
 
       services.logind.settings.Login = {
         HandleLidSwitch = "ignore";
@@ -25,7 +30,6 @@
           multipliers = "1 2 4 8 16 32 64";
           maxtime = "168h";
         };
-
       };
 
       documentation.enable = lib.mkDefault false;

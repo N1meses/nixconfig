@@ -11,5 +11,7 @@
         extraConfig = "proxy_buffering off;";
       };
     };
+
+    users.users.jellyfin.extraGroups = ["media"];
   };
 }
