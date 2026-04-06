@@ -6,6 +6,7 @@ in {
     username = "prometheus";
     system = "x86_64-linux";
     stateVersion = "25.05";
+    homeDirectory = "/home/prometheus";
     extraGroups = ["gamemode" "libvirtd" "kvm"];
   };
 
@@ -19,7 +20,6 @@ in {
       desktop
       gaming
       performance
-      virtualisation
       tailscale
     ];
 
@@ -58,6 +58,11 @@ in {
       opencode
       git
     ];
+
+    programs.git = {
+      userName = "N1meses";
+      userEmail = "nilshasenthal@gmail.com";
+    };
 
     features = {
       compositors = {
@@ -128,7 +133,6 @@ in {
       QT_AUTO_SCREEN_SCALE_FACTOR = "0";
       __GLX_VENDOR_LIBRARY_NAME = "nvidia";
       LIBVA_DRIVER_NAME = "nvidia";
-      ENABLE_VKBASALT = "1";
       TERMCMD = "ghostty -e";
     };
 
@@ -166,6 +170,7 @@ in {
       gimp
       zathura
       file-roller
+      claude-code
       ckb-next
     ];
   };

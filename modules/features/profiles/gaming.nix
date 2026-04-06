@@ -9,7 +9,7 @@
       remotePlay.openFirewall = true;
       dedicatedServer.openFirewall = true;
       localNetworkGameTransfers.openFirewall = true;
-      gamescopeSession.enable = true;
+      gamescopeSession.enable = false;
       extraCompatPackages = with pkgs; [proton-ge-bin];
     };
 
@@ -50,10 +50,10 @@
     boot.kernelModules = ["ntsync"];
 
     environment.sessionVariables = {
-      DXVK_ASYNC = "1";
+      PROTON_VKD3D_HEAP = "1";
       WINE_ENABLE_NTSYNC = "1";
       PROTON_FORCE_LARGE_ADDRESS_AWARE = "1";
-      VKD3D_CONFIG = "dxr11";
+      PROTON_USE_EAC_LINUX=1;
     };
 
     services.pipewire.extraConfig.pipewire."92-low-latency" = {

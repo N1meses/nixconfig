@@ -55,11 +55,33 @@
     };
 
     environment.sessionVariables = {
-      "__GL_GSYNC_ALLOWED" = "1";
-      "__GL_VRR_ALLOWED" = "1";
       "PROTON_ENABLE_NVAPI" = "1";
       "PROTON_HIDE_NVIDIA_GPU" = "0";
     };
+
+    environment.etc."nvidia/nvidia-application-profiles-rc.d/50-niri-vram.json".text =
+      builtins.toJSON {
+        rules = [
+          {
+            pattern = {
+              feature = "procname";
+              matches = "niri";
+            };
+            profile = "Limit Free Buffer Pool On Wayland Compositors";
+          }
+        ];
+        profiles = [
+          {
+            name = "Limit Free Buffer Pool On Wayland Compositors";
+            settings = [
+              {
+                key = "GLVidHeapReuseRatio";
+                value = 0;
+              }
+            ];
+          }
+        ];
+      };
 
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
     hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
