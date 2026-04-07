@@ -37,14 +37,17 @@
       age.keyFile = "/root/.config/sops/age/keys.txt";
     };
 
-    networking.hostName = "athena";
+    networking = {
+      hostName = "athena";
+      hostId = "2e95e7c9";
+    };
 
     features.server = {
       domain = "nimeses.com";
       allowedUsers = ["athena"];
     };
 
-    boot.kernelPackages = pkgs.linuxPackages_latest;
+    boot.kernelPackages = pkgs.linuxPackages_6_6;
 
     environment.systemPackages = with pkgs; [
       ntfs3g
