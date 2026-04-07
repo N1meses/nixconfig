@@ -59,9 +59,9 @@ in {
       git
     ];
 
-    programs.git = {
-      userName = "N1meses";
-      userEmail = "nilshasenthal@gmail.com";
+    programs.git.settings.user = {
+      name = "N1meses";
+      email = "nilshasenthal@gmail.com";
     };
 
     features = {

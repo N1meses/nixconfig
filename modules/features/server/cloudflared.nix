@@ -12,6 +12,7 @@
           "jellyfin.${cfg.domain}" = "http://127.0.0.1:80";
           "nextcloud.${cfg.domain}" = "http://127.0.0.1:80";
           "navidrome.${cfg.domain}" = "http://127.0.0.1:80";
+          "auth.${cfg.domain}" = "http://127.0.0.1:80";
         };
       };
     };

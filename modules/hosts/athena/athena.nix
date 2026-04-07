@@ -27,6 +27,7 @@
         jellyfin
         nextcloud
         navidrome
+        authentik
         cloudflared
       ]);
 
