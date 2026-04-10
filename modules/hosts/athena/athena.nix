@@ -29,6 +29,7 @@
         navidrome
         authentik
         cloudflared
+        matrix
       ]);
 
     sops = {
