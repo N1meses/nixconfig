@@ -19,6 +19,8 @@ in {
       gaming
       tailscale
       laptop
+      niri
+      mango
     ];
 
     boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
@@ -37,13 +39,12 @@ in {
       git
       direnv
       cli
+      niri
+      mango
     ];
 
     features = {
       compositors = {
-        niri.enable = true;
-        hyprland.enable = true;
-
         monitors."eDP-1" = {
           resolution = {
             width = 2880;
@@ -82,25 +83,38 @@ in {
           "Mod+Shift+Print".action.spawn = ["sh" "-c" "grim -g \"$(slurp)\" ~/pictures/screenshot-$(date +%Y%m%d-%H%M%S).png"];
         };
 
-        hyprland.extraBinds = [
-          ", XF86AudioRaiseVolume, ${mkNoctaliaHypr "volume increase"}"
-          ", XF86AudioLowerVolume, ${mkNoctaliaHypr "volume decrease"}"
-          ", XF86AudioMute, ${mkNoctaliaHypr "volume muteOutput"}"
-          ", XF86MonBrightnessUp, ${mkNoctaliaHypr "brightness increase"}"
-          ", XF86MonBrightnessDown, ${mkNoctaliaHypr "brightness decrease"}"
-
-          ", XF86AudioPlay, ${mkNoctaliaHypr "media playPause"}"
-          ", XF86AudioNext, ${mkNoctaliaHypr "media next"}"
-          ", XF86AudioPrev, ${mkNoctaliaHypr "media previous"}"
-
-          "SUPERSHIFT, Q, ${mkNoctaliaHypr "lockScreen lock"}"
-          "SUPER, N, ${mkNoctaliaHypr "launcher toggle"}"
-          "SUPER, B, ${mkNoctaliaHypr "bar toggle"}"
-
-          ",Print, exec, grim - | wl-copy"
-          "SHIFT, Print, exec, grim ~/pictures/screenshot-$(date +%Y%m%d-%H%M%S).png"
-          "SUPER, Print, exec, grim -g \"$(slurp)\" - | wl-copy"
-          "SUPERSHIFT, Print, exec, grim -g \"$(slurp)\" ~/pictures/screenshot-$(date +%Y%m%d-%H%M%S).png"
+        #        hyprland.extraBinds = [
+        #          ", XF86AudioRaiseVolume, ${mkNoctaliaHypr "volume increase"}"
+        #          ", XF86AudioLowerVolume, ${mkNoctaliaHypr "volume decrease"}"
+        #          ", XF86AudioMute, ${mkNoctaliaHypr "volume muteOutput"}"
+        #          ", XF86MonBrightnessUp, ${mkNoctaliaHypr "brightness increase"}"
+        #          ", XF86MonBrightnessDown, ${mkNoctaliaHypr "brightness decrease"}"
+        #
+        #          ", XF86AudioPlay, ${mkNoctaliaHypr "media playPause"}"
+        #          ", XF86AudioNext, ${mkNoctaliaHypr "media next"}"
+        #          ", XF86AudioPrev, ${mkNoctaliaHypr "media previous"}"
+        #
+        #          "SUPERSHIFT, Q, ${mkNoctaliaHypr "lockScreen lock"}"
+        #          "SUPER, N, ${mkNoctaliaHypr "launcher toggle"}"
+        #          "SUPER, B, ${mkNoctaliaHypr "bar toggle"}"
+        #
+        #          ",Print, exec, grim - | wl-copy"
+        #          "SHIFT, Print, exec, grim ~/pictures/screenshot-$(date +%Y%m%d-%H%M%S).png"
+        #          "SUPER, Print, exec, grim -g \"$(slurp)\" - | wl-copy"
+        #          "SUPERSHIFT, Print, exec, grim -g \"$(slurp)\" ~/pictures/screenshot-$(date +%Y%m%d-%H%M%S).png"
+        #        ];
+        mango.extraBinds = [
+          "NONE,XF86AudioRaiseVolume,spawn,noctalia-shell ipc call volume increase"
+          "NONE,XF86AudioLowerVolume,spawn,noctalia-shell ipc call volume decrease"
+          "NONE,XF86AudioMute,spawn,noctalia-shell ipc call volume muteOutput"
+          "NONE,XF86MonBrightnessUp,spawn,noctalia-shell ipc call brightness increase"
+          "NONE,XF86MonBrightnessDown,spawn,noctalia-shell ipc call brightness decrease"
+          "NONE,XF86AudioPlay,spawn,noctalia-shell ipc call media playPause"
+          "NONE,XF86AudioNext,spawn,noctalia-shell ipc call media next"
+          "NONE,XF86AudioPrev,spawn,noctalia-shell ipc call media previous"
+          "SUPER+SHIFT,q,spawn,noctalia-shell ipc call lockScreen lock"
+          "SUPER,n,spawn,noctalia-shell ipc call launcher toggle"
+          "SUPER,b,spawn,noctalia-shell ipc call bar toggle"
         ];
       };
     };

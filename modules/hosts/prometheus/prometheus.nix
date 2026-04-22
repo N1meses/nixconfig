@@ -21,6 +21,8 @@ in {
       gaming
       performance
       tailscale
+      niri
+      hyprland
     ];
 
     networking = {
@@ -57,6 +59,8 @@ in {
       zed
       opencode
       git
+      niri
+      hyprland
     ];
 
     programs.git.settings.user = {
@@ -66,9 +70,6 @@ in {
 
     features = {
       compositors = {
-        niri.enable = true;
-        hyprland.enable = true;
-
         monitors."HDMI-A-1" = {
           resolution = {
             width = 3840;

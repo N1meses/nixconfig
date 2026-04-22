@@ -60,7 +60,6 @@ in {
       imports = [inputs.hyprland.homeManagerModules.default];
 
       options.features.compositors.hyprland = {
-        enable = lib.mkEnableOption "Hyprland compositor";
         extraBinds = lib.mkOption {
           type = lib.types.listOf lib.types.str;
           default = [];
@@ -74,7 +73,7 @@ in {
         input.touchpad.enable = lib.mkEnableOption "touchpad input and gestures";
       };
 
-      config = lib.mkIf config.features.compositors.hyprland.enable {
+      config = {
         xdg.portal = {
           enable = lib.mkDefault true;
           extraPortals = [

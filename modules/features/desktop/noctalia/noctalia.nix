@@ -1,11 +1,15 @@
-{inputs, config, lib, ...}: let
+{
+  inputs,
+  config,
+  lib,
+  ...
+}: let
   flakeConfig = config;
 in {
   flake.lib.mkNoctaliaNiri = cmd:
     ["noctalia-shell" "ipc" "call"] ++ (lib.splitString " " cmd);
 
-  flake.lib.mkNoctaliaHypr = cmd:
-    "exec, noctalia-shell ipc call ${cmd}";
+  flake.lib.mkNoctaliaHypr = cmd: "exec, noctalia-shell ipc call ${cmd}";
 
   flake.modules = {
     nixos.noctalia = {...}: {
@@ -15,9 +19,7 @@ in {
       };
     };
 
-    homeManager.noctalia = {
-      ...
-    }: {
+    homeManager.noctalia = {...}: {
       imports = [
         inputs.noctalia.homeModules.default
         flakeConfig.flake.modules.homeManager.noctaliaSettings
@@ -33,6 +35,10 @@ in {
         ];
       };
       wayland.windowManager.hyprland.settings.exec-once = ["noctalia-shell"];
+
+      features.compositors.mango.autoStart = ''
+        noctalia-shell &
+      '';
 
       programs.noctalia-shell.enable = true;
     };

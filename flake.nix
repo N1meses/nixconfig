@@ -1,6 +1,5 @@
 {
   inputs = {
-
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     hardware.url = "github:NixOS/nixos-hardware/master";
@@ -34,7 +33,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel";
 
     niri = {
@@ -48,7 +46,7 @@
     };
 
     mango = {
-      url = "github:DreamMaoMao/mangowc";
+      url = "github:mangowm/mango";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -69,12 +67,13 @@
     };
   };
 
-  outputs = inputs: inputs.flake-parts.lib.mkFlake {inherit inputs; } {
-    imports = [
-      (inputs.import-tree ./modules)
-      "${inputs.flake-parts}/extras/modules.nix"
-    ];
+  outputs = inputs:
+    inputs.flake-parts.lib.mkFlake {inherit inputs;} {
+      imports = [
+        (inputs.import-tree ./modules)
+        "${inputs.flake-parts}/extras/modules.nix"
+      ];
 
-    systems = ["x86_64-linux"];
-  };
+      systems = ["x86_64-linux"];
+    };
 }

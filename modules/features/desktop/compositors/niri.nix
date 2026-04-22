@@ -78,7 +78,6 @@ in {
       imports = [inputs.niri.homeModules.niri];
 
       options.features.compositors.niri = {
-        enable = lib.mkEnableOption "Niri compositor";
         extraBinds = lib.mkOption {
           type = lib.types.attrsOf lib.types.attrs;
           default = {};
@@ -92,7 +91,7 @@ in {
         input.touchpad.enable = lib.mkEnableOption "touchpad input and gestures";
       };
 
-      config = lib.mkIf config.features.compositors.niri.enable {
+      config = {
         systemd.user.services.libinput-gestures = lib.mkIf config.features.compositors.niri.input.touchpad.enable {
           gestures = {
             "swipe left 3" = "niri msg action focus-column-left-or-last";
