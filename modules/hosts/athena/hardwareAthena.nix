@@ -24,6 +24,48 @@
 
     services.zfs.trim.enable = true;
     services.zfs.autoScrub.enable = true;
+    services.sanoid = {
+      enable = true;
+      datasets = {
+        "tank/nextcloud" = {
+          hourly = 24;
+          daily = 30;
+          monthly = 6;
+          autosnap = true;
+          autoprune = true;
+        };
+        "tank/media" = {
+          daily = 7;
+          weekly = 4;
+          autosnap = true;
+          autoprune = true;
+        };
+        "tank/downloads" = {
+          autosnap = false;
+          autoprune = false;
+        };
+      };
+    };
+
+    fileSystems."/media" = {
+       device = "tank/media";
+       fsType = "zfs";
+    };
+
+    fileSystems."/var/lib/nextcloud" = {
+       device = "tank/nextcloud/userdata";
+       fsType = "zfs";
+    };
+    
+    fileSystems."/var/lib/postgresql" = {
+       device = "tank/nextcloud/db";
+       fsType = "zfs";
+    };
+
+    fileSystems."/downloads" = {
+       device = "tank/downloads";
+       fsType = "zfs";
+    };
 
     swapDevices = [
       {
