@@ -30,6 +30,8 @@
         authentik
         cloudflared
         matrix
+        nixarr
+        mullvad
       ]);
 
     sops = {

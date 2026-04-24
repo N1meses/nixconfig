@@ -10,7 +10,7 @@
       services.udev.packages = [pkgs.libfido2];
       users.groups.plugdev = {};
 
-      users.groups.media = {};
+      users.groups.media.gid = 989;
       systemd.tmpfiles.rules = [
         "d /media 0775 root media - -"
       ];
