@@ -23,15 +23,15 @@
     };
 
     networking.firewall.extraCommands = ''
-      iptables -I OUTPUT ! -o mullvad0 -m mark ! --mark 0xca6c \
+      iptables -I OUTPUT ! -o mullvad0 ! -o tailscale0 -m mark ! --mark 0xca6c \
         -m addrtype ! --dst-type LOCAL -j REJECT
-      ip6tables -I OUTPUT ! -o mullvad0 -m mark ! --mark 0xca6c \
+      ip6tables -I OUTPUT ! -o mullvad0 ! -o tailscale0 -m mark ! --mark 0xca6c \
         -m addrtype ! --dst-type LOCAL -j REJECT
     '';
     networking.firewall.extraStopCommands = ''
-      iptables -D OUTPUT ! -o mullvad0 -m mark ! --mark 0xca6c \
+      iptables -D OUTPUT ! -o mullvad0 ! -o tailscale0 -m mark ! --mark 0xca6c \
         -m addrtype ! --dst-type LOCAL -j REJECT || true
-      ip6tables -D OUTPUT ! -o mullvad0 -m mark ! --mark 0xca6c \
+      ip6tables -D OUTPUT ! -o mullvad0 ! -o tailscale0 -m mark ! --mark 0xca6c \
         -m addrtype ! --dst-type LOCAL -j REJECT || true
     '';
   };
