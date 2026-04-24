@@ -1,5 +1,8 @@
-{...}: {
+{inputs, ...}: {
   flake.modules.nixos.nixarr = {...}: {
+    imports = [
+      inputs.nixarr.nixosModules.default
+    ];
     nixarr = {
       enable = true;
       mediaDir = "/media";
