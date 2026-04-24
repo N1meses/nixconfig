@@ -24,6 +24,9 @@
       sonarr.enable = true;
       radarr.enable = true;
       prowlarr.enable = true;
+      lidarr.enable = true;
+      readarr.enable = true;
+      jellyseerr.enable = true;
     };
 
     users.users.sonarr.extraGroups = ["media"];
