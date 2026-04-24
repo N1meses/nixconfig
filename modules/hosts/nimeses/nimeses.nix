@@ -131,6 +131,7 @@ in {
       claude-code
       vesktop
       ani-cli
+      element-desktop
     ];
   };
 }

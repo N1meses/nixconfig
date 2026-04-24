@@ -10,6 +10,7 @@
         allow_registration = false;
         allow_federation = true;
         database_backend = "rocksdb";
+        enable_lightning_bolt = false;
       };
     };
 
@@ -17,6 +18,7 @@
       locations."/_matrix" = {
         proxyPass = "http://[::1]:6167";
         proxyWebsockets = true;
+        extraConfig = "client_max_body_size 100M;";
       };
       locations."= /.well-known/matrix/server".extraConfig = ''
         return 200 '{"m.server":"matrix.${cfg.domain}:443"}';
