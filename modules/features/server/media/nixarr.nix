@@ -31,6 +31,8 @@
       jellyseerr.enable = true;
     };
 
+    users.users.lidarr.extraGroups = ["media"];
+    users.users.readarr.extraGroups = ["media"];
     users.users.sonarr.extraGroups = ["media"];
     users.users.radarr.extraGroups = ["media"];
     users.users.transmission.extraGroups = ["media"];
