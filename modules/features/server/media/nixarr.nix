@@ -26,6 +26,8 @@
       prowlarr.enable = true;
       lidarr.enable = true;
       readarr.enable = true;
+      bazarr.enable = true;
+      autobrr.enable = true;
       jellyseerr.enable = true;
     };
 
