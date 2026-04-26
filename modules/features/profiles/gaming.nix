@@ -53,7 +53,7 @@
       PROTON_VKD3D_HEAP = "1";
       WINE_ENABLE_NTSYNC = "1";
       PROTON_FORCE_LARGE_ADDRESS_AWARE = "1";
-      PROTON_USE_EAC_LINUX=1;
+      PROTON_USE_EAC_LINUX = 1;
     };
 
     services.pipewire.extraConfig.pipewire."92-low-latency" = {
@@ -70,8 +70,8 @@
       goverlay
       wineWow64Packages.staging
       nvtopPackages.full
-      lutris
-      bottles
+      #lutris
+      #bottles
       vulkan-tools
       vulkan-validation-layers
       vulkan-loader

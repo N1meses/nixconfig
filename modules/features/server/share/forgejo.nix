@@ -14,10 +14,11 @@
           HTTP_PORT = 3000;
           SSH_DOMAIN = "forgejo.${cfg.domain}";
           SSH_PORT = 2222;
-          START_SSH_SERVER = false;
+          START_SSH_SERVER = true;
         };
-        service.DISABLE_REGISTRATION = true;
+        service.ALLOW_ONLY_EXTERNAL_REGISTRATION = true;
         log.LEVEL = "Warn";
+        picture.AVATAR_MAX_FILE_SIZE = 5242880;
       };
     };
 

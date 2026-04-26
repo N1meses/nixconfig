@@ -36,6 +36,7 @@ in {
       nix
       python
       markdown
+      rust
       git
       direnv
       cli

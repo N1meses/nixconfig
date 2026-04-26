@@ -26,8 +26,8 @@
           user = lib.mkDefault "prometheus";
         };
         "forgejo" = {
-          hostname = lib.mkDefault "100.127.108.44";
-          user = lib.mkDefault "git";
+          hostname = lib.mkDefault "100.75.163.80";
+          user = lib.mkDefault "forgejo";
           port = lib.mkDefault 2222;
         };
         "athena" = {
