@@ -30,7 +30,7 @@
         authentik
         cloudflared
         matrix
-        nixarr
+        #        nixarr
         mullvad
       ]);
 
