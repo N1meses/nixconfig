@@ -4,7 +4,8 @@
   in {
     services.matrix-conduit = {
       enable = true;
-      
+      secretFile = config.sops.secrets."matrix-registration-token".path;
+
       settings.global = {
         server_name = "matrix.${cfg.domain}";
         port = 6167;
