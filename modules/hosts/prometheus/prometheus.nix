@@ -1,6 +1,7 @@
 {config, ...}: let
   mkNoctaliaNiri = config.flake.lib.mkNoctaliaNiri;
   mkNoctaliaHypr = config.flake.lib.mkNoctaliaHypr;
+  mkNoctaliaMango = config.flake.lib.mkNoctaliaMango;
 in {
   registry.hosts.prometheus = {
     username = "prometheus";
@@ -23,6 +24,7 @@ in {
       tailscale
       niri
       hyprland
+      mango
     ];
 
     networking = {
@@ -57,10 +59,10 @@ in {
       desktop
       helix
       zed
-      opencode
       git
       niri
       hyprland
+      mango
     ];
 
     programs.git.settings.user = {
@@ -103,6 +105,20 @@ in {
           "Mod+F12".action.spawn = ["sh" "-c" "grim -g \"$(slurp)\" - | wl-copy"];
           "Mod+Shift+F12".action.spawn = ["sh" "-c" "grim -g \"$(slurp)\" ~/pictures/screenshot-$(date +%Y%m%d-%H%M%S).png"];
         };
+
+        mango.extraBinds = [
+          "NONE, F10, ${mkNoctaliaMango "volume increase"}"
+          "NONE, F9, ${mkNoctaliaMango "volume decrease"}"
+          "NONE, F5, ${mkNoctaliaMango "volume muteOutput"}"
+
+          "NONE, F7, ${mkNoctaliaMango "media playPause"}"
+          "NONE, F8, ${mkNoctaliaMango "media next"}"
+          "NONE, F6, ${mkNoctaliaMango "media previous"}"
+
+          "SUPER+SHIFT, Q, ${mkNoctaliaMango "lockScreen lock"}"
+          "SUPER, N, ${mkNoctaliaMango "launcher toggle"}"
+          "SUPER, B, ${mkNoctaliaMango "bar toggle"}"
+        ];
 
         hyprland.extraBinds = [
           ", F10, ${mkNoctaliaHypr "volume increase"}"
@@ -153,26 +169,21 @@ in {
       trash-cli
       imv
       grim
-      todo-txt-cli
       nom
       nvd
       nix-tree
-      tldr
-      vulnix
-      qt6.qtdeclarative
-      matugen
       adw-gtk3
       nwg-look
       gnome-themes-extra
       gucharmap
       glib
       vesktop
-      libreoffice-qt6-fresh
       gimp
       zathura
       file-roller
       claude-code
       ckb-next
+      element-desktop
     ];
   };
 }

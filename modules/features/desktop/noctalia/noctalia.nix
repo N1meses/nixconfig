@@ -11,6 +11,8 @@ in {
 
   flake.lib.mkNoctaliaHypr = cmd: "exec, noctalia-shell ipc call ${cmd}";
 
+  flake.lib.mkNoctaliaMango = cmd: "spawn, noctalia-shell ipc call ${cmd}"; 
+
   flake.modules = {
     nixos.noctalia = {...}: {
       nix.settings = {

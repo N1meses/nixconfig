@@ -1,6 +1,7 @@
 {config, ...}: let
   mkNoctaliaNiri = config.flake.lib.mkNoctaliaNiri;
   mkNoctaliaHypr = config.flake.lib.mkNoctaliaHypr;
+  mkNoctaliaMango = config.flake.lib.mkNoctaliaMango;
 in {
   registry.hosts.nimeses = {
     username = "nimeses";
@@ -105,14 +106,14 @@ in {
         #          "SUPERSHIFT, Print, exec, grim -g \"$(slurp)\" ~/pictures/screenshot-$(date +%Y%m%d-%H%M%S).png"
         #        ];
         mango.extraBinds = [
-          "NONE,XF86AudioRaiseVolume,spawn,noctalia-shell ipc call volume increase"
-          "NONE,XF86AudioLowerVolume,spawn,noctalia-shell ipc call volume decrease"
-          "NONE,XF86AudioMute,spawn,noctalia-shell ipc call volume muteOutput"
-          "NONE,XF86MonBrightnessUp,spawn,noctalia-shell ipc call brightness increase"
-          "NONE,XF86MonBrightnessDown,spawn,noctalia-shell ipc call brightness decrease"
-          "NONE,XF86AudioPlay,spawn,noctalia-shell ipc call media playPause"
-          "NONE,XF86AudioNext,spawn,noctalia-shell ipc call media next"
-          "NONE,XF86AudioPrev,spawn,noctalia-shell ipc call media previous"
+          "NONE,XF86AudioRaiseVolume,${mkNoctaliaMango "volume increase"}"
+          "NONE,XF86AudioLowerVolume,${mkNoctaliaMango "volume decrease"}"
+          "NONE,XF86AudioMute,${mkNoctaliaMango "volume muteOutput"}"
+          "NONE,XF86MonBrightnessUp,${mkNoctaliaMango "brightness increase"}"
+          "NONE,XF86MonBrightnessDown,${mkNoctaliaMango "brightness decrease"}"
+          "NONE,XF86AudioPlay,${mkNoctaliaMango "media playPause"}"
+          "NONE,XF86AudioNext,${mkNoctaliaMango "media next"}"
+          "NONE,XF86AudioPrev,${mkNoctaliaMango "media previous"}"
           "SUPER+SHIFT,q,spawn,noctalia-shell ipc call lockScreen lock"
           "SUPER,n,spawn,noctalia-shell ipc call launcher toggle"
           "SUPER,b,spawn,noctalia-shell ipc call bar toggle"
