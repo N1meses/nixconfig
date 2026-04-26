@@ -9,7 +9,7 @@
       settings.global = {
         server_name = "matrix.${cfg.domain}";
         port = 6167;
-        allow_registration = false;
+        allow_registration = true;
         allow_federation = true;
         database_backend = "rocksdb";
         enable_lightning_bolt = false;
