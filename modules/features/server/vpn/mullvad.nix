@@ -46,7 +46,6 @@
       iptables -A KILLSWITCH -o tailscale0 -j RETURN
       iptables -A KILLSWITCH -m mark --mark 0xca6c -j RETURN
       iptables -A KILLSWITCH -m addrtype --dst-type LOCAL -j RETURN
-      iptables -A KILLSWITCH -d 192.168.68.0/24 -j RETURN
       iptables -A KILLSWITCH -j REJECT
       iptables -C OUTPUT -j KILLSWITCH 2>/dev/null || iptables -I OUTPUT -j KILLSWITCH
       iptables -I INPUT -i tailscale0 -j ACCEPT
