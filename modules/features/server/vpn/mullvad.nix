@@ -15,11 +15,11 @@
       # Allow Tailscale traffic to bypass wg-quick's routing rules
       postUp = ''
         ip rule add to 100.64.0.0/10 priority 100 table main
-        ip rule add to fd7a:115c:a1e0::/48 priority 100 table main
+        ip -6 rule add to fd7a:115c:a1e0::/48 priority 100 table main
       '';
       preDown = ''
         ip rule del to 100.64.0.0/10 priority 100 table main 2>/dev/null || true
-        ip rule del to fd7a:115c:a1e0::/48 priority 100 table main 2>/dev/null || true
+        ip -6 rule del to fd7a:115c:a1e0::/48 priority 100 table main 2>/dev/null || true
       '';
 
       peers = [
