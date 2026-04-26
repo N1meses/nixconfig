@@ -46,6 +46,8 @@
         RemainAfterExit = true;
         ExecStart = "${pkgs.iproute2}/bin/ip route replace 100.64.0.0/10 dev tailscale0";
         ExecStop = "${pkgs.iproute2}/bin/ip route del 100.64.0.0/10 dev tailscale0";
+        Restart = "on-failure";
+        RestartSec = "1s";
       };
     };
 
@@ -57,6 +59,7 @@
       iptables -A KILLSWITCH -m addrtype --dst-type LOCAL -j RETURN
       iptables -A KILLSWITCH -d 185.213.155.73/32 -p udp --dport 51820 -j RETURN
       iptables -A KILLSWITCH -p udp --dport 41641 -j RETURN
+      iptables -A KILLSWITCH -d 192.168.68.0/24 -j RETURN
       iptables -A KILLSWITCH -j REJECT
       iptables -C OUTPUT -j KILLSWITCH 2>/dev/null || iptables -I OUTPUT -j KILLSWITCH
       iptables -I INPUT -i tailscale0 -j ACCEPT
