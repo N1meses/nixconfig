@@ -4,6 +4,7 @@
   in {
     services.matrix-conduit = {
       enable = true;
+      
       settings.global = {
         server_name = "matrix.${cfg.domain}";
         port = 6167;
@@ -13,6 +14,8 @@
         enable_lightning_bolt = false;
       };
     };
+
+    sops.secrets."matrix-registration-token" = {};
 
     services.nginx.virtualHosts."matrix.${cfg.domain}" = {
       locations."/_matrix" = {
