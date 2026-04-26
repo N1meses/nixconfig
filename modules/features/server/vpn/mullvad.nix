@@ -15,10 +15,14 @@
       postUp = ''
         ip rule add to 100.64.0.0/10 priority 100 table main
         ip -6 rule add to fd7a:115c:a1e0::/48 priority 100 table main
+        ip route replace 100.64.0.0/10 dev tailscale0
+        ip -6 route replace fd7a:115c:a1e0::/48 dev tailscale0
       '';
       preDown = ''
         ip rule del to 100.64.0.0/10 priority 100 table main 2>/dev/null || true
         ip -6 rule del to fd7a:115c:a1e0::/48 priority 100 table main 2>/dev/null || true
+        ip route del 100.64.0.0/10 dev tailscale0 2>/dev/null || true
+        ip -6 route del fd7a:115c:a1e0::/48 dev tailscale0 2>/dev/null || true
       '';
 
       peers = [
