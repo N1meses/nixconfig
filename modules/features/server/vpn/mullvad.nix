@@ -23,16 +23,30 @@
     };
 
     networking.firewall.extraCommands = ''
-      iptables -I OUTPUT ! -o mullvad0 ! -o tailscale0 -m mark ! --mark 0xca6c \
-        -m addrtype ! --dst-type LOCAL -j REJECT
-      ip6tables -I OUTPUT ! -o mullvad0 ! -o tailscale0 -m mark ! --mark 0xca6c \
-        -m addrtype ! --dst-type LOCAL -j REJECT
+      iptables -N KILLSWITCH 2>/dev/null || iptables -F KILLSWITCH
+      iptables -A KILLSWITCH -o mullvad0 -j RETURN
+      iptables -A KILLSWITCH -o tailscale0 -j RETURN
+      iptables -A KILLSWITCH -m mark --mark 0xca6c -j RETURN
+      iptables -A KILLSWITCH -m addrtype --dst-type LOCAL -j RETURN
+      iptables -A KILLSWITCH -j REJECT
+      iptables -C OUTPUT -j KILLSWITCH 2>/dev/null || iptables -I OUTPUT -j KILLSWITCH
+
+      ip6tables -N KILLSWITCH 2>/dev/null || ip6tables -F KILLSWITCH
+      ip6tables -A KILLSWITCH -o mullvad0 -j RETURN
+      ip6tables -A KILLSWITCH -o tailscale0 -j RETURN
+      ip6tables -A KILLSWITCH -m mark --mark 0xca6c -j RETURN
+      ip6tables -A KILLSWITCH -m addrtype --dst-type LOCAL -j RETURN
+      ip6tables -A KILLSWITCH -j REJECT
+      ip6tables -C OUTPUT -j KILLSWITCH 2>/dev/null || ip6tables -I OUTPUT -j KILLSWITCH
     '';
     networking.firewall.extraStopCommands = ''
-      iptables -D OUTPUT ! -o mullvad0 ! -o tailscale0 -m mark ! --mark 0xca6c \
-        -m addrtype ! --dst-type LOCAL -j REJECT || true
-      ip6tables -D OUTPUT ! -o mullvad0 ! -o tailscale0 -m mark ! --mark 0xca6c \
-        -m addrtype ! --dst-type LOCAL -j REJECT || true
+      iptables -D OUTPUT -j KILLSWITCH 2>/dev/null || true
+      iptables -F KILLSWITCH 2>/dev/null || true
+      iptables -X KILLSWITCH 2>/dev/null || true
+
+      ip6tables -D OUTPUT -j KILLSWITCH 2>/dev/null || true
+      ip6tables -F KILLSWITCH 2>/dev/null || true
+      ip6tables -X KILLSWITCH 2>/dev/null || true
     '';
   };
 }
