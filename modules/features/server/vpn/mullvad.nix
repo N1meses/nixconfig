@@ -1,5 +1,5 @@
 {...}: {
-  flake.modules.nixos.mullvad = {config, ...}: {
+  flake.modules.nixos.mullvad = {config, pkgs, ...}: {
     sops.secrets.mullvad-private-key = {};
 
     networking.wg-quick.interfaces.mullvad0 = {
@@ -37,6 +37,18 @@
       wants = ["wg-quick-mullvad0.service"];
     };
 
+    systemd.services.tailscale-route = {
+      bindsTo = ["sys-subsystem-net-devices-tailscale0.device"];
+      after = ["sys-subsystem-net-devices-tailscale0.device"];
+      wantedBy = ["sys-subsystem-net-devices-tailscale0.device"];
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+        ExecStart = "${pkgs.iproute2}/bin/ip route replace 100.64.0.0/10 dev tailscale0";
+        ExecStop = "${pkgs.iproute2}/bin/ip route del 100.64.0.0/10 dev tailscale0";
+      };
+    };
+
     networking.firewall.extraCommands = ''
       iptables -N KILLSWITCH 2>/dev/null || iptables -F KILLSWITCH
       iptables -A KILLSWITCH -o mullvad0 -j RETURN
@@ -47,6 +59,7 @@
       iptables -A KILLSWITCH -p udp --dport 41641 -j RETURN
       iptables -A KILLSWITCH -j REJECT
       iptables -C OUTPUT -j KILLSWITCH 2>/dev/null || iptables -I OUTPUT -j KILLSWITCH
+      iptables -I INPUT -i tailscale0 -j ACCEPT
 
       ip6tables -N KILLSWITCH 2>/dev/null || ip6tables -F KILLSWITCH
       ip6tables -A KILLSWITCH -o mullvad0 -j RETURN
@@ -57,13 +70,16 @@
       ip6tables -A KILLSWITCH -p udp --dport 41641 -j RETURN
       ip6tables -A KILLSWITCH -j REJECT
       ip6tables -C OUTPUT -j KILLSWITCH 2>/dev/null || ip6tables -I OUTPUT -j KILLSWITCH
+      ip6tables -I INPUT -i tailscale0 -j ACCEPT
     '';
     networking.firewall.extraStopCommands = ''
       iptables -D OUTPUT -j KILLSWITCH 2>/dev/null || true
+      iptables -D INPUT -i tailscale0 -j ACCEPT 2>/dev/null || true
       iptables -F KILLSWITCH 2>/dev/null || true
       iptables -X KILLSWITCH 2>/dev/null || true
 
       ip6tables -D OUTPUT -j KILLSWITCH 2>/dev/null || true
+      ip6tables -D INPUT -i tailscale0 -j ACCEPT 2>/dev/null || true
       ip6tables -F KILLSWITCH 2>/dev/null || true
       ip6tables -X KILLSWITCH 2>/dev/null || true
     '';
