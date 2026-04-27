@@ -5,7 +5,6 @@
         inputs.mango.nixosModules.mango
       ];
       programs.mango.enable = true;
-      services.graphical-desktop.enable = true;
     };
 
     homeManager.mango = {
@@ -35,6 +34,29 @@
 
       config = {
         home.packages = [pkgs.xwayland-satellite];
+
+        xdg.portal = {
+          enable = lib.mkDefault true;
+          extraPortals = with pkgs; [
+            xdg-desktop-portal-wlr
+            xdg-desktop-portal-gtk
+          ];
+          config.mango = {
+            default = ["wlr" "gtk"];
+            "org.freedesktop.impl.portal.ScreenCast" = ["wlr"];
+            "org.freedesktop.impl.portal.Screenshot" = ["wlr"];
+            "org.freedesktop.impl.portal.Secret" = ["gnome-keyring"];
+            "org.freedesktop.impl.portal.Inhibit" = ["gtk"];
+            "org.freedesktop.impl.portal.Notification" = ["gtk"];
+            "org.freedesktop.impl.portal.Account" = ["gtk"];
+            "org.freedesktop.impl.portal.Background" = ["gtk"];
+            "org.freedesktop.impl.portal.Email" = ["gtk"];
+            "org.freedesktop.impl.portal.OpenURI" = ["gtk"];
+            "org.freedesktop.impl.portal.Print" = ["gtk"];
+            "org.freedesktop.impl.portal.AppChooser" = ["gtk"];
+          };
+        };
+
         wayland.windowManager.mango = {
           enable = true;
           package = inputs.mango.packages.${pkgs.stdenv.hostPlatform.system}.mango;
@@ -81,13 +103,15 @@
             default_mfact = 0.5;
             default_nmaster = 1;
             smartgaps = 0;
-            scroller_structs = 10;
+            scroller_structs = 0;
             scroller_default_proportion = 0.5;
             scroller_focus_center = 0;
             scroller_default_proportion_single = 1.0;
+            scroller_ignore_proportion_single = 0;
             scroller_proportion_preset = "0.5,1.0";
             enable_hotarea = 0;
             circle_layout = "scroller,tile,tgmix";
+            drag_tile_to_tile = 1;
 
             focus_on_activate = 1;
             sloppyfocus = 1;
@@ -95,6 +119,8 @@
             focus_cross_monitor = 1;
             exchange_cross_monitor = 1;
             focus_cross_tag = 0;
+            cursor_size = 24;
+            cursor_hide_timeout = 3;
 
             xkb_rules_layout = "de";
             numlockon = 1;
@@ -104,9 +130,21 @@
             trackpad_natural_scrolling = 1;
             disable_while_typing = 1;
             repeat_rate = 30;
+            xwayland_persistence = 1;
 
             scratchpad_width_ratio = 0.8;
             scratchpad_height_ratio = 0.8;
+
+            windowrule = [
+              "focused_opacity:1.0,unfocused_opacity:1.0,appid:com.brave.Browser"
+              "focused_opacity:1.0,unfocused_opacity:1.0,appid:brave-browser"
+
+              "isfloating:1,title:Picture-in-Picture"
+              "isglobal:1,title:Picture-in-Picture"
+              "width:640,height:360,title:Picture-in-Picture"
+
+              "isnamedscratchpad:1,width:2400,height:1500,appid:io.ghostty.scratchpad"
+            ];
 
             gesturebind = [
               "none,right,3,focusdir,left"
@@ -122,8 +160,7 @@
 
             bind =
               [
-                "SUPER,e,spawn, ghostty -e yazi"
-                "SUPER,Return,spawn, ghostty"
+                "SUPER,Return,spawn,ghostty"
 
                 "SUPER,Escape,quit"
                 "SUPER,q,killclient"
@@ -170,6 +207,8 @@
                 "SUPER+SHIFT,7,tag,7"
                 "SUPER+SHIFT,8,tag,8"
                 "SUPER+SHIFT,9,tag,9"
+
+                "SUPER,e,toggle_named_scratchpad,io.ghostty.scratchpad,none,ghostty --class=io.ghostty.scratchpad -e yazi"
               ]
               ++ cfg.extraBinds;
 
@@ -183,6 +222,8 @@
               "ELECTRON_OZONE_PLATFORM_HINT,auto"
               "NVD_BACKEND,direct"
               "_JAVA_AWT_WM_NONREPARENTING,1"
+              "AWT_TOOLKIT,MToolkit"
+              "DISPLAY,:0"
             ];
           };
         };

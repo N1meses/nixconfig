@@ -33,12 +33,17 @@
             image_bound = [65535 65535];
           };
           opener = {
-            edit = [{ run = ''hx "$@"''; block = true; }];
+            edit = [
+              {
+                run = ''hx "$@"'';
+                block = true;
+              }
+            ];
           };
         };
       };
 
-      home.packages = with pkgs; [ xdg-terminal-exec xdg-desktop-portal-termfilechooser ];
+      home.packages = with pkgs; [xdg-terminal-exec xdg-desktop-portal-termfilechooser];
 
       xdg.configFile."xdg-desktop-portal-termfilechooser/yazi-wrapper.sh" = {
         executable = true;
@@ -75,6 +80,7 @@
       xdg.portal.config = {
         niri."org.freedesktop.impl.portal.FileChooser" = ["termfilechooser"];
         hyprland."org.freedesktop.impl.portal.FileChooser" = ["termfilechooser"];
+        mango."org.freedesktop.impl.portal.FileChooser" = ["termfilechooser"];
       };
     };
   };
