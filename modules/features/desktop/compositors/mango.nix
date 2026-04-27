@@ -100,10 +100,10 @@
             animation_type_close = "zoom";
 
             new_is_master = 0;
-            default_mfact = 0.5;
+            default_mfact = 0.495;
             default_nmaster = 1;
             smartgaps = 0;
-            scroller_structs = 0;
+            scroller_structs = 8;
             scroller_default_proportion = 0.5;
             scroller_focus_center = 0;
             scroller_default_proportion_single = 1.0;
