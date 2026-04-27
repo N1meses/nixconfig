@@ -31,7 +31,6 @@
         cloudflared
         matrix
         nixarr
-        mullvad
       ]);
 
     sops = {

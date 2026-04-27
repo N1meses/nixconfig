@@ -1,16 +1,24 @@
 {inputs, ...}: {
-  flake.modules.nixos.nixarr = {...}: {
+  flake.modules.nixos.nixarr = {config, ...}: {
     imports = [
       inputs.nixarr.nixosModules.default
     ];
+
+    sops.secrets.mullvad-wg-conf = {};
+
     nixarr = {
       enable = true;
       mediaDir = "/media";
       stateDir = "/var/lib/nixarr";
 
+      vpn = {
+        enable = true;
+        wgConf = config.sops.secrets.mullvad-wg-conf.path;
+      };
+
       transmission = {
         enable = true;
-        openFirewall = false;
+        vpn.enable = true;
         extraSettings = {
           "ratio_limit" = 0;
           "ratio_limit_enabled" = true;
