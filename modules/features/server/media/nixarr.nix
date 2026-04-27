@@ -20,22 +20,28 @@
         enable = true;
         vpn.enable = true;
         extraSettings = {
-          "ratio_limit" = 0;
-          "ratio_limit_enabled" = true;
-          "speed_limit_up" = 1;
-          "speed_limit_up_enabled" = true;
-          "idle_seeding_limit" = 0;
-          "idle_seeding_limit_enabled" = true;
+          "ratio-limit" = 0;
+          "ratio-limit-enabled" = true;
+          "speed-limit-up" = 1;
+          "speed-limit-up-enabled" = true;
+          "idle-seeding-limit" = 0;
+          "idle-seeding-limit-enabled" = true;
         };
       };
 
       sonarr.enable = true;
       radarr.enable = true;
-      prowlarr.enable = true;
+      prowlarr = {
+        enable = true;
+        vpn.enable = true;
+      };
       lidarr.enable = true;
       readarr.enable = true;
       bazarr.enable = true;
-      autobrr.enable = true;
+      autobrr = {
+        enable = true;
+        vpn.enable = true;
+      };
       jellyseerr.enable = true;
     };
 
