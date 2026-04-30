@@ -1,4 +1,8 @@
-{config, ...}: let
+{
+  config,
+  inputs,
+  ...
+}: let
   mkNoctaliaNiri = config.flake.lib.mkNoctaliaNiri;
   mkNoctaliaHypr = config.flake.lib.mkNoctaliaHypr;
   mkNoctaliaMango = config.flake.lib.mkNoctaliaMango;
@@ -10,19 +14,28 @@ in {
   };
 
   configurations.nixos.nimeses.module = {pkgs, ...}: {
-    imports = with config.flake.modules.nixos; [
-      hardwareNimeses
-      users
-      core
-      base
-      shell
-      desktop
-      gaming
-      tailscale
-      laptop
-      niri
-      mango
-    ];
+    imports =
+      [inputs.sops-nix.nixosModules.sops]
+      ++ (with config.flake.modules.nixos; [
+        hardwareNimeses
+        users
+        core
+        base
+        shell
+        desktop
+        gaming
+        tailscale
+        laptop
+        niri
+        mango
+        airvpn
+      ]);
+
+    sops = {
+      defaultSopsFile = ../../../secrets/nimeses.yaml;
+      age.sshKeyPaths = [];
+      age.keyFile = "/home/nimeses/.config/sops/age/keys.txt";
+    };
 
     boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
   };
@@ -134,6 +147,8 @@ in {
       vesktop
       ani-cli
       element-desktop
+      sops
+      tor-browser
     ];
   };
 }

@@ -11,8 +11,8 @@
     sops.secrets.airvpn-wg-conf = {};
 
     systemd.services.wg = {
-      after = lib.mkAfter [ "nss-lookup.target" ];
-      wants = [ "nss-lookup.target" ];
+      after = lib.mkAfter ["nss-lookup.target"];
+      wants = ["nss-lookup.target"];
     };
 
     nixarr = {
@@ -34,7 +34,7 @@
         extraSettings = {
           "ratio-limit" = 0;
           "ratio-limit-enabled" = true;
-          "speed-limit-up" = 250;
+          "speed-limit-up" = 100;
           "speed-limit-up-enabled" = true;
           "idle-seeding-limit" = 0;
           "idle-seeding-limit-enabled" = true;
