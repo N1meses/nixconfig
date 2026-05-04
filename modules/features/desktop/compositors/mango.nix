@@ -158,6 +158,11 @@
               "SUPER,btn_right,moveresize,curresize"
             ];
 
+            axisbind = [
+              "SUPER,UP,focusdir,left"
+              "SUPER,DOWN,focusdir,right"
+            ];
+
             bind =
               [
                 "SUPER,Return,spawn,ghostty"
