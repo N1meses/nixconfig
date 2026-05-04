@@ -70,5 +70,19 @@
       curl
       wget
     ];
+
+    programs.nix-ld = {
+      enable = true;
+      libraries = with pkgs; [
+        curl
+        stdenv.cc.cc
+        zlib
+        fuse3
+        icu
+        nss
+        openssl
+        expat
+      ];
+    };
   };
 }

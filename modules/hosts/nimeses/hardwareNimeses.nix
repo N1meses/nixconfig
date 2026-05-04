@@ -3,6 +3,7 @@
     inputs,
     config,
     lib,
+    pkgs,
     ...
   }: {
     imports = [
@@ -60,12 +61,17 @@
 
     environment.variables = {
       AMD_VULKAN_ICD = "RADV";
+      LIBVA_DRIVER_NAME = "radeonsi";
     };
 
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
     hardware.graphics = {
       enable = true;
       enable32Bit = true;
+      extraPackages = with pkgs; [
+        mesa
+        libva
+      ];
     };
     hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
     hardware.enableRedistributableFirmware = true;

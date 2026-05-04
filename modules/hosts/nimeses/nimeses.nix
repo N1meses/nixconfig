@@ -145,10 +145,10 @@ in {
       gemini-cli
       claude-code
       vesktop
-      ani-cli
       element-desktop
       sops
       tor-browser
+      mpv
     ];
   };
 }
