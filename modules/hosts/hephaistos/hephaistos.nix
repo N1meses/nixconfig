@@ -22,8 +22,6 @@
         ssh
         nginx
         tailscale
-        forgejo
-        jellyfin
         vaultwarden
         croc
       ]);
@@ -31,6 +29,12 @@
     networking.hostName = "hephaistos";
 
     features.server.domain = "hephaistos.tail4109e2.ts.net";
+
+    sops = {
+      defaultSopsFile = ../../../secrets/hephaistos.yaml;
+      age.sshKeyPaths = [];
+      age.keyFile = "/root/.config/sops/age/keys.txt";
+    };
 
     boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-server;
 

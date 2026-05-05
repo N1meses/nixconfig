@@ -2,6 +2,8 @@
   flake.modules.nixos.vaultwarden = {config, ...}: let
     cfg = config.features.server;
   in {
+    features.server.tls = true;
+
     services.vaultwarden = {
       enable = true;
       dbBackend = "sqlite";
@@ -9,7 +11,7 @@
       config = {
         ROCKET_ADDRESS = "127.0.0.1";
         ROCKET_PORT = 8222;
-        DOMAIN = "https://vaultwarden.${cfg.domain}";
+        DOMAIN = "https://${cfg.domain}/vaultwarden";
         SIGNUPS_ALLOWED = false;
         WEBSOCKET_ENABLED = true;
         LOG_LEVEL = "warn";
@@ -25,8 +27,11 @@
 
     services.vaultwarden.backupDir = "/var/backup/vaultwarden";
 
-    services.nginx.virtualHosts."vaultwarden.${cfg.domain}" = {
-      locations."/" = {
+    services.nginx.virtualHosts."${cfg.domain}" = {
+      addSSL = true;
+      sslCertificate = "/var/lib/nginx/certs/${cfg.domain}.crt";
+      sslCertificateKey = "/var/lib/nginx/certs/${cfg.domain}.key";
+      locations."/vaultwarden/" = {
         proxyPass = "http://127.0.0.1:8222";
         proxyWebsockets = true;
       };
