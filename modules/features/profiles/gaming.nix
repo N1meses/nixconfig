@@ -13,6 +13,11 @@
       extraCompatPackages = with pkgs; [proton-ge-bin];
     };
 
+    programs.alvr = {
+      enable = true;
+      openFirewall = true;
+    };
+
     programs.gamemode = {
       enable = true;
       settings = {

@@ -1,5 +1,5 @@
 {...}: {
-  flake.modules.nixos.hardwareAthena = {lib, ...}: {
+  flake.modules.nixos.hardwareAthena = {lib, pkgs, ...}: {
     boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "usb_storage" "sd_mod" "sdhci_pci"];
     boot.initrd.kernelModules = [];
     boot.kernelModules = ["kvm-intel"];
@@ -73,6 +73,11 @@
         size = 16 * 1024;
       }
     ];
+
+    hardware.graphics = {
+      enable = true;
+      extraPackages = with pkgs; [ intel-media-driver ];
+    };
 
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
     hardware.cpu.intel.updateMicrocode = lib.mkDefault true;

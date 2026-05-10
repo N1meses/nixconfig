@@ -25,6 +25,7 @@ in {
       niri
       hyprland
       mango
+      virtualisation
     ];
 
     networking = {
@@ -43,6 +44,8 @@ in {
         }
       ];
     };
+
+    hardware.enableRedistributableFirmware = true;
 
     boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto;
 
@@ -63,6 +66,7 @@ in {
       niri
       hyprland
       mango
+      c
     ];
 
     programs.git.settings.user = {
@@ -161,13 +165,20 @@ in {
       size = 24;
     };
 
+    programs.mpv = {
+      enable = true;
+      scripts = [ pkgs.mpvScripts.mpris ];
+      config = {
+        vo = "gpu-next";
+        gpu-api = "vulkan";
+        hwdec = "auto-copy";
+      };
+    };
+
     home.packages = with pkgs; [
       btop
-      cbonsai
       croc
-      cmatrix
       trash-cli
-      imv
       grim
       nom
       nvd
@@ -175,15 +186,12 @@ in {
       adw-gtk3
       nwg-look
       gnome-themes-extra
-      gucharmap
-      glib
       vesktop
-      gimp
-      zathura
       file-roller
       claude-code
       ckb-next
       element-desktop
+      jellyfin-mpv-shim
     ];
   };
 }

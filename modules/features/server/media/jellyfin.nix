@@ -12,6 +12,6 @@
       };
     };
 
-    users.users.jellyfin.extraGroups = ["media"];
+    users.users.jellyfin.extraGroups = ["media" "render" "video"];
   };
 }

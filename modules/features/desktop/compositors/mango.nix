@@ -103,8 +103,9 @@
             default_mfact = 0.495;
             default_nmaster = 1;
             smartgaps = 0;
+            tagrule = lib.genList (i: "id:${toString (i + 1)},layout_name:scroller") 9;
             scroller_structs = 8;
-            scroller_default_proportion = 0.5;
+            scroller_default_proportion = 1.0;
             scroller_focus_center = 0;
             scroller_default_proportion_single = 1.0;
             scroller_ignore_proportion_single = 0;
@@ -144,6 +145,8 @@
               "width:640,height:360,title:Picture-in-Picture"
 
               "isnamedscratchpad:1,width:2400,height:1500,appid:io.ghostty.scratchpad"
+
+              "scroller_proportion:0.5,appid:com.mitchellh.ghostty"
             ];
 
             gesturebind = [
