@@ -1,8 +1,9 @@
 {...}: {
   flake.modules.nixos.hardwareAthena = {lib, pkgs, ...}: {
     boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "usb_storage" "sd_mod" "sdhci_pci"];
-    boot.initrd.kernelModules = [];
+    boot.initrd.kernelModules = ["i915"];
     boot.kernelModules = ["kvm-intel"];
+    boot.kernelParams = ["i915.force_probe=46d4"];
     boot.extraModulePackages = [];
 
     boot.supportedFilesystems = ["zfs"];
@@ -78,6 +79,8 @@
       enable = true;
       extraPackages = with pkgs; [ intel-media-driver ];
     };
+
+    hardware.enableRedistributableFirmware = true;
 
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
     hardware.cpu.intel.updateMicrocode = lib.mkDefault true;
