@@ -3,14 +3,17 @@
     boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "usb_storage" "sd_mod" "sdhci_pci"];
     boot.initrd.kernelModules = ["i915"];
     boot.kernelModules = ["kvm-intel"];
-    boot.kernelParams = ["i915.force_probe=46d4"];
     boot.extraModulePackages = [];
 
     boot.supportedFilesystems = ["zfs"];
     boot.zfs.forceImportRoot = false;
     boot.zfs.extraPools = ["tank"];
     boot.zfs.devNodes = "/dev/disk/by-id";
-    boot.kernelParams = ["zfs.zfs_arc_max=8589934592"];
+    boot.kernelParams = [
+      "zfs.zfs_arc_max=8589934592"
+      "i915.force_probe=46d4"
+      "video=efifb:off"
+    ];
 
     fileSystems."/" = {
       device = "/dev/disk/by-uuid/3a592180-1767-4599-9a4f-ed6fe319b124";
