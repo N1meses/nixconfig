@@ -1,4 +1,4 @@
-{ config, ... }: let
+{config, ...}: let
   flakeConfig = config;
 in {
   flake.modules.homeManager.apps = {...}: {

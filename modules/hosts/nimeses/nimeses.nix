@@ -149,6 +149,7 @@ in {
       sops
       tor-browser
       mpv
+      nicotine-plus
     ];
   };
 }
