@@ -49,6 +49,7 @@ in {
       zed
       nix
       python
+      c
       markdown
       rust
       git
