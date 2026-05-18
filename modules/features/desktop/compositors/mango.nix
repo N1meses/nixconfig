@@ -111,7 +111,7 @@
             scroller_ignore_proportion_single = 0;
             scroller_proportion_preset = "0.5,1.0";
             enable_hotarea = 0;
-            circle_layout = "scroller,tile,tgmix";
+            circle_layout = "scroller,dwindle";
             drag_tile_to_tile = 1;
 
             focus_on_activate = 1;
