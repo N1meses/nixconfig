@@ -2,17 +2,19 @@
   flake.modules.nixos.matrix = {config, ...}: let
     cfg = config.features.server;
   in {
-    services.matrix-conduit = {
+    services.matrix-tuwunel = {
       enable = true;
-      secretFile = config.sops.secrets."matrix-registration-token".path;
-
       settings.global = {
         server_name = "matrix.${cfg.domain}";
-        port = 6167;
+        port = [6167];
         allow_registration = true;
         allow_federation = true;
-        database_backend = "rocksdb";
-        enable_lightning_bolt = false;
+        registration_token_file = config.sops.secrets."matrix-registration-token".path;
+        new_user_displayname_suffix = "";
+        require_auth_for_profile_requests = true;
+        encryption_enabled_by_default_for_room_type = "private_chat";
+        allow_public_room_directory_over_federation = false;
+        forget_forced_upon_leave = true;
       };
     };
 
