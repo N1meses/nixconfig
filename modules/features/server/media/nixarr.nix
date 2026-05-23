@@ -60,6 +60,8 @@
       jellyseerr.enable = true;
     };
 
+    networking.firewall.interfaces."wg-br".allowedTCPPorts = [8989 7878 8686 5055 6767];
+
     users.users.lidarr.extraGroups = ["media"];
     users.users.readarr.extraGroups = ["media"];
     users.users.sonarr.extraGroups = ["media"];
