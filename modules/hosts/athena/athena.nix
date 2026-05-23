@@ -30,6 +30,7 @@
         authentik
         cloudflared
         matrix
+        element
         nixarr
       ]);
 
