@@ -9,6 +9,10 @@
     boot.kernelModules = ["kvm-amd"];
     boot.extraModulePackages = [];
 
+    services.udev.extraRules = ''
+      ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="1b1c", ATTRS{idProduct}=="2b14", ATTR{power/wakeup}="disabled"
+    '';
+
     fileSystems."/" = {
       device = "/dev/disk/by-uuid/61edc440-5d0c-4777-ab5f-950064c2c8bb";
       fsType = "ext4";
@@ -59,29 +63,28 @@
       "PROTON_HIDE_NVIDIA_GPU" = "0";
     };
 
-    environment.etc."nvidia/nvidia-application-profiles-rc.d/50-niri-vram.json".text =
-      builtins.toJSON {
-        rules = [
-          {
-            pattern = {
-              feature = "procname";
-              matches = "niri";
-            };
-            profile = "Limit Free Buffer Pool On Wayland Compositors";
-          }
-        ];
-        profiles = [
-          {
-            name = "Limit Free Buffer Pool On Wayland Compositors";
-            settings = [
-              {
-                key = "GLVidHeapReuseRatio";
-                value = 0;
-              }
-            ];
-          }
-        ];
-      };
+    environment.etc."nvidia/nvidia-application-profiles-rc.d/50-niri-vram.json".text = builtins.toJSON {
+      rules = [
+        {
+          pattern = {
+            feature = "procname";
+            matches = "niri";
+          };
+          profile = "Limit Free Buffer Pool On Wayland Compositors";
+        }
+      ];
+      profiles = [
+        {
+          name = "Limit Free Buffer Pool On Wayland Compositors";
+          settings = [
+            {
+              key = "GLVidHeapReuseRatio";
+              value = 0;
+            }
+          ];
+        }
+      ];
+    };
 
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
     hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
