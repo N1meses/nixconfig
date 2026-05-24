@@ -16,6 +16,7 @@
         hardwareHephaistos
         users
         core
+        nix
         base
         shell
         serverCore
