@@ -12,7 +12,6 @@ in {
     homeManager.desktop = {...}: {
       imports = with flakeConfig.flake.modules.homeManager; [
         apps
-        compositors
         noctalia
         services
       ];

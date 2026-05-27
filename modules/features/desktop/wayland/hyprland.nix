@@ -57,7 +57,9 @@ in {
       pkgs,
       ...
     }: {
-      imports = [inputs.hyprland.homeManagerModules.default];
+      imports = [
+        inputs.hyprland.homeManagerModules.default
+      ];
 
       options.features.compositors.hyprland = {
         extraBinds = lib.mkOption {

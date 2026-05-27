@@ -63,6 +63,7 @@ in {
       helix
       zed
       git
+      compositors
       niri
       hyprland
       mango
@@ -168,7 +169,7 @@ in {
 
     programs.mpv = {
       enable = true;
-      scripts = [ pkgs.mpvScripts.mpris ];
+      scripts = [pkgs.mpvScripts.mpris];
       config = {
         vo = "gpu-next";
         gpu-api = "vulkan";

@@ -16,7 +16,6 @@
         hardwareHephaistos
         users
         core
-        nix
         base
         shell
         serverCore
@@ -55,6 +54,7 @@
       helix
       yazi
       nh
+      nix
       fastfetch
       git
       network

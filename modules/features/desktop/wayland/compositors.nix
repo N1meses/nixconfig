@@ -90,10 +90,6 @@ in {
 
     config = {
       home.packages = with pkgs; [
-        grim
-        slurp
-        wf-recorder
-        swappy
         wayland-utils
         wl-clipboard
       ];

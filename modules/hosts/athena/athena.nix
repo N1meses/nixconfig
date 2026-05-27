@@ -16,7 +16,6 @@
       ++ (with config.flake.modules.nixos; [
         hardwareAthena
         users
-        nix
         core
         base
         shell
@@ -57,6 +56,7 @@
       ntfs3g
       git
       wget
+      nix
       wol
       wakeonlan
       sops

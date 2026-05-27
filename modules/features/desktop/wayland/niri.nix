@@ -75,7 +75,9 @@ in {
       pkgs,
       ...
     }: {
-      imports = [inputs.niri.homeModules.niri];
+      imports = [
+        inputs.niri.homeModules.niri
+      ];
 
       options.features.compositors.niri = {
         extraBinds = lib.mkOption {
