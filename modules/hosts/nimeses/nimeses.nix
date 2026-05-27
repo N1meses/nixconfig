@@ -45,7 +45,6 @@ in {
       core
       shell
       desktop
-      compositors
       helix
       zed
       nix

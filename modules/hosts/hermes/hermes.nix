@@ -62,7 +62,6 @@
       helix
       mango
       yazi
-      compositors
       browser
     ];
 

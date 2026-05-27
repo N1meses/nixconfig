@@ -63,7 +63,6 @@ in {
       helix
       zed
       git
-      compositors
       niri
       hyprland
       mango
