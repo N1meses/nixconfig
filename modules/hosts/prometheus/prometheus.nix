@@ -66,6 +66,7 @@ in {
       niri
       hyprland
       mango
+      nix
       c
     ];
 
@@ -192,6 +193,7 @@ in {
       ckb-next
       element-desktop
       jellyfin-mpv-shim
+      gparted
     ];
   };
 }

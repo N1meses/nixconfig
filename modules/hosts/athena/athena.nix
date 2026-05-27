@@ -16,6 +16,7 @@
       ++ (with config.flake.modules.nixos; [
         hardwareAthena
         users
+        nix
         core
         base
         shell
