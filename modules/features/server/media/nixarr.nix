@@ -27,24 +27,20 @@
         openTcpPorts = [56599];
       };
 
-      transmission = {
+      qbittorrent = {
         enable = true;
         vpn.enable = true;
         peerPort = 56599;
-        extraSettings = {
-          "ratio-limit" = 0;
-          "ratio-limit-enabled" = true;
-          "speed-limit-up" = 100;
-          "speed-limit-up-enabled" = true;
-          "idle-seeding-limit" = 0;
-          "idle-seeding-limit-enabled" = true;
-          "cache-size-mb" = 64;
-          "peer-limit-global" = 3000;
-          "peer-limit-per-torrent" = 100;
-          "dht-enabled" = true;
-          "pex-enabled" = true;
-          "utp-enabled" = true;
-          "port-forwarding-enabled" = false;
+        webuiPort = 5252;
+        extraConfig = {
+          BitTorrent = {
+            "Session\\GlobalMaxRatio" = 0;
+            "Session\\MaxRatioAction" = 1;
+            "Session\\GlobalUploadSpeedLimit" = 102400;
+            "Session\\GlobalUTPRateLimited" = true;
+            "Session\\MaxConnections" = 3000;
+            "Session\\MaxConnectionsPerTorrent" = 100;
+          };
         };
       };
 
@@ -65,7 +61,7 @@
     users.users.lidarr.extraGroups = ["media"];
     users.users.readarr.extraGroups = ["media"];
     users.users.sonarr.extraGroups = ["media"];
-    users.users.transmission.extraGroups = ["media"];
+    users.users.qbittorrent.extraGroups = ["media"];
     users.users.readarr = {
       isSystemUser = true;
       group = "readarr";
