@@ -25,7 +25,7 @@
         base
         shell
         greetd
-        mango
+        niri
         fonts
       ]);
 
@@ -61,13 +61,31 @@
       nh
       helix
       foot
-      mango
+      niri
+      waybar
+      fuzzel
+      mako
+      wallpaper
       yazi
       browser
     ];
 
+    features.compositors = {
+      wallpaper.image = ../../../assets/icons/wallpaper.jpg;
+      niri.extraBinds = {
+        "Mod+n".action.spawn = "fuzzel";
+      };
+    };
+
+    home.pointerCursor = {
+      package = pkgs.nordzy-cursor-theme;
+      name = "Nordzy-cursors";
+      size = 24;
+      gtk.enable = true;
+    };
+
     home.packages = with pkgs; [
-      htop
+      btop
     ];
   };
 }

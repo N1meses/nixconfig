@@ -18,7 +18,7 @@
               home-manager.users.${host.username} =
                 let homeConfig = config.configurations.homeManager.${name} or null;
                 in lib.mkIf (homeConfig != null) {
-                  imports = [ homeConfig.module ];
+                  imports = [ config.flake.modules.homeManager.compositors homeConfig.module ];
                   home = {
                     username = host.username;
                     homeDirectory = host.homeDirectory;

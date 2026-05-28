@@ -29,6 +29,9 @@
     "Mod+f".action.maximize-column = [];
     "Mod+Shift+f".action.maximize-window-to-edges = [];
     "Mod+Escape".action.quit = [];
+    "Print".action.screenshot = [];
+    "Shift+Print".action.screenshot-screen = [];
+    "Ctrl+Print".action.screenshot-window = [];
     "Mod+1".action.focus-workspace = 1;
     "Mod+2".action.focus-workspace = 2;
     "Mod+3".action.focus-workspace = 3;

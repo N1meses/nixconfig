@@ -130,6 +130,13 @@
           default = "de";
         };
       };
+
+      launcher = {
+        command = lib.mkOption {
+          type = lib.types.str;
+          default = "fuzzel";
+        };
+      };
     };
 
     config = {
