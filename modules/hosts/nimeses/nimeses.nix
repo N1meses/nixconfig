@@ -148,6 +148,7 @@ in {
       vesktop
       element-desktop
       sops
+      obsidian
       tor-browser
       mpv
       nicotine-plus
