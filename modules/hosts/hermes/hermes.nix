@@ -60,6 +60,7 @@
       shell
       nh
       helix
+      foot
       mango
       yazi
       browser

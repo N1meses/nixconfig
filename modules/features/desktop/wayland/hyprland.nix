@@ -40,11 +40,6 @@
     "SUPER,V,togglefloating"
     "SUPER,C,centerwindow"
   ];
-
-  launching_binds = [
-    "SUPER,Return,exec,ghostty"
-    "SUPER,E,exec,ghostty -e yazi"
-  ];
 in {
   flake.modules = {
     nixos.hyprland = {...}: {
@@ -56,21 +51,24 @@ in {
       lib,
       pkgs,
       ...
-    }: {
-      imports = [
-        inputs.hyprland.homeManagerModules.default
-      ];
+    }: let
+      c = config.features.compositors;
+      toHypr = hex: "rgb(${lib.removePrefix "#" hex})";
+      termExec = cmd:
+        "${c.terminal.command}"
+        + lib.optionalString (c.terminal.execFlag != "") " ${c.terminal.execFlag}"
+        + " ${cmd}";
+    in {
+      imports = [inputs.hyprland.homeManagerModules.default];
 
       options.features.compositors.hyprland = {
         extraBinds = lib.mkOption {
           type = lib.types.listOf lib.types.str;
           default = [];
-          description = "Extra keybinds to add to the hyprland config.";
         };
         autoStart = lib.mkOption {
           type = lib.types.listOf lib.types.str;
           default = [];
-          description = "Commands to run at startup.";
         };
         input.touchpad.enable = lib.mkEnableOption "touchpad input and gestures";
       };
@@ -96,11 +94,11 @@ in {
 
           settings = {
             monitor =
-              if config.features.compositors.monitors != null
+              if c.monitors != null
               then
                 lib.mapAttrsToList
                 (name: m: "${name},${toString m.resolution.width}x${toString m.resolution.height}@${toString (builtins.floor m.refreshRate)},${toString m.position.x}x${toString m.position.y},${toString m.scale}")
-                config.features.compositors.monitors
+                c.monitors
               else [];
 
             env = [
@@ -118,8 +116,8 @@ in {
               "QT_QPA_PLATFORMTHEME,gtk3"
               "NVD_BACKEND,direct"
               "ELECTRON_OZONE_PLATFORM_HINT,auto"
-              "XCURSOR_SIZE,24"
-              "HYPRCURSOR_SIZE,24"
+              "XCURSOR_SIZE,${toString c.cursor.size}"
+              "HYPRCURSOR_SIZE,${toString c.cursor.size}"
             ];
 
             exec-once =
@@ -130,11 +128,11 @@ in {
               ++ config.features.compositors.hyprland.autoStart;
 
             general = {
-              gaps_in = lib.mkDefault 4;
-              gaps_out = lib.mkDefault 8;
-              border_size = lib.mkDefault 2;
-              "col.active_border" = "rgb(50C878)";
-              "col.inactive_border" = "rgb(595959)";
+              gaps_in = lib.mkDefault c.gaps.inner;
+              gaps_out = lib.mkDefault c.gaps.outer;
+              border_size = lib.mkDefault c.borders.width;
+              "col.active_border" = toHypr c.colors.active;
+              "col.inactive_border" = toHypr c.colors.inactive;
               resize_on_border = true;
             };
 
@@ -164,9 +162,9 @@ in {
             ];
 
             decoration = {
-              rounding = lib.mkDefault 16;
-              active_opacity = lib.mkDefault 0.95;
-              inactive_opacity = lib.mkDefault 0.9;
+              rounding = lib.mkDefault c.borders.radius;
+              active_opacity = lib.mkDefault c.opacity.focused;
+              inactive_opacity = lib.mkDefault c.opacity.unfocused;
               shadow.enabled = false;
             };
 
@@ -184,7 +182,7 @@ in {
             };
 
             input = {
-              kb_layout = lib.mkDefault "de";
+              kb_layout = lib.mkDefault c.keyboard.layout;
               follow_mouse = lib.mkDefault 1;
               touchpad = lib.mkIf config.features.compositors.hyprland.input.touchpad.enable {
                 natural_scroll = lib.mkDefault true;
@@ -206,7 +204,6 @@ in {
             };
 
             xwayland.force_zero_scaling = true;
-
             debug.disable_logs = false;
 
             windowrule = [
@@ -221,7 +218,14 @@ in {
               "match:title ^(Picture-in-Picture)$, size 640 360"
             ];
 
-            bind = [] ++ window_binds ++ workspace_binds ++ launching_binds ++ config.features.compositors.hyprland.extraBinds;
+            bind =
+              [
+                "SUPER,Return,exec,${c.terminal.command}"
+                "SUPER,E,exec,${termExec "yazi"}"
+              ]
+              ++ window_binds
+              ++ workspace_binds
+              ++ config.features.compositors.hyprland.extraBinds;
 
             gestures = lib.mkIf config.features.compositors.hyprland.input.touchpad.enable {
               workspace_swipe = true;

@@ -9,34 +9,26 @@
     "Mod+MouseMiddle".action.toggle-overview = [];
   };
 
-  defaultBinds = {
-    "Mod+Return".action.spawn = ["ghostty"];
-    "Mod+e".action.spawn = ["ghostty" "-e" "yazi"];
+  staticBinds = {
     "Mod+o".action.toggle-overview = [];
-
     "Mod+q".action.close-window = [];
     "Mod+j".action.focus-window-down = [];
     "Mod+k".action.focus-window-up = [];
     "Mod+h".action.focus-column-left-or-last = [];
     "Mod+l".action.focus-column-right-or-first = [];
-
     "Mod+Shift+j".action.move-window-down = [];
     "Mod+Shift+k".action.move-window-up = [];
     "Mod+Shift+h".action.move-column-left-or-to-monitor-left = [];
     "Mod+Shift+l".action.move-column-right-or-to-monitor-right = [];
-
     "Mod+Comma".action.consume-window-into-column = [];
     "Mod+Period".action.expel-window-from-column = [];
-
     "Mod+Control+l".action.set-column-width = "+10%";
     "Mod+Control+h".action.set-column-width = "-10%";
     "Mod+Control+k".action.set-window-height = "+10%";
     "Mod+Control+j".action.set-window-height = "-10%";
-
     "Mod+f".action.maximize-column = [];
     "Mod+Shift+f".action.maximize-window-to-edges = [];
     "Mod+Escape".action.quit = [];
-
     "Mod+1".action.focus-workspace = 1;
     "Mod+2".action.focus-workspace = 2;
     "Mod+3".action.focus-workspace = 3;
@@ -46,7 +38,6 @@
     "Mod+7".action.focus-workspace = 7;
     "Mod+8".action.focus-workspace = 8;
     "Mod+9".action.focus-workspace = 9;
-
     "Mod+Shift+1".action.move-window-to-workspace = 1;
     "Mod+Shift+2".action.move-window-to-workspace = 2;
     "Mod+Shift+3".action.move-window-to-workspace = 3;
@@ -74,7 +65,15 @@ in {
       lib,
       pkgs,
       ...
-    }: {
+    }: let
+      c = config.features.compositors;
+      termSpawn = [c.terminal.command];
+      termExec = cmd:
+        [c.terminal.command]
+        ++ lib.optional (c.terminal.execFlag != "") c.terminal.execFlag
+        ++ [cmd];
+      r = c.borders.radius * 1.0;
+    in {
       imports = [
         inputs.niri.homeModules.niri
       ];
@@ -83,12 +82,10 @@ in {
         extraBinds = lib.mkOption {
           type = lib.types.attrsOf lib.types.attrs;
           default = {};
-          description = "Extra keybinds to add to the niri config.";
         };
         autoStart = lib.mkOption {
           type = lib.types.listOf lib.types.str;
           default = [];
-          description = "Commands to run at startup.";
         };
         input.touchpad.enable = lib.mkEnableOption "touchpad input and gestures";
       };
@@ -166,7 +163,7 @@ in {
               ++ map (cmd: {sh = cmd;}) config.features.compositors.niri.autoStart;
 
             outputs = lib.mkDefault (
-              if config.features.compositors.monitors != null
+              if c.monitors != null
               then
                 lib.mapAttrs (_: m: {
                   scale = m.scale;
@@ -181,16 +178,16 @@ in {
                     y = m.position.y;
                   };
                 })
-                config.features.compositors.monitors
+                c.monitors
               else {}
             );
 
             layout = {
-              gaps = lib.mkDefault 8;
+              gaps = lib.mkDefault c.gaps.inner;
               border = {
                 enable = lib.mkDefault true;
-                width = lib.mkDefault 2;
-                active.color = "#50C878";
+                width = lib.mkDefault c.borders.width;
+                active.color = c.colors.active;
               };
               focus-ring.enable = false;
               shadow.enable = true;
@@ -205,30 +202,26 @@ in {
             window-rules = [
               {
                 geometry-corner-radius = {
-                  top-left = 16.0;
-                  top-right = 16.0;
-                  bottom-left = 16.0;
-                  bottom-right = 16.0;
+                  top-left = r;
+                  top-right = r;
+                  bottom-left = r;
+                  bottom-right = r;
                 };
                 clip-to-geometry = true;
                 draw-border-with-background = false;
               }
-
               {
                 matches = [{is-focused = false;}];
-                opacity = 0.9;
+                opacity = c.opacity.unfocused;
               }
-
               {
                 matches = [{is-focused = true;}];
-                opacity = 0.95;
+                opacity = c.opacity.focused;
               }
-
               {
                 matches = [{app-id = "^com\\.mitchellh\\.ghostty$";}];
                 default-column-width.proportion = 0.5;
               }
-
               {
                 matches = [
                   {
@@ -236,15 +229,11 @@ in {
                     is-focused = true;
                   }
                 ];
-                opacity = 0.95;
+                opacity = c.opacity.focused;
                 default-column-width.proportion = 0.5;
               }
-
               {
-                matches = [
-                  {app-id = "^com\\.brave\\.Browser$";}
-                  {app-id = "^brave-browser$";}
-                ];
+                matches = [{app-id = "^com\\.brave\\.Browser$";} {app-id = "^brave-browser$";}];
                 opacity = 1.0;
               }
             ];
@@ -252,7 +241,7 @@ in {
             overview.workspace-shadow.enable = false;
 
             input = {
-              keyboard.xkb.layout = lib.mkDefault "de";
+              keyboard.xkb.layout = lib.mkDefault c.keyboard.layout;
               focus-follows-mouse.enable = lib.mkDefault true;
               touchpad = {
                 natural-scroll = lib.mkDefault true;
@@ -263,11 +252,18 @@ in {
               };
             };
 
-            binds = defaultBinds // mouseBinds // config.features.compositors.niri.extraBinds;
+            binds =
+              staticBinds
+              // mouseBinds
+              // {
+                "Mod+Return".action.spawn = termSpawn;
+                "Mod+e".action.spawn = termExec "yazi";
+              }
+              // config.features.compositors.niri.extraBinds;
 
             cursor = {
               theme = lib.mkDefault "Nordzy-cursors";
-              size = lib.mkDefault 24;
+              size = lib.mkDefault c.cursor.size;
               hide-on-key-press = lib.mkDefault true;
               hide-after-inactive-ms = lib.mkDefault 3000;
             };

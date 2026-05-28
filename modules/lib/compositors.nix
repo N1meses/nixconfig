@@ -1,89 +1,133 @@
-{...}: let
-in {
+{...}: {
   flake.modules.homeManager.compositors = {
     lib,
     pkgs,
     ...
   }: {
-    options.features.compositors.monitors = lib.mkOption {
-      type = lib.types.nullOr (
-        lib.types.attrsOf (
-          lib.types.submodule {
-            options = {
-              enable = lib.mkEnableOption "this monitor";
-
-              resolution = {
-                width = lib.mkOption {
-                  type = lib.types.int;
-                  description = "Monitor width in pixels";
-                  example = 2880;
+    options.features.compositors = {
+      monitors = lib.mkOption {
+        type = lib.types.nullOr (
+          lib.types.attrsOf (
+            lib.types.submodule {
+              options = {
+                enable = lib.mkEnableOption "this monitor";
+                resolution = {
+                  width = lib.mkOption {
+                    type = lib.types.int;
+                    example = 2880;
+                  };
+                  height = lib.mkOption {
+                    type = lib.types.int;
+                    example = 1920;
+                  };
                 };
-                height = lib.mkOption {
-                  type = lib.types.int;
-                  description = "Monitor height in pixels";
-                  example = 1920;
+                refreshRate = lib.mkOption {
+                  type = lib.types.float;
+                  default = 60.0;
                 };
-              };
-
-              refreshRate = lib.mkOption {
-                type = lib.types.float;
-                description = "Monitor refresh rate in Hz";
-                example = 120.0;
-                default = 60.0;
-              };
-
-              scale = lib.mkOption {
-                type = lib.types.float;
-                description = "Display scaling factor";
-                default = 1.0;
-                example = 1.6;
-              };
-
-              position = {
-                x = lib.mkOption {
-                  type = lib.types.int;
-                  default = 0;
-                  description = "X position in the layout";
+                scale = lib.mkOption {
+                  type = lib.types.float;
+                  default = 1.0;
                 };
-                y = lib.mkOption {
-                  type = lib.types.int;
-                  default = 0;
-                  description = "Y position in the layout";
+                position = {
+                  x = lib.mkOption {
+                    type = lib.types.int;
+                    default = 0;
+                  };
+                  y = lib.mkOption {
+                    type = lib.types.int;
+                    default = 0;
+                  };
                 };
+                transform = lib.mkOption {
+                  type = lib.types.enum ["0" "90" "180" "270" "flipped" "flipped-90" "flipped-180" "flipped-270"];
+                  default = "0";
+                };
+                vrr.enable = lib.mkEnableOption "variable refresh rate";
+                primary = lib.mkEnableOption "this monitor as primary";
               };
+            }
+          )
+        );
+        default = null;
+      };
 
-              transform = lib.mkOption {
-                type = lib.types.enum [
-                  "0"
-                  "90"
-                  "180"
-                  "270"
-                  "flipped"
-                  "flipped-90"
-                  "flipped-180"
-                  "flipped-270"
-                ];
-                default = "0";
-                description = "Monitor rotation/transform";
-              };
+      terminal = {
+        command = lib.mkOption {
+          type = lib.types.str;
+          default = "ghostty";
+        };
+        execFlag = lib.mkOption {
+          type = lib.types.str;
+          default = "-e";
+          description = "Flag to exec a command in the terminal, empty string if not needed (e.g. foot).";
+        };
+        classFlag = lib.mkOption {
+          type = lib.types.str;
+          default = "--class";
+          description = "Flag to set window class / app-id.";
+        };
+      };
 
-              vrr.enable = lib.mkEnableOption "variable refresh rate";
-              primary = lib.mkEnableOption "this monitor as primary";
-            };
-          }
-        )
-      );
-      default = null;
-      example = {
-        "eDP-1" = {
-          resolution = {
-            width = 2880;
-            height = 1920;
-          };
-          transform = "0";
-          scale = 1.6;
-          vrr.enable = true;
-          refreshRate = 120.0;
+      colors = {
+        active = lib.mkOption {
+          type = lib.types.str;
+          default = "#50C878";
+        };
+        inactive = lib.mkOption {
+          type = lib.types.str;
+          default = "#595959";
+        };
+        background = lib.mkOption {
+          type = lib.types.str;
+          default = "#201b14";
+        };
+      };
+
+      borders = {
+        width = lib.mkOption {
+          type = lib.types.int;
+          default = 2;
+        };
+        radius = lib.mkOption {
+          type = lib.types.number;
+          default = 16;
+        };
+      };
+
+      opacity = {
+        focused = lib.mkOption {
+          type = lib.types.float;
+          default = 0.95;
+        };
+        unfocused = lib.mkOption {
+          type = lib.types.float;
+          default = 0.9;
+        };
+      };
+
+      gaps = {
+        inner = lib.mkOption {
+          type = lib.types.int;
+          default = 8;
+        };
+        outer = lib.mkOption {
+          type = lib.types.int;
+          default = 8;
+        };
+      };
+
+      cursor = {
+        size = lib.mkOption {
+          type = lib.types.int;
+          default = 24;
+        };
+      };
+
+      keyboard = {
+        layout = lib.mkOption {
+          type = lib.types.str;
+          default = "de";
         };
       };
     };

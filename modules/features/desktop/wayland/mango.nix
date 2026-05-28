@@ -14,6 +14,17 @@
       ...
     }: let
       cfg = config.features.compositors.mango;
+      c = config.features.compositors;
+      toMango = hex: "0x${lib.removePrefix "#" hex}ff";
+      scratchpadId = "${c.terminal.command}-scratchpad";
+      termExec = cmd:
+        "${c.terminal.command}"
+        + lib.optionalString (c.terminal.execFlag != "") " ${c.terminal.execFlag}"
+        + " ${cmd}";
+      termClass = cls: cmd:
+        "${c.terminal.command} ${c.terminal.classFlag}=${cls}"
+        + lib.optionalString (c.terminal.execFlag != "") " ${c.terminal.execFlag}"
+        + " ${cmd}";
     in {
       imports = [
         inputs.mango.hmModules.mango
@@ -23,12 +34,10 @@
         extraBinds = lib.mkOption {
           type = lib.types.listOf lib.types.str;
           default = [];
-          description = "Extra keybinds to add to the niri config.";
         };
         autoStart = lib.mkOption {
           type = lib.types.lines;
-          default = '''';
-          description = "Commands to run at startup.";
+          default = "";
         };
       };
 
@@ -67,7 +76,7 @@
             + cfg.autoStart;
 
           settings = {
-            monitorrule = lib.optionals (config.features.compositors.monitors != null) (
+            monitorrule = lib.optionals (c.monitors != null) (
               lib.mapAttrsToList (
                 name: m: "name:^${name}$,width:${toString m.resolution.width},height:${toString m.resolution.height},refresh:${toString m.refreshRate},x:${toString m.position.x},y:${toString m.position.y},scale:${toString m.scale},vrr:${
                   if m.vrr.enable
@@ -75,30 +84,28 @@
                   else "0"
                 }"
               )
-              config.features.compositors.monitors
+              c.monitors
             );
-            focused_opacity = 0.95;
-            unfocused_opacity = 0.9;
-            border_radius = 16;
-            gappih = 8;
-            gappiv = 8;
-            gappoh = 8;
-            gappov = 8;
-            borderpx = 2;
 
-            rootcolor = "0x201b14ff";
-            bordercolor = "0x595959ff";
-            focuscolor = "0x50C878ff";
-            maximizescreencolor = "0x50C878ff";
+            focused_opacity = c.opacity.focused;
+            unfocused_opacity = c.opacity.unfocused;
+            border_radius = c.borders.radius;
+            gappih = c.gaps.inner;
+            gappiv = c.gaps.inner;
+            gappoh = c.gaps.outer;
+            gappov = c.gaps.outer;
+            borderpx = c.borders.width;
+            rootcolor = toMango c.colors.background;
+            bordercolor = toMango c.colors.inactive;
+            focuscolor = toMango c.colors.active;
+            maximizescreencolor = toMango c.colors.active;
             urgentcolor = "0xff0000ff";
             blur = 1;
             blur_optimized = 1;
-
             animations = 1;
             layer_animations = 1;
             animation_type_open = "zoom";
             animation_type_close = "zoom";
-
             new_is_master = 0;
             default_mfact = 0.495;
             default_nmaster = 1;
@@ -113,17 +120,15 @@
             enable_hotarea = 0;
             circle_layout = "scroller,dwindle";
             drag_tile_to_tile = 1;
-
             focus_on_activate = 1;
             sloppyfocus = 1;
             warpcursor = 1;
             focus_cross_monitor = 1;
             exchange_cross_monitor = 1;
             focus_cross_tag = 0;
-            cursor_size = 24;
+            cursor_size = c.cursor.size;
             cursor_hide_timeout = 3;
-
-            xkb_rules_layout = "de";
+            xkb_rules_layout = c.keyboard.layout;
             numlockon = 1;
             tap_to_click = 1;
             tap_and_drag = 1;
@@ -132,20 +137,16 @@
             disable_while_typing = 1;
             repeat_rate = 30;
             xwayland_persistence = 1;
-
             scratchpad_width_ratio = 0.8;
             scratchpad_height_ratio = 0.8;
 
             windowrule = [
               "focused_opacity:1.0,unfocused_opacity:1.0,appid:com.brave.Browser"
               "focused_opacity:1.0,unfocused_opacity:1.0,appid:brave-browser"
-
               "isfloating:1,title:Picture-in-Picture"
               "isglobal:1,title:Picture-in-Picture"
               "width:640,height:360,title:Picture-in-Picture"
-
-              "isnamedscratchpad:1,width:2400,height:1500,appid:io.ghostty.scratchpad"
-
+              "isnamedscratchpad:1,width:2400,height:1500,appid:${scratchpadId}"
               "scroller_proportion:0.5,appid:com.mitchellh.ghostty"
             ];
 
@@ -168,8 +169,7 @@
 
             bind =
               [
-                "SUPER,Return,spawn,ghostty"
-
+                "SUPER,Return,spawn,${c.terminal.command}"
                 "SUPER,Escape,quit"
                 "SUPER,q,killclient"
                 "SUPER,h,focusdir,left"
@@ -180,22 +180,18 @@
                 "SUPER+SHIFT,j,exchange_client,down"
                 "SUPER+SHIFT,k,exchange_client,up"
                 "SUPER+SHIFT,l,exchange_client,right"
-
                 "SUPER+CTRL,h,resizewin,-50,+0"
                 "SUPER+CTRL,j,resizewin,+0,+50"
                 "SUPER+CTRL,k,resizewin,+0,-50"
                 "SUPER+CTRL,l,resizewin,+50,+0"
                 "SUPER+SHIFT,f,togglefullscreen"
                 "SUPER,f,togglemaximizescreen"
-
                 "SUPER,v,togglefloating"
                 "SUPER,c,centerwin"
                 "SUPER,o,toggleoverview"
                 "SUPER,s,switch_layout"
-
                 "SUPER,i,minimized"
                 "SUPER+SHIFT,i,restore_minimized"
-
                 "SUPER,1,view,1"
                 "SUPER,2,view,2"
                 "SUPER,3,view,3"
@@ -205,7 +201,6 @@
                 "SUPER,7,view,7"
                 "SUPER,8,view,8"
                 "SUPER,9,view,9"
-
                 "SUPER+SHIFT,1,tag,1"
                 "SUPER+SHIFT,2,tag,2"
                 "SUPER+SHIFT,3,tag,3"
@@ -215,8 +210,7 @@
                 "SUPER+SHIFT,7,tag,7"
                 "SUPER+SHIFT,8,tag,8"
                 "SUPER+SHIFT,9,tag,9"
-
-                "SUPER,e,toggle_named_scratchpad,io.ghostty.scratchpad,none,ghostty --class=io.ghostty.scratchpad -e yazi"
+                "SUPER,e,toggle_named_scratchpad,${scratchpadId},none,${termClass scratchpadId "yazi"}"
               ]
               ++ cfg.extraBinds;
 

@@ -1,5 +1,11 @@
 {...}: {
-  flake.modules.homeManager.ghostty = {...}: {
+  flake.modules.homeManager.ghostty = {lib, ...}: {
+    features.compositors.terminal = lib.mkDefault {
+      command = "ghostty";
+      execFlag = "-e";
+      classFlag = "--class";
+    };
+
     programs.ghostty = {
       enable = true;
       settings = {
