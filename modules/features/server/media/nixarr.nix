@@ -35,7 +35,8 @@
         extraConfig = {
           BitTorrent = {
             "Session\\GlobalMaxRatio" = 0;
-            "Session\\MaxRatioAction" = 1;
+            "Session\\GlobalMaxRatioLimited" = true;
+            "Session\\ShareLimitAction" = "Stop";
             "Session\\GlobalUploadSpeedLimit" = 102400;
             "Session\\GlobalUTPRateLimited" = true;
             "Session\\MaxConnections" = 3000;
@@ -62,6 +63,7 @@
     users.users.readarr.extraGroups = ["media"];
     users.users.sonarr.extraGroups = ["media"];
     users.users.qbittorrent.extraGroups = ["media"];
+    systemd.services.qbittorrent.serviceConfig.UMask = "0002";
     users.users.readarr = {
       isSystemUser = true;
       group = "readarr";
