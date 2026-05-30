@@ -23,7 +23,6 @@ in {
         base
         shell
         desktop
-        gaming
         tailscale
         laptop
         niri
