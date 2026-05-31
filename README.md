@@ -10,15 +10,17 @@ nixconfig/
 ├── modules/
 │   ├── features/          # All feature modules (desktop, dev, server, shell, etc.)
 │   │   ├── base/          # Core NixOS + HM base config
-│   │   ├── desktop/       # Compositors, apps, services, noctalia
+│   │   ├── desktop/       # Compositors, apps, bar, services, noctalia, tools
 │   │   ├── dev/           # Editors, tools, languages
 │   │   ├── profiles/      # Host profiles (gaming, laptop, performance, virtualisation)
-│   │   ├── server/        # Server services (nginx, forgejo, jellyfin, etc.)
+│   │   ├── server/        # Server services — media/, security/, share/, vpn/
 │   │   └── shell/         # zsh, starship, ssh, shell tools
 │   ├── hosts/             # Per-host configurations
 │   │   ├── nimeses/       # Desktop laptop
-│   │   ├── prometheus/    # Desktop PC
-│   │   └── hephaistos/    # Server
+│   │   ├── prometheus/    # Desktop PC (NVIDIA)
+│   │   ├── hephaistos/    # Server — Tailscale-only (vaultwarden, croc)
+│   │   ├── athena/        # Server — public (nimeses.com, full stack)
+│   │   └── hermes/        # Minimal desktop / kiosk
 │   ├── lib/               # Registry + configuration options
 │   └── meta/              # Flake-parts wiring, nixpkgs, users, overlays
 └── modules/MODULES.md     # Full module reference
@@ -81,7 +83,7 @@ Create `modules/hosts/<hostname>/<hostname>.nix` — use an existing host as ref
 nixos-install --flake .#<hostname>  --option "--experimental-features" "nix-command flakes"
 ```
 
-or when rebuilding the first time after a grafical install 
+or when rebuilding the first time after a graphical install 
 
 ```bash
 sudo nixos-rebuild switch --flake .#<hostname> --option "extra-experimental-features" "nix-command flakes"
@@ -106,9 +108,8 @@ sudo nixos-rebuild switch --flake .#<hostname> --option "extra-experimental-feat
 ### Rebuild
 
 ```bash
-nh os switch              # rebuild + switch current host
+nh os switch              # rebuild + switch current host (NixOS + HM)
 nh os switch --flake .#<hostname>   # specific host
-nh home switch            # rebuild home-manager
 ```
 
 ### Maintenance
@@ -126,6 +127,18 @@ nh clean all              # remove old generations
 nix flake show            # list all flake outputs
 nix repl .                # open repl with flake loaded
 ```
+
+---
+
+## Hosts
+
+| Host | Role | Domain |
+|------|------|--------|
+| `nimeses` | Desktop laptop | — |
+| `prometheus` | Desktop PC (NVIDIA) | — |
+| `hephaistos` | Server — Tailscale-only | hephaistos.tail4109e2.ts.net |
+| `athena` | Server — full public stack | nimeses.com |
+| `hermes` | Minimal desktop / kiosk | — |
 
 ---
 
