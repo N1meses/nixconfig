@@ -95,28 +95,23 @@ in {
         niri.extraBinds = {
           "F10".action.spawn = mkNoctaliaNiri "volume increase";
           "F9".action.spawn = mkNoctaliaNiri "volume decrease";
-          "F5".action.spawn = mkNoctaliaNiri "volume muteOutput";
+          "F5".action.spawn = mkNoctaliaNiri "volume-mute";
 
-          "F7".action.spawn = mkNoctaliaNiri "media playPause";
+          "F7".action.spawn = mkNoctaliaNiri "media toggel";
           "F8".action.spawn = mkNoctaliaNiri "media next";
           "F6".action.spawn = mkNoctaliaNiri "media previous";
 
           "Mod+Shift+q".action.spawn = mkNoctaliaNiri "lockScreen lock";
           "Mod+n".action.spawn = mkNoctaliaNiri "launcher toggle";
           "Mod+b".action.spawn = mkNoctaliaNiri "bar toggle";
-
-          "F12".action.spawn = ["sh" "-c" "grim - | wl-copy"];
-          "Shift+F12".action.spawn = ["sh" "-c" "grim ~/pictures/screenshot-$(date +%Y%m%d-%H%M%S).png"];
-          "Mod+F12".action.spawn = ["sh" "-c" "grim -g \"$(slurp)\" - | wl-copy"];
-          "Mod+Shift+F12".action.spawn = ["sh" "-c" "grim -g \"$(slurp)\" ~/pictures/screenshot-$(date +%Y%m%d-%H%M%S).png"];
         };
 
         mango.extraBinds = [
           "NONE, F10, ${mkNoctaliaMango "volume increase"}"
           "NONE, F9, ${mkNoctaliaMango "volume decrease"}"
-          "NONE, F5, ${mkNoctaliaMango "volume muteOutput"}"
+          "NONE, F5, ${mkNoctaliaMango "volume-mute"}"
 
-          "NONE, F7, ${mkNoctaliaMango "media playPause"}"
+          "NONE, F7, ${mkNoctaliaMango "media toggel"}"
           "NONE, F8, ${mkNoctaliaMango "media next"}"
           "NONE, F6, ${mkNoctaliaMango "media previous"}"
 
@@ -128,20 +123,15 @@ in {
         hyprland.extraBinds = [
           ", F10, ${mkNoctaliaHypr "volume increase"}"
           ", F9, ${mkNoctaliaHypr "volume decrease"}"
-          ", F5, ${mkNoctaliaHypr "volume muteOutput"}"
+          ", F5, ${mkNoctaliaHypr "volume-mute"}"
 
-          ", F7, ${mkNoctaliaHypr "media playPause"}"
+          ", F7, ${mkNoctaliaHypr "media toggel"}"
           ", F8, ${mkNoctaliaHypr "media next"}"
           ", F6, ${mkNoctaliaHypr "media previous"}"
 
-          "SUPERSHIFT, Q, ${mkNoctaliaHypr "lockScreen lock"}"
-          "SUPER, N, ${mkNoctaliaHypr "launcher toggle"}"
-          "SUPER, B, ${mkNoctaliaHypr "bar toggle"}"
-
-          ",F12, exec, grim - | wl-copy"
-          "SHIFT, F12, exec, grim ~/pictures/screenshot-$(date +%Y%m%d-%H%M%S).png"
-          "SUPER, F12, exec, grim -g \"$(slurp)\" - | wl-copy"
-          "SUPERSHIFT, F12, exec, grim -g \"$(slurp)\" ~/pictures/screenshot-$(date +%Y%m%d-%H%M%S).png"
+          "SUPERSHIFT, Q, ${mkNoctaliaHypr "session lock"}"
+          "SUPER, N, ${mkNoctaliaHypr "panel-toggel launcher"}"
+          "SUPER, B, ${mkNoctaliaHypr "bar-toggle"}"
         ];
       };
     };

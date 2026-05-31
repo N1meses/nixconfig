@@ -14,32 +14,20 @@ in {
     ...
   }: let
     flakeRoot = inputs.self;
-    jsonSettings = builtins.fromJSON (builtins.readFile ./noctaliaSettings.json);
+    jsonSettings = fromTOML (builtins.readFile ./noctalia-config.toml);
   in {
     config = lib.mkMerge [
       {
-        programs.noctalia-shell.settings = mkDefaults jsonSettings;
+        programs.noctalia.settings = mkDefaults jsonSettings;
       }
       {
-        programs.noctalia-shell.settings = {
-          general.avatarImage = "${flakeRoot}/assets/icons/hunter.jpeg";
-
-          bar.widgets.left = [
-            {
-              customIconPath = "${flakeRoot}/assets/icons/nixos.png";
-              icon = "NixOS";
-              id = "ControlCenter";
-              useDistroLogo = false;
-            }
-            {id = "Tray";}
-            {id = "plugin:simple-notes";}
-            {id = "plugin:todo";}
-            {id = "TaskbarGrouped";}
-          ];
-
-          screenRecorder.directory = config.xdg.userDirs.videos;
-          wallpaper.defaultWallpaper = "${config.xdg.userDirs.pictures}/Wallpapers/wallhaven_6oeexx.jpg";
+        programs.noctalia.settings = {
+          shell.avatar_path = "${flakeRoot}/assets/icons/hunter.jpeg";
           wallpaper.directory = "${config.xdg.userDirs.pictures}/Wallpapers";
+
+          widget.control-center = {
+            custom_image = "${flakeRoot}/assets/icons/nixos.png";
+          };
         };
       }
     ];
