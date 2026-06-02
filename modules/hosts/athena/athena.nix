@@ -86,6 +86,7 @@
       nvd
       nix-tree
       tldr
+      ani-cli
     ];
   };
 }
