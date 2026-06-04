@@ -47,7 +47,7 @@ order = [ "default" ]
         [[bar.default.capsule_group]]
         fill = "surface_variant"
         id = "g1"
-        members = [ "sysmon", "cpu", "ram" ]
+        members = [ "sysmon", "cpu", "ram", "network_rx", "network_tx" ]
         opacity = 1.0
         padding = 6.0
 
@@ -414,10 +414,12 @@ type = "media"
 show_label = false
 
 [widget.network_rx]
+show_label = false
 stat = "net_rx"
 type = "sysmon"
 
 [widget.network_tx]
+show_label = false
 stat = "net_tx"
 type = "sysmon"
 
@@ -441,7 +443,7 @@ show_label = false
 
 [widget.taskbar]
 group_by_workspace = true
-hide_empty_workspaces = true
+hide_empty_workspaces = false
 scale = 1.1000000000000001
 type = "taskbar"
 
