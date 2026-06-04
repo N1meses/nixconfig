@@ -60,6 +60,12 @@
       network
     ];
 
+    programs.git.settings.user = {
+      name = "N1meses";
+      email = "nilshasenthal@gmail.com";
+    };
+
+
     home.packages = with pkgs; [
       trash-cli
       nom
