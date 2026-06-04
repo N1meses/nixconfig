@@ -36,7 +36,7 @@
       age.keyFile = "/root/.config/sops/age/keys.txt";
     };
 
-    boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-server;
+    boot.kernelPackages = pkgs.linuxPackages_latest;
 
     environment.systemPackages = with pkgs; [
       ntfs3g
