@@ -30,7 +30,7 @@
 
       systemd.services.tailscale-cert-copy = lib.mkIf cfg.tls {
         description = "Fetch Tailscale TLS cert for nginx";
-        after = ["tailscaled.service" "network-online.target"];
+        after = ["tailscaled.service" "network-online.target" "sys-subsystem-net-devices-tailscale0.device"];
         wants = ["network-online.target"];
         wantedBy = ["nginx.service"];
         before = ["nginx.service"];
