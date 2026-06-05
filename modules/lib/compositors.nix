@@ -98,7 +98,7 @@
       opacity = {
         focused = lib.mkOption {
           type = lib.types.float;
-          default = 0.95;
+          default = 0.9;
         };
         unfocused = lib.mkOption {
           type = lib.types.float;

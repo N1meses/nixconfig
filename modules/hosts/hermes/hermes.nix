@@ -73,7 +73,7 @@
     features.compositors = {
       wallpaper.image = ../../../assets/icons/wallpaper.jpg;
       niri.extraBinds = {
-        "Mod+n".action.spawn = "fuzzel";
+        "Mod+n" = {spawn = "fuzzel";};
       };
     };
 

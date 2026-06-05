@@ -75,6 +75,8 @@ in {
       email = "nilshasenthal@gmail.com";
     };
 
+    programs.noctalia.settings.bar.default.position = "top";
+
     features = {
       compositors = {
         monitors."HDMI-A-1" = {
@@ -93,17 +95,17 @@ in {
         };
 
         niri.extraBinds = {
-          "F10".action.spawn = mkNoctaliaNiri "volume increase";
-          "F9".action.spawn = mkNoctaliaNiri "volume decrease";
-          "F5".action.spawn = mkNoctaliaNiri "volume-mute";
+          "F10" = {spawn = mkNoctaliaNiri "volume increase";};
+          "F9" = {spawn = mkNoctaliaNiri "volume decrease";};
+          "F5" = {spawn = mkNoctaliaNiri "volume-mute";};
 
-          "F7".action.spawn = mkNoctaliaNiri "media toggel";
-          "F8".action.spawn = mkNoctaliaNiri "media next";
-          "F6".action.spawn = mkNoctaliaNiri "media previous";
+          "F7" = {spawn = mkNoctaliaNiri "media toggel";};
+          "F8" = {spawn = mkNoctaliaNiri "media next";};
+          "F6" = {spawn = mkNoctaliaNiri "media previous";};
 
-          "Mod+Shift+q".action.spawn = mkNoctaliaNiri "lockScreen lock";
-          "Mod+n".action.spawn = mkNoctaliaNiri "launcher toggle";
-          "Mod+b".action.spawn = mkNoctaliaNiri "bar toggle";
+          "Mod+Shift+q" = {spawn = mkNoctaliaNiri "lockScreen lock";};
+          "Mod+n" = {spawn = mkNoctaliaNiri "launcher toggle";};
+          "Mod+b" = {spawn = mkNoctaliaNiri "bar toggle";};
         };
 
         mango.extraBinds = [
@@ -135,8 +137,6 @@ in {
         ];
       };
     };
-
-    programs.noctalia-shell.settings.bar.position = "top";
 
     home.sessionVariables = {
       GDK_SCALE = "1";

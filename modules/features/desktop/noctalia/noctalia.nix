@@ -32,15 +32,14 @@ in {
           flakeConfig.flake.modules.homeManager.noctaliaSettings
         ];
 
-        programs.niri.settings = {
-          spawn-at-startup = [{argv = ["noctalia"];}];
-          layer-rules = [
-            {
-              matches = [{namespace = "^noctalia-wallpaper.*";}];
-              place-within-backdrop = true;
-            }
-          ];
-        };
+        features.compositors.niri.autoStart = ["noctalia"];
+
+        wayland.windowManager.niri.settings.layer-rule = [
+          {
+            match._props.namespace._raw = ''r#"^noctalia-wallpaper.*"#'';
+            place-within-backdrop = true;
+          }
+        ];
         wayland.windowManager.hyprland.settings.exec-once = ["noctalia"];
 
         features.compositors.mango.autoStart = ''

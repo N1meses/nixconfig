@@ -75,22 +75,20 @@ in {
           };
         };
 
-        niri.input.touchpad.enable = true;
-
         niri.extraBinds = {
-          "XF86AudioRaiseVolume".action.spawn = mkNoctaliaNiri "volume-up";
-          "XF86AudioLowerVolume".action.spawn = mkNoctaliaNiri "volume-down";
-          "XF86AudioMute".action.spawn = mkNoctaliaNiri "volume-mute";
-          "XF86MonBrightnessUp".action.spawn = mkNoctaliaNiri "brightness-up";
-          "XF86MonBrightnessDown".action.spawn = mkNoctaliaNiri "brightness-down";
+          "XF86AudioRaiseVolume" = {spawn = mkNoctaliaNiri "volume-up";};
+          "XF86AudioLowerVolume" = {spawn = mkNoctaliaNiri "volume-down";};
+          "XF86AudioMute" = {spawn = mkNoctaliaNiri "volume-mute";};
+          "XF86MonBrightnessUp" = {spawn = mkNoctaliaNiri "brightness-up";};
+          "XF86MonBrightnessDown" = {spawn = mkNoctaliaNiri "brightness-down";};
 
-          "XF86AudioPlay".action.spawn = mkNoctaliaNiri "media toggel";
-          "XF86AudioNext".action.spawn = mkNoctaliaNiri "media next";
-          "XF86AudioPrev".action.spawn = mkNoctaliaNiri "media previous";
+          "XF86AudioPlay" = {spawn = mkNoctaliaNiri "media toggel";};
+          "XF86AudioNext" = {spawn = mkNoctaliaNiri "media next";};
+          "XF86AudioPrev" = {spawn = mkNoctaliaNiri "media previous";};
 
-          "Mod+Shift+q".action.spawn = mkNoctaliaNiri "session lock";
-          "Mod+n".action.spawn = mkNoctaliaNiri "panel-toggle launcher";
-          "Mod+b".action.spawn = mkNoctaliaNiri "bar-toggle";
+          "Mod+Shift+q" = {spawn = mkNoctaliaNiri "session lock";};
+          "Mod+n" = {spawn = mkNoctaliaNiri "panel-toggle launcher";};
+          "Mod+b" = {spawn = mkNoctaliaNiri "bar-toggle";};
         };
 
         #        hyprland.extraBinds = [

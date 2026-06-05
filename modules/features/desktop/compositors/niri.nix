@@ -1,64 +1,70 @@
 {inputs, ...}: let
   mouseBinds = {
-    "Mod+WheelScrollDown".action.focus-column-right = [];
-    "Mod+WheelScrollUp".action.focus-column-left = [];
-    "Mod+Ctrl+WheelScrollDown".action.focus-workspace-down = [];
-    "Mod+Ctrl+WheelScrollUp".action.focus-workspace-up = [];
-    "Mod+Shift+WheelScrollDown".action.move-column-right = [];
-    "Mod+Shift+WheelScrollUp".action.move-column-left = [];
-    "Mod+MouseMiddle".action.toggle-overview = [];
+    "Mod+WheelScrollDown" = {focus-column-right = [];};
+    "Mod+WheelScrollUp" = {focus-column-left = [];};
+    "Mod+Ctrl+WheelScrollDown" = {focus-workspace-down = [];};
+    "Mod+Ctrl+WheelScrollUp" = {focus-workspace-up = [];};
+    "Mod+Shift+WheelScrollDown" = {move-column-right = [];};
+    "Mod+Shift+WheelScrollUp" = {move-column-left = [];};
+    "Mod+MouseMiddle" = {toggle-overview = [];};
   };
 
   staticBinds = {
-    "Mod+o".action.toggle-overview = [];
-    "Mod+q".action.close-window = [];
-    "Mod+j".action.focus-window-down = [];
-    "Mod+k".action.focus-window-up = [];
-    "Mod+h".action.focus-column-left-or-last = [];
-    "Mod+l".action.focus-column-right-or-first = [];
-    "Mod+Shift+j".action.move-window-down = [];
-    "Mod+Shift+k".action.move-window-up = [];
-    "Mod+Shift+h".action.move-column-left-or-to-monitor-left = [];
-    "Mod+Shift+l".action.move-column-right-or-to-monitor-right = [];
-    "Mod+Comma".action.consume-window-into-column = [];
-    "Mod+Period".action.expel-window-from-column = [];
-    "Mod+Control+l".action.set-column-width = "+10%";
-    "Mod+Control+h".action.set-column-width = "-10%";
-    "Mod+Control+k".action.set-window-height = "+10%";
-    "Mod+Control+j".action.set-window-height = "-10%";
-    "Mod+f".action.maximize-column = [];
-    "Mod+Shift+f".action.maximize-window-to-edges = [];
-    "Mod+Escape".action.quit = [];
-    "Print".action.screenshot = [];
-    "Shift+Print".action.screenshot-screen = [];
-    "Ctrl+Print".action.screenshot-window = [];
-    "Mod+1".action.focus-workspace = 1;
-    "Mod+2".action.focus-workspace = 2;
-    "Mod+3".action.focus-workspace = 3;
-    "Mod+4".action.focus-workspace = 4;
-    "Mod+5".action.focus-workspace = 5;
-    "Mod+6".action.focus-workspace = 6;
-    "Mod+7".action.focus-workspace = 7;
-    "Mod+8".action.focus-workspace = 8;
-    "Mod+9".action.focus-workspace = 9;
-    "Mod+Shift+1".action.move-window-to-workspace = 1;
-    "Mod+Shift+2".action.move-window-to-workspace = 2;
-    "Mod+Shift+3".action.move-window-to-workspace = 3;
-    "Mod+Shift+4".action.move-window-to-workspace = 4;
-    "Mod+Shift+5".action.move-window-to-workspace = 5;
-    "Mod+Shift+6".action.move-window-to-workspace = 6;
-    "Mod+Shift+7".action.move-window-to-workspace = 7;
-    "Mod+Shift+8".action.move-window-to-workspace = 8;
-    "Mod+Shift+9".action.move-window-to-workspace = 9;
+    "Mod+o" = {toggle-overview = [];};
+    "Mod+q" = {close-window = [];};
+    "Mod+v" = {toggle-window-floating = [];};
+    "Mod+j" = {focus-window-down = [];};
+    "Mod+k" = {focus-window-up = [];};
+    "Mod+h" = {focus-column-left-or-last = [];};
+    "Mod+l" = {focus-column-right-or-first = [];};
+    "Mod+Shift+j" = {move-window-down = [];};
+    "Mod+Shift+k" = {move-window-up = [];};
+    "Mod+Shift+h" = {move-column-left-or-to-monitor-left = [];};
+    "Mod+Shift+l" = {move-column-right-or-to-monitor-right = [];};
+    "Mod+Comma" = {consume-window-into-column = [];};
+    "Mod+Period" = {expel-window-from-column = [];};
+    "Mod+Control+l" = {set-column-width = "+10%";};
+    "Mod+Control+h" = {set-column-width = "-10%";};
+    "Mod+Control+k" = {set-window-height = "+10%";};
+    "Mod+Control+j" = {set-window-height = "-10%";};
+    "Mod+f" = {maximize-column = [];};
+    "Mod+Shift+f" = {fullscreen-window = [];};
+    "Mod+Escape" = {quit = [];};
+    "Print" = {screenshot = [];};
+    "Shift+Print" = {screenshot-screen = [];};
+    "Ctrl+Print" = {screenshot-window = [];};
+    "Mod+1" = {focus-workspace = 1;};
+    "Mod+2" = {focus-workspace = 2;};
+    "Mod+3" = {focus-workspace = 3;};
+    "Mod+4" = {focus-workspace = 4;};
+    "Mod+5" = {focus-workspace = 5;};
+    "Mod+6" = {focus-workspace = 6;};
+    "Mod+7" = {focus-workspace = 7;};
+    "Mod+8" = {focus-workspace = 8;};
+    "Mod+9" = {focus-workspace = 9;};
+    "Mod+Shift+1" = {move-window-to-workspace = 1;};
+    "Mod+Shift+2" = {move-window-to-workspace = 2;};
+    "Mod+Shift+3" = {move-window-to-workspace = 3;};
+    "Mod+Shift+4" = {move-window-to-workspace = 4;};
+    "Mod+Shift+5" = {move-window-to-workspace = 5;};
+    "Mod+Shift+6" = {move-window-to-workspace = 6;};
+    "Mod+Shift+7" = {move-window-to-workspace = 7;};
+    "Mod+Shift+8" = {move-window-to-workspace = 8;};
+    "Mod+Shift+9" = {move-window-to-workspace = 9;};
   };
 in {
   flake.modules = {
-    nixos.niri = {...}: {
-      programs.niri.enable = true;
+    nixos.niri = {pkgs, ...}: {
+      imports = [inputs.niri-nix.nixosModules.default];
+      programs.niri = {
+        enable = true;
+        package = pkgs.niri-unstable;
+      };
+      nixpkgs.overlays = [inputs.niri-nix.overlays.niri-nix];
       nix.settings = {
-        substituters = ["https://niri.cachix.org"];
+        substituters = ["https://niri-nix.cachix.org"];
         trusted-public-keys = [
-          "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="
+          "niri-nix.cachix.org-1:SvFtqpDcf7Sm1SMJdby1/+Y+6f3Yt3/3PMcSTKPJNJ0="
         ];
       };
     };
@@ -77,9 +83,7 @@ in {
         ++ [cmd];
       r = c.borders.radius * 1.0;
     in {
-      imports = [
-        inputs.niri.homeModules.niri
-      ];
+      imports = [inputs.niri-nix.homeModules.default];
 
       options.features.compositors.niri = {
         extraBinds = lib.mkOption {
@@ -90,57 +94,14 @@ in {
           type = lib.types.listOf lib.types.str;
           default = [];
         };
-        input.touchpad.enable = lib.mkEnableOption "touchpad input and gestures";
       };
 
       config = {
-        systemd.user.services.libinput-gestures = lib.mkIf config.features.compositors.niri.input.touchpad.enable {
-          gestures = {
-            "swipe left 3" = "niri msg action focus-column-left-or-last";
-            "swipe right 3" = "niri msg action focus-column-right-or-first";
-            "swipe up 3" = "niri msg action focus-column-prev";
-            "swipe down 3" = "niri msg action focus-column-next";
-          };
-        };
-
-        xdg.portal = {
-          enable = lib.mkDefault true;
-          extraPortals = with pkgs; [
-            xdg-desktop-portal-gnome
-            xdg-desktop-portal-gtk
-          ];
-          config.niri = {
-            default = ["gnome" "gtk"];
-            "org.freedesktop.impl.portal.ScreenCast" = ["gnome"];
-            "org.freedesktop.impl.portal.Screenshot" = ["gnome"];
-            "org.freedesktop.impl.portal.RemoteDesktop" = ["gnome"];
-            "org.freedesktop.impl.portal.Inhibit" = ["gnome"];
-            "org.freedesktop.impl.portal.Settings" = ["gnome"];
-            "org.freedesktop.impl.portal.DynamicLauncher" = ["gnome"];
-            "org.freedesktop.impl.portal.Wallpaper" = ["gnome"];
-            "org.freedesktop.impl.portal.AppChooser" = ["gtk"];
-            "org.freedesktop.impl.portal.Print" = ["gtk"];
-            "org.freedesktop.impl.portal.Notification" = ["gtk"];
-            "org.freedesktop.impl.portal.Account" = ["gtk"];
-            "org.freedesktop.impl.portal.Background" = ["gtk"];
-            "org.freedesktop.impl.portal.Email" = ["gtk"];
-            "org.freedesktop.impl.portal.OpenURI" = ["gtk"];
-            "org.freedesktop.impl.portal.Secret" = ["gnome-keyring"];
-          };
-        };
-
-        programs.niri = {
+        wayland.windowManager.niri = {
           enable = true;
-          package = lib.mkDefault inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.niri-unstable;
+          package = lib.mkDefault pkgs.niri-unstable;
 
           settings = {
-            animations.enable = lib.mkDefault true;
-
-            xwayland-satellite = {
-              enable = true;
-              path = lib.mkDefault (lib.getExe inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.xwayland-satellite-unstable);
-            };
-
             environment = {
               _JAVA_AWT_WM_NONREPARENTING = "1";
               AWT_TOOLKIT = "MToolkit";
@@ -156,119 +117,132 @@ in {
               NVD_BACKEND = "direct";
             };
 
-            prefer-no-csd = true;
+            prefer-no-csd = [];
 
             spawn-at-startup =
-              [
-                {sh = "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP";}
-              ]
-              ++ lib.optional config.features.compositors.niri.input.touchpad.enable {argv = ["libinput-gestures-start"];}
-              ++ map (cmd: {sh = cmd;}) config.features.compositors.niri.autoStart;
+              map (cmd: {_args = ["sh" "-c" cmd];}) config.features.compositors.niri.autoStart;
 
-            outputs = lib.mkDefault (
+            output = lib.mkDefault (
               if c.monitors != null
               then
-                lib.mapAttrs (_: m: {
-                  scale = m.scale;
-                  variable-refresh-rate = m.vrr.enable;
-                  mode = {
-                    width = m.resolution.width;
-                    height = m.resolution.height;
-                    refresh = m.refreshRate;
-                  };
-                  position = {
-                    x = m.position.x;
-                    y = m.position.y;
-                  };
-                })
+                lib.mapAttrsToList (name: m:
+                  {
+                    _args = [name];
+                    scale = m.scale;
+                    mode = "${toString m.resolution.width}x${toString m.resolution.height}@${toString m.refreshRate}";
+                    position._props = {
+                      x = m.position.x;
+                      y = m.position.y;
+                    };
+                  }
+                  // lib.optionalAttrs m.vrr.enable {variable-refresh-rate = [];})
                 c.monitors
-              else {}
+              else []
             );
 
             layout = {
-              gaps = lib.mkDefault c.gaps.inner;
+              gaps = c.gaps.inner;
               border = {
-                enable = lib.mkDefault true;
-                width = lib.mkDefault c.borders.width;
-                active.color = c.colors.active;
+                width = c.borders.width;
+                active-color = c.colors.active;
               };
-              focus-ring.enable = false;
-              shadow.enable = true;
+              focus-ring.off = [];
+              shadow.on = [];
               background-color = "rgba(107, 229, 91, 0)";
               center-focused-column = "never";
               default-column-display = "normal";
               default-column-width.proportion = 1.0;
             };
 
-            layer-rules = [];
-
-            window-rules = [
+            window-rule = [
               {
-                geometry-corner-radius = {
-                  top-left = r;
-                  top-right = r;
-                  bottom-left = r;
-                  bottom-right = r;
-                };
+                geometry-corner-radius = r;
                 clip-to-geometry = true;
                 draw-border-with-background = false;
+                background-effect = {
+                  xray = true;
+                  blur = true;
+                };
               }
               {
-                matches = [{is-focused = false;}];
+                match._props.is-floating = true;
+                max-width = 1024;
+                max-height = 768;
+              }
+              {
+                match._props.is-focused = false;
                 opacity = c.opacity.unfocused;
               }
               {
-                matches = [{is-focused = true;}];
+                match._props.is-focused = true;
                 opacity = c.opacity.focused;
               }
               {
-                matches = [{app-id = "^com\\.mitchellh\\.ghostty$";}];
+                match._props.app-id = "^com.mitchellh.ghostty$";
                 default-column-width.proportion = 0.5;
               }
               {
-                matches = [
-                  {
-                    app-id = "^com\\.mitchellh\\.ghostty$";
-                    is-focused = true;
-                  }
+                match._props = {
+                  app-id = "^com.mitchellh.ghostty$";
+                  is-focused = true;
+                };
+                opacity = c.opacity.focused;
+                default-column-width.proportion = 0.5;
+              }
+              {
+                match._props = {
+                  app-id = "^com.mitchellh.ghostty$";
+                  title = "^termfilechooser$";
+                };
+                open-floating = true;
+                default-column-width.fixed = 1024;
+                default-window-height.fixed = 768;
+              }
+              {
+                match = [
+                  {_props.app-id = "^com.brave.Browser$";}
+                  {_props.app-id = "^brave-browser$";}
                 ];
-                opacity = c.opacity.focused;
-                default-column-width.proportion = 0.5;
-              }
-              {
-                matches = [{app-id = "^com\\.brave\\.Browser$";} {app-id = "^brave-browser$";}];
                 opacity = 1.0;
               }
             ];
 
-            overview.workspace-shadow.enable = false;
+            blur = {
+              passes = 3;
+              offset = 3.0;
+              noise = 0.02;
+              saturation = 1.5;
+            };
+
+            overview.workspace-shadow.off = [];
 
             input = {
-              keyboard.xkb.layout = lib.mkDefault c.keyboard.layout;
-              focus-follows-mouse.enable = lib.mkDefault true;
+              keyboard.xkb.layout = c.keyboard.layout;
+              focus-follows-mouse._props.max-scroll-amount = "0%";
               touchpad = {
-                natural-scroll = lib.mkDefault true;
-                dwt = lib.mkDefault true;
-                tap = lib.mkDefault true;
-                middle-emulation = true;
-                scroll-factor = lib.mkDefault 1.0;
+                natural-scroll = [];
+                dwt = [];
+                tap = [];
+                middle-emulation = [];
+                scroll-factor = 1.0;
               };
             };
 
+            xwayland-satellite.path = "${pkgs.xwayland-satellite-unstable}/bin/xwayland-satellite";
             binds =
               staticBinds
               // mouseBinds
               // {
-                "Mod+Return".action.spawn = termSpawn;
-                "Mod+e".action.spawn = termExec "yazi";
+                "Mod+Return" = {spawn = termSpawn;};
+                "Mod+e" = {spawn = termExec "yazi";};
               }
               // config.features.compositors.niri.extraBinds;
 
             cursor = {
-              theme = lib.mkDefault "Nordzy-cursors";
-              size = lib.mkDefault c.cursor.size;
-              hide-on-key-press = lib.mkDefault true;
-              hide-after-inactive-ms = lib.mkDefault 3000;
+              xcursor-theme = "Nordzy-cursors";
+              xcursor-size = c.cursor.size;
+              hide-when-typing = [];
+              hide-after-inactive-ms = 3000;
             };
           };
         };
