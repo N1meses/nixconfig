@@ -4,6 +4,7 @@
       command = "ghostty";
       execFlag = "-e";
       classFlag = "--class";
+      appId = "com.mitchellh.ghostty";
     };
 
     programs.ghostty = {

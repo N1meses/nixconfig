@@ -6,10 +6,13 @@
     ...
   }: let
     cfg = config.features.apps.yazi;
+    term = config.features.compositors.terminal;
+    termBin = "${pkgs.${cfg.terminalFilechooser.terminal}}/bin/${cfg.terminalFilechooser.terminal}";
+    execFlag = lib.optionalString (term.execFlag != "") "${term.execFlag} ";
   in {
     options.features.apps.yazi.terminalFilechooser.terminal = lib.mkOption {
       type = lib.types.str;
-      default = "ghostty";
+      default = config.features.compositors.terminal.command;
       description = "Terminal emulator to use for the file chooser.";
     };
 
@@ -61,13 +64,13 @@
           fi
 
           if [ "$save" = "1" ]; then
-            exec ${pkgs.${cfg.terminalFilechooser.terminal}}/bin/${cfg.terminalFilechooser.terminal} --title=termfilechooser -e ${pkgs.yazi}/bin/yazi --chooser-file="$out" "$path"
+            exec ${termBin} --title=termfilechooser ${execFlag}${pkgs.yazi}/bin/yazi --chooser-file="$out" "$path"
           elif [ "$directory" = "1" ]; then
-            exec ${pkgs.${cfg.terminalFilechooser.terminal}}/bin/${cfg.terminalFilechooser.terminal} --title=termfilechooser -e ${pkgs.yazi}/bin/yazi --chooser-file="$out" --cwd-file="$out.1" "$path"
+            exec ${termBin} --title=termfilechooser ${execFlag}${pkgs.yazi}/bin/yazi --chooser-file="$out" --cwd-file="$out.1" "$path"
           elif [ "$multiple" = "1" ]; then
-            exec ${pkgs.${cfg.terminalFilechooser.terminal}}/bin/${cfg.terminalFilechooser.terminal} --title=termfilechooser -e ${pkgs.yazi}/bin/yazi --chooser-file="$out" "$path"
+            exec ${termBin} --title=termfilechooser ${execFlag}${pkgs.yazi}/bin/yazi --chooser-file="$out" "$path"
           else
-            exec ${pkgs.${cfg.terminalFilechooser.terminal}}/bin/${cfg.terminalFilechooser.terminal} --title=termfilechooser -e ${pkgs.yazi}/bin/yazi --chooser-file="$out" "$path"
+            exec ${termBin} --title=termfilechooser ${execFlag}${pkgs.yazi}/bin/yazi --chooser-file="$out" "$path"
           fi
         '';
       };

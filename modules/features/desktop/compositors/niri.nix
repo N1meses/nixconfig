@@ -76,9 +76,10 @@ in {
       ...
     }: let
       c = config.features.compositors;
-      termSpawn = [c.terminal.command];
+      termSpawn = [c.terminal.command] ++ c.terminal.args;
       termExec = cmd:
         [c.terminal.command]
+        ++ c.terminal.args
         ++ lib.optional (c.terminal.execFlag != "") c.terminal.execFlag
         ++ [cmd];
       r = c.borders.radius * 1.0;
@@ -89,10 +90,6 @@ in {
         extraBinds = lib.mkOption {
           type = lib.types.attrsOf lib.types.attrs;
           default = {};
-        };
-        autoStart = lib.mkOption {
-          type = lib.types.listOf lib.types.str;
-          default = [];
         };
       };
 
@@ -120,7 +117,7 @@ in {
             prefer-no-csd = [];
 
             spawn-at-startup =
-              map (cmd: {_args = ["sh" "-c" cmd];}) config.features.compositors.niri.autoStart;
+              map (cmd: {_args = ["sh" "-c" cmd];}) c.autoStart;
 
             output = lib.mkDefault (
               if c.monitors != null
@@ -178,12 +175,12 @@ in {
                 opacity = c.opacity.focused;
               }
               {
-                match._props.app-id = "^com.mitchellh.ghostty$";
+                match._props.app-id = "^${c.terminal.appId}$";
                 default-column-width.proportion = 0.5;
               }
               {
                 match._props = {
-                  app-id = "^com.mitchellh.ghostty$";
+                  app-id = "^${c.terminal.appId}$";
                   is-focused = true;
                 };
                 opacity = c.opacity.focused;
@@ -191,7 +188,7 @@ in {
               }
               {
                 match._props = {
-                  app-id = "^com.mitchellh.ghostty$";
+                  app-id = "^${c.terminal.appId}$";
                   title = "^termfilechooser$";
                 };
                 open-floating = true;

@@ -54,8 +54,9 @@ in {
     }: let
       c = config.features.compositors;
       toHypr = hex: "rgb(${lib.removePrefix "#" hex})";
+      termArgs = lib.optionalString (c.terminal.args != []) " ${lib.concatStringsSep " " c.terminal.args}";
       termExec = cmd:
-        "${c.terminal.command}"
+        "${c.terminal.command}${termArgs}"
         + lib.optionalString (c.terminal.execFlag != "") " ${c.terminal.execFlag}"
         + " ${cmd}";
     in {
@@ -63,10 +64,6 @@ in {
 
       options.features.compositors.hyprland = {
         extraBinds = lib.mkOption {
-          type = lib.types.listOf lib.types.str;
-          default = [];
-        };
-        autoStart = lib.mkOption {
           type = lib.types.listOf lib.types.str;
           default = [];
         };
@@ -125,7 +122,7 @@ in {
                 "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
                 "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
               ]
-              ++ config.features.compositors.hyprland.autoStart;
+              ++ c.autoStart;
 
             general = {
               gaps_in = lib.mkDefault c.gaps.inner;
@@ -210,7 +207,7 @@ in {
               "opacity 0.95 0.9"
               "opacity 1.0 0.9, match:class ^com\\.brave\\.Browser$"
               "opacity 1.0 0.9, match:class ^brave-browser$"
-              "opacity 0.95 0.90, match:class ^com\\.mitchellh\\.ghostty$"
+              "opacity 0.95 0.90, match:class ^${c.terminal.appId}$"
               "match:title ^(Open File)$, float on"
               "match:title ^(Save As)$, float on"
               "match:title ^(Picture-in-Picture)$, float on"
@@ -220,7 +217,7 @@ in {
 
             bind =
               [
-                "SUPER,Return,exec,${c.terminal.command}"
+                "SUPER,Return,exec,${c.terminal.command}${termArgs}"
                 "SUPER,E,exec,${termExec "yazi"}"
               ]
               ++ window_binds

@@ -17,12 +17,13 @@
       c = config.features.compositors;
       toMango = hex: "0x${lib.removePrefix "#" hex}ff";
       scratchpadId = "${c.terminal.command}-scratchpad";
+      termArgs = lib.optionalString (c.terminal.args != []) " ${lib.concatStringsSep " " c.terminal.args}";
       termExec = cmd:
-        "${c.terminal.command}"
+        "${c.terminal.command}${termArgs}"
         + lib.optionalString (c.terminal.execFlag != "") " ${c.terminal.execFlag}"
         + " ${cmd}";
       termClass = cls: cmd:
-        "${c.terminal.command} ${c.terminal.classFlag}=${cls}"
+        "${c.terminal.command}${termArgs} ${c.terminal.classFlag}=${cls}"
         + lib.optionalString (c.terminal.execFlag != "") " ${c.terminal.execFlag}"
         + " ${cmd}";
     in {
@@ -34,10 +35,6 @@
         extraBinds = lib.mkOption {
           type = lib.types.listOf lib.types.str;
           default = [];
-        };
-        autoStart = lib.mkOption {
-          type = lib.types.lines;
-          default = "";
         };
       };
 
@@ -73,7 +70,7 @@
             ''
               ${pkgs.xwayland-satellite}/bin/xwayland-satellite &
             ''
-            + cfg.autoStart;
+            + lib.concatMapStrings (cmd: "${cmd}\n") c.autoStart;
 
           settings = {
             monitorrule = lib.optionals (c.monitors != null) (
@@ -147,7 +144,7 @@
               "isglobal:1,title:Picture-in-Picture"
               "width:640,height:360,title:Picture-in-Picture"
               "isnamedscratchpad:1,width:2400,height:1500,appid:${scratchpadId}"
-              "scroller_proportion:0.5,appid:com.mitchellh.ghostty"
+              "scroller_proportion:0.5,appid:${c.terminal.appId}"
             ];
 
             gesturebind = [
@@ -169,7 +166,7 @@
 
             bind =
               [
-                "SUPER,Return,spawn,${c.terminal.command}"
+                "SUPER,Return,spawn,${c.terminal.command}${termArgs}"
                 "SUPER,Escape,quit"
                 "SUPER,q,killclient"
                 "SUPER,h,focusdir,left"

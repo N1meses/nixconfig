@@ -145,7 +145,6 @@ in {
       QT_AUTO_SCREEN_SCALE_FACTOR = "0";
       __GLX_VENDOR_LIBRARY_NAME = "nvidia";
       LIBVA_DRIVER_NAME = "nvidia";
-      TERMCMD = "ghostty -e";
     };
 
     home.pointerCursor = {

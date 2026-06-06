@@ -67,6 +67,16 @@
           default = "--class";
           description = "Flag to set window class / app-id.";
         };
+        appId = lib.mkOption {
+          type = lib.types.str;
+          default = "com.mitchellh.ghostty";
+          description = "Window class / app-id used in compositor window rules.";
+        };
+        args = lib.mkOption {
+          type = lib.types.listOf lib.types.str;
+          default = [];
+          description = "Extra arguments passed to the terminal on every invocation.";
+        };
       };
 
       colors = {
@@ -136,6 +146,12 @@
           type = lib.types.str;
           default = "fuzzel";
         };
+      };
+
+      autoStart = lib.mkOption {
+        type = lib.types.listOf lib.types.str;
+        default = [];
+        description = "Commands to autostart with any active compositor.";
       };
     };
 

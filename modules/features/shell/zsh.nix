@@ -6,7 +6,7 @@
       programs.zsh.enable = true;
     };
 
-    homeManager.zsh = {lib, config, ...}: {
+    homeManager.zsh = {pkgs, lib, config, ...}: {
       programs = {
 
         eza = {
@@ -72,6 +72,26 @@
             setopt HIST_IGNORE_DUPS
             setopt SHARE_HISTORY
           '';
+
+          plugins = [
+            {
+              name = "fzf-tab";
+              src = "${pkgs.zsh-fzf-tab}/share/fzf-tab";
+            }
+            {
+              name = "zsh-history-substring-search";
+              src = "${pkgs.zsh-history-substring-search}/share/zsh/plugins/zsh-history-substring-search";
+            }
+            {
+              name = "zsh-forgit";
+              src = "${pkgs.zsh-forgit}/share/zsh/zsh-forgit";
+            }
+            {
+              name = "zsh-nix-shell";
+              src = "${pkgs.zsh-nix-shell}/share/zsh/plugins/zsh-nix-shell";
+              file = "nix-shell.plugin.zsh";
+            }
+          ];
 
           history = {
             size = 10000;

@@ -32,7 +32,7 @@ in {
           flakeConfig.flake.modules.homeManager.noctaliaSettings
         ];
 
-        features.compositors.niri.autoStart = ["noctalia"];
+        features.compositors.autoStart = ["noctalia"];
 
         wayland.windowManager.niri.settings.layer-rule = [
           {
@@ -40,11 +40,6 @@ in {
             place-within-backdrop = true;
           }
         ];
-        wayland.windowManager.hyprland.settings.exec-once = ["noctalia"];
-
-        features.compositors.mango.autoStart = ''
-          noctalia
-        '';
 
         programs.noctalia.enable = true;
       };

@@ -4,6 +4,7 @@
       command = "foot";
       execFlag = "";
       classFlag = "--app-id";
+      appId = "foot";
     };
 
     programs.foot = {

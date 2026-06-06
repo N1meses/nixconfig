@@ -3,7 +3,7 @@
 in {
   flake.modules.homeManager.apps = {...}: {
     imports = with flakeConfig.flake.modules.homeManager; [
-      ghostty
+      kitty
       yazi
       browser
       gtk
