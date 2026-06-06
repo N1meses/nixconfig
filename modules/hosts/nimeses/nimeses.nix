@@ -4,8 +4,6 @@
   ...
 }: let
   mkNoctaliaNiri = config.flake.lib.mkNoctaliaNiri;
-  mkNoctaliaHypr = config.flake.lib.mkNoctaliaHypr;
-  mkNoctaliaMango = config.flake.lib.mkNoctaliaMango;
 in {
   registry.hosts.nimeses = {
     username = "nimeses";
@@ -26,7 +24,6 @@ in {
         tailscale
         laptop
         niri
-        mango
         airvpn
       ]);
 
@@ -55,7 +52,6 @@ in {
       direnv
       cli
       niri
-      mango
     ];
 
     features = {
@@ -90,40 +86,6 @@ in {
           "Mod+n" = {spawn = mkNoctaliaNiri "panel-toggle launcher";};
           "Mod+b" = {spawn = mkNoctaliaNiri "bar-toggle";};
         };
-
-        #        hyprland.extraBinds = [
-        #          ", XF86AudioRaiseVolume, ${mkNoctaliaHypr "volume-up"}"
-        #          ", XF86AudioLowerVolume, ${mkNoctaliaHypr "volume-down"}"
-        #          ", XF86AudioMute, ${mkNoctaliaHypr "volume-mute"}"
-        #          ", XF86MonBrightnessUp, ${mkNoctaliaHypr "brightness-up"}"
-        #          ", XF86MonBrightnessDown, ${mkNoctaliaHypr "brightness-down"}"
-        #
-        #          ", XF86AudioPlay, ${mkNoctaliaHypr "media toggel"}"
-        #          ", XF86AudioNext, ${mkNoctaliaHypr "media next"}"
-        #          ", XF86AudioPrev, ${mkNoctaliaHypr "media previous"}"
-        #
-        #          "SUPERSHIFT, Q, ${mkNoctaliaHypr "lockScreen lock"}"
-        #          "SUPER, N, ${mkNoctaliaHypr "launcher toggle"}"
-        #          "SUPER, B, ${mkNoctaliaHypr "bar toggle"}"
-        #
-        #          ",Print, exec, grim - | wl-copy"
-        #          "SHIFT, Print, exec, grim ~/pictures/screenshot-$(date +%Y%m%d-%H%M%S).png"
-        #          "SUPER, Print, exec, grim -g \"$(slurp)\" - | wl-copy"
-        #          "SUPERSHIFT, Print, exec, grim -g \"$(slurp)\" ~/pictures/screenshot-$(date +%Y%m%d-%H%M%S).png"
-        #        ];
-        mango.extraBinds = [
-          "NONE,XF86AudioRaiseVolume,${mkNoctaliaMango "volume-up"}"
-          "NONE,XF86AudioLowerVolume,${mkNoctaliaMango "volume-down"}"
-          "NONE,XF86AudioMute,${mkNoctaliaMango "volume-mute"}"
-          "NONE,XF86MonBrightnessUp,${mkNoctaliaMango "brightness-up"}"
-          "NONE,XF86MonBrightnessDown,${mkNoctaliaMango "brightness-down"}"
-          "NONE,XF86AudioPlay,${mkNoctaliaMango "media toggel"}"
-          "NONE,XF86AudioNext,${mkNoctaliaMango "media next"}"
-          "NONE,XF86AudioPrev,${mkNoctaliaMango "media previous"}"
-          "SUPER+SHIFT,q,spawn,${mkNoctaliaMango "session lock"}"
-          "SUPER,n,spawn,${mkNoctaliaMango "panel-toggel launcher"}"
-          "SUPER,b,spawn,${mkNoctaliaMango "bar-toggle"}"
-        ];
       };
     };
 
@@ -135,7 +97,7 @@ in {
     };
 
     home.packages = with pkgs; [
-      gemini-cli
+      antigravity-cli
       claude-code
       vesktop
       element-desktop

@@ -3,9 +3,9 @@
     programs.ssh = {
       enable = true;
       enableDefaultConfig = false;
-      matchBlocks = {
+      settings = {
         "*" = {
-          setEnv = {
+          SetEnv = {
             TERM = "xterm-256color";
           };
           compression = true;
