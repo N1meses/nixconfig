@@ -1,6 +1,5 @@
 {config, ...}: let
   mkNoctaliaNiri = config.flake.lib.mkNoctaliaNiri;
-  mkNoctaliaHypr = config.flake.lib.mkNoctaliaHypr;
   mkNoctaliaMango = config.flake.lib.mkNoctaliaMango;
 in {
   registry.hosts.prometheus = {
@@ -23,7 +22,6 @@ in {
       performance
       tailscale
       niri
-      hyprland
       mango
       virtualisation
     ];
@@ -48,6 +46,8 @@ in {
     hardware.enableRedistributableFirmware = true;
 
     boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto;
+
+    users.users.prometheus.hashedPassword = "$6$Bo/x3FIcMJKIpnqD$5Txn123BHqMQOPpnE2166p2JgziMybskSBHFX6FBmjd25.mF6ElOk4KZiKEY4aq.1EXjudASi/.0nQp7Oj6fp/";
 
     environment = {
       variables.QT_QPA_PLATFORMTHEME = "qt6ct";
@@ -120,20 +120,6 @@ in {
           "SUPER+SHIFT, Q, ${mkNoctaliaMango "lockScreen lock"}"
           "SUPER, N, ${mkNoctaliaMango "launcher toggle"}"
           "SUPER, B, ${mkNoctaliaMango "bar toggle"}"
-        ];
-
-        hyprland.extraBinds = [
-          ", F10, ${mkNoctaliaHypr "volume increase"}"
-          ", F9, ${mkNoctaliaHypr "volume decrease"}"
-          ", F5, ${mkNoctaliaHypr "volume-mute"}"
-
-          ", F7, ${mkNoctaliaHypr "media toggel"}"
-          ", F8, ${mkNoctaliaHypr "media next"}"
-          ", F6, ${mkNoctaliaHypr "media previous"}"
-
-          "SUPERSHIFT, Q, ${mkNoctaliaHypr "session lock"}"
-          "SUPER, N, ${mkNoctaliaHypr "panel-toggel launcher"}"
-          "SUPER, B, ${mkNoctaliaHypr "bar-toggle"}"
         ];
       };
     };

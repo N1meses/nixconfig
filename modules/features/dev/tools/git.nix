@@ -1,8 +1,6 @@
 {...}: {
   flake.modules.homeManager.git = {pkgs, ...}: {
     programs = {
-      git.enable = true;
-
       delta = {
         enable = true;
         enableGitIntegration = true;

@@ -96,7 +96,7 @@ in {
       config = {
         wayland.windowManager.niri = {
           enable = true;
-          package = lib.mkDefault pkgs.niri-unstable;
+          package = lib.mkDefault inputs.niri-nix.packages.${pkgs.stdenv.hostPlatform.system}.niri-unstable;
 
           settings = {
             environment = {
@@ -119,11 +119,10 @@ in {
             spawn-at-startup =
               map (cmd: {_args = ["sh" "-c" cmd];}) c.autoStart;
 
-            output = lib.mkDefault (
-              if c.monitors != null
-              then
-                lib.mapAttrsToList (name: m:
-                  {
+            output = lib.mkIf (c.monitors != null && c.monitors != {}) (
+              lib.mkDefault (
+                lib.mapAttrsToList (
+                  name: m: {
                     _args = [name];
                     scale = m.scale;
                     mode = "${toString m.resolution.width}x${toString m.resolution.height}@${toString m.refreshRate}";
@@ -132,11 +131,10 @@ in {
                       y = m.position.y;
                     };
                   }
-                  // lib.optionalAttrs m.vrr.enable {variable-refresh-rate = [];})
+                )
                 c.monitors
-              else []
+              )
             );
-
             layout = {
               gaps = c.gaps.inner;
               border = {
@@ -225,7 +223,7 @@ in {
               };
             };
 
-            xwayland-satellite.path = "${pkgs.xwayland-satellite-unstable}/bin/xwayland-satellite";
+            xwayland-satellite.path = "${inputs.niri-nix.packages.${pkgs.stdenv.hostPlatform.system}.niri-unstable}/bin/xwayland-satellite";
             binds =
               staticBinds
               // mouseBinds

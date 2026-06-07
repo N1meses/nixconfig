@@ -15,27 +15,6 @@
     boot.kernelModules = ["kvm-amd"];
     boot.extraModulePackages = [];
 
-    fileSystems."/" = {
-      device = "/dev/mapper/luks-9138527c-4bc6-4e65-a957-4efe286cba2b";
-      fsType = "ext4";
-    };
-
-    boot.initrd.luks.devices."luks-9138527c-4bc6-4e65-a957-4efe286cba2b" = {
-      device = "/dev/disk/by-uuid/9138527c-4bc6-4e65-a957-4efe286cba2b";
-      allowDiscards = true;
-    };
-
-    fileSystems."/boot" = {
-      device = "/dev/disk/by-uuid/2BEA-51FC";
-      fsType = "vfat";
-      options = ["fmask=0077" "dmask=0077"];
-    };
-
-    fileSystems."/vm" = {
-      device = "/dev/disk/by-uuid/ce16818f-91c8-42a7-90e3-7cad0a262a08";
-      fsType = "ext4";
-    };
-
     swapDevices = [
       {
         device = "/var/swapfile";

@@ -24,9 +24,12 @@
                     homeDirectory = host.homeDirectory;
                     stateVersion = host.stateVersion;
                   };
-                  programs.git.settings.user = {
-                    name = host.gitName;
-                    email = host.gitEmail;
+                  programs.git = {
+                    enable = true;
+                    settings.user = {
+                      name = host.gitName;
+                      email = host.gitEmail;
+                    };
                   };
                 }
               ];
