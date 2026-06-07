@@ -1,5 +1,10 @@
 {...}: {
-  flake.modules.nixos.virtualisation = {config, lib, pkgs, ...}: {
+  flake.modules.nixos.virtualisation = {
+    config,
+    lib,
+    pkgs,
+    ...
+  }: {
     assertions = [
       {
         assertion = lib.all (

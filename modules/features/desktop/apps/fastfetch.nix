@@ -22,21 +22,27 @@
           "title"
           "separator"
           "os"
-          "host"
           "kernel"
-          "packages"
+          {
+            type = "command";
+            key = "Revision";
+            text = "nixos-revision";
+          }
           "shell"
           "display"
-          "wm"
-          "font"
+          {
+            type = "wm";
+            format = "{2} ({3})";
+          }
           "terminal"
-          "terminalfont"
           "cpu"
           "gpu"
           "memory"
-          "swap"
-          "disk"
-          "localip"
+          {
+            type = "disk";
+            key = "Disk";
+            folders = "/";
+          }
           "battery"
           "break"
           "colors"

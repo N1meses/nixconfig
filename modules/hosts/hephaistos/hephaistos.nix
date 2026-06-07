@@ -7,7 +7,7 @@
     username = "hephaistos";
     system = "x86_64-linux";
     stateVersion = "25.05";
-    extraGroups = [ "plugdev" ];
+    extraGroups = ["plugdev"];
   };
 
   configurations.nixos.hephaistos.module = {pkgs, ...}: {
@@ -60,12 +60,6 @@
       git
       network
     ];
-
-    programs.git.settings.user = {
-      name = "N1meses";
-      email = "nilshasenthal@gmail.com";
-    };
-
 
     home.packages = with pkgs; [
       trash-cli

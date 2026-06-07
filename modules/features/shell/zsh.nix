@@ -1,14 +1,16 @@
-{...}:
-{
+{...}: {
   flake.modules = {
-
     nixos.zsh = {...}: {
       programs.zsh.enable = true;
     };
 
-    homeManager.zsh = {pkgs, lib, config, ...}: {
+    homeManager.zsh = {
+      pkgs,
+      lib,
+      config,
+      ...
+    }: {
       programs = {
-
         eza = {
           enable = true;
           enableZshIntegration = true;
@@ -22,7 +24,7 @@
           autosuggestion.enable = lib.mkDefault true;
           syntaxHighlighting = {
             enable = lib.mkDefault true;
-            highlighters = [ "main" ];
+            highlighters = ["main"];
           };
 
           completionInit = ''

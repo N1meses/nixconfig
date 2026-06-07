@@ -1,5 +1,9 @@
 {...}: {
-  flake.modules.nixos.ollama = {config, lib, ...}: let
+  flake.modules.nixos.ollama = {
+    config,
+    lib,
+    ...
+  }: let
     cfg = config.features.server.ollama;
   in {
     options.features.server.ollama = {

@@ -1,8 +1,6 @@
-{...}:
-{
+{...}: {
   flake.modules.homeManager.shellTools = {...}: {
     programs = {
-
       zoxide = {
         enable = true;
         enableZshIntegration = true;

@@ -17,7 +17,8 @@
           client = "https://matrix.${cfg.domain}";
           server = "matrix.${cfg.domain}:443";
         };
-        identity_provider = [{
+        identity_provider = [
+          {
             brand = "authentik";
             client_id = "tuwunel";
             client_secret_file = config.sops.secrets."matrix-oidc-secret".path;

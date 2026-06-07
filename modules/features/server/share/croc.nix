@@ -18,7 +18,11 @@
     };
 
     networking.firewall.interfaces."tailscale0".allowedTCPPorts = [
-      9009 9010 9011 9012 9013
+      9009
+      9010
+      9011
+      9012
+      9013
     ];
   };
 }

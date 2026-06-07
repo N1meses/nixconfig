@@ -1,5 +1,9 @@
 {...}: {
-  flake.modules.nixos.hardwareAthena = {lib, pkgs, ...}: {
+  flake.modules.nixos.hardwareAthena = {
+    lib,
+    pkgs,
+    ...
+  }: {
     boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "usb_storage" "sd_mod" "sdhci_pci"];
     boot.initrd.kernelModules = ["i915"];
     boot.kernelModules = ["kvm-intel"];
@@ -52,23 +56,23 @@
     };
 
     fileSystems."/media" = {
-       device = "tank/media";
-       fsType = "zfs";
+      device = "tank/media";
+      fsType = "zfs";
     };
 
     fileSystems."/var/lib/nextcloud" = {
-       device = "tank/nextcloud/userdata";
-       fsType = "zfs";
+      device = "tank/nextcloud/userdata";
+      fsType = "zfs";
     };
-    
+
     fileSystems."/var/lib/postgresql" = {
-       device = "tank/nextcloud/db";
-       fsType = "zfs";
+      device = "tank/nextcloud/db";
+      fsType = "zfs";
     };
 
     fileSystems."/downloads" = {
-       device = "tank/downloads";
-       fsType = "zfs";
+      device = "tank/downloads";
+      fsType = "zfs";
     };
 
     swapDevices = [
@@ -80,7 +84,7 @@
 
     hardware.graphics = {
       enable = true;
-      extraPackages = with pkgs; [ intel-media-driver ];
+      extraPackages = with pkgs; [intel-media-driver];
     };
 
     hardware.enableRedistributableFirmware = true;

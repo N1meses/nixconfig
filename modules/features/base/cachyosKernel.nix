@@ -1,5 +1,4 @@
-{...}:
-{
+{...}: {
   flake.modules.nixos.cachyosKernel = {...}: {
     nix.settings = {
       substituters = ["https://attic.xuyh0120.win/lantian"];

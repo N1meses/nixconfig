@@ -1,4 +1,4 @@
-{...}: {
+{inputs, ...}: {
   flake.modules.nixos.core = {
     pkgs,
     lib,
@@ -26,6 +26,9 @@
     };
 
     nix = {
+      registry.nixpkgs.flake = inputs.nixpkgs;
+      nixPath = ["nixpkgs=${inputs.nixpkgs}"];
+
       settings = {
         experimental-features = [
           "nix-command"
@@ -69,6 +72,9 @@
       helix
       curl
       wget
+      (pkgs.writeShellScriptBin "nixos-revision" ''
+        echo "${inputs.self.rev or "dirty"}"
+      '')
     ];
 
     programs.nix-ld = {

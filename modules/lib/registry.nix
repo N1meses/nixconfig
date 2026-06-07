@@ -1,9 +1,8 @@
-{lib, ...}:
-let
+{lib, ...}: let
   t = lib.types;
 in {
   options.registry.hosts = lib.mkOption {
-    type = t.attrsOf (t.submodule ( {config, ...}: {
+    type = t.attrsOf (t.submodule ({config, ...}: {
       options = {
         username = lib.mkOption {
           type = t.str;
@@ -42,6 +41,24 @@ in {
           type = t.str;
           default = config.username;
           description = "Network hostname";
+        };
+
+        hostId = lib.mkOption {
+          type = t.str;
+          default = "";
+          description = "8-digit hex host ID (required for ZFS)";
+        };
+
+        gitName = lib.mkOption {
+          type = t.str;
+          default = "N1meses";
+          description = "Git commit author name";
+        };
+
+        gitEmail = lib.mkOption {
+          type = t.str;
+          default = "nilshasenthal@gmail.com";
+          description = "Git commit author email";
         };
       };
     }));

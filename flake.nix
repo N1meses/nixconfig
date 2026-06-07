@@ -72,6 +72,11 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs:
@@ -79,8 +84,16 @@
       imports = [
         (inputs.import-tree ./modules)
         "${inputs.flake-parts}/extras/modules.nix"
+        inputs.treefmt-nix.flakeModule
       ];
 
       systems = ["x86_64-linux"];
+
+      perSystem = {pkgs, ...}: {
+        treefmt = {
+          projectRootFile = "flake.nix";
+          programs.alejandra.enable = true;
+        };
+      };
     };
 }

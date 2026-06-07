@@ -8,6 +8,7 @@
     system = "x86_64-linux";
     stateVersion = "25.05";
     extraGroups = ["plugdev"];
+    hostId = "2e95e7c9";
   };
 
   configurations.nixos.athena.module = {pkgs, ...}: {
@@ -22,6 +23,7 @@
         serverCore
         ssh
         nginx
+        monitoring
         tailscale
         forgejo
         jellyfin
@@ -40,10 +42,7 @@
       age.keyFile = "/root/.config/sops/age/keys.txt";
     };
 
-    networking = {
-      hostName = "athena";
-      hostId = "2e95e7c9";
-    };
+    networking.hostName = "athena";
 
     features.server = {
       domain = "nimeses.com";
@@ -74,11 +73,6 @@
       git
       network
     ];
-
-    programs.git.settings.user = {
-      name = "N1meses";
-      email = "nilshasenthal@gmail.com";
-    };
 
     home.packages = with pkgs; [
       trash-cli

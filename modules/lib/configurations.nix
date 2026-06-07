@@ -1,4 +1,4 @@
-{ lib, ... }: {
+{lib, ...}: {
   options.configurations = {
     nixos = lib.mkOption {
       type = lib.types.lazyAttrsOf (lib.types.submodule {
