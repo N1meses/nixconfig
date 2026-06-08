@@ -94,6 +94,32 @@ in {
       };
 
       config = {
+        xdg.portal = {
+          enable = lib.mkDefault true;
+          extraPortals = with pkgs; [
+            xdg-desktop-portal-gnome
+            xdg-desktop-portal-gtk
+          ];
+          config.niri = {
+            default = ["gnome" "gtk"];
+            "org.freedesktop.impl.portal.ScreenCast" = ["gnome"];
+            "org.freedesktop.impl.portal.Screenshot" = ["gnome"];
+            "org.freedesktop.impl.portal.RemoteDesktop" = ["gnome"];
+            "org.freedesktop.impl.portal.Inhibit" = ["gnome"];
+            "org.freedesktop.impl.portal.Settings" = ["gnome"];
+            "org.freedesktop.impl.portal.DynamicLauncher" = ["gnome"];
+            "org.freedesktop.impl.portal.Wallpaper" = ["gnome"];
+            "org.freedesktop.impl.portal.AppChooser" = ["gtk"];
+            "org.freedesktop.impl.portal.Print" = ["gtk"];
+            "org.freedesktop.impl.portal.Notification" = ["gtk"];
+            "org.freedesktop.impl.portal.Account" = ["gtk"];
+            "org.freedesktop.impl.portal.Background" = ["gtk"];
+            "org.freedesktop.impl.portal.Email" = ["gtk"];
+            "org.freedesktop.impl.portal.OpenURI" = ["gtk"];
+            "org.freedesktop.impl.portal.Secret" = ["gnome-keyring"];
+          };
+        };
+
         wayland.windowManager.niri = {
           enable = true;
           package = lib.mkDefault inputs.niri-nix.packages.${pkgs.stdenv.hostPlatform.system}.niri-unstable;
