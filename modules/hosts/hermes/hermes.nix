@@ -28,6 +28,7 @@
         niri
         fonts
         rescue
+        noctalia
       ]);
 
     boot.loader.grub = {
@@ -55,7 +56,13 @@
     '';
   };
 
-  configurations.homeManager.hermes.module = {pkgs, ...}: {
+  configurations.homeManager.hermes.module = {
+    pkgs,
+    lib,
+    ...
+  }: let
+    flakeRoot = inputs.self;
+  in {
     imports = with config.flake.modules.homeManager; [
       core
       shell
@@ -63,19 +70,19 @@
       helix
       foot
       niri
-      waybar
-      fuzzel
-      mako
-      wallpaper
+      noctalia
       yazi
       browser
     ];
 
-    features.compositors = {
-      wallpaper.image = ../../../assets/icons/wallpaper.jpg;
-      niri.extraBinds = {
-        "Mod+n" = {spawn = "fuzzel";};
-      };
+    # hermes roams and is impermanent: override noctalia's nimeses Pictures path
+    # with the in-repo wallpaper, and drop the inherited per-monitor paths so it
+    # applies regardless of the machine's monitor names.
+    programs.noctalia.settings.wallpaper = {
+      directory = lib.mkForce "${flakeRoot}/assets/icons";
+      default.path = lib.mkForce "${flakeRoot}/assets/icons/wallpaper.jpg";
+      last.path = lib.mkForce "${flakeRoot}/assets/icons/wallpaper.jpg";
+      monitors = lib.mkForce {};
     };
 
     home.pointerCursor = {
