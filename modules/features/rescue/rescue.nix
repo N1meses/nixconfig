@@ -8,6 +8,7 @@
 
     environment.systemPackages = with pkgs; [
       nixos-install-tools # nixos-enter, nixos-install
+      disko # declarative partition/format/mount for installs
       cryptsetup # unlock LUKS targets
       parted
       gptfdisk # partition surgery
