@@ -2,7 +2,7 @@
 enable_overdrive = true
 enable_sounds = false
 notification_sound = ""
-sound_volume = 0.20000000000000001
+sound_volume = 0.0
 volume_change_sound = ""
 
 [backdrop]
@@ -196,11 +196,21 @@ wallpaper_tint_intensity = 0.0
 [lockscreen_widgets]
 enabled = false
 schema_version = 1
+widget_order = [ "lockscreen-login-box@eDP-1" ]
 
     [lockscreen_widgets.grid]
     cell_size = 16
     major_interval = 4
     visible = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@eDP-1"]
+    box_height = 0.0
+    box_width = 0.0
+    cx = 900.0
+    cy = 1077.0
+    output = "eDP-1"
+    rotation = 0.0
+    type = "login_box"
 
 [nightlight]
 enabled = false
@@ -237,7 +247,7 @@ scale = 1.0
 
 [shell]
 app_icon_colorize = false
-avatar_path = "/home/nimeses/nixconfig/assets/icons/hunter.jpeg"
+avatar_path = "/nix/store/xz2d486l1sxiwncgildzb9g3wlia2f4a-source/assets/icons/hunter.jpeg"
 clipboard_auto_paste = "auto"
 clipboard_confirm_clear_history = true
 clipboard_enabled = true
@@ -391,13 +401,13 @@ transition_on_startup = false
     recursive = false
 
     [wallpaper.default]
-    path = "/home/nimeses/Pictures/Wallpapers/wallhaven_42x2qx.jpg"
+    path = "/home/nimeses/Pictures/Wallpapers/wallhaven_rr85dm.jpg"
 
     [wallpaper.last]
-    path = "/home/nimeses/Pictures/Wallpapers/wallhaven_42x2qx.jpg"
+    path = "/home/nimeses/Pictures/Wallpapers/wallhaven_rr85dm.jpg"
 
     [wallpaper.monitors.eDP-1]
-    path = "/home/nimeses/Pictures/Wallpapers/wallhaven_42x2qx.jpg"
+    path = "/home/nimeses/Pictures/Wallpapers/wallhaven_rr85dm.jpg"
 
 [weather]
 effects = true
@@ -420,7 +430,7 @@ type = "battery"
 type = "clock"
 
 [widget.control-center]
-custom_image = "/home/nimeses/nixconfig/assets/icons/nixos.png"
+custom_image = "/nix/store/xz2d486l1sxiwncgildzb9g3wlia2f4a-source/assets/icons/nixos.png"
 scale = 1.5
 type = "control-center"
 

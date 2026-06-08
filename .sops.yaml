@@ -1,6 +1,6 @@
 keys:
   - &athena age153ntk5rhvdme8sxswgfnphwkyzvk3ucrjaf0lr8wl33p6lpca5fs2w0u27
-  - &nimeses age1n4geasdvfp79tuzyv6czdm68p5u6s8nawjnkv2xu46s9daxju9sse0khsc
+  - &nimeses age17vlnpheunqdlu5r8uh690nq260mlyy2ug4wkzfgppcqy23nmjesqczsd34
   - &hephaistos age1mq9e6wxauqqsyjq5anm9yd8u8mp7xxmm0zjmxmnk7hpxn70pya6sgrj8g2
 creation_rules:
   - path_regex: secrets/athena\.yaml$

@@ -14,11 +14,11 @@ in {
     ...
   }: let
     flakeRoot = inputs.self;
-    jsonSettings = fromTOML (builtins.readFile ./noctalia-config.toml);
+    tomlSettings = fromTOML (builtins.readFile ./noctalia-config.toml);
   in {
     config = lib.mkMerge [
       {
-        programs.noctalia.settings = mkDefaults jsonSettings;
+        programs.noctalia.settings = mkDefaults tomlSettings;
       }
       {
         programs.noctalia.settings = {
