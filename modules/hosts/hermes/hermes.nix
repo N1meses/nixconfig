@@ -27,6 +27,7 @@
         greetd
         niri
         fonts
+        rescue
       ]);
 
     boot.loader.grub = {
