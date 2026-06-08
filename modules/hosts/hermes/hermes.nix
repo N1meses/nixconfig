@@ -24,11 +24,11 @@
         core
         base
         shell
-        greetd
+        services
         niri
-        fonts
         rescue
         noctalia
+        tailscale
       ]);
 
     boot.loader.grub = {

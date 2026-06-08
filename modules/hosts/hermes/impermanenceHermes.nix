@@ -6,6 +6,7 @@
         "/var/log"
         "/var/lib/nixos"
         "/var/lib/systemd/coredump"
+        "/var/lib/tailscale"
         "/etc/NetworkManager/system-connections"
       ];
       files = [

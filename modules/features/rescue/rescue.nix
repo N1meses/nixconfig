@@ -16,9 +16,13 @@
       ntfs3g
       exfatprogs # fs tools: ESP / ext4 / ntfs / exfat
       util-linux # lsblk, blkid, wipefs
+      efibootmgr # repair/reorder UEFI boot entries on a rescued machine
       pciutils
       usbutils # lspci / lsusb
       smartmontools # disk health
+      nvme-cli # NVMe diagnostics
+      ddrescue # image failing disks
+      testdisk # partition / data recovery (incl. photorec)
       rsync
       tmux # transfers + detachable sessions
       # git / helix / curl / wget already come from `core`
