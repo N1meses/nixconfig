@@ -37,6 +37,7 @@
 
     niri-nix = {
       url = "git+https://codeberg.org/BANanaD3V/niri-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     hyprland = {
@@ -51,6 +52,7 @@
 
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell/v5";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     opencode = {

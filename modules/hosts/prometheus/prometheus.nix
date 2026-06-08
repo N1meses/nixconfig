@@ -95,31 +95,31 @@ in {
         };
 
         niri.extraBinds = {
-          "F10" = {spawn = mkNoctaliaNiri "volume increase";};
-          "F9" = {spawn = mkNoctaliaNiri "volume decrease";};
+          "F10" = {spawn = mkNoctaliaNiri "volume-up";};
+          "F9" = {spawn = mkNoctaliaNiri "volume-down";};
           "F5" = {spawn = mkNoctaliaNiri "volume-mute";};
 
-          "F7" = {spawn = mkNoctaliaNiri "media toggel";};
+          "F7" = {spawn = mkNoctaliaNiri "media toggle";};
           "F8" = {spawn = mkNoctaliaNiri "media next";};
           "F6" = {spawn = mkNoctaliaNiri "media previous";};
 
-          "Mod+Shift+q" = {spawn = mkNoctaliaNiri "lockScreen lock";};
-          "Mod+n" = {spawn = mkNoctaliaNiri "launcher toggle";};
-          "Mod+b" = {spawn = mkNoctaliaNiri "bar toggle";};
+          "Mod+Shift+q" = {spawn = mkNoctaliaNiri "session lock";};
+          "Mod+n" = {spawn = mkNoctaliaNiri "panel-toggle launcher";};
+          "Mod+b" = {spawn = mkNoctaliaNiri "bar-toggle";};
         };
 
         mango.extraBinds = [
-          "NONE, F10, ${mkNoctaliaMango "volume increase"}"
-          "NONE, F9, ${mkNoctaliaMango "volume decrease"}"
+          "NONE, F10, ${mkNoctaliaMango "volume-up"}"
+          "NONE, F9, ${mkNoctaliaMango "volume-down"}"
           "NONE, F5, ${mkNoctaliaMango "volume-mute"}"
 
-          "NONE, F7, ${mkNoctaliaMango "media toggel"}"
+          "NONE, F7, ${mkNoctaliaMango "media toggle"}"
           "NONE, F8, ${mkNoctaliaMango "media next"}"
           "NONE, F6, ${mkNoctaliaMango "media previous"}"
 
-          "SUPER+SHIFT, Q, ${mkNoctaliaMango "lockScreen lock"}"
-          "SUPER, N, ${mkNoctaliaMango "launcher toggle"}"
-          "SUPER, B, ${mkNoctaliaMango "bar toggle"}"
+          "SUPER+SHIFT, Q, ${mkNoctaliaMango "session lock"}"
+          "SUPER, N, ${mkNoctaliaMango "panel-toggle launcher"}"
+          "SUPER, B, ${mkNoctaliaMango "bar-toggle"}"
         ];
       };
     };

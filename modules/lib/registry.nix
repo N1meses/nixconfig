@@ -23,7 +23,7 @@ in {
             "aarch64-darwin"
           ];
           default = "x86_64-linux";
-          description = "system architecure";
+          description = "system architecture";
         };
 
         stateVersion = lib.mkOption {

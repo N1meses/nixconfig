@@ -7,7 +7,6 @@ in {
     pkgs,
     ...
   }: {
-    imports = [flakeConfig.flake.modules.nixos.overlays];
     users.mutableUsers = false;
     users.users = let
       hostname = config.networking.hostName;
