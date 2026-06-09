@@ -8,28 +8,32 @@
     system = "x86_64-linux";
     stateVersion = "25.11";
     extraGroups = ["video" "input"];
+    aspects = with config.flake.lib.aspects; [
+      core
+      shell
+      services
+      niri
+      noctalia
+      hardwareHermes
+      diskoHermes
+      impermanenceHermes
+      users
+      base
+      rescue
+      tailscale
+      nh
+      helix
+      foot
+      yazi
+      browser
+    ];
   };
 
   configurations.nixos.hermes.module = {lib, ...}: {
-    imports =
-      [
-        inputs.disko.nixosModules.disko
-        inputs.impermanence.nixosModules.impermanence
-      ]
-      ++ (with config.flake.modules.nixos; [
-        hardwareHermes
-        diskoHermes
-        impermanenceHermes
-        users
-        core
-        base
-        shell
-        services
-        niri
-        rescue
-        noctalia
-        tailscale
-      ]);
+    imports = [
+      inputs.disko.nixosModules.disko
+      inputs.impermanence.nixosModules.impermanence
+    ];
 
     boot.loader.grub = {
       enable = true;
@@ -63,18 +67,6 @@
   }: let
     flakeRoot = inputs.self;
   in {
-    imports = with config.flake.modules.homeManager; [
-      core
-      shell
-      nh
-      helix
-      foot
-      niri
-      noctalia
-      yazi
-      browser
-    ];
-
     # hermes roams and is impermanent: override noctalia's nimeses Pictures path
     # with the in-repo wallpaper, and drop the inherited per-monitor paths so it
     # applies regardless of the machine's monitor names.

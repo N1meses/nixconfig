@@ -9,32 +9,37 @@
     stateVersion = "25.05";
     extraGroups = ["plugdev"];
     hostId = "2e95e7c9";
+    aspects = with config.flake.lib.aspects; [
+      core
+      shell
+      hardwareAthena
+      users
+      base
+      serverCore
+      sshd
+      nginx
+      monitoring
+      tailscale
+      forgejo
+      jellyfin
+      nextcloud
+      navidrome
+      authentik
+      cloudflared
+      matrix
+      element
+      nixarr
+      helix
+      yazi
+      nh
+      fastfetch
+      git
+      network
+    ];
   };
 
   configurations.nixos.athena.module = {pkgs, ...}: {
-    imports =
-      [inputs.sops-nix.nixosModules.sops]
-      ++ (with config.flake.modules.nixos; [
-        hardwareAthena
-        users
-        core
-        base
-        shell
-        serverCore
-        ssh
-        nginx
-        monitoring
-        tailscale
-        forgejo
-        jellyfin
-        nextcloud
-        navidrome
-        authentik
-        cloudflared
-        matrix
-        element
-        nixarr
-      ]);
+    imports = [inputs.sops-nix.nixosModules.sops];
 
     sops = {
       defaultSopsFile = ../../../secrets/athena.yaml;
@@ -65,17 +70,6 @@
   };
 
   configurations.homeManager.athena.module = {pkgs, ...}: {
-    imports = with config.flake.modules.homeManager; [
-      core
-      shell
-      helix
-      yazi
-      nh
-      fastfetch
-      git
-      network
-    ];
-
     home.packages = with pkgs; [
       trash-cli
       nom

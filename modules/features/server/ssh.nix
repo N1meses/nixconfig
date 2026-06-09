@@ -1,5 +1,5 @@
 {...}: {
-  flake.modules.nixos.ssh = {
+  flake.modules.nixos.sshd = {
     lib,
     config,
     ...

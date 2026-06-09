@@ -3,13 +3,35 @@
   inputs,
   ...
 }: let
-  flakeConfig = config;
   mkNoctaliaNiri = config.flake.lib.mkNoctaliaNiri;
 in {
   registry.hosts.nimeses = {
     username = "nimeses";
     system = "x86_64-linux";
     stateVersion = "25.11";
+    aspects = with config.flake.lib.aspects; [
+      diskoNimeses
+      hardwareNimeses
+      users
+      base
+      tailscale
+      laptop
+      airvpn
+      core
+      shell
+      desktop
+      niri
+      helix
+      zed
+      nix
+      python
+      c
+      markdown
+      rust
+      git
+      direnv
+      cli
+    ];
   };
 
   configurations.nixos.nimeses.module = {
@@ -17,24 +39,10 @@ in {
     config,
     ...
   }: {
-    imports =
-      [
-        inputs.sops-nix.nixosModules.sops
-        inputs.disko.nixosModules.disko
-      ]
-      ++ (with flakeConfig.flake.modules.nixos; [
-        diskoNimeses
-        hardwareNimeses
-        users
-        core
-        base
-        shell
-        desktop
-        tailscale
-        laptop
-        niri
-        airvpn
-      ]);
+    imports = [
+      inputs.sops-nix.nixosModules.sops
+      inputs.disko.nixosModules.disko
+    ];
 
     sops = {
       defaultSopsFile = ../../../secrets/nimeses.yaml;
@@ -49,23 +57,6 @@ in {
   };
 
   configurations.homeManager.nimeses.module = {pkgs, ...}: {
-    imports = with config.flake.modules.homeManager; [
-      core
-      shell
-      desktop
-      helix
-      zed
-      nix
-      python
-      c
-      markdown
-      rust
-      git
-      direnv
-      cli
-      niri
-    ];
-
     features = {
       compositors = {
         monitors."eDP-1" = {

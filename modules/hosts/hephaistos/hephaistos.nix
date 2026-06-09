@@ -8,24 +8,30 @@
     system = "x86_64-linux";
     stateVersion = "25.05";
     extraGroups = ["plugdev"];
+    aspects = with config.flake.lib.aspects; [
+      core
+      shell
+      hardwareHephaistos
+      users
+      base
+      serverCore
+      sshd
+      nginx
+      tailscale
+      vaultwarden
+      croc
+      helix
+      yazi
+      nh
+      nix
+      fastfetch
+      git
+      network
+    ];
   };
 
   configurations.nixos.hephaistos.module = {pkgs, ...}: {
-    imports =
-      [inputs.sops-nix.nixosModules.sops]
-      ++ (with config.flake.modules.nixos; [
-        hardwareHephaistos
-        users
-        core
-        base
-        shell
-        serverCore
-        ssh
-        nginx
-        tailscale
-        vaultwarden
-        croc
-      ]);
+    imports = [inputs.sops-nix.nixosModules.sops];
 
     networking.hostName = "hephaistos";
 
@@ -51,18 +57,6 @@
   };
 
   configurations.homeManager.hephaistos.module = {pkgs, ...}: {
-    imports = with config.flake.modules.homeManager; [
-      core
-      shell
-      helix
-      yazi
-      nh
-      nix
-      fastfetch
-      git
-      network
-    ];
-
     home.packages = with pkgs; [
       trash-cli
       nom

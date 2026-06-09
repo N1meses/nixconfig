@@ -8,24 +8,28 @@ in {
     stateVersion = "25.05";
     homeDirectory = "/home/prometheus";
     extraGroups = ["gamemode" "libvirtd" "kvm"];
-  };
-
-  configurations.nixos.prometheus.module = {pkgs, ...}: {
-    imports = with config.flake.modules.nixos; [
-      hardwarePrometheus
-      users
+    aspects = with config.flake.lib.aspects; [
       core
-      base
       shell
       desktop
+      niri
+      mango
+      hardwarePrometheus
+      users
+      base
       gaming
       performance
       tailscale
-      niri
-      mango
       virtualisation
+      helix
+      zed
+      git
+      nix
+      c
     ];
+  };
 
+  configurations.nixos.prometheus.module = {pkgs, ...}: {
     networking = {
       hostName = "prometheus";
       interfaces.eno1.wakeOnLan.enable = true;
@@ -56,20 +60,6 @@ in {
   };
 
   configurations.homeManager.prometheus.module = {pkgs, ...}: {
-    imports = with config.flake.modules.homeManager; [
-      core
-      shell
-      desktop
-      helix
-      zed
-      git
-      niri
-      hyprland
-      mango
-      nix
-      c
-    ];
-
     programs.git.settings.user = {
       name = "N1meses";
       email = "nilshasenthal@gmail.com";

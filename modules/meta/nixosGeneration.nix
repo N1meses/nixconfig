@@ -4,7 +4,13 @@
   config,
   lib,
   ...
-}: {
+}: let
+  nixosModules = config.flake.modules.nixos;
+  homeModules = config.flake.modules.homeManager;
+
+  aspectsFor = layerModules: aspects:
+    map (n: layerModules.${n}) (lib.filter (n: layerModules ? ${n}) aspects);
+in {
   flake.nixosConfigurations =
     lib.mapAttrs (
       name: cfg: let
@@ -18,6 +24,7 @@
                 [
                   cfg.module
                 ]
+                ++ (aspectsFor nixosModules host.aspects)
                 ++ [
                   inputs.home-manager.nixosModules.home-manager
                   {
@@ -31,7 +38,9 @@
                       homeConfig = config.configurations.homeManager.${name} or null;
                     in
                       lib.mkIf (homeConfig != null) {
-                        imports = [config.flake.modules.homeManager.compositors homeConfig.module];
+                        imports =
+                          [config.flake.modules.homeManager.compositors homeConfig.module]
+                          ++ (aspectsFor homeModules host.aspects);
                         home = {
                           username = host.username;
                           homeDirectory = host.homeDirectory;
