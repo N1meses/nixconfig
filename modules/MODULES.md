@@ -7,10 +7,10 @@ modules/
 ├── features/
 │   ├── base/
 │   │   ├── base.nix                  # aggregator → cachyosKernel + local
-│   │   ├── cachyosKernel.nix         # CachyOS Nix substituters
+│   │   ├── cachyosKernel.nix         # CachyOS kernel overlay import
 │   │   ├── homeManagerCore.nix       # home-manager, XDG base dirs
 │   │   ├── local.nix                 # timezone, locale, keymap
-│   │   └── nixosCore.nix             # boot, Nix settings, GC, NetworkManager
+│   │   └── nixosCore.nix             # boot, Nix settings, GC, NetworkManager, all substituters/caches
 │   ├── desktop/
 │   │   ├── desktop.nix               # aggregator → services, compositors, noctalia, apps
 │   │   ├── apps/
@@ -83,7 +83,7 @@ modules/
 │   │   └── virtualisation.nix        # libvirtd, KVM, virt-manager
 │   ├── server/                       # all nixos, import = enable
 │   │   ├── serverCore.nix            # firewall, fail2ban base, htop/tmux/rsync
-│   │   ├── ssh.nix                   # OpenSSH + fail2ban sshd jail
+│   │   ├── ssh.nix                   # OpenSSH + fail2ban sshd jail (module key: sshd)
 │   │   ├── nginx.nix                 # nginx + fail2ban http jails
 │   │   ├── media/
 │   │   │   ├── jellyfin.nix          # Jellyfin media server
@@ -113,7 +113,7 @@ modules/
 ├── lib/
 │   ├── compositors.nix               # shared compositor options (monitors, gaps, colors, etc.)
 │   ├── configurations.nix            # host configuration wiring
-│   └── registry.nix                  # host registry
+│   └── registry.nix                  # host registry + aspects (enum + flake.lib.aspects map)
 ├── meta/
 │   ├── flakeParts.nix                # flake-parts setup
 │   ├── homeGeneration.nix            # HM generation logic
@@ -260,7 +260,7 @@ All nixos side. Import = enable. `features.server.domain` must be set when impor
 | Module | Configures | Options |
 |--------|------------|---------|
 | `serverCore` | Firewall, fail2ban base, lid-switch, no docs, htop/tmux/rsync | — |
-| `ssh` | OpenSSH (no root, key-only), fail2ban sshd jail | `features.server.sshPort` (default 22) |
+| `sshd` | OpenSSH (no root, key-only), fail2ban sshd jail | `features.server.sshPort` (default 22) |
 | `nginx` | Nginx + gzip + fail2ban http jails | `features.server.domain` |
 
 ### VPN (`vpn/`)
@@ -304,10 +304,10 @@ All nixos side. Import = enable. `features.server.domain` must be set when impor
 
 | Module | Side | Configures |
 |--------|------|------------|
-| `core` (nixos) | nixos | systemd-boot, Plymouth, Nix flakes/cache/GC, NetworkManager |
+| `core` (nixos) | nixos | systemd-boot, Plymouth, Nix flakes/GC, NetworkManager, **all substituters/caches** (cache.nixos.org, nix-community, niri-nix, noctalia, hyprland, cachyos) |
 | `core` (HM) | HM | home-manager, XDG base dirs |
 | `base` | nixos | Aggregator: cachyosKernel, local |
-| `cachyosKernel` | nixos | CachyOS Nix substituters |
+| `cachyosKernel` | nixos | CachyOS kernel overlay import |
 | `local` | nixos | Timezone (Europe/Berlin), locale (en_US / de_DE), keymap (de) |
 
 ## Profiles
@@ -343,7 +343,19 @@ Infrastructure modules — not imported by hosts, wired in automatically.
 |------|---------|
 | `compositors.nix` | HM module — defines all shared `features.compositors.*` options (monitors, gaps, colors, borders, opacity, cursor, keyboard, terminal) |
 | `configurations.nix` | Defines `options.configurations.{nixos,homeManager}` — host configuration wiring |
-| `registry.nix` | Defines `options.registry.hosts` — host registry (username, system, stateVersion, extraGroups, homeDirectory) |
+| `registry.nix` | Defines `options.registry.hosts` — host registry (username, system, stateVersion, extraGroups, homeDirectory, **aspects**). Also exposes `flake.lib.aspects` (a name→name map for the bare-identifier form) and declares `flake.lib` as a mergeable option. |
+
+### Aspects (host module selection)
+
+Each host lists its modules once, as `registry.hosts.<host>.aspects`. The generators route each name to whichever layer defines it (`flake.modules.nixos.<name>` → system, `flake.modules.homeManager.<name>` → home, both → both; nixos-only names are skipped by the standalone `homeConfigurations` build). The option is enum-typed against all known module names, so typos fail at eval with the full valid list. Written bare via `with config.flake.lib.aspects; [ … ]`.
+
+```nix
+registry.hosts.nimeses.aspects = with config.flake.lib.aspects; [
+  core shell desktop niri          # both layers
+  hardwareNimeses users base laptop  # system-only
+  helix rust git direnv cli         # home-only
+];
+```
 
 ---
 
