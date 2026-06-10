@@ -9,7 +9,6 @@ in {
         portals
         audio
         bluetooth
-        greetd
       ];
     };
 

@@ -160,8 +160,6 @@
         wayland-utils
         wl-clipboard
       ];
-
-      services.wl-clip-persist.enable = true;
     };
   };
 }

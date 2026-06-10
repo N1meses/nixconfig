@@ -17,6 +17,7 @@
       hardwareHermes
       diskoHermes
       impermanenceHermes
+      ly
       users
       base
       rescue

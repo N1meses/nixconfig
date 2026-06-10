@@ -26,6 +26,8 @@
         automount = cfg.storage.udiskie.automount;
         tray = "never";
       };
+
+      wl-clip-persist.enable = true;
     };
   };
 }

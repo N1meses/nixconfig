@@ -15,6 +15,7 @@ in {
       niri
       mango
       hardwarePrometheus
+      ly
       users
       base
       gaming

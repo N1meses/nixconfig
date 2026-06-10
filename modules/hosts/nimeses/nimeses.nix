@@ -18,6 +18,7 @@ in {
       laptop
       airvpn
       core
+      ly
       shell
       desktop
       niri
