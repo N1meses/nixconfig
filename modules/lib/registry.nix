@@ -7,6 +7,7 @@
   aspectNames = lib.unique (
     lib.attrNames config.flake.modules.nixos
     ++ lib.attrNames config.flake.modules.homeManager
+    ++ lib.attrNames (config.flake.modules.finix or {})
   );
 in {
   options.flake.lib = lib.mkOption {
@@ -76,16 +77,17 @@ in {
           description = "8-digit hex host ID (required for ZFS)";
         };
 
-        gitName = lib.mkOption {
-          type = t.str;
-          default = "N1meses";
-          description = "Git commit author name";
-        };
-
-        gitEmail = lib.mkOption {
-          type = t.str;
-          default = "nilshasenthal@gmail.com";
-          description = "Git commit author email";
+        git = {
+          name = lib.mkOption {
+            type = t.str;
+            default = "N1meses";
+            description = "Git commit author name";
+          };
+          email = lib.mkOption {
+            type = t.str;
+            default = "nilshasenthal@gmail.com";
+            description = "Git commit author email";
+          };
         };
       };
     }));

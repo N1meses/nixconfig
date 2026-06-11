@@ -8,6 +8,10 @@
     system = "x86_64-linux";
     stateVersion = "25.05";
     extraGroups = ["plugdev"];
+    git = {
+      name = "N1meses";
+      email = "nilshasenthal@gmail.com";
+    };
     aspects = with config.flake.lib.aspects; [
       core
       shell

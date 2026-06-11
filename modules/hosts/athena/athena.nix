@@ -9,6 +9,10 @@
     stateVersion = "25.05";
     extraGroups = ["plugdev"];
     hostId = "2e95e7c9";
+    git = {
+      name = "N1meses";
+      email = "nilshasenthal@gmail.com";
+    };
     aspects = with config.flake.lib.aspects; [
       core
       shell

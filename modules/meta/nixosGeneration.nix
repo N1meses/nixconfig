@@ -6,7 +6,6 @@
   ...
 }: let
   nixosModules = config.flake.modules.nixos;
-  homeModules = config.flake.modules.homeManager;
 
   aspectsFor = layerModules: aspects:
     map (n: layerModules.${n}) (lib.filter (n: layerModules ? ${n}) aspects);
@@ -37,23 +36,11 @@ in {
                     home-manager.users.${host.username} = let
                       homeConfig = config.configurations.homeManager.${name} or null;
                     in
-                      lib.mkIf (homeConfig != null) {
-                        imports =
-                          [config.flake.modules.homeManager.compositors homeConfig.module]
-                          ++ (aspectsFor homeModules host.aspects);
-                        home = {
-                          username = host.username;
-                          homeDirectory = host.homeDirectory;
-                          stateVersion = host.stateVersion;
-                        };
-                        programs.git = {
-                          enable = true;
-                          settings.user = {
-                            name = host.gitName;
-                            email = host.gitEmail;
-                          };
-                        };
-                      };
+                      lib.mkIf (homeConfig != null)
+                      (config.flake.lib.mkHomeModules {
+                        inherit host;
+                        homeModule = homeConfig.module;
+                      });
                   }
                 ];
             }

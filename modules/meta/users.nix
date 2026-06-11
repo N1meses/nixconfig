@@ -7,7 +7,7 @@ in {
     pkgs,
     ...
   }: {
-    users.mutableUsers = false;
+    users.mutableUsers = lib.mkDefault true;
     users.users = let
       hostname = config.networking.hostName;
       host = flakeConfig.registry.hosts.${hostname} or null;

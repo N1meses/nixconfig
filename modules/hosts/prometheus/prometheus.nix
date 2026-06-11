@@ -8,6 +8,10 @@ in {
     stateVersion = "25.05";
     homeDirectory = "/home/prometheus";
     extraGroups = ["gamemode" "libvirtd" "kvm"];
+    git = {
+      name = "N1meses";
+      email = "nilshasenthal@gmail.com";
+    };
     aspects = with config.flake.lib.aspects; [
       core
       shell
@@ -61,11 +65,6 @@ in {
   };
 
   configurations.homeManager.prometheus.module = {pkgs, ...}: {
-    programs.git.settings.user = {
-      name = "N1meses";
-      email = "nilshasenthal@gmail.com";
-    };
-
     programs.noctalia.settings.bar.default.position = "top";
 
     features = {

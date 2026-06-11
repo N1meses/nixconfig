@@ -131,6 +131,36 @@
         "type": "github"
       }
     },
+    "finix": {
+      "locked": {
+        "lastModified": 1780850396,
+        "narHash": "sha256-MB+57jxiEJItJxW0i4UpYQcso82lSO+6ZWu+Gbt0Zwc=",
+        "owner": "finix-community",
+        "repo": "finix",
+        "rev": "066a9825fde30eda2bdd3a5414af04c623d5a4e0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "finix-community",
+        "repo": "finix",
+        "type": "github"
+      }
+    },
+    "finix-community-modules": {
+      "locked": {
+        "lastModified": 1781104346,
+        "narHash": "sha256-hu+ZcxD/eR2v42kJV+WiOtdL92IJwM53Qz17iKEQuIk=",
+        "owner": "finix-community",
+        "repo": "community-modules",
+        "rev": "adf03efa05cd20000a65484441ab8d1ba1d38853",
+        "type": "github"
+      },
+      "original": {
+        "owner": "finix-community",
+        "repo": "community-modules",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -1085,6 +1115,8 @@
       "inputs": {
         "authentik-nix": "authentik-nix",
         "disko": "disko",
+        "finix": "finix",
+        "finix-community-modules": "finix-community-modules",
         "flake-parts": "flake-parts_2",
         "hardware": "hardware",
         "home-manager": "home-manager",

@@ -79,6 +79,10 @@
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    finix.url = "github:finix-community/finix";
+    finix-community-modules.url = "github:finix-community/community-modules";
+
   };
 
   outputs = inputs:
@@ -91,7 +95,7 @@
 
       systems = ["x86_64-linux"];
 
-      perSystem = {pkgs, ...}: {
+      perSystem = {...}: {
         treefmt = {
           projectRootFile = "flake.nix";
           programs.alejandra.enable = true;
