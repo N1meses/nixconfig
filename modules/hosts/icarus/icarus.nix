@@ -10,6 +10,7 @@
       local
       core
       shell
+      session
       niri
       noctalia
       ly
