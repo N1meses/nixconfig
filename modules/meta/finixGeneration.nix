@@ -5,9 +5,10 @@
   ...
 }: let
   finixModules = config.flake.modules.finix;
+  stripClass = m: args: removeAttrs (m args) ["_class"];
 
   aspectsFor = layerModules: aspects:
-    map (n: layerModules.${n}) (lib.filter (n: layerModules ? ${n}) aspects);
+    map (n: stripClass layerModules.${n}) (lib.filter (n: layerModules ? ${n}) aspects);
 in {
   flake.finixConfigurations =
     lib.mapAttrs (
@@ -24,8 +25,10 @@ in {
             [
               cfg.module
               {
-                nixpkgs.hostPlatform = host.system;
-                nixpkgs.config.allowUnfree = true;
+                nixpkgs.pkgs = import inputs.nixpkgs {
+                  inherit (host) system;
+                  config.allowUnfree = true;
+                };
               }
             ]
             ++ (aspectsFor finixModules host.aspects)
@@ -34,9 +37,6 @@ in {
               {
                 networking.hostName = name;
                 networking.hostId = lib.mkIf (host.hostId != "") host.hostId;
-                system.stateVersion = host.stateVersion;
-                nixpkgs.hostPlatform = host.system;
-                nixpkgs.config.allowUnfree = true;
                 home-manager.users.${host.username} = let
                   homeConfig = config.configurations.homeManager.${name} or null;
                 in

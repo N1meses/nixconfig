@@ -23,7 +23,8 @@
       impermanenceHermes
       ly
       users
-      base
+      local
+      cachyosKernel
       rescue
       tailscale
       nh

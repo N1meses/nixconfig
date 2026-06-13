@@ -17,7 +17,8 @@ in {
       diskoNimeses
       hardwareNimeses
       users
-      base
+      local
+      cachyosKernel
       tailscale
       laptop
       airvpn

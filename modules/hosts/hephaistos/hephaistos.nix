@@ -17,8 +17,7 @@
       shell
       hardwareHephaistos
       users
-      base
-      serverCore
+      local
       sshd
       nginx
       tailscale

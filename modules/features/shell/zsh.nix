@@ -4,6 +4,10 @@
       programs.zsh.enable = true;
     };
 
+    finix.zsh = {...}: {
+      programs.zsh.enable = true;
+    };
+
     homeManager.zsh = {
       pkgs,
       lib,

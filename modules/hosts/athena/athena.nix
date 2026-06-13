@@ -18,7 +18,7 @@
       shell
       hardwareAthena
       users
-      base
+      local
       serverCore
       sshd
       nginx

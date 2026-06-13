@@ -21,7 +21,8 @@ in {
       hardwarePrometheus
       ly
       users
-      base
+      local
+      cachyosKernel
       gaming
       performance
       tailscale

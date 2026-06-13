@@ -1,4 +1,4 @@
 {...}: {
-  flake.moudles.finix.hardwareIcarus = {...}: {
+  flake.modules.finix.hardwareIcarus = {...}: {
   };
 }

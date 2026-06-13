@@ -1,14 +1,23 @@
 {...}: {
-  flake.modules.nixos.ly = {...}: {
-    services.displayManager.ly = {
-      enable = true;
-      settings = {
-        clock = "%c";
+  flake.modules = {
+    nixos.ly = {...}: {
+      services.displayManager.ly = {
+        enable = true;
+        settings = {
+          clock = "%c";
+        };
       };
+
+      security.pam.services.ly.enableGnomeKeyring = true;
     };
 
-    # HM owns gnome-keyring (not the system service), so the module's
-    # default (system gnome-keyring) is false here — force the PAM unlock on.
-    security.pam.services.ly.enableGnomeKeyring = true;
+    finix.ly = {...}: {
+      services.ly = {
+        enable = true;
+        settings = {
+          clock = "%c";
+        };
+      };
+    };
   };
 }

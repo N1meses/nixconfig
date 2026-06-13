@@ -214,6 +214,14 @@ in {
                 default-window-height.fixed = 768;
               }
               {
+                match._props = {
+                  titel = "Bitwarden";
+                };
+                open-floating = true;
+                default-column-width.fixed = 1024;
+                default-window-height.fixed = 768;
+              }
+              {
                 match = [
                   {_props.app-id = "^com.brave.Browser$";}
                   {_props.app-id = "^brave-browser$";}
