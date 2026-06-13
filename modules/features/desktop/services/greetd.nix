@@ -1,16 +1,24 @@
 {...}: {
-  flake.modules.nixos.greetd = {
-    pkgs,
-    lib,
-    ...
-  }: {
-    services.greetd = {
-      enable = true;
-      settings.default_session = {
-        command = lib.mkDefault "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session";
-        user = "greeter";
+  flake.modules = {
+    nixos.greetd = {
+      pkgs,
+      lib,
+      ...
+    }: {
+      services.greetd = {
+        enable = true;
+        settings.default_session = {
+          command = lib.mkDefault "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session";
+          user = "greeter";
+        };
       };
+      security.pam.services.greetd.enableGnomeKeyring = true;
     };
-    security.pam.services.greetd.enableGnomeKeyring = true;
+
+    finix.greetd = {modules, ...}: {
+      imports = [modules.tuigreet];
+
+      programs.tuigreet.enable = true;
+    };
   };
 }

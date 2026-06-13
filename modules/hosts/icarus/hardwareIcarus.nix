@@ -10,6 +10,8 @@
       "thunderbolt"
     ];
 
+    boot.kernelParams = ["random.trust_cpu=on" "random.trust_bootlaoder=on"];
+
     hardware.firmware = [pkgs.linux-firmware];
   };
 }

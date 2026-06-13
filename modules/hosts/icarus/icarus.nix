@@ -10,9 +10,9 @@
       core
       shell
       session
+      greetd
       niri
       noctalia
-      ly
       fonts
       apps
     ];
