@@ -63,6 +63,11 @@ in {
       nixpkgs.overlays = [inputs.niri-nix.overlays.niri-nix];
     };
 
+    finix.niri = {modules, ...}: {
+      imports = [modules.niri];
+      programs.niri.enable = true;
+    };
+
     homeManager.niri = {
       config,
       lib,
@@ -215,7 +220,7 @@ in {
               }
               {
                 match._props = {
-                  titel = "Bitwarden";
+                  title = "Bitwarden";
                 };
                 open-floating = true;
                 default-column-width.fixed = 1024;

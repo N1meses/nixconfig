@@ -11,7 +11,8 @@
       security.pam.services.ly.enableGnomeKeyring = true;
     };
 
-    finix.ly = {...}: {
+    finix.ly = {modules, ...}: {
+      imports = [modules.ly];
       services.ly = {
         enable = true;
         settings = {

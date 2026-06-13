@@ -8,12 +8,6 @@ in {
       ];
     };
 
-    finix.shell = {
-      imports = with flakeConfig.flake.modules.nixos; [
-        zsh
-      ];
-    };
-
     homeManager.shell = {...}: {
       imports = with flakeConfig.flake.modules.homeManager; [
         shellTools

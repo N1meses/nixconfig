@@ -113,6 +113,9 @@
     }: {
       imports = [modules.limine modules.getty modules.networkmanager];
       programs.limine.enable = true;
+      boot.kernelParams = ["random.trust_cpu=on" "rnadom.trust_bootlaoder=on"];
+
+      services.udev.enable = true;
 
       boot = {
         kernelPackages = pkgs.linuxPackages_latest;

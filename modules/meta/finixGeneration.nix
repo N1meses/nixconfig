@@ -28,6 +28,13 @@ in {
                 nixpkgs.pkgs = import inputs.nixpkgs {
                   inherit (host) system;
                   config.allowUnfree = true;
+                  overlays = [
+                    (final: prev: {
+                      home-manager = prev.home-manager.overrideAttrs (_: {
+                        src = inputs.home-manager;
+                      });
+                    })
+                  ];
                 };
               }
             ]

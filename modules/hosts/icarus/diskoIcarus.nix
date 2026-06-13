@@ -47,5 +47,5 @@ in {
     inherit fileSystems;
   };
 
-  flake.diskoConfigurations.icarus = devices;
+  flake.diskoConfigurations.icarus.disko.devices = devices;
 }

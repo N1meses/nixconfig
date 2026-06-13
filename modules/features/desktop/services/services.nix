@@ -17,5 +17,12 @@ in {
         userServices
       ];
     };
+
+    finix.services = {...}: {
+      imports = with flakeConfig.flake.modules.finix; [
+         fonts
+         ly
+      ];
+    };
   };
 }
