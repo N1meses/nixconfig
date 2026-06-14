@@ -7,6 +7,8 @@
   }: {
     imports = [modules.doas];
     services.seatd.enable = true;
+    services.getty.ttys = ["tty1"];
+    finit.runlevel = 3;
 
     programs.doas.enable = true;
 
