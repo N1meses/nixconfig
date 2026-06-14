@@ -112,7 +112,6 @@
       ...
     }: {
       imports = [
-        modules.rsyslog
         modules.limine
         modules.getty
         modules.networkmanager
@@ -122,7 +121,11 @@
 
       services.udev.enable = true;
 
-      services.rsyslog.enable = true;
+      finit.services.syslogd = {
+        description = "syslog";
+        command = "${pkgs.busybox}/bin/syslogd -n";
+        runlevels = "2345";
+      };
 
       boot = {
         kernelPackages = pkgs.linuxPackages_latest;
