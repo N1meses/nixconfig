@@ -111,7 +111,13 @@
       modules,
       ...
     }: {
-      imports = [modules.limine modules.getty modules.networkmanager];
+      imports = [
+        modules.rsyslog
+        modules.limine
+        modules.getty
+        modules.networkmanager
+      ];
+
       programs.limine.enable = true;
 
       services.udev.enable = true;
