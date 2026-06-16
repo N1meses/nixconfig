@@ -12,6 +12,11 @@
 
     boot.kernelParams = ["random.trust_cpu=on" "random.trust_bootlaoder=on"];
 
-    hardware.firmware = [pkgs.linux-firmware];
+    hardware = {
+      graphics.extraPackages = [ pkgs.intel-media-driver ];
+      graphics.extraPackages32 = [ pkgs.pkgsi686Linux.intel-media-driver ];
+
+      firmware = [pkgs.linux-firmware];
+    };
   };
 }

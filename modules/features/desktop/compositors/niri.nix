@@ -63,8 +63,14 @@ in {
       nixpkgs.overlays = [inputs.niri-nix.overlays.niri-nix];
     };
 
-    finix.niri = {modules, ...}: {
+    finix.niri = {modules, lib, ...}: {
       imports = [modules.niri];
+      hardware = {
+        graphics = {
+          enable = lib.mkDefault true;
+          enable32Bit = lib.mkDefault true;
+        };
+      };
       programs.niri.enable = true;
     };
 

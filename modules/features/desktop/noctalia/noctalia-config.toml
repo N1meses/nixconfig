@@ -59,11 +59,6 @@ warning_threshold = 20
 enable_ddcutil = false
 ignore_mmids = []
 
-[calendar]
-accounts = []
-enabled = false
-refresh_minutes = 15
-
 [control_center]
 sidebar = "compact"
 sidebar_section = "compact"

@@ -13,10 +13,12 @@ in {
       name = "N1meses";
       email = "nilshasenthal@gmail.com";
     };
+    extraGroups = ["libvirtd" "kvm"];
     aspects = with config.flake.lib.aspects; [
       diskoNimeses
       hardwareNimeses
       users
+      virtualisation
       local
       cachyosKernel
       tailscale

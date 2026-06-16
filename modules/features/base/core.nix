@@ -108,6 +108,7 @@
 
     finix.core = {
       pkgs,
+      lib,
       modules,
       ...
     }: {
@@ -121,7 +122,12 @@
 
       services.udev.enable = true;
 
-      finit.services.syslogd = {
+      # finix's activation only `mkdir -p /tmp` (mode 755); without this,
+      # dbus-run-session can't bind its socket and Wayland sessions die.
+      finit.tmpfiles.rules = ["d /tmp 1777 root root -"];
+
+      # default so a host (or the VM test harness' sysklogd) can override it
+      finit.services.syslogd = lib.mkDefault {
         description = "syslog";
         command = "${pkgs.busybox}/bin/syslogd -n";
         runlevels = "2345";
