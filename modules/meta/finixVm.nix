@@ -37,8 +37,6 @@ in {
         name = "icarus-vm";
         nodes.machine = vmNode;
         testScript = "start_all()";
-        # finix's `.driverInteractive` wraps the driver WITHOUT --interactive,
-        # so it just runs testScript and exits; this drops into the REPL instead.
         extraDriverArgs = ["--interactive"];
       })
       .driverInteractive;
