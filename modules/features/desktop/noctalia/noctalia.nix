@@ -15,16 +15,14 @@ in {
     lib.mkNoctaliaMango = cmd: "spawn, noctalia msg ${cmd}";
 
     modules = {
-      nixos.noctalia = {pkgs, ...}: {
-        environment.systemPackages = [
-          inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
-        ];
-      };
-
-      homeManager.noctalia = {...}: {
+      homeManager.noctalia = {pkgs, ...}: {
         imports = [
           inputs.noctalia.homeModules.default
           flakeConfig.flake.modules.homeManager.noctaliaSettings
+        ];
+
+        home.packages = [
+          inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
         ];
 
         features.compositors.autoStart = ["noctalia"];

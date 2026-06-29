@@ -51,7 +51,7 @@
     };
 
     noctalia = {
-      url = "github:noctalia-dev/noctalia";
+      url = "github:noctalia-dev/noctalia/cachix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -80,9 +80,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    kopuz = {
+      url = "github:temidaradev/kopuz";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     finix.url = "github:finix-community/finix";
     finix-community-modules.url = "github:finix-community/community-modules";
-
   };
 
   outputs = inputs:

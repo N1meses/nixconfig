@@ -15,14 +15,15 @@ order = [ "default" ]
 
     [bar.default]
     auto_hide = false
-    background_opacity = 0.90000000000000002
+    background_opacity = 0.89999997615814209
     border = "surface"
     border_width = 0.0
     capsule = true
     capsule_fill = "surface_variant"
     capsule_opacity = 1.0
     capsule_padding = 1.0
-    center = [ "media" ]
+    capsule_thickness = 0.75999999046325684
+    center = [ "media", "audio_visualizer" ]
     contact_shadow = false
     enabled = true
     end = [ "wallpaper", "group:g1", "battery", "output_volume", "bluetooth", "network", "clock", "session" ]
@@ -30,6 +31,7 @@ order = [ "default" ]
     layer = "top"
     margin_edge = 10
     margin_ends = 8
+    margin_opposite_edge = 0
     padding = 4
     panel_overlap = 1
     position = "left"
@@ -41,9 +43,17 @@ order = [ "default" ]
     reserve_space = true
     scale = 1.0
     shadow = false
+    show_on_workspace_switch = true
     start = [ "control-center", "tray", "taskbar" ]
     thickness = 35
     widget_spacing = 4
+
+        [bar.default.dead_zone]
+        command = ""
+        middle_command = ""
+        right_command = ""
+        scroll_down_command = ""
+        scroll_up_command = ""
 
         [[bar.default.capsule_group]]
         fill = "surface_variant"
@@ -58,10 +68,16 @@ warning_threshold = 20
 [brightness]
 enable_ddcutil = false
 ignore_mmids = []
+minimum_brightness = 0.0
+
+[calendar]
+enabled = false
+refresh_minutes = 15
 
 [control_center]
 sidebar = "compact"
 sidebar_section = "compact"
+width = 700
 
     [[control_center.shortcuts]]
     type = "wifi"
@@ -84,14 +100,11 @@ sidebar_section = "compact"
 [desktop_widgets]
 enabled = true
 schema_version = 1
-widget_order = []
 
     [desktop_widgets.grid]
     cell_size = 16
     major_interval = 4
     visible = true
-
-    [desktop_widgets.widget]
 
 [dock]
 active_monitor_only = false
@@ -99,6 +112,7 @@ active_opacity = 1.0
 active_scale = 1.0
 auto_hide = false
 background_opacity = 0.68999999761581421
+cross_axis_padding = 8
 enabled = false
 icon_size = 48
 inactive_opacity = 0.85000002384185791
@@ -106,10 +120,12 @@ inactive_scale = 0.85000002384185791
 item_spacing = 6
 launcher_icon = "grid-dots"
 launcher_position = "none"
+magnification = true
+magnification_scale = 1.4500000476837158
+main_axis_padding = 16
 margin_edge = 8
 margin_ends = 0
 monitors = []
-padding = 8
 pinned = []
 position = "bottom"
 radius = 16
@@ -127,6 +143,7 @@ show_running = true
 battery_charging = []
 battery_discharging = []
 battery_percentage_changed = []
+battery_plugged = []
 bluetooth_disabled = []
 bluetooth_enabled = []
 colors_changed = []
@@ -151,27 +168,29 @@ pre_action_fade_seconds = 2.0
     command = ""
     enabled = true
     resume_command = ""
-    timeout = 600
+    timeout = 600.0
 
     [idle.behavior.lock-and-suspend]
     action = "lock_and_suspend"
     command = ""
     enabled = false
     resume_command = ""
-    timeout = 900
+    timeout = 900.0
 
     [idle.behavior.screen-off]
     action = "screen_off"
     command = ""
     enabled = false
     resume_command = ""
-    timeout = 660
+    timeout = 660.0
 
 [keybinds]
 cancel = [ "Escape" ]
 down = [ "Down" ]
 left = [ "Left" ]
 right = [ "Right" ]
+tab_next = [ "Tab" ]
+tab_previous = [ "Shift+ISO_Left_Tab" ]
 up = [ "Up" ]
 validate = [ "Return", "KP_Enter" ]
 
@@ -182,14 +201,17 @@ sunrise = ""
 sunset = ""
 
 [lockscreen]
-blur_intensity = 0.79999998211860657
+allow_empty_password = false
+blur_intensity = 0.79999995231628418
 blurred_desktop = false
-tint_intensity = 0.4999999888241291
-wallpaper_blur_intensity = 0.0
-wallpaper_tint_intensity = 0.0
+enabled = true
+fingerprint = true
+monitors = []
+tint_intensity = 0.5
+wallpaper = ""
 
 [lockscreen_widgets]
-enabled = false
+enabled = true
 schema_version = 1
 widget_order = [ "lockscreen-login-box@eDP-1" ]
 
@@ -203,9 +225,13 @@ widget_order = [ "lockscreen-login-box@eDP-1" ]
     box_width = 0.0
     cx = 900.0
     cy = 1077.0
+    enabled = true
     output = "eDP-1"
     rotation = 0.0
     type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@eDP-1".settings]
+        show_login_button = true
 
 [nightlight]
 enabled = false
@@ -214,10 +240,7 @@ temperature_day = 6500
 temperature_night = 4000
 
 [notification]
-allowed_urgencies = []
-background_opacity = 0.90000000000000002
-blacklist = []
-blacklist_allow_critical = true
+background_opacity = 0.89999997615814209
 collapse_on_dismiss = true
 enable_daemon = true
 layer = "top"
@@ -230,19 +253,51 @@ show_actions = true
 show_app_name = true
 
 [osd]
-background_opacity = 0.90000000000000002
-keyboard_layout = true
-lock_keys = true
+background_opacity = 0.89999997615814209
 monitors = []
 offset_x = 8
 offset_y = 8
 orientation = "vertical"
 position = "bottom_left"
+position_vertical = "bottom_left"
 scale = 1.0
+
+    [osd.kinds]
+    bluetooth = true
+    brightness = true
+    caffeine = true
+    dnd = true
+    keyboard_layout = true
+    lock_keys = true
+    media = true
+    nightlight = true
+    power_profile = true
+    privacy = true
+    volume = true
+    volume_input = true
+    volume_output = true
+    wifi = true
+
+[plugins]
+enabled = [ "noctalia/screen_recorder" ]
+
+    [[plugins.source]]
+    auto_update = false
+    enabled = true
+    kind = "git"
+    location = "https://github.com/noctalia-dev/official-plugins"
+    name = "official"
+
+    [[plugins.source]]
+    auto_update = false
+    enabled = true
+    kind = "git"
+    location = "https://github.com/noctalia-dev/community-plugins"
+    name = "community"
 
 [shell]
 app_icon_colorize = false
-avatar_path = "/nix/store/xz2d486l1sxiwncgildzb9g3wlia2f4a-source/assets/icons/hunter.jpeg"
+avatar_path = "/nix/store/cfymp7sgp9l3cg3dsfnqq6268l31ammj-source/assets/icons/hunter.jpeg"
 clipboard_auto_paste = "auto"
 clipboard_confirm_clear_history = true
 clipboard_enabled = true
@@ -269,34 +324,56 @@ ui_scale = 1.0
 
     [shell.animation]
     enabled = true
-    speed = 2.0000000298023224
+    speed = 2.0
+
+    [shell.greeter_sync]
+
+    [shell.launcher]
+    app_grid = false
+    categories = true
+    compact = false
+    session_search = false
+    show_icons = true
+    sort_by_usage = true
+
+        [shell.launcher.dmenu]
 
     [shell.mpris]
     blacklist = []
 
     [shell.panel]
     borders = true
-    clipboard_placement = "centered"
+    clipboard_placement = "floating"
+    clipboard_position = "center"
     control_center_placement = "floating"
-    launcher_categories = true
-    launcher_compact = false
-    launcher_placement = "centered"
-    launcher_show_icons = true
+    control_center_position = "auto"
+    floating_offset = 8
+    launcher_placement = "floating"
+    launcher_position = "center"
     open_near_click_clipboard = false
     open_near_click_control_center = true
     open_near_click_launcher = false
     open_near_click_session = false
     open_near_click_wallpaper = false
-    session_placement = "centered"
+    polkit_placement = "floating"
+    polkit_position = "center"
+    session_placement = "attached"
+    session_position = "auto"
     shadow = false
     transparency_mode = "soft"
     wallpaper_placement = "attached"
+    wallpaper_position = "auto"
+
+    [shell.privacy]
+    cam_filter_regex = ""
+    mic_filter_regex = ""
 
     [shell.screen_corners]
     enabled = true
     size = 32
 
     [shell.screenshot]
+    confirm_region = false
     copy_to_clipboard = true
     directory = "/home/nimeses/Pictures/Screenshots"
     filename_pattern = ""
@@ -305,9 +382,12 @@ ui_scale = 1.0
     pipe_to_command = false
     save_to_file = true
 
+    [shell.session.power]
+
     [[shell.session.actions]]
     action = "lock"
     command = ""
+    countdown_seconds = 0.0
     enabled = true
     glyph = ""
     label = ""
@@ -317,6 +397,7 @@ ui_scale = 1.0
     [[shell.session.actions]]
     action = "logout"
     command = ""
+    countdown_seconds = 0.0
     enabled = true
     glyph = ""
     label = ""
@@ -326,6 +407,7 @@ ui_scale = 1.0
     [[shell.session.actions]]
     action = "suspend"
     command = ""
+    countdown_seconds = 0.0
     enabled = true
     glyph = ""
     label = ""
@@ -335,6 +417,7 @@ ui_scale = 1.0
     [[shell.session.actions]]
     action = "reboot"
     command = ""
+    countdown_seconds = 0.0
     enabled = true
     glyph = ""
     label = ""
@@ -344,6 +427,7 @@ ui_scale = 1.0
     [[shell.session.actions]]
     action = "shutdown"
     command = ""
+    countdown_seconds = 0.0
     enabled = true
     glyph = ""
     label = ""
@@ -351,16 +435,37 @@ ui_scale = 1.0
     variant = "destructive"
 
     [shell.shadow]
-    alpha = 0.90000000000000002
+    alpha = 0.89999997615814209
     direction = "down"
 
 [system.monitor]
 cpu_poll_seconds = 2.0
+cpu_temp_activity_threshold = 60.0
+cpu_temp_critical_threshold = 85.0
+cpu_temp_sensor_path = ""
+cpu_usage_activity_threshold = 50.0
+cpu_usage_critical_threshold = 90.0
+disk_pct_activity_threshold = 80.0
+disk_pct_critical_threshold = 95.0
 disk_poll_seconds = 10.0
 enabled = true
 gpu_poll_seconds = 5.0
+gpu_temp_activity_threshold = 60.0
+gpu_temp_critical_threshold = 85.0
+gpu_usage_activity_threshold = 50.0
+gpu_usage_critical_threshold = 95.0
+gpu_vram_activity_threshold = 50.0
+gpu_vram_critical_threshold = 90.0
 memory_poll_seconds = 2.0
+net_rx_activity_threshold = 1.0
+net_rx_critical_threshold = 50.0
+net_tx_activity_threshold = 1.0
+net_tx_critical_threshold = 50.0
 network_poll_seconds = 3.0
+ram_pct_activity_threshold = 60.0
+ram_pct_critical_threshold = 90.0
+swap_pct_activity_threshold = 20.0
+swap_pct_critical_threshold = 80.0
 
 [theme]
 builtin = "m3-rainbow"
@@ -386,23 +491,14 @@ fill_color = ""
 fill_mode = "crop"
 per_monitor_directories = false
 transition = [ "fade", "wipe", "disc", "stripes", "zoom", "honeycomb" ]
-transition_duration = 500
+transition_duration = 500.0
 transition_on_startup = false
 
     [wallpaper.automation]
     enabled = false
-    interval_minutes = 10
+    interval_seconds = 1800
     order = "random"
     recursive = false
-
-    [wallpaper.default]
-    path = "/home/nimeses/Pictures/Wallpapers/wallhaven_rr85dm.jpg"
-
-    [wallpaper.last]
-    path = "/home/nimeses/Pictures/Wallpapers/wallhaven_rr85dm.jpg"
-
-    [wallpaper.monitors.eDP-1]
-    path = "/home/nimeses/Pictures/Wallpapers/wallhaven_rr85dm.jpg"
 
 [weather]
 effects = true
@@ -417,6 +513,11 @@ min_length = 80.0
 title_scroll = "none"
 type = "active_window"
 
+[widget.audio_visualizer]
+bands = 50
+type = "audio_visualizer"
+width = 201
+
 [widget.battery]
 show_label = false
 type = "battery"
@@ -425,7 +526,7 @@ type = "battery"
 type = "clock"
 
 [widget.control-center]
-custom_image = "/nix/store/xz2d486l1sxiwncgildzb9g3wlia2f4a-source/assets/icons/nixos.png"
+custom_image = "/nix/store/cfymp7sgp9l3cg3dsfnqq6268l31ammj-source/assets/icons/nixos.png"
 scale = 1.5
 type = "control-center"
 

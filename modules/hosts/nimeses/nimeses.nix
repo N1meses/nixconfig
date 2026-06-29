@@ -39,6 +39,7 @@ in {
       git
       direnv
       cli
+      music
     ];
   };
 
@@ -96,8 +97,8 @@ in {
           "Mod+Shift+q" = {spawn = mkNoctaliaNiri "session lock";};
           "Mod+n" = {spawn = mkNoctaliaNiri "panel-toggle launcher";};
           "Mod+b" = {spawn = mkNoctaliaNiri "bar-toggle";};
-          "Ctrl+Print" = {spawn = mkNoctaliaNiri "screenshot-fullscreen monitor";};
-          "Print" = {spawn = mkNoctaliaNiri "screenshot-region";};
+          "Print" = {spawn = mkNoctaliaNiri "screenshot-fullscreen";};
+          "Mod+Print" = {spawn = mkNoctaliaNiri "screenshot-region";};
         };
       };
     };
@@ -119,6 +120,7 @@ in {
       tor-browser
       mpv
       nicotine-plus
+      rmpc
     ];
   };
 }
