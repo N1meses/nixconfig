@@ -11,6 +11,8 @@
       };
     };
 
+    services.restic.backups.system.paths = [ "/var/lib/private/navidrome" ];
+
     services.nginx.virtualHosts."navidrome.${cfg.domain}" = {
       locations."/" = {
         proxyPass = "http://127.0.0.1:4533";

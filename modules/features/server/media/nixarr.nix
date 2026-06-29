@@ -15,6 +15,8 @@
       wants = ["nss-lookup.target"];
     };
 
+    services.restic.backups.system.paths = [ "/var/lib/nixarr" ];
+
     nixarr = {
       enable = true;
       mediaDir = "/media";

@@ -32,6 +32,8 @@
       };
     };
 
+    services.restic.backups.system.paths = [ "/var/lib/tuwunel" ];
+
     sops.secrets."matrix-oidc-secret" = {
       owner = "tuwunel";
     };

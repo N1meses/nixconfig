@@ -12,6 +12,8 @@
       };
     };
 
+    services.restic.backups.system.paths = [ "/var/lib/jellyfin" ];
+
     users.users.jellyfin.extraGroups = ["media" "render" "video"];
   };
 }

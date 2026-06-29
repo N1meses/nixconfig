@@ -24,6 +24,8 @@
 
     networking.firewall.interfaces."tailscale0".allowedTCPPorts = [2222];
 
+    services.restic.backups.system.paths = [ "/var/lib/forgejo" ];
+
     services.nginx.virtualHosts."forgejo.${cfg.domain}" = {
       locations."/" = {
         proxyPass = "http://127.0.0.1:3000";

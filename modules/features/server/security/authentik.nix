@@ -17,6 +17,8 @@
       };
     };
 
+    services.restic.backups.system.paths = [ "/var/lib/authentik" ];
+
     services.nginx.virtualHosts."auth.${cfg.domain}".locations."/".extraConfig = ''
       proxy_set_header X-Forwarded-Proto https;
     '';

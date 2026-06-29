@@ -27,6 +27,8 @@
 
     services.vaultwarden.backupDir = "/var/backup/vaultwarden";
 
+    services.restic.backups.system.paths = [ config.services.vaultwarden.backupDir ];
+
     services.nginx.virtualHosts."${cfg.domain}" = {
       addSSL = true;
       sslCertificate = "/var/lib/nginx/certs/${cfg.domain}.crt";

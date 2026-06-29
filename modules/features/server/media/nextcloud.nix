@@ -42,6 +42,19 @@
       };
     };
 
+    services.postgresqlBackup = {
+      enable = true;
+      databases = [ "nextcloud" "authentik" ];
+      location = "/var/backup/postgresql";
+      compression = "zstd";
+      startAt = "*-*-* 02:00:00";
+    };
+
+    services.restic.backups.system.paths = [
+      "/var/lib/private/nextcloud"
+      "var/backup/postgresql"
+    ];
+
     users.users.nextcloud.extraGroups = ["media"];
   };
 }
