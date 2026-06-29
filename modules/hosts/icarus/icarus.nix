@@ -16,19 +16,19 @@
       fonts
       apps
     ];
-  };
 
-  configurations.finix.icarus.module = {pkgs, ...}: {
-    environment.systemPackages = with pkgs; [git wget];
+    finixModule = {pkgs, ...}: {
+      environment.systemPackages = with pkgs; [git wget];
 
-    users.users.icarus = {
-      isNormalUser = true;
-      extraGroups = ["wheel" "networkmanager" "seat"];
-      password = "$6$If7oQG5J2MpI2v.T$RpwZ8z.uJyvGyky4gKzanEhOUTCzpdSZQC/UuoiRvB.FwH3WPs.fKmbhkRfL8nmhCnn55qZjG8RzFcJbOePKH/";
+      users.users.icarus = {
+        isNormalUser = true;
+        extraGroups = ["wheel" "networkmanager" "seat"];
+        password = "$6$If7oQG5J2MpI2v.T$RpwZ8z.uJyvGyky4gKzanEhOUTCzpdSZQC/UuoiRvB.FwH3WPs.fKmbhkRfL8nmhCnn55qZjG8RzFcJbOePKH/";
+      };
+      users.users.root.password = "$6$If7oQG5J2MpI2v.T$RpwZ8z.uJyvGyky4gKzanEhOUTCzpdSZQC/UuoiRvB.FwH3WPs.fKmbhkRfL8nmhCnn55qZjG8RzFcJbOePKH/";
     };
-    users.users.root.password = "$6$If7oQG5J2MpI2v.T$RpwZ8z.uJyvGyky4gKzanEhOUTCzpdSZQC/UuoiRvB.FwH3WPs.fKmbhkRfL8nmhCnn55qZjG8RzFcJbOePKH/";
-  };
 
-  configurations.homeManager.icarus.module = _: {
+    homeModule = _: {
+    };
   };
 }

@@ -22,7 +22,7 @@ _: {
             brand = "authentik";
             client_id = "tuwunel";
             client_secret_file = config.sops.secrets."matrix-oidc-secret".path;
-            callback_url = "https://matrix.nimeses.com/_matrix/client/unstable/login/sso/callback/tuwunel";
+            callback_url = "https://matrix.${cfg.domain}/_matrix/client/unstable/login/sso/callback/tuwunel";
             issuer_url = "https://auth.${cfg.domain}/application/o/matrix/";
             trusted = true;
             registration = true;

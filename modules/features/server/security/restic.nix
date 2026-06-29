@@ -4,7 +4,9 @@ _: {
     lib,
     ...
   }: {
-    services.restic.backups = {
+    sops.secrets.restic-password = {};
+
+    services.restic.backups.system = {
       passwordFile = config.sops.secrets.restic-password.path;
       repository = lib.mkDefault "/backup/${config.networking.hostName}";
       timerConfig = {

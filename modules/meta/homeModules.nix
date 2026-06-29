@@ -1,11 +1,7 @@
-{
-  lib,
-  config,
-  ...
-}: let
+{config, ...}: let
   homeModules = config.flake.modules.homeManager;
-  aspectsFor = aspects:
-    map (n: homeModules.${n}) (lib.filter (n: homeModules ? ${n}) aspects);
+  aspectsFor = config.flake.lib.aspectsFor;
+  resolveAspects = config.flake.lib.resolveAspects;
 in {
   flake.lib.mkHomeModules = {
     host,
@@ -16,7 +12,7 @@ in {
         homeModules.compositors
         homeModule
       ]
-      ++ (aspectsFor host.aspects);
+      ++ (aspectsFor homeModules (resolveAspects host.aspects));
 
     home = {
       inherit (host) username;

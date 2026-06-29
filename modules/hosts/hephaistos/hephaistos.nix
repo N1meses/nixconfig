@@ -26,40 +26,41 @@
       fastfetch
       git
       network
+      restic
     ];
-  };
 
-  configurations.nixos.hephaistos.module = {pkgs, ...}: {
-    imports = [inputs.sops-nix.nixosModules.sops];
+    nixosModule = {pkgs, ...}: {
+      imports = [inputs.sops-nix.nixosModules.sops];
 
-    networking.hostName = "hephaistos";
+      networking.hostName = "hephaistos";
 
-    features.server.domain = "hephaistos.tail4109e2.ts.net";
+      features.server.domain = "hephaistos.tail4109e2.ts.net";
 
-    sops = {
-      defaultSopsFile = ../../../secrets/hephaistos.yaml;
-      age.sshKeyPaths = [];
-      age.keyFile = "/root/.config/sops/age/keys.txt";
+      sops = {
+        defaultSopsFile = ../../../secrets/hephaistos.yaml;
+        age.sshKeyPaths = [];
+        age.keyFile = "/root/.config/sops/age/keys.txt";
+      };
+
+      boot.kernelPackages = pkgs.linuxPackages_latest;
+
+      environment.systemPackages = with pkgs; [
+        ntfs3g
+        git
+        wget
+        wol
+        wakeonlan
+      ];
     };
 
-    boot.kernelPackages = pkgs.linuxPackages_latest;
-
-    environment.systemPackages = with pkgs; [
-      ntfs3g
-      git
-      wget
-      wol
-      wakeonlan
-    ];
-  };
-
-  configurations.homeManager.hephaistos.module = {pkgs, ...}: {
-    home.packages = with pkgs; [
-      trash-cli
-      nom
-      nvd
-      nix-tree
-      tldr
-    ];
+    homeModule = {pkgs, ...}: {
+      home.packages = with pkgs; [
+        trash-cli
+        nom
+        nvd
+        nix-tree
+        tldr
+      ];
+    };
   };
 }

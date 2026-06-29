@@ -49,5 +49,5 @@ in {
   flake.nixosConfigurations =
     lib.mapAttrs'
     (name: _: lib.nameValuePair "${name}Minimal" (mkMinimal name))
-    config.configurations.nixos;
+    (lib.filterAttrs (_: h: h.nixosModule != null) config.registry.hosts);
 }

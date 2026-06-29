@@ -35,46 +35,47 @@
       fastfetch
       git
       network
+      restic
     ];
-  };
 
-  configurations.nixos.athena.module = {pkgs, ...}: {
-    imports = [inputs.sops-nix.nixosModules.sops];
+    nixosModule = {pkgs, ...}: {
+      imports = [inputs.sops-nix.nixosModules.sops];
 
-    sops = {
-      defaultSopsFile = ../../../secrets/athena.yaml;
-      age.sshKeyPaths = [];
-      age.keyFile = "/root/.config/sops/age/keys.txt";
+      sops = {
+        defaultSopsFile = ../../../secrets/athena.yaml;
+        age.sshKeyPaths = [];
+        age.keyFile = "/root/.config/sops/age/keys.txt";
+      };
+
+      networking.hostName = "athena";
+
+      features.server = {
+        domain = "nimeses.com";
+        allowedUsers = ["athena"];
+      };
+
+      boot.kernelPackages = pkgs.linuxPackages_6_18;
+
+      environment.systemPackages = with pkgs; [
+        ntfs3g
+        git
+        wget
+        nix
+        wol
+        wakeonlan
+        sops
+      ];
     };
 
-    networking.hostName = "athena";
-
-    features.server = {
-      domain = "nimeses.com";
-      allowedUsers = ["athena"];
+    homeModule = {pkgs, ...}: {
+      home.packages = with pkgs; [
+        trash-cli
+        nom
+        nvd
+        nix-tree
+        tldr
+        ani-cli
+      ];
     };
-
-    boot.kernelPackages = pkgs.linuxPackages_6_18;
-
-    environment.systemPackages = with pkgs; [
-      ntfs3g
-      git
-      wget
-      nix
-      wol
-      wakeonlan
-      sops
-    ];
-  };
-
-  configurations.homeManager.athena.module = {pkgs, ...}: {
-    home.packages = with pkgs; [
-      trash-cli
-      nom
-      nvd
-      nix-tree
-      tldr
-      ani-cli
-    ];
   };
 }
