@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.modules.nixos.performance = {lib, ...}: {
     boot.kernel.sysctl = {
       "net.core.netdev_max_backlog" = lib.mkDefault 16384;

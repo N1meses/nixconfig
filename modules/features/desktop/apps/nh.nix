@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.modules.homeManager.nh = {config, ...}: {
     programs.nh = {
       enable = true;

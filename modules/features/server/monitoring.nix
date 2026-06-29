@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.modules.nixos.monitoring = {
     services.netdata.enable = true;
 

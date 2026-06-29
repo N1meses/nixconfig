@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.modules.homeManager.javascript = {pkgs, ...}: {
     home.packages = with pkgs; [
       nodePackages.typescript-language-server

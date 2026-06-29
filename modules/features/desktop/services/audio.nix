@@ -1,6 +1,6 @@
-{...}: {
+_: {
   flake.modules = {
-    nixos.audio = {...}: {
+    nixos.audio = _: {
       services.pipewire = {
         enable = true;
         alsa.enable = true;
@@ -11,7 +11,7 @@
       security.rtkit.enable = true;
     };
 
-    finix.audio = {...}: {
+    finix.audio = _: {
       #TODO!
     };
   };

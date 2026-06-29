@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.modules.nixos.ollama = {
     config,
     lib,
@@ -28,9 +28,9 @@
 
     config.services.ollama = {
       enable = true;
-      host = cfg.host;
-      port = cfg.port;
-      acceleration = cfg.acceleration;
+      inherit (cfg) host;
+      inherit (cfg) port;
+      inherit (cfg) acceleration;
     };
   };
 }

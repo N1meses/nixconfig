@@ -42,7 +42,7 @@
   ];
 in {
   flake.modules = {
-    nixos.hyprland = {...}: {
+    nixos.hyprland = _: {
       programs.hyprland.enable = true;
     };
 

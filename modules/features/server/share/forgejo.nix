@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.modules.nixos.forgejo = {config, ...}: let
     cfg = config.features.server;
   in {
@@ -24,7 +24,7 @@
 
     networking.firewall.interfaces."tailscale0".allowedTCPPorts = [2222];
 
-    services.restic.backups.system.paths = [ "/var/lib/forgejo" ];
+    services.restic.backups.system.paths = ["/var/lib/forgejo"];
 
     services.nginx.virtualHosts."forgejo.${cfg.domain}" = {
       locations."/" = {

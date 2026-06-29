@@ -1,4 +1,4 @@
-{...}: let
+_: let
   localSettings = {
     LC_ADDRESS = "de_DE.UTF-8";
     LC_IDENTIFICATION = "de_DE.UTF-8";

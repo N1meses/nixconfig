@@ -29,6 +29,6 @@
     users.users.root.password = "$6$If7oQG5J2MpI2v.T$RpwZ8z.uJyvGyky4gKzanEhOUTCzpdSZQC/UuoiRvB.FwH3WPs.fKmbhkRfL8nmhCnn55qZjG8RzFcJbOePKH/";
   };
 
-  configurations.homeManager.icarus.module = {...}: {
+  configurations.homeManager.icarus.module = _: {
   };
 }

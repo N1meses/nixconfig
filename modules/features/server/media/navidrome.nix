@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.modules.nixos.navidrome = {config, ...}: let
     cfg = config.features.server;
   in {
@@ -11,7 +11,7 @@
       };
     };
 
-    services.restic.backups.system.paths = [ "/var/lib/private/navidrome" ];
+    services.restic.backups.system.paths = ["/var/lib/private/navidrome"];
 
     services.nginx.virtualHosts."navidrome.${cfg.domain}" = {
       locations."/" = {

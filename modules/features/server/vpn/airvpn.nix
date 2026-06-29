@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.modules.nixos.airvpn = {config, ...}: {
     sops.secrets.airvpn-wg-conf-system = {};
 

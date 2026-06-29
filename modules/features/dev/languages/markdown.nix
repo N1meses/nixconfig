@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.modules.homeManager.markdown = {pkgs, ...}: {
     home.packages = with pkgs; [marksman];
     programs.helix.languages = {

@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.modules.nixos.matrix = {config, ...}: let
     cfg = config.features.server;
   in {
@@ -32,7 +32,7 @@
       };
     };
 
-    services.restic.backups.system.paths = [ "/var/lib/tuwunel" ];
+    services.restic.backups.system.paths = ["/var/lib/tuwunel"];
 
     sops.secrets."matrix-oidc-secret" = {
       owner = "tuwunel";

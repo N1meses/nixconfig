@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.modules.finix.session = {
     pkgs,
     lib,

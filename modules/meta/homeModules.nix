@@ -19,9 +19,9 @@ in {
       ++ (aspectsFor host.aspects);
 
     home = {
-      username = host.username;
-      homeDirectory = host.homeDirectory;
-      stateVersion = host.stateVersion;
+      inherit (host) username;
+      inherit (host) homeDirectory;
+      inherit (host) stateVersion;
     };
 
     programs.git = {

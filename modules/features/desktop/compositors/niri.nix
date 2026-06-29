@@ -63,7 +63,11 @@ in {
       nixpkgs.overlays = [inputs.niri-nix.overlays.niri-nix];
     };
 
-    finix.niri = {modules, lib, ...}: {
+    finix.niri = {
+      modules,
+      lib,
+      ...
+    }: {
       imports = [modules.niri];
       hardware = {
         graphics = {
@@ -155,7 +159,7 @@ in {
                 lib.mapAttrsToList (
                   name: m: {
                     _args = [name];
-                    scale = m.scale;
+                    inherit (m) scale;
                     mode = "${toString m.resolution.width}x${toString m.resolution.height}@${toString m.refreshRate}";
                     position._props = {
                       x = m.position.x;

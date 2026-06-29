@@ -8,10 +8,6 @@ in {
     stateVersion = "25.05";
     homeDirectory = "/home/prometheus";
     extraGroups = ["gamemode" "libvirtd" "kvm"];
-    git = {
-      name = "N1meses";
-      email = "nilshasenthal@gmail.com";
-    };
     aspects = with config.flake.lib.aspects; [
       core
       shell

@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.modules.nixos.jellyfin = {config, ...}: let
     cfg = config.features.server;
   in {
@@ -12,7 +12,7 @@
       };
     };
 
-    services.restic.backups.system.paths = [ "/var/lib/jellyfin" ];
+    services.restic.backups.system.paths = ["/var/lib/jellyfin"];
 
     users.users.jellyfin.extraGroups = ["media" "render" "video"];
   };

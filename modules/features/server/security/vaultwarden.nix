@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.modules.nixos.vaultwarden = {config, ...}: let
     cfg = config.features.server;
   in {
@@ -27,7 +27,7 @@
 
     services.vaultwarden.backupDir = "/var/backup/vaultwarden";
 
-    services.restic.backups.system.paths = [ config.services.vaultwarden.backupDir ];
+    services.restic.backups.system.paths = [config.services.vaultwarden.backupDir];
 
     services.nginx.virtualHosts."${cfg.domain}" = {
       addSSL = true;

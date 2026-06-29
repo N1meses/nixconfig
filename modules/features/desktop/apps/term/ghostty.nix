@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.modules.homeManager.ghostty = {lib, ...}: {
     features.compositors.terminal = lib.mkDefault {
       command = "ghostty";

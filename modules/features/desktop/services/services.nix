@@ -20,8 +20,8 @@ in {
 
     finix.services = {...}: {
       imports = with flakeConfig.flake.modules.finix; [
-         fonts
-         ly
+        fonts
+        ly
       ];
     };
   };

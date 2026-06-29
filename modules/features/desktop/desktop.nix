@@ -5,7 +5,6 @@ in {
     nixos.desktop = {...}: {
       imports = with flakeConfig.flake.modules.nixos; [
         services
-        noctalia
       ];
     };
 

@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.modules.homeManager.foot = {lib, ...}: {
     features.compositors.terminal = lib.mkDefault {
       command = "foot";

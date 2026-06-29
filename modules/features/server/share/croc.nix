@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.modules.nixos.croc = {pkgs, ...}: {
     systemd.services.croc-relay = {
       description = "Croc relay server";

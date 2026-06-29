@@ -16,7 +16,7 @@ in {
         host = config.registry.hosts.${name};
       in
         withSystem host.system (
-          {...}:
+          _:
             inputs.nixpkgs.lib.nixosSystem {
               specialArgs = {inherit inputs;};
               modules =

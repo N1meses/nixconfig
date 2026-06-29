@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.modules.homeManager.kitty = {lib, ...}: {
     features.compositors.autoStart = ["kitty --single-instance"];
 

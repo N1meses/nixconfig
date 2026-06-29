@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.modules.homeManager.waybar = {config, ...}: let
     c = config.features.compositors;
     bg = c.colors.background;

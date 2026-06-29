@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.modules.nixos.nextcloud = {
     config,
     pkgs,
@@ -44,7 +44,7 @@
 
     services.postgresqlBackup = {
       enable = true;
-      databases = [ "nextcloud" "authentik" ];
+      databases = ["nextcloud" "authentik"];
       location = "/var/backup/postgresql";
       compression = "zstd";
       startAt = "*-*-* 02:00:00";

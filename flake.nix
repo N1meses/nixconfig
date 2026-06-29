@@ -99,10 +99,12 @@
 
       systems = ["x86_64-linux"];
 
-      perSystem = {...}: {
+      perSystem = _: {
         treefmt = {
           projectRootFile = "flake.nix";
           programs.alejandra.enable = true;
+          programs.statix.enable = true;
+          programs.deadnix.enable = true;
         };
       };
     };

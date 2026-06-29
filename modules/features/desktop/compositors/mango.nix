@@ -18,10 +18,6 @@
       toMango = hex: "0x${lib.removePrefix "#" hex}ff";
       scratchpadId = "${c.terminal.command}-scratchpad";
       termArgs = lib.optionalString (c.terminal.args != []) " ${lib.concatStringsSep " " c.terminal.args}";
-      termExec = cmd:
-        "${c.terminal.command}${termArgs}"
-        + lib.optionalString (c.terminal.execFlag != "") " ${c.terminal.execFlag}"
-        + " ${cmd}";
       termClass = cls: cmd:
         "${c.terminal.command}${termArgs} ${c.terminal.classFlag}=${cls}"
         + lib.optionalString (c.terminal.execFlag != "") " ${c.terminal.execFlag}"

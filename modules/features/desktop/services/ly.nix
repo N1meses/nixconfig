@@ -1,6 +1,6 @@
-{...}: {
+_: {
   flake.modules = {
-    nixos.ly = {...}: {
+    nixos.ly = _: {
       services.displayManager.ly = {
         enable = true;
         settings = {

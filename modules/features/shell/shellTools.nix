@@ -1,5 +1,5 @@
-{...}: {
-  flake.modules.homeManager.shellTools = {...}: {
+_: {
+  flake.modules.homeManager.shellTools = _: {
     programs = {
       zoxide = {
         enable = true;

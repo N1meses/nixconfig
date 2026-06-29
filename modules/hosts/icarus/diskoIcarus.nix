@@ -43,7 +43,7 @@
     ._config
     .fileSystems;
 in {
-  flake.modules.finix.diskoIcarus = {...}: {
+  flake.modules.finix.diskoIcarus = _: {
     inherit fileSystems;
   };
 

@@ -1,6 +1,5 @@
-{...}: {
+_: {
   flake.modules.homeManager.mako = {
-    lib,
     config,
     ...
   }: let

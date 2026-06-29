@@ -8,10 +8,6 @@
     system = "x86_64-linux";
     stateVersion = "25.11";
     extraGroups = ["video" "input"];
-    git = {
-      name = "N1meses";
-      email = "nilshasenthal@gmail.com";
-    };
     aspects = with config.flake.lib.aspects; [
       core
       shell
@@ -71,9 +67,6 @@
   }: let
     flakeRoot = inputs.self;
   in {
-    # hermes roams and is impermanent: override noctalia's nimeses Pictures path
-    # with the in-repo wallpaper, and drop the inherited per-monitor paths so it
-    # applies regardless of the machine's monitor names.
     programs.noctalia.settings.wallpaper = {
       directory = lib.mkForce "${flakeRoot}/assets/icons";
       default.path = lib.mkForce "${flakeRoot}/assets/icons/wallpaper.jpg";

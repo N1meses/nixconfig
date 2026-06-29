@@ -9,10 +9,6 @@ in {
     username = "nimeses";
     system = "x86_64-linux";
     stateVersion = "25.11";
-    git = {
-      name = "N1meses";
-      email = "nilshasenthal@gmail.com";
-    };
     extraGroups = ["libvirtd" "kvm"];
     aspects = with config.flake.lib.aspects; [
       diskoNimeses

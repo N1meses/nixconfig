@@ -103,7 +103,7 @@
       };
     };
 
-    homeManager.core = {...}: {
+    homeManager.core = _: {
       programs.home-manager.enable = true;
       xdg.enable = true;
     };

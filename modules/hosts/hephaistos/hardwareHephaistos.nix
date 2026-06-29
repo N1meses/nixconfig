@@ -1,8 +1,4 @@
-{
-  config,
-  lib,
-  ...
-}: {
+_: {
   flake.modules.nixos.hardwareHephaistos = {
     config,
     lib,

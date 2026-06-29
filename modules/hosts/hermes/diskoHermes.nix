@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.modules.nixos.diskoHermes = {lib, ...}: {
     disko.devices.disk.main = {
       device = lib.mkDefault "/dev/sda";

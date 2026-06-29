@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.modules.finix.hardwareIcarus = {pkgs, ...}: {
     boot.initrd.availableKernelModules = [
       "nvme"

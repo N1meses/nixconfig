@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.modules.nixos.cloudflared = {config, ...}: let
     cfg = config.features.server;
   in {

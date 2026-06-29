@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.modules.homeManager.lua = {pkgs, ...}: {
     home.packages = with pkgs; [lua-language-server stylua lua];
     programs.helix.languages = {

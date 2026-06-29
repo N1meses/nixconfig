@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.modules.nixos.graphics = {lib, ...}: {
     hardware.graphics.enable = true;
 

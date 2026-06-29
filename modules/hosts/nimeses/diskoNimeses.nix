@@ -1,5 +1,5 @@
-{...}: {
-  flake.modules.nixos.diskoNimeses = {...}: {
+_: {
+  flake.modules.nixos.diskoNimeses = _: {
     disko.devices = {
       disk = {
         main = {

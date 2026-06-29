@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.modules.nixos.hardwareHermes = {lib, ...}: {
     boot.initrd.availableKernelModules = [
       "xhci_pci"

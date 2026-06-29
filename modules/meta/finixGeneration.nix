@@ -29,7 +29,7 @@ in {
                   inherit (host) system;
                   config.allowUnfree = true;
                   overlays = [
-                    (final: prev: {
+                    (_final: prev: {
                       home-manager = prev.home-manager.overrideAttrs (_: {
                         src = inputs.home-manager;
                       });
