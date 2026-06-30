@@ -1,6 +1,7 @@
 _: {
   flake.modules.nixos.hardwarePrometheus = {
     config,
+    pkgs,
     lib,
     ...
   }: {
@@ -55,7 +56,7 @@ _: {
       powerManagement.finegrained = false;
       open = true;
       nvidiaSettings = true;
-      package = config.boot.kernelPackages.nvidiaPackages.beta;
+      package = config.boot.kernelPackages.nvidiaPackages.latest;
     };
 
     environment.sessionVariables = {
