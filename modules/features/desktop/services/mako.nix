@@ -1,8 +1,5 @@
 _: {
-  flake.modules.homeManager.mako = {
-    config,
-    ...
-  }: let
+  flake.modules.homeManager.mako = {config, ...}: let
     c = config.features.compositors;
   in {
     services.mako = {

@@ -3,10 +3,7 @@
   config,
   ...
 }: {
-  perSystem = {
-    system,
-    ...
-  }: {
+  perSystem = {system, ...}: {
     checks =
       lib.mapAttrs'
       (name: nixos: lib.nameValuePair "host-${name}" nixos.config.system.build.toplevel)
