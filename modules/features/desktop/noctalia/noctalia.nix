@@ -14,6 +14,8 @@ in {
 
     lib.mkNoctaliaMango = cmd: "spawn, noctalia msg ${cmd}";
 
+    aspectInclude.noctalia = with config.flake.lib.aspects; [compositors];
+
     modules = {
       homeManager.noctalia = {pkgs, ...}: {
         imports = [

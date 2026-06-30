@@ -35,6 +35,7 @@ in {
       git
       direnv
       cli
+      kitty
       music
     ];
 

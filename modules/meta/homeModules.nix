@@ -9,7 +9,6 @@ in {
   }: {
     imports =
       [
-        homeModules.compositors
         homeModule
       ]
       ++ (aspectsFor homeModules (resolveAspects host.aspects));

@@ -24,6 +24,7 @@ in {
       tailscale
       virtualisation
       helix
+      kitty
       zed
       git
       nix
