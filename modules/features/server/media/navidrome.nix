@@ -23,6 +23,6 @@
 
       users.users.navidrome.extraGroups = ["media"];
     };
-    aspectInclude.navidrome = with config.flake.lib.aspects; [nginx];
+    aspectInclude.navidrome = with config.flake.lib.aspects; [nginx restic];
   };
 }

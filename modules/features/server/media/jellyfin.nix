@@ -17,6 +17,6 @@
 
       users.users.jellyfin.extraGroups = ["media" "render" "video"];
     };
-    aspectInclude.jellyfin = with config.flake.lib.aspects; [nginx];
+    aspectInclude.jellyfin = with config.flake.lib.aspects; [nginx restic];
   };
 }

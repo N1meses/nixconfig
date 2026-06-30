@@ -58,6 +58,6 @@
 
       users.users.nextcloud.extraGroups = ["media"];
     };
-    aspectInclude.nextcloud = with config.flake.lib.aspects; [nginx];
+    aspectInclude.nextcloud = with config.flake.lib.aspects; [nginx restic];
   };
 }

@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  config,
+  inputs,
+  ...
+}: {
   flake.modules.nixos.nixarr = {
     config,
     lib,
@@ -72,4 +76,6 @@
     };
     users.groups.readarr = {};
   };
+
+  flake.aspectInclude.nixarr = with config.flake.lib.aspects; [restic];
 }

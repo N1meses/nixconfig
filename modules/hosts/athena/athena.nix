@@ -17,7 +17,6 @@
       local
       serverCore
       sshd
-      nginx
       monitoring
       tailscale
       forgejo
@@ -35,10 +34,13 @@
       fastfetch
       git
       network
-      restic
     ];
 
-    nixosModule = {pkgs, ...}: {
+    nixosModule = {
+      pkgs,
+      config,
+      ...
+    }: {
       imports = [inputs.sops-nix.nixosModules.sops];
 
       sops = {
@@ -52,6 +54,9 @@
       features.server = {
         domain = "nimeses.com";
         allowedUsers = ["athena"];
+        cloudflared.publicHosts =
+          map (h: "${h}.${config.features.server.domain}")
+          ["forgejo" "jellyfin" "navidrome" "auth" "matrix" "element" "nextcloud"];
       };
 
       boot.kernelPackages = pkgs.linuxPackages_6_18;

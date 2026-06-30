@@ -15,7 +15,6 @@
       users
       local
       sshd
-      nginx
       tailscale
       vaultwarden
       croc
@@ -26,7 +25,6 @@
       fastfetch
       git
       network
-      restic
     ];
 
     nixosModule = {pkgs, ...}: {

@@ -40,6 +40,6 @@
         };
       };
     };
-    aspectInclude.vaultwarden = with config.flake.lib.aspects; [nginx];
+    aspectInclude.vaultwarden = with config.flake.lib.aspects; [nginx restic];
   };
 }

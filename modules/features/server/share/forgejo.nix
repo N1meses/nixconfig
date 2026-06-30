@@ -35,6 +35,6 @@
         };
       };
     };
-    aspectInclude.forgejo = with config.flake.lib.aspects; [nginx];
+    aspectInclude.forgejo = with config.flake.lib.aspects; [nginx restic];
   };
 }
