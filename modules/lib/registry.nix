@@ -86,10 +86,11 @@ in {
           domain = lib.mkOption {
             type = t.str;
             default = "";
-          };
-          tailnet = lib.mkOption {
-            type = t.str;
-            default = "";
+            description = ''
+              Primary FQDN for this host's services (public or tailnet). Service
+              modules build their vhosts from it (e.g. "matrix.''${domain}").
+              athena uses a public domain; hephaistos uses its tailnet FQDN.
+            '';
           };
 
           git = {
