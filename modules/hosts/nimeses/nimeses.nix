@@ -37,6 +37,7 @@ in {
       cli
       kitty
       music
+      sops
     ];
 
     nixosModule = {
@@ -45,13 +46,10 @@ in {
       ...
     }: {
       imports = [
-        inputs.sops-nix.nixosModules.sops
         inputs.disko.nixosModules.disko
       ];
 
       sops = {
-        defaultSopsFile = ../../../secrets/nimeses.yaml;
-        age.sshKeyPaths = [];
         age.keyFile = "/home/nimeses/.config/sops/age/keys.txt";
         secrets.nimeses-password.neededForUsers = true;
       };

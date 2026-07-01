@@ -48,7 +48,6 @@
       boot.loader.systemd-boot.enable = false;
       boot.loader.efi.canTouchEfiVariables = false;
 
-      networking.hostName = "hermes";
       hardware.graphics.enable = true;
 
       programs.nix-ld.enable = lib.mkForce false;

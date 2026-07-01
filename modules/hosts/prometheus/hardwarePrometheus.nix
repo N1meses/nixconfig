@@ -1,7 +1,6 @@
 _: {
   flake.modules.nixos.hardwarePrometheus = {
     config,
-    pkgs,
     lib,
     ...
   }: {

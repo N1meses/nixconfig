@@ -98,43 +98,28 @@ cat > "$HOST_DIR/$HOSTNAME.nix" << EOF
     stateVersion = "25.11";
     # extraGroups = [];
     # hostId = "";  # for ZFS: head -c4 /dev/urandom | od -A none -t x4 | tr -d ' '
-  };
-
-  configurations.nixos.$HOSTNAME.module = { pkgs, ... }: {
-    imports =
-      [ inputs.sops-nix.nixosModules.sops ]
-      ++ (with config.flake.modules.nixos; [
-        hardware${CAP}
-        disko${CAP}
-        users
-        core
-        base
-        shell
-        # TODO: add features
-      ]);
-
-    sops = {
-      defaultSopsFile = ../../../secrets/$HOSTNAME.yaml;
-      age.sshKeyPaths = [];
-      age.keyFile = "/root/.config/sops/age/keys.txt";
-    };
-
-    networking.hostName = "$HOSTNAME";
-
-    boot.kernelPackages = pkgs.linuxPackages_latest;
-
-    environment.systemPackages = with pkgs; [ git wget ];
-  };
-
-  configurations.homeManager.$HOSTNAME.module = { pkgs, ... }: {
-    imports = with config.flake.modules.homeManager; [
+    aspects = with config.flake.lib.aspects; [
       core
       shell
+      users
+      local
       git
+      hardware${CAP}
+      disko${CAP}
+      # sops  # uncomment when using secrets (create secrets/$HOSTNAME.yaml; the sops aspect wires defaultSopsFile + keyFile)
       # TODO: add features
     ];
 
-    home.packages = with pkgs; [];
+    nixosModule = { pkgs, ... }: {
+      imports = [ inputs.disko.nixosModules.disko ];
+
+      boot.kernelPackages = pkgs.linuxPackages_latest;
+      environment.systemPackages = with pkgs; [ git wget ];
+    };
+
+    homeModule = { pkgs, ... }: {
+      home.packages = with pkgs; [ ];
+    };
   };
 }
 EOF

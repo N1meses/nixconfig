@@ -30,6 +30,6 @@
 
       sops.secrets."authentik-env" = {};
     };
-    aspectInclude.authentik = with config.flake.lib.aspects; [nginx restic];
+    aspectInclude.authentik = with config.flake.lib.aspects; [nginx restic sops];
   };
 }

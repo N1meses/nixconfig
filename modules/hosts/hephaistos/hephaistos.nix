@@ -1,6 +1,5 @@
 {
   config,
-  inputs,
   ...
 }: {
   registry.hosts.hephaistos = {
@@ -28,17 +27,7 @@
     ];
 
     nixosModule = {pkgs, ...}: {
-      imports = [inputs.sops-nix.nixosModules.sops];
-
-      networking.hostName = "hephaistos";
-
       features.server.domain = "hephaistos.tail4109e2.ts.net";
-
-      sops = {
-        defaultSopsFile = ../../../secrets/hephaistos.yaml;
-        age.sshKeyPaths = [];
-        age.keyFile = "/root/.config/sops/age/keys.txt";
-      };
 
       boot.kernelPackages = pkgs.linuxPackages_latest;
 

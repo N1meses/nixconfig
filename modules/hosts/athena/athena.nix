@@ -1,6 +1,5 @@
 {
   config,
-  inputs,
   ...
 }: {
   registry.hosts.athena = {
@@ -41,16 +40,6 @@
       config,
       ...
     }: {
-      imports = [inputs.sops-nix.nixosModules.sops];
-
-      sops = {
-        defaultSopsFile = ../../../secrets/athena.yaml;
-        age.sshKeyPaths = [];
-        age.keyFile = "/root/.config/sops/age/keys.txt";
-      };
-
-      networking.hostName = "athena";
-
       features.server = {
         domain = "nimeses.com";
         allowedUsers = ["athena"];

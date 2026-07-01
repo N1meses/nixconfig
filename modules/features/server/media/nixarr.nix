@@ -77,5 +77,5 @@
     users.groups.readarr = {};
   };
 
-  flake.aspectInclude.nixarr = with config.flake.lib.aspects; [restic];
+  flake.aspectInclude.nixarr = with config.flake.lib.aspects; [restic sops];
 }

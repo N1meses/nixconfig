@@ -33,7 +33,6 @@ in {
 
     nixosModule = {pkgs, ...}: {
       networking = {
-        hostName = "prometheus";
         interfaces.eno1.wakeOnLan.enable = true;
         firewall.enable = true;
         networkmanager.dispatcherScripts = [

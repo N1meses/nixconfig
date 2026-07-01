@@ -47,6 +47,6 @@
         sopsFile = ../../../../secrets/athena.yaml;
       };
     };
-    aspectInclude.ocis = with config.flake.lib.aspects; [nginx restic];
+    aspectInclude.ocis = with config.flake.lib.aspects; [nginx restic sops];
   };
 }

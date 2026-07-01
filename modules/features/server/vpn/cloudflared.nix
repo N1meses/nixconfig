@@ -37,6 +37,6 @@
       };
     };
 
-    aspectInclude.cloudflared = with config.flake.lib.aspects; [nginx];
+    aspectInclude.cloudflared = with config.flake.lib.aspects; [nginx sops];
   };
 }

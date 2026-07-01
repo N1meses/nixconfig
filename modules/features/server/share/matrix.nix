@@ -63,6 +63,6 @@
         '';
       };
     };
-    aspectInclude.matrix = with config.flake.lib.aspects; [nginx restic];
+    aspectInclude.matrix = with config.flake.lib.aspects; [nginx restic sops];
   };
 }
