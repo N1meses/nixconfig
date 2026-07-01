@@ -60,7 +60,7 @@
       lidarr.enable = true;
       bazarr.enable = true;
       autobrr.enable = true;
-      jellyseerr.enable = true;
+      seerr.enable = true;
     };
 
     networking.firewall.interfaces."wg-br".allowedTCPPorts = [8989 7878 8686 5055 6767];

@@ -1,13 +1,11 @@
-{
-  config,
-  ...
-}: {
+{config, ...}: {
   registry.hosts.athena = {
     username = "athena";
     system = "x86_64-linux";
     stateVersion = "25.05";
     extraGroups = ["plugdev"];
     hostId = "2e95e7c9";
+    domain = "nimeses.com";
     aspects = with config.flake.lib.aspects; [
       core
       shell
@@ -41,7 +39,6 @@
       ...
     }: {
       features.server = {
-        domain = "nimeses.com";
         allowedUsers = ["athena"];
         cloudflared.publicHosts =
           map (h: "${h}.${config.features.server.domain}")
