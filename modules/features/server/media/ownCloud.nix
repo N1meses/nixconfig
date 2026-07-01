@@ -27,7 +27,7 @@
           PROXY_AUTOPROVISION_ACCOUNTS = "true";
           PROXY_USER_OIDC_CLAIM = "preferred_username";
           PROXY_USER_CS3_CLAIM = "username";
-          PROXY_ROLE_ASSIGNMENT_DRIVER = "oidc";
+          PROXY_ROLE_ASSIGNMENT_DRIVER = "default";
           # PROXY_ROLE_ASSIGNMENT_OIDC_CLAIM = "roles";
         };
       };
@@ -44,7 +44,8 @@
 
       services.restic.backups.system.paths = ["/var/lib/ocis"];
       sops.secrets.ocis-env = {
-        sopsFile = ../../../../secrets/athena.yaml;
+        owner = "ocis";
+        mode = "0400";
       };
     };
     aspectInclude.ocis = with config.flake.lib.aspects; [nginx restic sops];

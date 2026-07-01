@@ -22,7 +22,13 @@
         };
       };
 
-      services.restic.backups.system.paths = ["/var/lib/authentik"];
+      services.postgresqlBackup = {
+        enable = true;
+        databases = ["authentik"];
+        location = "/var/backup/postgresql";
+      };
+
+      services.restic.backups.system.paths = ["/var/lib/authentik" "/var/backup/postgresql"];
 
       services.nginx.virtualHosts."auth.${cfg.domain}".locations."/".extraConfig = ''
         proxy_set_header X-Forwarded-Proto https;

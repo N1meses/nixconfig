@@ -18,7 +18,7 @@
       tailscale
       forgejo
       jellyfin
-      nextcloud
+      ocis
       navidrome
       authentik
       cloudflared
@@ -42,7 +42,7 @@
         allowedUsers = ["athena"];
         cloudflared.publicHosts =
           map (h: "${h}.${config.features.server.domain}")
-          ["forgejo" "jellyfin" "navidrome" "auth" "matrix" "element" "nextcloud"];
+          ["forgejo" "jellyfin" "navidrome" "auth" "matrix" "element" "cloud"];
       };
 
       boot.kernelPackages = pkgs.linuxPackages_6_18;
