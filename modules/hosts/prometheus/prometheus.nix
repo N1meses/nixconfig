@@ -9,25 +9,13 @@ in {
     homeDirectory = "/home/prometheus";
     extraGroups = ["gamemode" "libvirtd" "kvm"];
     aspects = with config.flake.lib.aspects; [
-      core
-      shell
-      desktop
-      niri
-      mango
+      workstation
       hardwarePrometheus
-      ly
-      users
-      local
       cachyosKernel
+      mango
       gaming
       performance
-      tailscale
       virtualisation
-      helix
-      kitty
-      zed
-      git
-      nix
       c
     ];
 

@@ -9,22 +9,17 @@
     stateVersion = "25.11";
     extraGroups = ["video" "input"];
     aspects = with config.flake.lib.aspects; [
-      core
-      shell
-      services
-      niri
-      noctalia
+      base
       hardwareHermes
       diskoHermes
       impermanenceHermes
-      ly
-      users
-      local
       cachyosKernel
       rescue
-      tailscale
+      services
+      niri
+      noctalia
+      ly
       nh
-      helix
       foot
       yazi
       browser

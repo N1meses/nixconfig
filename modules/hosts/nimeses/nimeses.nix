@@ -11,31 +11,18 @@ in {
     stateVersion = "25.11";
     extraGroups = ["libvirtd" "kvm"];
     aspects = with config.flake.lib.aspects; [
+      workstation
       diskoNimeses
       hardwareNimeses
-      users
-      virtualisation
-      local
       cachyosKernel
-      tailscale
       laptop
       airvpn
-      core
-      ly
-      shell
-      desktop
-      niri
-      helix
-      zed
-      nix
       python
       c
-      markdown
       rust
-      git
+      markdown
       direnv
       cli
-      kitty
       music
       sops
     ];

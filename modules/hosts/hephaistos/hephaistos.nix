@@ -6,22 +6,12 @@
     extraGroups = ["plugdev"];
     domain = "hephaistos.tail4109e2.ts.net";
     aspects = with config.flake.lib.aspects; [
-      core
-      shell
+      server
       hardwareHephaistos
-      users
-      local
-      sshd
-      tailscale
       vaultwarden
       croc
-      helix
-      yazi
-      nh
       nix
       fastfetch
-      git
-      network
     ];
 
     nixosModule = {pkgs, ...}: {

@@ -7,15 +7,10 @@
     hostId = "2e95e7c9";
     domain = "nimeses.com";
     aspects = with config.flake.lib.aspects; [
-      core
-      shell
+      server
       hardwareAthena
-      users
-      local
       serverCore
-      sshd
       monitoring
-      tailscale
       forgejo
       jellyfin
       navidrome
@@ -24,12 +19,7 @@
       matrix
       element
       nixarr
-      helix
-      yazi
-      nh
       fastfetch
-      git
-      network
     ];
 
     nixosModule = {
