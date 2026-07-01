@@ -30,19 +30,16 @@
 
     authentik-nix = {
       url = "github:nix-community/authentik-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel";
 
     niri-nix = {
       url = "git+https://codeberg.org/BANanaD3V/niri-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     hyprland = {
       url = "github:hyprwm/Hyprland?submodules=true";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     mango = {
@@ -52,7 +49,6 @@
 
     noctalia = {
       url = "github:noctalia-dev/noctalia/cachix";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     opencode = {
@@ -82,7 +78,6 @@
 
     kopuz = {
       url = "github:temidaradev/kopuz";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     finix.url = "github:finix-community/finix";

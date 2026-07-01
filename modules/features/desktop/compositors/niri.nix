@@ -63,9 +63,8 @@ in {
         imports = [inputs.niri-nix.nixosModules.default];
         programs.niri = {
           enable = true;
-          package = pkgs.niri-unstable;
+          package = inputs.niri-nix.packages.${pkgs.stdenv.hostPlatform.system}.niri-unstable;
         };
-        nixpkgs.overlays = [inputs.niri-nix.overlays.niri-nix];
       };
 
       finix.niri = {
