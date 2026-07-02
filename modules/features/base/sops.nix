@@ -2,10 +2,15 @@
   flake.modules.nixos.sops = {
     config,
     lib,
+    pkgs,
     ...
   }: {
     imports = [
       inputs.sops-nix.nixosModules.sops
+    ];
+
+    environment.systemPackages = [
+      pkgs.sops
     ];
 
     sops = {
