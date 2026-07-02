@@ -12,7 +12,7 @@
         };
       };
 
-      services.restic.backups.system.paths = ["/var/lib/private/navidrome"];
+      services.restic.backups.system.paths = ["/var/lib/navidrome"];
 
       services.nginx.virtualHosts."navidrome.${cfg.domain}" = {
         locations."/" = {
