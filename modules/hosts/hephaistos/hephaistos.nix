@@ -34,6 +34,7 @@
         nix-tree
         tldr
       ];
+      programs.helix.settings.editor.clipboard-provider = "termcode";
     };
   };
 }

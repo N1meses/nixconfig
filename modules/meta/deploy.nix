@@ -10,6 +10,7 @@
       profiles.system = {
         sshUser = name;
         user = "root";
+        interactiveSudo = true;
         path =
           inputs.deploy-rs.lib.${host.system}.activate.nixos
           config.flake.nixosConfigurations.${name};

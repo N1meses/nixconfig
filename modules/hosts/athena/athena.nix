@@ -9,7 +9,6 @@
     aspects = with config.flake.lib.aspects; [
       server
       hardwareAthena
-      serverCore
       monitoring
       forgejo
       jellyfin
@@ -56,6 +55,8 @@
         tldr
         ani-cli
       ];
+
+      programs.helix.settings.editor.clipboard-provider = "termcode";
     };
   };
 }
