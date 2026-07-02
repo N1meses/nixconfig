@@ -4,139 +4,106 @@
 
 ```
 modules/
+├── aggregators/                    # role bundles + aspect aggregators (flake.aspectInclude keys)
+│   ├── base.nix                    # bundle → core, shell, local, users, tailscale, helix
+│   ├── workstation.nix             # bundle → base, desktop, niri, ly, git, nix, zed, kitty
+│   ├── server.nix                  # bundle → base, serverCore, sshd, git, network, nh, yazi
+│   ├── shell.nix                   # → zsh, shellTools, starship, ssh
+│   ├── apps.nix                    # → yazi, browser, gtk, nh, fastfetch
+│   ├── desktop.nix                 # → services, apps, noctalia
+│   └── services.nix                # direct-import module (nixos+HM+finix), deliberately NOT aspectInclude
 ├── features/
 │   ├── base/
-│   │   ├── base.nix                  # aggregator → cachyosKernel + local
-│   │   ├── cachyosKernel.nix         # CachyOS kernel overlay import
-│   │   ├── homeManagerCore.nix       # home-manager, XDG base dirs
-│   │   ├── local.nix                 # timezone, locale, keymap
-│   │   └── nixosCore.nix             # boot, Nix settings, GC, NetworkManager, all substituters/caches
+│   │   ├── core.nix                # nixos: boot, Nix settings/GC, substituters, nix-ld · HM: home-manager, XDG
+│   │   ├── local.nix               # timezone (Europe/Berlin), locale (en_US/de_DE), keymap (de)
+│   │   ├── cachyosKernel.nix       # CachyOS kernel overlay import
+│   │   └── sops.nix                # sops-nix helper (defaultSopsFile per host)
 │   ├── desktop/
-│   │   ├── desktop.nix               # aggregator → services, compositors, noctalia, apps
 │   │   ├── apps/
-│   │   │   ├── apps.nix              # aggregator → ghostty, foot, fuzzel, yazi, browser, gtk, nh, fastfetch
-│   │   │   ├── browser.nix           # brave + MIME associations
-│   │   │   ├── fastfetch.nix         # fastfetch with Nix logo
-│   │   │   ├── foot.nix              # foot terminal
-│   │   │   ├── fuzzel.nix            # fuzzel launcher
-│   │   │   ├── ghostty.nix           # ghostty terminal
-│   │   │   ├── gtk.nix               # GTK theme (adw-gtk3, Pop icons)
-│   │   │   ├── nh.nix                # nh helper + auto-cleanup
-│   │   │   └── yazi.nix              # yazi + xdg-desktop-portal-termfilechooser
-│   │   ├── bar/
-│   │   │   └── waybar.nix            # Waybar status bar
-│   │   ├── compositors/
-│   │   │   ├── compositors.nix       # shared monitor options + wayland tools
-│   │   │   ├── hyprland.nix          # Hyprland (nixos + HM)
-│   │   │   ├── mango.nix             # Mango (nixos + HM, import = enable)
-│   │   │   └── niri.nix              # Niri (nixos + HM)
-│   │   ├── noctalia/
-│   │   │   ├── noctalia.nix          # noctalia-shell spawn + layer rules + lib functions
-│   │   │   └── noctaliaSettings.nix  # full noctalia config (bar, launcher, etc.)
-│   │   ├── services/
-│   │   │   ├── services.nix          # aggregator → nixos services + HM userServices
-│   │   │   ├── audio.nix             # PipeWire + WirePlumber + RTKit
-│   │   │   ├── bluetooth.nix         # Bluetooth + Blueman
-│   │   │   ├── fonts.nix             # ibm-plex, google-fonts, nerd-fonts
-│   │   │   ├── graphics.nix          # DRM, modesetting, XKB
-│   │   │   ├── greetd.nix            # tuigreet login manager
-│   │   │   ├── mako.nix              # Mako notification daemon (HM)
-│   │   │   ├── portals.nix           # XDG portal, dbus, udisks2
-│   │   │   └── userServices.nix      # gnome-keyring, udiskie (HM)
-│   │   └── tools/
-│   │       ├── screenshot.nix        # screenshot tooling
-│   │       └── wallpaper.nix         # wallpaper configuration (HM)
+│   │   │   ├── term/               # foot, ghostty, kitty
+│   │   │   ├── browser.nix         # brave + MIME associations
+│   │   │   ├── fastfetch.nix       # fastfetch with Nix logo
+│   │   │   ├── fuzzel.nix          # fuzzel launcher
+│   │   │   ├── gtk.nix             # GTK theme (adw-gtk3, Pop icons)
+│   │   │   ├── nh.nix              # nh helper + auto-cleanup
+│   │   │   └── yazi.nix            # yazi + termfilechooser portal
+│   │   ├── bar/waybar.nix          # Waybar status bar
+│   │   ├── compositors/            # hyprland, mango, niri (each nixos + HM)
+│   │   ├── noctalia/               # noctalia.nix (shell + lib fns) + noctaliaSettings.nix
+│   │   ├── services/               # audio, bluetooth, fonts, graphics, greetd, ly, mako, music, portals, session, userServices
+│   │   └── tools/                  # screenshot, wallpaper (HM)
 │   ├── dev/
-│   │   ├── editors/
-│   │   │   ├── helix.nix             # helix + EDITOR/VISUAL + mimeApps
-│   │   │   └── zed.nix               # zed-editor-fhs + VISUAL override
-│   │   ├── languages/                # all HM, import = enable
-│   │   │   ├── bash.nix
-│   │   │   ├── c.nix
-│   │   │   ├── css.nix
-│   │   │   ├── go.nix
-│   │   │   ├── html.nix
-│   │   │   ├── java.nix
-│   │   │   ├── javascript.nix        # JS + TS
-│   │   │   ├── json.nix
-│   │   │   ├── lua.nix
-│   │   │   ├── markdown.nix
-│   │   │   ├── nix.nix
-│   │   │   ├── puml.nix
-│   │   │   ├── python.nix
-│   │   │   ├── rust.nix
-│   │   │   ├── yaml.nix
-│   │   │   └── zig.nix
-│   │   └── tools/                    # all HM, import = enable
-│   │       ├── build.nix             # make, cmake, pkg-config
-│   │       ├── cli.nix               # jq, yq, just, gh, btop, etc.
-│   │       ├── database.nix          # sqlite, postgresql
-│   │       ├── direnv.nix            # direnv + nix-direnv
-│   │       ├── git.nix               # git, delta, lazygit, pre-commit
-│   │       ├── network.nix           # httpie, bandwhich
-│   │       ├── opencode.nix          # opencode + MCP + agents
-│   │       └── security.nix          # nmap, netcat, mtr, tcpdump
-│   ├── profiles/                     # all nixos, import = enable
-│   │   ├── gaming.nix                # Steam, Proton, GameMode, Gamescope
-│   │   ├── laptop.nix                # upower, thermald, libinput touchpad
-│   │   ├── performance.nix           # TCP tuning, zram, Nix daemon scheduling
-│   │   └── virtualisation.nix        # libvirtd, KVM, virt-manager
-│   ├── server/                       # all nixos, import = enable
-│   │   ├── serverCore.nix            # firewall, fail2ban base, htop/tmux/rsync
-│   │   ├── ssh.nix                   # OpenSSH + fail2ban sshd jail (module key: sshd)
-│   │   ├── nginx.nix                 # nginx + fail2ban http jails
-│   │   ├── media/
-│   │   │   ├── jellyfin.nix          # Jellyfin media server
-│   │   │   ├── navidrome.nix         # Navidrome music server
-│   │   │   ├── nextcloud.nix         # Nextcloud
-│   │   │   └── nixarr.nix            # nixarr arr stack
-│   │   ├── security/
-│   │   │   ├── authentik.nix         # Authentik SSO
-│   │   │   └── vaultwarden.nix       # Vaultwarden password manager
-│   │   ├── share/
-│   │   │   ├── croc.nix              # Croc relay
-│   │   │   ├── element.nix           # Element web client
-│   │   │   ├── forgejo.nix           # Forgejo git forge
-│   │   │   ├── matrix.nix            # Matrix (Synapse)
-│   │   │   └── ollama.nix            # Ollama + ROCm/CUDA
-│   │   └── vpn/
-│   │       ├── airvpn.nix            # AirVPN (system-wide)
-│   │       ├── cloudflared.nix       # Cloudflare tunnel
-│   │       ├── mullvad.nix           # Mullvad VPN
-│   │       └── tailscale.nix         # Tailscale
-│   └── shell/
-│       ├── shell.nix                 # aggregator → zsh, shellTools, starship, ssh
-│       ├── shellTools.nix            # zoxide, fzf, ripgrep, fd
-│       ├── ssh.nix                   # SSH config + YubiKey FIDO2 identities
-│       ├── starship.nix              # Starship prompt
-│       └── zsh.nix                   # zsh + eza aliases + fastfetch on login
+│   │   ├── editors/                # helix, zed (HM)
+│   │   ├── languages/              # bash c css go html java javascript json lua markdown nix puml python rust yaml zig (HM, import = enable)
+│   │   └── tools/                  # build cli database direnv git network opencode security (HM, import = enable)
+│   ├── profiles/                   # gaming, laptop, performance, virtualisation, mkVM (nixos, import = enable)
+│   ├── rescue/rescue.nix           # rescue/install toolkit (disko, cryptsetup, parted, …)
+│   ├── server/                     # nixos, import = enable
+│   │   ├── serverCore.nix          # firewall, fail2ban base, lid-switch ignore, plugdev/media groups, htop/tmux/rsync
+│   │   ├── ssh.nix                 # OpenSSH (no root, key-only) + fail2ban sshd jail (module key: sshd)
+│   │   ├── nginx.nix               # nginx + gzip + fail2ban http jails
+│   │   ├── monitoring.nix          # netdata (withCloudUi dashboard) on tailscale0:19999
+│   │   ├── media/                  # jellyfin, navidrome, nextcloud, ownCloud, nixarr
+│   │   ├── security/               # authentik, restic, vaultwarden
+│   │   ├── share/                  # croc, element, forgejo, matrix, ollama
+│   │   └── vpn/                    # airvpn, cloudflared, mullvad, tailscale
+│   └── shell/                      # zsh, shellTools, starship, ssh
+├── hosts/                          # per-host registry entries (+ hardware/disko/impermanence)
+│   ├── nimeses/    hardware, disko          # workstation
+│   ├── prometheus/ hardware                 # workstation (NVIDIA)
+│   ├── hephaistos/ hardware                 # server (tailnet-only)
+│   ├── athena/     hardware                 # server (public, full stack)
+│   ├── hermes/     hardware, disko, imperm. # base
+│   └── icarus/     hardware, disko          # finix (experimental)
 ├── lib/
-│   ├── compositors.nix               # shared compositor options (monitors, gaps, colors, etc.)
-│   ├── configurations.nix            # host configuration wiring
-│   └── registry.nix                  # host registry + aspects (enum + flake.lib.aspects map)
+│   ├── compositors.nix             # shared features.compositors.* options (monitors, gaps, colors, …)
+│   └── registry.nix                # registry.hosts + aspects (enum + flake.lib.aspects) + aspectInclude closure
 ├── meta/
-│   ├── flakeParts.nix                # flake-parts setup
-│   ├── homeGeneration.nix            # HM generation logic
-│   ├── nixosGeneration.nix           # NixOS generation logic
-│   ├── nixpkgs.nix                   # nixpkgs config + overlays
-│   ├── overlays.nix                  # package overlays
-│   └── users.nix                     # user account definitions
-└── MODULES.md                        # this file
+│   ├── flakeParts.nix              # flake-parts setup
+│   ├── generation.nix              # NixOS generator: registry.hosts → nixosConfigurations (commonModule: hostName, domain)
+│   ├── homeModules.nix             # home-manager routing / homeConfigurations
+│   ├── deploy.nix                  # deploy-rs deploy.nodes (generated from the registry)
+│   ├── minimalHosts.nix            # <host>Minimal install/rescue nixosConfigurations
+│   ├── finixVm.nix                 # finix VM build (icarus)
+│   ├── checks.nix                  # every host toplevel into nix flake check
+│   ├── nixpkgs.nix                 # nixpkgs config + overlays
+│   ├── overlays.nix                # package overlays
+│   └── users.nix                   # user account definitions
+└── MODULES.md                      # this file
 ```
+
+---
+
+## Aggregators & Role Bundles
+
+Aggregators live in `modules/aggregators/` and are keyed entries of
+`flake.aspectInclude.<name>` — a name in a host's `aspects` list that expands to a
+list of other aspect names via transitive closure (`resolveAspects`). An aggregator
+key needs **no backing module**; it contributes only its members. The **role bundles**
+(`base`, `workstation`, `server`) are the top-level aggregators — a host lists a bundle
+plus a few extras instead of repeating the common set.
+
+| Aggregator | Kind | Expands to |
+|------------|------|-----------|
+| `base` | role bundle | core, shell, local, users, tailscale, helix |
+| `workstation` | role bundle | **base**, desktop, niri, ly, git, nix, zed, kitty |
+| `server` | role bundle | **base**, serverCore, sshd, git, network, nh, yazi |
+| `shell` | aggregator | zsh, shellTools, starship, ssh |
+| `apps` | aggregator (HM) | yazi, browser, gtk, nh, fastfetch |
+| `desktop` | aggregator | services, apps, noctalia |
+| `services` | **direct-import module** | see below |
+
+`services` is deliberately **not** an aspectInclude — it stays a per-layer
+direct-import module because it encodes cross-layer asymmetry that name-based routing
+can't express: nixos imports `graphics, fonts, portals, audio, bluetooth`; HM imports
+`userServices`; finix imports `fonts, ly`. Don't "simplify" it into an aggregator.
 
 ---
 
 ## Desktop
 
-### Aggregators
-
-| Module | Side | Imports |
-|--------|------|---------|
-| `desktop` | nixos + HM | nixos: services, noctalia · HM: apps, noctalia, services |
-| `apps` | HM | ghostty, yazi, browser, gtk, nh, fastfetch |
-| `services` | nixos + HM | nixos: graphics, fonts, portals, audio, bluetooth, greetd · HM: userServices |
-
-Compositors (niri, hyprland, mango) are **not** aggregated — each is imported directly by the host.
+Compositors (niri, hyprland, mango) are **not** bundled by `desktop` — each is added
+directly by the host (`workstation` adds `niri`).
 
 ### Apps
 
@@ -144,9 +111,10 @@ Compositors (niri, hyprland, mango) are **not** aggregated — each is imported 
 |--------|------|----------|---------|
 | `browser` | HM | brave | `features.apps.browser.defaultBrowser` (brave\|firefox\|chromium) |
 | `fastfetch` | HM | — | — |
-| `foot` | HM | foot | — |
+| `foot` | HM | foot (`apps/term/`) | — |
+| `ghostty` | HM | ghostty (`apps/term/`) | — |
+| `kitty` | HM | kitty (`apps/term/`) | — |
 | `fuzzel` | HM | fuzzel | — |
-| `ghostty` | HM | ghostty | — |
 | `gtk` | HM | adw-gtk3, pop-icon-theme | — |
 | `nh` | HM | — | — |
 | `yazi` | HM | xdg-desktop-portal-termfilechooser, xdg-terminal-exec | `features.apps.yazi.terminalFilechooser.terminal` (default: ghostty) |
@@ -172,11 +140,14 @@ Compositors (niri, hyprland, mango) are **not** aggregated — each is imported 
 |--------|------|------------|---------|
 | `audio` | nixos | PipeWire + WirePlumber + RTKit | — |
 | `bluetooth` | nixos | Bluetooth + Blueman | — |
-| `fonts` | nixos | ibm-plex, google-fonts, material-symbols, nerd-fonts | — |
+| `fonts` | nixos (+ finix) | ibm-plex, google-fonts, material-symbols, nerd-fonts | — |
 | `graphics` | nixos | DRM, modesetting, XKB (de) | — |
 | `greetd` | nixos | tuigreet, GNOME Keyring PAM | — |
+| `ly` | nixos (+ finix) | ly display manager, GNOME Keyring PAM | — |
 | `mako` | HM | Mako notification daemon | — |
+| `music` | nixos | MPD | — |
 | `portals` | nixos | XDG portal, dbus, udisks2 | — |
+| `session` | finix | seatd, getty tty1, doas, greetd PAM (finix session) | — |
 | `userServices` | HM | gnome-keyring, udiskie | `features.services.user.storage.udiskie.{notify, automount}` |
 
 ### Tools
@@ -208,8 +179,11 @@ Compositors (niri, hyprland, mango) are **not** aggregated — each is imported 
 
 | Module | Side | Packages | Sets |
 |--------|------|----------|------|
-| `helix` | HM | — | `EDITOR=hx`, `VISUAL=hx` (mkDefault), mimeApps text/* → helix |
+| `helix` | HM | — | `EDITOR=hx`, `VISUAL=hx` (mkDefault), mimeApps text/* → helix, `clipboard-provider` (mkDefault wayland) |
 | `zed` | HM | zed-editor-fhs | `VISUAL=zeditor --wait` (overrides helix default) |
+
+> Servers set `programs.helix.settings.editor.clipboard-provider = "termcode"` in their
+> host `homeModule` so yank/paste works over SSH (OSC 52) where there's no Wayland clipboard.
 
 ### Tools
 
@@ -253,15 +227,17 @@ All HM side. Import = enable.
 
 ## Server
 
-All nixos side. Import = enable. `features.server.domain` must be set when importing nginx or any service with a reverse proxy.
+All nixos side. Import = enable. `features.server.domain` must be set when importing
+nginx or any service with a reverse proxy.
 
 ### Core
 
 | Module | Configures | Options |
 |--------|------------|---------|
-| `serverCore` | Firewall, fail2ban base, lid-switch, no docs, htop/tmux/rsync | — |
+| `serverCore` | Firewall, fail2ban base, lid-switch ignore, plugdev/media groups, no docs, htop/tmux/rsync | — |
 | `sshd` | OpenSSH (no root, key-only), fail2ban sshd jail | `features.server.sshPort` (default 22) |
 | `nginx` | Nginx + gzip + fail2ban http jails | `features.server.domain` |
+| `monitoring` | netdata with bundled dashboard (`withCloudUi`), tailscale0:19999 | — |
 
 ### VPN (`vpn/`)
 
@@ -277,8 +253,9 @@ All nixos side. Import = enable. `features.server.domain` must be set when impor
 | Module | Configures |
 |--------|------------|
 | `jellyfin` | Jellyfin, nginx proxy (media.${domain}) |
-| `navidrome` | Navidrome music server, nginx proxy |
+| `navidrome` | Navidrome music server, nginx proxy, restic backup of `/var/lib/navidrome` |
 | `nextcloud` | Nextcloud, nginx proxy |
+| `ownCloud` | ownCloud Infinite Scale, nginx proxy |
 | `nixarr` | nixarr arr stack |
 
 ### Security (`security/`)
@@ -286,7 +263,11 @@ All nixos side. Import = enable. `features.server.domain` must be set when impor
 | Module | Configures |
 |--------|------------|
 | `authentik` | Authentik SSO |
+| `restic` | `services.restic.backups.system` — daily, keep 7d/4w/6m, sops `restic-password`, repo `/backup/<host>` (default) |
 | `vaultwarden` | Vaultwarden (port 8222), nginx proxy, sops env |
+
+Service modules opt into backup by adding their state dir to
+`services.restic.backups.system.paths` and pulling in the `restic` aspect.
 
 ### Share (`share/`)
 
@@ -304,11 +285,14 @@ All nixos side. Import = enable. `features.server.domain` must be set when impor
 
 | Module | Side | Configures |
 |--------|------|------------|
-| `core` (nixos) | nixos | systemd-boot, Plymouth, Nix flakes/GC, NetworkManager, **all substituters/caches** (cache.nixos.org, nix-community, niri-nix, noctalia, hyprland, cachyos) |
-| `core` (HM) | HM | home-manager, XDG base dirs |
-| `base` | nixos | Aggregator: cachyosKernel, local |
-| `cachyosKernel` | nixos | CachyOS kernel overlay import |
+| `core` | nixos | systemd-boot, Plymouth, Nix flakes/GC/auto-optimise, NetworkManager, nix-ld, **all substituters/caches** (cache.nixos.org, nix-community, niri-nix, noctalia, hyprland, lantian, kopuz) |
+| `core` | HM | home-manager, XDG base dirs |
 | `local` | nixos | Timezone (Europe/Berlin), locale (en_US / de_DE), keymap (de) |
+| `cachyosKernel` | nixos | CachyOS kernel overlay import |
+| `sops` | nixos | sops-nix helper — per-host `defaultSopsFile`, age key wiring |
+
+`base` is the role bundle (see Aggregators); it pulls in `core`, `shell`, `local`,
+`users`, `tailscale`, `helix`.
 
 ## Profiles
 
@@ -320,6 +304,13 @@ All nixos side. Import = enable.
 | `laptop` | upower, thermald, power-profiles, libinput touchpad |
 | `performance` | TCP tuning, zram (zstd 50%), Nix daemon scheduling |
 | `virtualisation` | libvirtd, KVM, virt-manager, KSM, hugepages |
+| `mkVM` | build-a-VM helper for a host config |
+
+## Rescue
+
+| Module | Side | Configures |
+|--------|------|------------|
+| `rescue` | nixos | Install/repair toolkit: nixos-install-tools, disko, cryptsetup, parted, gptfdisk, ntfs3g, exfatprogs, smartmontools, nvme-cli, … |
 
 ---
 
@@ -327,11 +318,11 @@ All nixos side. Import = enable.
 
 | Module | Side | Configures |
 |--------|------|------------|
-| `shell` | nixos + HM | Aggregator: nixos(zsh) · HM(shellTools, starship, zsh, ssh) |
+| `shell` | aggregator | zsh, shellTools, starship, ssh |
 | `zsh` | nixos + HM | zsh, eza aliases, history, syntax highlighting, fastfetch on login |
 | `shellTools` | HM | zoxide, fzf, ripgrep, fd |
 | `starship` | HM | Starship prompt (git, nix-shell, python, OS symbol) |
-| `ssh` | HM | SSH config + YubiKey FIDO2 identities |
+| `ssh` | HM | SSH config + YubiKey FIDO2 identities, ControlMaster multiplexing, host aliases |
 
 ---
 
@@ -342,26 +333,55 @@ Infrastructure modules — not imported by hosts, wired in automatically.
 | File | Purpose |
 |------|---------|
 | `compositors.nix` | HM module — defines all shared `features.compositors.*` options (monitors, gaps, colors, borders, opacity, cursor, keyboard, terminal) |
-| `configurations.nix` | Defines `options.configurations.{nixos,homeManager}` — host configuration wiring |
-| `registry.nix` | Defines `options.registry.hosts` — host registry (username, system, stateVersion, extraGroups, homeDirectory, **aspects**). Also exposes `flake.lib.aspects` (a name→name map for the bare-identifier form) and declares `flake.lib` as a mergeable option. |
+| `registry.nix` | Defines `options.registry.hosts` — host registry (username, system, stateVersion, domain, hostId, extraGroups, homeDirectory, **aspects**, **nixosModule**, **homeModule**). Exposes `flake.lib.aspects` (name→name map for the bare form), folds `flake.aspectInclude` keys into the valid-names enum, and resolves the transitive closure of aspects. |
 
 ### Aspects (host module selection)
 
-Each host lists its modules once, as `registry.hosts.<host>.aspects`. The generators route each name to whichever layer defines it (`flake.modules.nixos.<name>` → system, `flake.modules.homeManager.<name>` → home, both → both; nixos-only names are skipped by the standalone `homeConfigurations` build). The option is enum-typed against all known module names, so typos fail at eval with the full valid list. Written bare via `with config.flake.lib.aspects; [ … ]`.
+Each host lists its modules once as `registry.hosts.<host>.aspects`. Names route to
+whichever layer defines them (`flake.modules.nixos.<name>` → system,
+`flake.modules.homeManager.<name>` → home, both → both; nixos-only names are skipped by
+the standalone `homeConfigurations` build). Names can also be **aggregators**
+(`flake.aspectInclude.<name>` keys) that expand to more names — see Aggregators & Role
+Bundles. The option is enum-typed against all module names **plus** all aggregator keys,
+so typos fail at eval with the full valid list. Written bare via
+`with config.flake.lib.aspects; [ … ]`.
 
 ```nix
 registry.hosts.nimeses.aspects = with config.flake.lib.aspects; [
-  core shell desktop niri          # both layers
-  hardwareNimeses users base laptop  # system-only
-  helix rust git direnv cli         # home-only
+  workstation                 # role bundle → base + desktop + niri + …
+  hardwareNimeses             # host-only
+  gaming performance          # extra profiles
 ];
 ```
 
 ---
 
+## Deployment (deploy-rs)
+
+`modules/meta/deploy.nix` generates `flake.deploy.nodes` from the registry — one node
+per NixOS host (filtered to those with a `nixosConfigurations` entry, so `*Minimal`
+variants and finix `icarus` are excluded).
+
+```bash
+deploy .#<host>                 # build locally, copy closure, activate remotely
+deploy .#<host> --skip-checks   # skip the slow flake-check pre-flight
+```
+
+Per node: `sshUser = <host>`, `user = "root"`, `interactiveSudo = true`, and
+`sshOpts = ["-o" "ControlPath=none"]`. Magic rollback and auto rollback are on
+(deploy-rs defaults). **The `sshOpts` line is load-bearing:** without it the
+confirmation reconnect can ride an SSH `ControlMaster` socket and *falsely confirm* a
+deploy that has actually broken inbound SSH — forcing `ControlPath=none` makes the
+confirm a genuine fresh login, so a broken sshd/firewall/network triggers the revert
+instead of locking you out.
+
+---
+
 ## Secrets (sops-nix)
 
-Secrets are managed with sops-nix + age keys. Hosts that use secrets import `inputs.sops-nix.nixosModules.sops` directly in their host file.
+Secrets are managed with sops-nix + age keys. The `sops` aspect (in `base`) wires the
+per-host `defaultSopsFile` and age key; secret-consuming service modules declare
+`sops.secrets.<name>` and read `config.sops.secrets.<name>.path`.
 
 | Host | Secret file | Age key location |
 |------|-------------|-----------------|
@@ -369,4 +389,7 @@ Secrets are managed with sops-nix + age keys. Hosts that use secrets import `inp
 | `hephaistos` | `secrets/hephaistos.yaml` | `/root/.config/sops/age/keys.txt` |
 | `athena` | `secrets/athena.yaml` | `/root/.config/sops/age/keys.txt` |
 
-Age keys are derived from SSH host keys (YubiKey-backed on nimeses). To add a new secret: encrypt with `sops` and reference via `config.sops.secrets.<name>.path`.
+Age keys are derived from SSH host keys (YubiKey-backed on nimeses). Secrets are
+root-readable only (never placed in `environment.*`, which is world-readable in the Nix
+store). To add a new secret: encrypt with `sops` and reference via
+`config.sops.secrets.<name>.path`.

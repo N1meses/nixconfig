@@ -9,7 +9,7 @@
       hostname = name;
       sshOpts = ["-o" "ControlPath=none"];
       profiles.system = {
-        sshUser = name;
+        sshUser = host.username;
         user = "root";
         interactiveSudo = true;
         path =

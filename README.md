@@ -8,21 +8,24 @@ Personal NixOS configuration using Flakes, flake-parts, and import-tree.
 nixconfig/
 ├── flake.nix              # Entry point — wires flake-parts + import-tree
 ├── modules/
-│   ├── features/          # All feature modules (desktop, dev, server, shell, etc.)
-│   │   ├── base/          # Core NixOS + HM base config
-│   │   ├── desktop/       # Compositors, apps, bar, services, noctalia, tools
-│   │   ├── dev/           # Editors, tools, languages
-│   │   ├── profiles/      # Host profiles (gaming, laptop, performance, virtualisation)
-│   │   ├── server/        # Server services — media/, security/, share/, vpn/
+│   ├── aggregators/       # Role bundles + aspect aggregators (base, workstation, server, shell, apps, desktop, services)
+│   ├── features/          # Feature modules (base, desktop, dev, profiles, rescue, server, shell)
+│   │   ├── base/          # core (nixos + HM), local, cachyosKernel, sops
+│   │   ├── desktop/       # compositors, apps, bar, services, noctalia, tools
+│   │   ├── dev/           # editors, tools, languages
+│   │   ├── profiles/      # gaming, laptop, performance, virtualisation, mkVM
+│   │   ├── rescue/        # minimal rescue shell
+│   │   ├── server/        # media/, security/, share/, vpn/ + monitoring, nginx, sshd, serverCore
 │   │   └── shell/         # zsh, starship, ssh, shell tools
-│   ├── hosts/             # Per-host configurations
-│   │   ├── nimeses/       # Desktop laptop
-│   │   ├── prometheus/    # Desktop PC (NVIDIA)
-│   │   ├── hephaistos/    # Server — Tailscale-only (vaultwarden, croc)
-│   │   ├── athena/        # Server — public (nimeses.com, full stack)
-│   │   └── hermes/        # Minimal desktop / kiosk
-│   ├── lib/               # Registry + configuration options
-│   └── meta/              # Flake-parts wiring, nixpkgs, users, overlays
+│   ├── hosts/             # Per-host registry entries (+ hardware/disko/impermanence)
+│   │   ├── nimeses/        # Desktop laptop (workstation)
+│   │   ├── prometheus/     # Desktop PC / NVIDIA (workstation)
+│   │   ├── hephaistos/     # Server — Tailscale-only (vaultwarden, croc)
+│   │   ├── athena/         # Server — public (nimeses.com, full stack)
+│   │   ├── hermes/         # Minimal desktop / kiosk (base)
+│   │   └── icarus/         # finix (experimental, non-NixOS)
+│   ├── lib/               # Registry + aspects, shared compositor options
+│   └── meta/              # Flake-parts wiring, generators, deploy-rs nodes, nixpkgs, users, overlays
 └── modules/MODULES.md     # Full module reference
 ```
 
@@ -47,7 +50,7 @@ nixos-generate-config --root /mnt --show-hardware-config > modules/hosts/<hostna
 
 ### 3. Create host file
 
-Create `modules/hosts/<hostname>/<hostname>.nix` — use an existing host as reference (e.g. `nimeses.nix`). At minimum it needs:
+Create `modules/hosts/<hostname>/<hostname>.nix` — use an existing host as reference (e.g. `nimeses.nix`). A host is a single `registry.hosts.<hostname>` entry; host-specific inline config lives on the entry itself as `nixosModule`/`homeModule` (there is no separate `configurations.*` block anymore — that was collapsed into the registry):
 
 ```nix
 {config, ...}: {
@@ -55,26 +58,29 @@ Create `modules/hosts/<hostname>/<hostname>.nix` — use an existing host as ref
     username = "<username>";
     system = "x86_64-linux";
     stateVersion = "<current-nixos-version>";
+    # domain = "example.com";     # primary FQDN (public or tailnet) if it serves anything
+    # hostId = "deadbeef";        # required for ZFS
+    # extraGroups = ["plugdev"];
 
-    # One list of module names. Each is routed to whichever layer defines it:
-    # flake.modules.nixos.<name> -> the system, flake.modules.homeManager.<name>
-    # -> home, names in both -> both. Validated against an enum of known names.
+    # One list of module names, each routed to whichever layer defines it:
+    # flake.modules.nixos.<name> -> system, .homeManager.<name> -> home, both -> both.
+    # Start from a role bundle (base / workstation / server), then add extras.
+    # Validated against an enum of known names — a typo fails at eval with the full list.
     aspects = with config.flake.lib.aspects; [
+      workstation            # or: server / base
       hardware<Hostname>
-      users core base shell
       # add feature module names here
     ];
-  };
 
-  # The .module blocks now hold ONLY host-specific inline config (sops, boot,
-  # hardware tweaks, extra packages) — module selection lives in `aspects`.
-  configurations.nixos.<hostname>.module = {pkgs, ...}: {
-    networking.hostName = "<hostname>";
-    users.users.<username>.initialPassword = "changeme";
-  };
+    # Host-specific inline config (boot, hardware tweaks, extra packages, sops).
+    # networking.hostName is set by the generator from the registry key.
+    nixosModule = {pkgs, ...}: {
+      users.users.<username>.initialPassword = "changeme";
+    };
 
-  configurations.homeManager.<hostname>.module = {pkgs, ...}: {
-    # e.g. home.packages, features.compositors.*, ...
+    homeModule = {pkgs, ...}: {
+      # e.g. home.packages, features.compositors.*, ...
+    };
   };
 }
 ```
@@ -82,7 +88,7 @@ Create `modules/hosts/<hostname>/<hostname>.nix` — use an existing host as ref
 ### 4. Install
 
 ```bash
-nixos-install --flake .#<hostname>  --option "--experimental-features" "nix-command flakes"
+nixos-install --flake .#<hostname>  --option experimental-features "nix-command flakes"
 ```
 
 or when rebuilding the first time after a graphical install 
@@ -99,7 +105,7 @@ sudo nixos-rebuild switch --flake .#<hostname> --option "extra-experimental-feat
 
 1. Create `modules/hosts/<hostname>/` directory
 2. Add `hardware<Hostname>.nix` (generated by `nixos-generate-config`)
-3. Add `<hostname>.nix` with `registry.hosts.<hostname>` (incl. `aspects`), plus `configurations.nixos`/`configurations.homeManager` for any host-specific inline config
+3. Add `<hostname>.nix` with `registry.hosts.<hostname>` — its `aspects` list plus any host-specific `nixosModule`/`homeModule` inline config
 4. `git add` the new files (import-tree only sees tracked files)
 5. Rebuild: `nh os switch --flake .#<hostname>`
 
@@ -113,6 +119,21 @@ sudo nixos-rebuild switch --flake .#<hostname> --option "extra-experimental-feat
 nh os switch              # rebuild + switch current host (NixOS + HM)
 nh os switch --flake .#<hostname>   # specific host
 ```
+
+### Remote deploy (deploy-rs)
+
+`deploy.nodes` is generated from the registry (`modules/meta/deploy.nix`) for every
+NixOS host, so remote pushes are rollback-safe:
+
+```bash
+deploy .#<host>                 # build locally, copy closure, activate on remote
+deploy .#<host> --skip-checks   # skip the (slow) flake-check pre-flight
+```
+
+Magic rollback is on: if the new config breaks connectivity, the target auto-reverts
+to the previous generation on its own. Nodes set `sshOpts = ["-o" "ControlPath=none"]`
+so the confirmation step uses a real fresh login rather than a multiplexed master
+socket (otherwise a broken sshd/firewall could falsely confirm).
 
 ### Maintenance
 
@@ -134,13 +155,17 @@ nix repl .                # open repl with flake loaded
 
 ## Hosts
 
-| Host | Role | Domain |
-|------|------|--------|
-| `nimeses` | Desktop laptop | — |
-| `prometheus` | Desktop PC (NVIDIA) | — |
-| `hephaistos` | Server — Tailscale-only | hephaistos.tail4109e2.ts.net |
-| `athena` | Server — full public stack | nimeses.com |
-| `hermes` | Minimal desktop / kiosk | — |
+| Host | Role | Bundle | Domain |
+|------|------|--------|--------|
+| `nimeses` | Desktop laptop | workstation | — |
+| `prometheus` | Desktop PC (NVIDIA) | workstation | — |
+| `hephaistos` | Server — Tailscale-only | server | hephaistos.tail4109e2.ts.net |
+| `athena` | Server — full public stack | server | nimeses.com |
+| `hermes` | Minimal desktop / kiosk | base | — |
+| `icarus` | finix (experimental, non-NixOS) | — | — |
+
+The five NixOS hosts are also deploy-rs targets (`deploy .#<host>`); `icarus` is a
+finix build, not a NixOS deploy node.
 
 ---
 
@@ -149,10 +174,18 @@ nix repl .                # open repl with flake loaded
 Modules are registered as `flake.modules.nixos.<name>` or `flake.modules.homeManager.<name>`. A host selects them through a **single `aspects` list** in its `registry.hosts.<host>` entry:
 
 ```nix
-aspects = with config.flake.lib.aspects; [ core shell desktop niri git ];
+aspects = with config.flake.lib.aspects; [ workstation niri git ];
 ```
 
-The generators (`modules/meta/{nixos,home}Generation.nix`) route each name to whichever layer defines it:
+**Role bundles & aggregators.** Names in `aspects` can also be *aggregators* —
+keys of `flake.aspectInclude.<name>` (in `modules/aggregators/`) that expand to a
+list of other aspects via transitive closure. The role bundles `base`,
+`workstation`, and `server` are the top-level ones (e.g. `workstation` pulls in
+`base`, `desktop`, `niri`, …), so most hosts list a bundle plus a few extras. An
+aggregator key needs no backing module — it contributes only its members.
+
+The generators (`modules/meta/generation.nix` for NixOS, `modules/meta/homeModules.nix`
+for home) route each resolved name to whichever layer defines it:
 
 | Name defined in… | Applied to |
 |------------------|-----------|

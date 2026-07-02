@@ -72,12 +72,6 @@ in {
             description = "path to home directory";
           };
 
-          hostname = lib.mkOption {
-            type = t.str;
-            default = config.username;
-            description = "Network hostname";
-          };
-
           hostId = lib.mkOption {
             type = t.str;
             default = "";
