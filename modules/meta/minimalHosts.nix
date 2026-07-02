@@ -15,6 +15,7 @@
     hasDisko = builtins.hasAttr diskoKey config.flake.modules.nixos;
   in
     inputs.nixpkgs.lib.nixosSystem {
+      specialArgs = {inherit inputs;};
       modules =
         [config.flake.modules.nixos.${hardwareKey}]
         ++ lib.optionals hasDisko [
@@ -24,6 +25,7 @@
         ++ [
           {
             networking.hostName = name;
+            networking.hostId = lib.mkIf (host.hostId != "") host.hostId;
             nixpkgs.hostPlatform = host.system;
             nixpkgs.config.allowUnfree = true;
             system.stateVersion = host.stateVersion;

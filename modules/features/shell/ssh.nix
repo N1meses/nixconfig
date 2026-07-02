@@ -16,6 +16,9 @@
             "~/.ssh/id_ed25519_sk_rk_bio"
             "~/.ssh/id_ed25519_sk_rk_nfc"
           ];
+          controlMaster = "auto";
+          controlPath = "~/.ssh/cm-%r@%h:%p";
+          controlPersist = "10m";
         };
         "hephaistos" = {
           hostname = lib.mkDefault "100.127.108.44";

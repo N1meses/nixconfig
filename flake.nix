@@ -80,6 +80,11 @@
       url = "github:temidaradev/kopuz";
     };
 
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     finix.url = "github:finix-community/finix";
     finix-community-modules.url = "github:finix-community/community-modules";
   };
