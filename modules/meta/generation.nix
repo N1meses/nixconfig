@@ -45,6 +45,7 @@
                 {
                   nixpkgs.hostPlatform = host.system;
                   nixpkgs.config.allowUnfree = true;
+                  nixpkgs.config.permittedInsecurePackages = ["pnpm-10.29.2"];
                   system.stateVersion = host.stateVersion;
                   home-manager.useGlobalPkgs = true;
                 }
@@ -119,7 +120,10 @@ in {
                     inherit host;
                     inherit (host) homeModule;
                   })
-                  {nixpkgs.config.allowUnfree = true;}
+                  {
+                    nixpkgs.config.allowUnfree = true;
+                    nixpkgs.config.permittedInsecurePackages = ["pnpm-10.29.2"];
+                  }
                 ];
               }))
           (lib.filterAttrs (_: host: host.homeModule != null) hosts);
