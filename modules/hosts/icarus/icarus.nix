@@ -17,8 +17,11 @@
       apps
     ];
 
-    finixModule = {pkgs, ...}: {
+    finixModule = {pkgs, modules, ...}: {
       environment.systemPackages = with pkgs; [git wget];
+      imports = [modules.openssh];
+
+      services.udev.packages = [pkgs.eudev];
 
       users.users.icarus = {
         isNormalUser = true;
@@ -26,6 +29,11 @@
         password = "$6$If7oQG5J2MpI2v.T$RpwZ8z.uJyvGyky4gKzanEhOUTCzpdSZQC/UuoiRvB.FwH3WPs.fKmbhkRfL8nmhCnn55qZjG8RzFcJbOePKH/";
       };
       users.users.root.password = "$6$If7oQG5J2MpI2v.T$RpwZ8z.uJyvGyky4gKzanEhOUTCzpdSZQC/UuoiRvB.FwH3WPs.fKmbhkRfL8nmhCnn55qZjG8RzFcJbOePKH/";
+
+      services.openssh = {
+        enable = true;
+        settings.PasswordAuthentication = true;
+      };
     };
 
     homeModule = _: {
