@@ -7,7 +7,6 @@
   flake.deploy.nodes =
     lib.mapAttrs (name: host: {
       hostname = name;
-      sshOpts = ["-o" "ControlPath=none"];
       profiles.system = {
         sshUser = host.username;
         user = "root";
