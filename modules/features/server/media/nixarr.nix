@@ -59,7 +59,7 @@
       };
       lidarr.enable = true;
       bazarr.enable = true;
-      autobrr.enable = true;
+      autobrr.enable = false;
       seerr.enable = true;
     };
 
