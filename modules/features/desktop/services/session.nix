@@ -7,8 +7,9 @@ _: {
   }: {
     imports = [modules.doas];
     services.seatd.enable = true;
-    services.getty.ttys = ["tty1"];
     finit.runlevel = 3;
+    services.greetd.settings.terminal.vt = 1;   # greeter owns tty1
+    services.getty.ttys = ["tty2"];
 
     programs.doas.enable = true;
 
