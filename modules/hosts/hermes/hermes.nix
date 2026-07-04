@@ -33,6 +33,9 @@ in {
         inputs.impermanence.nixosModules.impermanence
       ];
 
+      users.users.hermes.hashedPasswordFile = "/persist/passwords/hermes";
+      users.users.root.hashedPasswordFile = "/persist/passwords/hermes";
+
       boot.loader.grub = {
         enable = true;
         efiSupport = true;
