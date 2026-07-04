@@ -2,7 +2,9 @@
   config,
   inputs,
   ...
-}: {
+}: let
+  mkNoctaliaNiri = config.flake.lib.mkNoctaliaNiri;
+in {
   registry.hosts.hermes = {
     username = "hermes";
     system = "x86_64-linux";
@@ -65,6 +67,12 @@
         default.path = lib.mkForce "${flakeRoot}/assets/icons/wallpaper.jpg";
         last.path = lib.mkForce "${flakeRoot}/assets/icons/wallpaper.jpg";
         monitors = lib.mkForce {};
+      };
+
+      features.compositors.niri.extraBinds = {
+        "Mod+Shift+q" = {spawn = mkNoctaliaNiri "session lock";};
+        "Mod+n" = {spawn = mkNoctaliaNiri "panel-toggle launcher";};
+        "Mod+b" = {spawn = mkNoctaliaNiri "bar-toggle";};
       };
 
       home.pointerCursor = {
