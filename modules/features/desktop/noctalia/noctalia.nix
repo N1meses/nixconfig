@@ -27,6 +27,8 @@ in {
           inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
         ];
 
+        programs.foot.settings.include = "~/.config/foot/themes/noctalia";
+
         features.compositors.autoStart = ["noctalia"];
 
         wayland.windowManager.niri.settings.layer-rule = [
