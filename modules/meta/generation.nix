@@ -28,7 +28,6 @@
   classes = {
     nixos = {
       moduleSet = config.flake.modules.nixos;
-      transform = m: m;
       hmModule = inputs.home-manager.nixosModules.home-manager;
       output = "nixosConfigurations";
       select = host: host.nixosModule;
@@ -55,22 +54,22 @@
 
     finix = {
       moduleSet = config.flake.modules.finix or {};
-      transform = m: args: removeAttrs (m args) ["_class"];
       hmModule = inputs.finix-community-modules.nixosModules.home-manager;
       output = "finixConfigurations";
       select = host: host.finixModule;
       mkSystem = {
         host,
         modules,
-      }:
-        inputs.finix.lib.finixSystem {
-          lib = inputs.nixpkgs.lib;
+      }: let
+        eval = inputs.nixpkgs.lib.evalModules {
+          class = "finix";
           specialArgs = {
             inherit inputs;
             modules = inputs.finix.nixosModules;
           };
           modules =
-            modules
+            [inputs.finix.nixosModules.default]
+            ++ modules
             ++ [
               {
                 nixpkgs.pkgs = import inputs.nixpkgs {
@@ -78,13 +77,18 @@
                   config.allowUnfree = true;
                   overlays = [
                     (_final: prev: {
-                      home-manager = prev.home-manager.overrideAttrs (_: {src = inputs.home-manager;});
+                      home-manager = prev.home-manager.overrideAttrs (_: {
+                        src =
+                          inputs.home-manager;
+                      });
                     })
                   ];
                 };
               }
             ];
         };
+      in
+        eval // {inherit (eval._module.args) pkgs;};
     };
   };
 
@@ -97,7 +101,7 @@
             [
               (cls.select host)
             ]
-            ++ map cls.transform (aspectsFor cls.moduleSet (resolveAspects host.aspects))
+            ++ aspectsFor cls.moduleSet (resolveAspects host.aspects)
             ++ [cls.hmModule (commonModule name host)];
         }
     ) (lib.filterAttrs (_: host: cls.select host != null) hosts);

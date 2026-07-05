@@ -1,22 +1,25 @@
-{config, ...}: {
+{
+  config,
+  inputs,
+  ...
+}: let
+  mkNoctaliaNiri = config.flake.lib.mkNoctaliaNiri;
+in {
   registry.hosts.icarus = {
     username = "icarus";
     system = "x86_64-linux";
     stateVersion = "25.11";
     aspects = with config.flake.lib.aspects; [
       hardwareIcarus
-      sshd
       diskoIcarus
-      local
-      core
-      foot
-      shell
-      session
-      greetd
+      sshd
+      base
       niri
-      noctalia
-      fonts
-      apps
+      ly
+      session
+      desktop
+      foot
+      laptop
     ];
 
     finixModule = _: {
@@ -29,8 +32,38 @@
       services.openssh.settings.PasswordAuthentication = true;
     };
 
-    homeModule = _: {
+    homeModule = {
+      pkgs,
+      lib,
+      ...
+    }: let
+      flakeRoot = inputs.self;
+    in {
       dconf.enable = false;
+
+      programs.noctalia.settings.wallpaper = {
+        directory = lib.mkForce "${flakeRoot}/assets/icons";
+        default.path = lib.mkForce "${flakeRoot}/assets/icons/wallpaper.jpg";
+        last.path = lib.mkForce "${flakeRoot}/assets/icons/wallpaper.jpg";
+        monitors = lib.mkForce {};
+      };
+
+      features.compositors.niri.extraBinds = {
+        "Mod+Shift+q" = {spawn = mkNoctaliaNiri "session lock";};
+        "Mod+n" = {spawn = mkNoctaliaNiri "panel-toggle launcher";};
+        "Mod+b" = {spawn = mkNoctaliaNiri "bar-toggle";};
+      };
+
+      home.pointerCursor = {
+        package = pkgs.nordzy-cursor-theme;
+        name = "Nordzy-cursors";
+        size = 24;
+        gtk.enable = true;
+      };
+
+      home.packages = with pkgs; [
+        btop
+      ];
     };
   };
 }

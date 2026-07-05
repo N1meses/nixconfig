@@ -171,12 +171,26 @@ in {
           http-connections = 0;
           max-substitution-jobs = 32;
 
-          flake-registry = inputs.self;
-
           inherit substituters;
 
           trusted-public-keys = substitutersKeys;
         };
+      };
+
+      environment.etc."nix/registry.json".text = builtins.toJSON {
+        version = 2;
+        flakes = [
+          {
+            from = {
+              type = "indirect";
+              id = "nixpkgs";
+            };
+            to = {
+              type = "path";
+              path = inputs.nixpkgs.outPath;
+            };
+          }
+        ];
       };
 
       services.networkmanager.enable = true;

@@ -22,6 +22,8 @@ in {
       imports = with flakeConfig.flake.modules.finix; [
         fonts
         ly
+        audio
+        bluetooth
       ];
     };
   };

@@ -6,9 +6,8 @@
 }: let
   finixModules = config.flake.modules.finix;
 
-  stripClass = m: args: removeAttrs (m args) ["_class"];
   aspectsFor = aspects:
-    map (n: stripClass finixModules.${n})
+    map (n: finixModules.${n})
     (lib.filter (n: finixModules ? ${n}) aspects);
 
   pwHash = "$6$If7oQG5J2MpI2v.T$RpwZ8z.uJyvGyky4gKzanEhOUTCzpdSZQC/UuoiRvB.FwH3WPs.fKmbhkRfL8nmhCnn55qZjG8RzFcJbOePKH/";
