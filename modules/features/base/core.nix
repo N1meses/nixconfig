@@ -124,9 +124,13 @@ in {
         modules.getty
         modules.networkmanager
         modules.polkit
+        modules.chronyd
+          modules.cron
       ];
 
       programs.limine.enable = true;
+
+      services.chrony.enable = true;
 
       services.udev = {
         enable = true;
@@ -176,6 +180,14 @@ in {
           trusted-public-keys = substitutersKeys;
         };
       };
+
+      services.cron = {
+        enable = true;
+        systab = ["0 12 * * * root ${pkgs.nix}/bin/nix-collect-garbage
+        --delete-older-than 7d"];
+      };
+
+      security.pam.environment.NIX_PATH.default = "nixpkgs=flake:nixpkgs";
 
       environment.etc."nix/registry.json".text = builtins.toJSON {
         version = 2;

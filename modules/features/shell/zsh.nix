@@ -4,6 +4,12 @@ _: {
       programs.zsh.enable = true;
     };
 
+    finix.zsh = {pkgs, ...}: {
+      users.defaultUserShell = pkgs.zsh;
+      environment.shells = [pkgs.zsh];
+      environment.systemPackages = [pkgs.zsh];
+    };
+
     homeManager.zsh = {
       pkgs,
       lib,
