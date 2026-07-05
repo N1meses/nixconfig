@@ -23,6 +23,7 @@ in {
       {
         programs.noctalia.settings = {
           shell.avatar_path = "${flakeRoot}/assets/icons/hunter.jpeg";
+          shell.screenshot.directory = "${config.xdg.userDirs.pictures}/Screenshots";
           wallpaper.directory = "${config.xdg.userDirs.pictures}/Wallpapers";
 
           widget.control-center = {
