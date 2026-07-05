@@ -87,7 +87,6 @@ in {
 
       home.packages = with pkgs; [
         btop
-        vesktop
       ];
     };
   };
