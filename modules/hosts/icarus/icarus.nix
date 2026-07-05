@@ -52,6 +52,15 @@ in {
         "Mod+Shift+q" = {spawn = mkNoctaliaNiri "session lock";};
         "Mod+n" = {spawn = mkNoctaliaNiri "panel-toggle launcher";};
         "Mod+b" = {spawn = mkNoctaliaNiri "bar-toggle";};
+
+        "XF86AudioRaiseVolume" = {spawn = mkNoctaliaNiri "volume-up";};
+        "XF86AudioLowerVolume" = {spawn = mkNoctaliaNiri "volume-down";};
+        "XF86AudioMute" = {spawn = mkNoctaliaNiri "volume-mute";};
+        "XF86MonBrightnessUp" = {spawn = mkNoctaliaNiri "brightness-up";};
+        "XF86MonBrightnessDown"= {spawn = mkNoctaliaNiri "brightness-down";};
+        "XF86Display" = {spawn = mkNoctaliaNiri "screenshot-fullscreen";};
+        "Mod+XF86Display" = {spawn = mkNoctaliaNiri "screenshot-region";};
+
       };
 
       home.pointerCursor = {

@@ -187,7 +187,11 @@ in {
         --delete-older-than 7d"];
       };
 
-      security.pam.environment.NIX_PATH.default = "nixpkgs=flake:nixpkgs";
+      security.pam.environment = {
+        NIX_PATH.default = "nixpkgs=flake:nixpkgs";
+        DG_DATA_DIRS.default = ["/etc/profiles/per-user/@{PAM_USER}/share"];
+        XCURSOR_PATH.default = ["/etc/profiles/per-user/@{PAM_USER}/share/icons"];
+      };
 
       environment.etc."nix/registry.json".text = builtins.toJSON {
         version = 2;
