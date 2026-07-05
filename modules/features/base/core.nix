@@ -189,7 +189,7 @@ in {
 
       security.pam.environment = {
         NIX_PATH.default = "nixpkgs=flake:nixpkgs";
-        DG_DATA_DIRS.default = ["/etc/profiles/per-user/@{PAM_USER}/share"];
+        XDG_DATA_DIRS.default = ["/etc/profiles/per-user/@{PAM_USER}/share"];
         XCURSOR_PATH.default = ["/etc/profiles/per-user/@{PAM_USER}/share/icons"];
       };
 
