@@ -30,6 +30,7 @@
     };
 
     homeModule = _: {
+      dconf.enable = false;
     };
   };
 }
