@@ -1,4 +1,24 @@
-{inputs, ...}: {
+{inputs, ...}: let
+  substituters = [
+    "https://cache.nixos.org"
+    "https://nix-community.cachix.org"
+    "https://niri-nix.cachix.org"
+    "https://noctalia.cachix.org"
+    "https://hyprland.cachix.org"
+    "https://attic.xuyh0120.win/lantian"
+    "https://kopuz.cachix.org"
+  ];
+
+  substitutersKeys = [
+    "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+    "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    "niri-nix.cachix.org-1:SvFtqpDcf7Sm1SMJdby1/+Y+6f3Yt3/3PMcSTKPJNJ0="
+    "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+    "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+    "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
+    "kopuz.cachix.org-1:J2X3AnAYhKTJW5S3aCLoA1ckonQXVNZMQvhZA0YAufw="
+  ];
+in {
   flake.modules = {
     nixos.core = {
       pkgs,
@@ -47,25 +67,9 @@
           http-connections = 0;
           max-substitution-jobs = 16;
 
-          substituters = [
-            "https://cache.nixos.org"
-            "https://nix-community.cachix.org"
-            "https://niri-nix.cachix.org"
-            "https://noctalia.cachix.org"
-            "https://hyprland.cachix.org"
-            "https://attic.xuyh0120.win/lantian"
-            "https://kopuz.cachix.org"
-          ];
+          inherit substituters;
 
-          trusted-public-keys = [
-            "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-            "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-            "niri-nix.cachix.org-1:SvFtqpDcf7Sm1SMJdby1/+Y+6f3Yt3/3PMcSTKPJNJ0="
-            "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
-            "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
-            "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
-            "kopuz.cachix.org-1:J2X3AnAYhKTJW5S3aCLoA1ckonQXVNZMQvhZA0YAufw="
-          ];
+          trusted-public-keys = substitutersKeys;
         };
 
         gc = {
@@ -119,6 +123,7 @@
         modules.limine
         modules.getty
         modules.networkmanager
+        modules.polkit
       ];
 
       programs.limine.enable = true;
@@ -128,7 +133,6 @@
         packages = [config.services.udev.package];
       };
 
-      services.dbus.enable = true;
       services.polkit.enable = true;
 
       finit.tmpfiles.rules = ["d /tmp 1777 root root -"];
@@ -169,23 +173,9 @@
 
           flake-registry = inputs.self;
 
-          substituters = [
-            "https://cache.nixos.org"
-            "https://nix-community.cachix.org"
-            "https://niri-nix.cachix.org"
-            "https://noctalia.cachix.org"
-            "https://hyprland.cachix.org"
-            "https://attic.xuyh0120.win/lantian"
-          ];
+          inherit substituters;
 
-          trusted-public-keys = [
-            "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-            "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-            "niri-nix.cachix.org-1:SvFtqpDcf7Sm1SMJdby1/+Y+6f3Yt3/3PMcSTKPJNJ0="
-            "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
-            "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
-            "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
-          ];
+          trusted-public-keys = substitutersKeys;
         };
       };
 
