@@ -112,6 +112,7 @@
       pkgs,
       lib,
       modules,
+      config,
       ...
     }: {
       imports = [
@@ -122,7 +123,13 @@
 
       programs.limine.enable = true;
 
-      services.udev.enable = true;
+      services.udev = {
+        enable = true;
+        packages = [config.services.udev.package];
+      };
+
+      services.dbus.enable = true;
+      services.polkit.enable = true;
 
       finit.tmpfiles.rules = ["d /tmp 1777 root root -"];
 
@@ -183,6 +190,10 @@
       };
 
       services.networkmanager.enable = true;
+      environment.etc."NetworkManager/NetworkManager.conf".text = ''
+        [main]
+        rc-manager=symlink
+      '';
 
       environment.systemPackages = with pkgs; [
         git

@@ -5,9 +5,11 @@
     stateVersion = "25.11";
     aspects = with config.flake.lib.aspects; [
       hardwareIcarus
+      sshd
       diskoIcarus
       local
       core
+      foot
       shell
       session
       greetd
@@ -17,23 +19,16 @@
       apps
     ];
 
-    finixModule = {pkgs, modules, ...}: {
+    finixModule = {pkgs, ...}: {
       environment.systemPackages = with pkgs; [git wget];
-      imports = [modules.openssh];
-
-      services.udev.packages = [pkgs.eudev];
 
       users.users.icarus = {
         isNormalUser = true;
-        extraGroups = ["wheel" "networkmanager" "seat"];
-        password = "$6$If7oQG5J2MpI2v.T$RpwZ8z.uJyvGyky4gKzanEhOUTCzpdSZQC/UuoiRvB.FwH3WPs.fKmbhkRfL8nmhCnn55qZjG8RzFcJbOePKH/";
+        extraGroups = ["wheel" "networkmanager" "seat" "video" "input" "audio"];
+        password = "$6$...";
       };
-      users.users.root.password = "$6$If7oQG5J2MpI2v.T$RpwZ8z.uJyvGyky4gKzanEhOUTCzpdSZQC/UuoiRvB.FwH3WPs.fKmbhkRfL8nmhCnn55qZjG8RzFcJbOePKH/";
-
-      services.openssh = {
-        enable = true;
-        settings.PasswordAuthentication = true;
-      };
+      users.users.root.password = "$6$...";
+      services.openssh.settings.PasswordAuthentication = true;
     };
 
     homeModule = _: {

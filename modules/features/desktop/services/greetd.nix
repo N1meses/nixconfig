@@ -19,6 +19,8 @@ _: {
       imports = [modules.tuigreet];
 
       programs.tuigreet.enable = true;
+      services.greetd.settings.terminal.vt = 1;
+      services.getty.ttys = ["tty2"];
     };
   };
 }
