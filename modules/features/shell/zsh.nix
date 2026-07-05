@@ -8,6 +8,7 @@ _: {
       users.defaultUserShell = pkgs.zsh;
       environment.shells = [pkgs.zsh];
       environment.systemPackages = [pkgs.zsh];
+      environment.etc."zshenv".text = "";
     };
 
     homeManager.zsh = {
