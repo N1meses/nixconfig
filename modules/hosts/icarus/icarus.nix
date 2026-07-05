@@ -48,19 +48,34 @@ in {
         monitors = lib.mkForce {};
       };
 
-      features.compositors.niri.extraBinds = {
-        "Mod+Shift+q" = {spawn = mkNoctaliaNiri "session lock";};
-        "Mod+n" = {spawn = mkNoctaliaNiri "panel-toggle launcher";};
-        "Mod+b" = {spawn = mkNoctaliaNiri "bar-toggle";};
+      features.compositors = {
+        monitors = {
+          eDP-1 = {
+            resolution = {
+              width = 1920;
+              height = 1080;
+            };
+            refreshRate = 60.0;
+            scale = 1.05;
+            position = {
+              x = 0;
+              y = 0;
+            };
+          };
+        };
+        niri.extraBinds = {
+          "Mod+Shift+q" = {spawn = mkNoctaliaNiri "session lock";};
+          "Mod+n" = {spawn = mkNoctaliaNiri "panel-toggle launcher";};
+          "Mod+b" = {spawn = mkNoctaliaNiri "bar-toggle";};
 
-        "XF86AudioRaiseVolume" = {spawn = mkNoctaliaNiri "volume-up";};
-        "XF86AudioLowerVolume" = {spawn = mkNoctaliaNiri "volume-down";};
-        "XF86AudioMute" = {spawn = mkNoctaliaNiri "volume-mute";};
-        "XF86MonBrightnessUp" = {spawn = mkNoctaliaNiri "brightness-up";};
-        "XF86MonBrightnessDown"= {spawn = mkNoctaliaNiri "brightness-down";};
-        "XF86Display" = {spawn = mkNoctaliaNiri "screenshot-fullscreen";};
-        "Mod+XF86Display" = {spawn = mkNoctaliaNiri "screenshot-region";};
-
+          "XF86AudioRaiseVolume" = {spawn = mkNoctaliaNiri "volume-up";};
+          "XF86AudioLowerVolume" = {spawn = mkNoctaliaNiri "volume-down";};
+          "XF86AudioMute" = {spawn = mkNoctaliaNiri "volume-mute";};
+          "XF86MonBrightnessUp" = {spawn = mkNoctaliaNiri "brightness-up";};
+          "XF86MonBrightnessDown"= {spawn = mkNoctaliaNiri "brightness-down";};
+          "XF86Display" = {spawn = mkNoctaliaNiri "screenshot-fullscreen";};
+          "Mod+XF86Display" = {spawn = mkNoctaliaNiri "screenshot-region";};
+        };
       };
 
       home.pointerCursor = {
@@ -72,6 +87,7 @@ in {
 
       home.packages = with pkgs; [
         btop
+        vesktop
       ];
     };
   };
