@@ -139,8 +139,6 @@ in {
 
       services.polkit.enable = true;
 
-      finit.tmpfiles.rules = ["d /tmp 1777 root root -"];
-
       finit.services.syslogd = lib.mkDefault {
         description = "syslog";
         command = "${pkgs.busybox}/bin/syslogd -n";

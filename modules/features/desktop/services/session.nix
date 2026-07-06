@@ -13,14 +13,5 @@ _: {
     environment.pathsToLink = ["/share/applications" "/share/mime"];
 
     programs.doas.enable = true;
-
-    security.pam.services = let
-      xdg = lib.mkAfter ''
-        session optional ${pkgs.pam_xdg}/lib/security/pam_xdg.so runtime track_sessions
-      '';
-    in {
-      greetd.text = xdg;
-      login.text = xdg;
-    };
   };
 }

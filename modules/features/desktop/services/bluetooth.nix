@@ -7,13 +7,13 @@ _: {
       };
       services.blueman.enable = true;
     };
-    finix.bluetooth = {modules, ...}: {
+    finix.bluetooth = {modules, lib, ...}: {
       imports = [
         modules.bluetooth
       ];
       services.bluetooth = {
         enable = true;
-        settings.Policy.AutoEnable = true;
+        settings.Policy.AutoEnable = lib.mkDefault true;
       };
     };
   };

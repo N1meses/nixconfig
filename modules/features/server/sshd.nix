@@ -49,10 +49,7 @@ _: {
     };
     finix.sshd = {modules, ...}: {
       imports = [modules.openssh];
-      services.openssh = {
-        enable = true;
-        settings.PasswordAuthentication = true;
-      };
+      services.openssh.enable = true;
     };
   };
 }

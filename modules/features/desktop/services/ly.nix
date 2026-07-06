@@ -13,11 +13,9 @@ _: {
 
     finix.ly = {
       modules,
-      lib,
       ...
     }: {
       imports = [modules.ly];
-      services.getty.enable = lib.mkForce false;
 
       services.ly = {
         enable = true;
