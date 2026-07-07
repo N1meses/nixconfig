@@ -14,15 +14,6 @@ _: {
     boot.kernelModules = [];
     boot.extraModulePackages = [];
 
-    fileSystems."/" = {
-      device = "none";
-      fsType = "tmpfs";
-      options = ["defaults" "size=50%" "mode=755"];
-    };
-
-    fileSystems."/nix".neededForBoot = true;
-    fileSystems."/persist".neededForBoot = true;
-
     swapDevices = [];
 
     networking.useDHCP = lib.mkDefault true;

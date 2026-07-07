@@ -125,7 +125,7 @@ in {
         modules.networkmanager
         modules.polkit
         modules.chronyd
-          modules.cron
+        modules.cron
       ];
 
       programs.limine.enable = true;

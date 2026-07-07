@@ -1,5 +1,9 @@
 {inputs, ...}: let
   devices = {
+    nodev."/" = {
+      fsType = "tmpfs";
+      mountOptions = ["mode=0755" "size=25%"];
+    };
     disk.main = {
       device = "/dev/nvme0n1";
       type = "disk";
@@ -16,12 +20,20 @@
               mountOptions = ["umask=0077"];
             };
           };
-          root = {
+          nix = {
+            size = "60G";
+            content = {
+              type = "filesystem";
+              format = "ext4";
+              mountpoint = "/nix";
+            };
+          };
+          persist = {
             size = "100%";
             content = {
               type = "filesystem";
               format = "ext4";
-              mountpoint = "/";
+              mountpoint = "/persist";
             };
           };
         };
@@ -43,8 +55,11 @@
     ._config
     .fileSystems;
 in {
-  flake.modules.finix.diskoIcarus = _: {
-    inherit fileSystems;
+  flake.modules.finix.diskoIcarus = {lib, ...}: {
+    fileSystems = lib.mkMerge [
+      fileSystems
+      {"/persist".neededForBoot = true;}
+    ];
   };
 
   flake.diskoConfigurations.icarus.disko.devices = devices;

@@ -1,5 +1,12 @@
 _: {
   flake.modules.nixos.diskoHermes = {lib, ...}: {
+    disko.devices.nodev."/" = {
+      fsType = "tmpfs";
+      mountOptions = ["defaults" "size=50%" "mode=755"];
+    };
+
+    fileSystems."/persist".neededForBoot = true;
+
     disko.devices.disk.main = {
       device = lib.mkDefault "/dev/sda";
       type = "disk";

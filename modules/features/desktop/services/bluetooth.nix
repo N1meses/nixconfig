@@ -7,7 +7,11 @@ _: {
       };
       services.blueman.enable = true;
     };
-    finix.bluetooth = {modules, lib, ...}: {
+    finix.bluetooth = {
+      modules,
+      lib,
+      ...
+    }: {
       imports = [
         modules.bluetooth
       ];

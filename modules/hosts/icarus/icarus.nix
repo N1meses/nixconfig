@@ -20,16 +20,26 @@ in {
       desktop
       foot
       laptop
+      persistence
     ];
 
     finixModule = _: {
       users.users.icarus = {
+        uid = 1000;
         isNormalUser = true;
         extraGroups = ["wheel" "networkmanager" "seat" "video" "input" "audio"];
         password = "$6$0FVRMTDT.48Unjkz$lu5WVd6hcWLt6qVvODKXpkg.4Wa0RODz7ltVfbrpP73vm.ggSdSdAAfVFXDB5WyctBw81HNsPBZfreXT.BHka1";
       };
       users.users.root.password = "$6$0FVRMTDT.48Unjkz$lu5WVd6hcWLt6qVvODKXpkg.4Wa0RODz7ltVfbrpP73vm.ggSdSdAAfVFXDB5WyctBw81HNsPBZfreXT.BHka1";
       services.openssh.settings.PasswordAuthentication = true;
+
+      environment.persistence."/persist".directories = [
+        "/home"
+        "/var/lib/sshd"
+        "/var/lib/NetworkManager"
+        "/etc/NetworkManager/system-connections"
+        "/var/lib/dbus"
+      ];
     };
 
     homeModule = {
@@ -39,8 +49,6 @@ in {
     }: let
       flakeRoot = inputs.self;
     in {
-      dconf.enable = false;
-
       programs.noctalia.settings.wallpaper = {
         directory = lib.mkForce "${flakeRoot}/assets/icons";
         default.path = lib.mkForce "${flakeRoot}/assets/icons/wallpaper.jpg";
@@ -56,7 +64,7 @@ in {
               height = 1080;
             };
             refreshRate = 60.0;
-            scale = 1.05;
+            scale = 1.0;
             position = {
               x = 0;
               y = 0;
@@ -72,7 +80,7 @@ in {
           "XF86AudioLowerVolume" = {spawn = mkNoctaliaNiri "volume-down";};
           "XF86AudioMute" = {spawn = mkNoctaliaNiri "volume-mute";};
           "XF86MonBrightnessUp" = {spawn = mkNoctaliaNiri "brightness-up";};
-          "XF86MonBrightnessDown"= {spawn = mkNoctaliaNiri "brightness-down";};
+          "XF86MonBrightnessDown" = {spawn = mkNoctaliaNiri "brightness-down";};
           "XF86Display" = {spawn = mkNoctaliaNiri "screenshot-fullscreen";};
           "Mod+XF86Display" = {spawn = mkNoctaliaNiri "screenshot-region";};
         };
