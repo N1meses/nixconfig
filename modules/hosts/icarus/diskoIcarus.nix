@@ -4,7 +4,7 @@
       fsType = "tmpfs";
       mountOptions = ["mode=0755" "size=25%"];
     };
-    disk.main = {
+    disk.icarus = {
       device = "/dev/nvme0n1";
       type = "disk";
       content = {
