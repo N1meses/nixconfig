@@ -39,6 +39,7 @@ in {
         "/var/lib/NetworkManager"
         "/etc/NetworkManager/system-connections"
         "/var/lib/dbus"
+        "/var/lib/tailscale"
       ];
     };
 

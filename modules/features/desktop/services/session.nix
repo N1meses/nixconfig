@@ -16,6 +16,9 @@ _: {
     xdg.icons.enable = true;
     environment.pathsToLink = ["/share/applications" "/share/mime"];
 
-    programs.doas.enable = true;
+    programs.doas = {
+      enable = true;
+      persist = true;
+    };
   };
 }
