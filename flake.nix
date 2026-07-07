@@ -82,7 +82,7 @@
     };
 
     finix.url = "github:finix-community/finix";
-    finix-community-modules.url = "github:finix-community/community-modules";
+    finix-community-modules.url = "github:N1meses/community-modules";
   };
 
   outputs = inputs:

@@ -5,10 +5,9 @@
       services.tailscale.permitCertUid = "root";
       networking.firewall.trustedInterfaces = ["tailscale0"];
     };
-    finix.tailscale = {modules, ...}: {
+    finix.tailscale = {...}: {
       imports = [
         inputs.finix-community-modules.nixosModules.tailscale
-        modules.dhcpcd
       ];
       services.tailscale.enable = true;
     };
