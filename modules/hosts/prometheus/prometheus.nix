@@ -22,6 +22,7 @@ in {
       markdown
       cli
       build
+      direnv
     ];
 
     nixosModule = {pkgs, ...}: {
