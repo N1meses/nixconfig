@@ -17,6 +17,11 @@ in {
       performance
       virtualisation
       c
+      python
+      rust
+      markdown
+      cli
+      build
     ];
 
     nixosModule = {pkgs, ...}: {
