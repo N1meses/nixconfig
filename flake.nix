@@ -82,7 +82,7 @@
     };
 
     finix.url = "github:finix-community/finix";
-    finix-community-modules.url = "github:N1meses/community-modules/fix/tailsclae-dhcpcd-guard";
+    finix-community-modules.url = "github:N1meses/community-modules/fix/tailscale-dhcpcd-guard";
   };
 
   outputs = inputs:
