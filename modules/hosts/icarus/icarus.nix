@@ -84,6 +84,9 @@ in {
           "XF86Display" = {spawn = mkNoctaliaNiri "screenshot-fullscreen";};
           "Mod+XF86Display" = {spawn = mkNoctaliaNiri "screenshot-region";};
         };
+        autoStart = [
+          "pipewire 2>&1 & sleep 0.5; wireplumber 2>&1 & sleep 0.5; pipewire-pulse 2>&1 &"
+        ];
       };
 
       home.pointerCursor = {

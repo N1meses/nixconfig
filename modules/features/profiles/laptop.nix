@@ -39,6 +39,7 @@ _: {
         modules.acpid
         modules.zzz
         modules.thermald
+        modules.brightnessctl
       ];
 
       services = {
@@ -59,6 +60,7 @@ _: {
         };
       };
 
+      programs.brightnessctl.enable = lib.mkDefault true;
       programs.zzz.enable = lib.mkDefault true;
     };
   };

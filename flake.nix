@@ -81,7 +81,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    finix.url = "github:N1meses/finix";
+    finix.url = "github:finix-community/finix";
     finix-community-modules.url = "github:finix-community/community-modules";
   };
 

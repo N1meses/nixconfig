@@ -17,6 +17,10 @@ _: {
           google-fonts
           material-symbols
           nerd-fonts.symbols-only
+          noto-fonts-color-emoji
+          dejavu_fonts
+          liberation_ttf
+          unifont
         ];
       };
     };
