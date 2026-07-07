@@ -59,6 +59,13 @@ in {
     fileSystems = lib.mkMerge [
       fileSystems
       {"/persist".neededForBoot = true;}
+      {
+      "/tmp" = {
+          device = "tmpfs";
+          fsType = "tmpfs";
+          options = ["nosuid" "nodev" "mode=1777"];
+        };
+      }
     ];
   };
 
