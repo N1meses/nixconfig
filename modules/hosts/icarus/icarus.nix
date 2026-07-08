@@ -23,7 +23,12 @@ in {
       persistence
     ];
 
-    finixModule = _: {
+    finixModule = {lib, ...}: {
+      services.udev = {
+        enable = lib.mkForce false;
+      };
+      services.gardendevd.enable = true;
+
       users.users.icarus = {
         uid = 1000;
         isNormalUser = true;
