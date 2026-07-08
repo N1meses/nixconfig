@@ -71,6 +71,8 @@ in {
         };
       }
     ];
+
+    system.activation.scripts.boot-mountpoint.text = "mkdir -p /boot";
   };
 
   flake.diskoConfigurations.icarus.disko.devices = devices;
