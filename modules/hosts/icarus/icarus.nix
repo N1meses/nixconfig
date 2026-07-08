@@ -18,17 +18,16 @@ in {
       ly
       session
       desktop
+      ssh
       foot
       laptop
       persistence
     ];
 
-    finixModule = {lib, ...}: {
-      services.udev = {
-        enable = lib.mkForce false;
-      };
-      services.gardendevd.enable = true;
-
+    finixModule = {
+      pkgs,
+      ...
+    }: {
       users.users.icarus = {
         uid = 1000;
         isNormalUser = true;
@@ -37,6 +36,14 @@ in {
       };
       users.users.root.password = "$6$0FVRMTDT.48Unjkz$lu5WVd6hcWLt6qVvODKXpkg.4Wa0RODz7ltVfbrpP73vm.ggSdSdAAfVFXDB5WyctBw81HNsPBZfreXT.BHka1";
       services.openssh.settings.PasswordAuthentication = true;
+
+      users.groups.yubikey = {};
+
+      services.udev.packages = [
+        (pkgs.writeTextDir "etc/udev/rules.d/70-fido2.rules" ''
+          KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1050", GROUP="yubikey", MODE="0660"
+        '')
+      ];
 
       environment.persistence."/persist".directories = [
         "/home"
@@ -104,6 +111,7 @@ in {
 
       home.packages = with pkgs; [
         btop
+        yubikey-manager
       ];
     };
   };
