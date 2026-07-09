@@ -24,10 +24,11 @@ in {
       persistence
     ];
 
-    finixModule = {
-      pkgs,
-      ...
-    }: {
+    finixModule = {pkgs, ...}: {
+      imports = [
+        inputs.preservation.nixosModules.preservation
+      ];
+
       users.users.icarus = {
         uid = 1000;
         isNormalUser = true;
@@ -45,14 +46,23 @@ in {
         '')
       ];
 
-      environment.persistence."/persist".directories = [
-        "/home"
-        "/var/lib/sshd"
-        "/var/lib/NetworkManager"
-        "/etc/NetworkManager/system-connections"
-        "/var/lib/dbus"
-        "/var/lib/tailscale"
-      ];
+      preservation = {
+        enable = true;
+        preserveAt."/persist".directories = [
+          "/home"
+          "/var/lib/sshd"
+          "/var/lib/NetworkManager"
+          "/etc/NetworkManager/system-connections"
+          "/var/lib/dbus"
+          "/var/lib/tailscale"
+          {
+            directory = "/var/lib/preservation-test";
+            user = "icarus";
+            group = "users";
+            mode = "0700";
+          }
+        ];
+      };
     };
 
     homeModule = {
