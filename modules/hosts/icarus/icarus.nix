@@ -29,6 +29,8 @@ in {
         "${inputs.preservation}/module.nix"
       ];
 
+      programs.resolvconf.enable = true;
+
       users.users.icarus = {
         uid = 1000;
         isNormalUser = true;
