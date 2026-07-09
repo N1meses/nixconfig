@@ -31,8 +31,6 @@ in {
 
       programs.resolvconf.enable = true;
 
-      services.tailscale.enable = lib.mkForce false;
-
       users.users.icarus = {
         uid = 1000;
         isNormalUser = true;
