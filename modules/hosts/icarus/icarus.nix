@@ -24,7 +24,10 @@ in {
       persistence
     ];
 
-    finixModule = {pkgs, lib, ...}: {
+    finixModule = {
+      pkgs,
+      ...
+    }: {
       imports = [
         "${inputs.preservation}/module.nix"
       ];

@@ -167,16 +167,15 @@
     },
     "finix-community-modules": {
       "locked": {
-        "lastModified": 1783424525,
-        "narHash": "sha256-kNlb95a9xerSjD+JqNkkYMCGME0IyPQvGVqWOyOpNW0=",
-        "owner": "N1meses",
+        "lastModified": 1783556335,
+        "narHash": "sha256-APHiqjlTyjJS6zVoqDlFioDoCGxXIhPjj/rVo84V3WA=",
+        "owner": "finix-community",
         "repo": "community-modules",
-        "rev": "acad6c0f9726c19a73227b470787119bcf9ae384",
+        "rev": "e116e6f540353d61a10db733a2ccd4030b0854dd",
         "type": "github"
       },
       "original": {
-        "owner": "N1meses",
-        "ref": "fix/tailscale-dhcpcd-guard",
+        "owner": "finix-community",
         "repo": "community-modules",
         "type": "github"
       }
