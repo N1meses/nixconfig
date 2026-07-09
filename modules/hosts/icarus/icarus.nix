@@ -26,7 +26,7 @@ in {
 
     finixModule = {pkgs, ...}: {
       imports = [
-        inputs.preservation.nixosModules.preservation
+        "${inputs.preservation}/module.nix"
       ];
 
       users.users.icarus = {
