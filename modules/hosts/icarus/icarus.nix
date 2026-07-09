@@ -24,12 +24,14 @@ in {
       persistence
     ];
 
-    finixModule = {pkgs, ...}: {
+    finixModule = {pkgs, lib, ...}: {
       imports = [
         "${inputs.preservation}/module.nix"
       ];
 
       programs.resolvconf.enable = true;
+
+      services.tailscale.enable = lib.mkForce false;
 
       users.users.icarus = {
         uid = 1000;
