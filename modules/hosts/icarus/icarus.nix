@@ -55,12 +55,6 @@ in {
           "/etc/NetworkManager/system-connections"
           "/var/lib/dbus"
           "/var/lib/tailscale"
-          {
-            directory = "/var/lib/preservation-test";
-            user = "icarus";
-            group = "users";
-            mode = "0700";
-          }
         ];
       };
     };
