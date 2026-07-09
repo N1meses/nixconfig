@@ -134,7 +134,6 @@ in {
 
       services.udev = {
         enable = true;
-        packages = [config.services.udev.package];
       };
 
       services.polkit.enable = true;
