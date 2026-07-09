@@ -8,7 +8,7 @@ _: {
           name = "nix";
           auto-format = true;
           language-servers = ["nixd"];
-          formatter.command = "${pkgs.alejandra}/bin/alejandra";
+          formatter.command = "${pkgs.nixfmt}/bin/nxifmt";
         }
       ];
     };

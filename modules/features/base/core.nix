@@ -116,7 +116,6 @@ in {
       pkgs,
       lib,
       modules,
-      config,
       ...
     }: {
       imports = [
@@ -207,10 +206,6 @@ in {
       };
 
       services.networkmanager.enable = true;
-      environment.etc."NetworkManager/NetworkManager.conf".text = ''
-        [main]
-        rc-manager=symlink
-      '';
 
       environment.systemPackages = with pkgs; [
         git
