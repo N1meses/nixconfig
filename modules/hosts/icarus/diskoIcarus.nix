@@ -68,11 +68,10 @@ in {
         "/boot" = {
           device = lib.mkForce "/dev/nvme0n1p1";
           noCheck = true;
+          options = ["X-mount.mkdir"];
         };
       }
     ];
-
-    system.activation.scripts.boot-mountpoint.text = "mkdir -p /boot";
   };
 
   flake.diskoConfigurations.icarus.disko.devices = devices;
