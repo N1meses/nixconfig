@@ -48,6 +48,12 @@
       boot.kernelPackages = pkgs.linuxPackages_6_18;
 
       boot.initrd.network.enable = true;
+      boot.initrd.network.flushBeforeStage2 = true;
+      boot.initrd.systemd.network.networks."10-enp3s0" = {
+        matchConfig.MACAddress = "b0:82:e2:41:dd:8e";
+        address = ["192.168.68.10/22"];
+        routes = [{Gateway = "192.168.68.1";}];
+      };
       boot.initrd.network.ssh = {
         enable = true;
         port = 2222;
