@@ -10,6 +10,7 @@ in {
     system = "x86_64-linux";
     stateVersion = "25.11";
     extraGroups = ["video" "input"];
+    hostId = "50fb8101"; # required so the rescue role can create/import ZFS pools
     aspects = with config.flake.lib.aspects; [
       base
       hardwareHermes
@@ -88,6 +89,7 @@ in {
       home.packages = with pkgs; [
         btop
         claude-code
+        sops
       ];
     };
   };

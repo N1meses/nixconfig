@@ -2,6 +2,7 @@ keys:
   - &athena age153ntk5rhvdme8sxswgfnphwkyzvk3ucrjaf0lr8wl33p6lpca5fs2w0u27
   - &nimeses age17vlnpheunqdlu5r8uh690nq260mlyy2ug4wkzfgppcqy23nmjesqczsd34
   - &hephaistos age1mq9e6wxauqqsyjq5anm9yd8u8mp7xxmm0zjmxmnk7hpxn70pya6sgrj8g2
+  - &atlas age1cgfenctydzzkmx52j558hsecxgnznwtewg8rd8us6mccd6axluksl7l3s4
 creation_rules:
   - path_regex: secrets/athena\.yaml$
     key_groups:
@@ -17,3 +18,8 @@ creation_rules:
       - age:
           - *nimeses
           - *hephaistos
+  - path_regex: secrets/atlas\.yaml$
+    key_groups:
+      - age:
+          - *nimeses
+          - *atlas

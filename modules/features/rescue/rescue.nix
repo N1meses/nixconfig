@@ -1,6 +1,6 @@
 _: {
   flake.modules.nixos.rescue = {pkgs, ...}: {
-    boot.supportedFilesystems = ["ntfs" "exfat"];
+    boot.supportedFilesystems = ["ntfs" "exfat" "zfs"];
 
     environment.systemPackages = with pkgs; [
       nixos-install-tools

@@ -37,6 +37,16 @@
           hostname = lib.mkDefault "100.75.163.80";
           user = lib.mkDefault "athena";
         };
+        "atlas-unlock" = {
+          hostname = "192.168.68.10";
+          port = 2222;
+          user = "root";
+          proxyJump = lib.mkDefault "hephaistos";
+        };
+        "atlas" = {
+          hostname = lib.mkDefault "100.68.232.99";
+          user = lib.mkDefault "atlas";
+        };
       };
     };
   };

@@ -8,18 +8,16 @@ _: {
         "/var/lib/systemd/coredump"
         "/var/lib/tailscale"
         "/etc/NetworkManager/system-connections"
+        {
+          directory = "/home/hermes";
+          user = "hermes";
+          group = "users";
+          mode = "0700";
+        }
       ];
       files = [
         "/etc/machine-id"
       ];
-      users.hermes = {
-        directories = [
-          ".config"
-          ".local/share"
-          ".ssh"
-          "nixconfig"
-        ];
-      };
     };
   };
 }
