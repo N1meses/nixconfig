@@ -69,7 +69,19 @@
         PubkeyAcceptedAlgorithms +sk-ssh-ed25519@openssh.com
       '';
 
-      boot.kernelParams = ["ip=192.168.68.10::192.168.68.1:255.255.252.0:atlas:enp3s0:none"];
+      networking.nameservers = ["192.168.68.1" "1.1.1.1"];
+      networking.networkmanager.ensureProfiles.profiles.enp3s0 = {
+        connection = {
+          id = "enp3s0";
+          type = "ethernet";
+          interface-name = "enp3s0";
+        };
+        ipv4 = {
+          method = "manual";
+          address1 = "192.168.68.10/22,192.168.68.1";
+        };
+        ipv6.method = "auto";
+      };
 
       environment.systemPackages = with pkgs; [
         ntfs3g
