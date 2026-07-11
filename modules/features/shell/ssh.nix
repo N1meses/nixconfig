@@ -12,7 +12,7 @@
           serverAliveInterval = 60;
           serverAliveCountMax = 3;
           identityAgent = "none";
-          identityFile = [
+          identityFile = lib.mkDefault [
             "~/.ssh/id_ed25519_sk_rk_bio"
             "~/.ssh/id_ed25519_sk_rk_nfc"
           ];

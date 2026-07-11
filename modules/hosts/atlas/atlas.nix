@@ -105,6 +105,7 @@
       ];
 
       programs.helix.settings.editor.clipboard-provider = "termcode";
+      programs.ssh.settings."*".identityFile = ["~/.ssh/id_ed25519"];
     };
   };
 }
