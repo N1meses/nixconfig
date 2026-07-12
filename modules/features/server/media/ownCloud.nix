@@ -11,8 +11,6 @@
         port = 9200;
         url = ocisUrl;
 
-        environmentFile = config.sops.secrets.ocis-env.path;
-
         environment = {
           OCIS_URL = ocisUrl;
           OCIS_LOG_LEVEL = "error";
@@ -22,13 +20,12 @@
           OCIS_OIDC_ISSUER = issuer;
           OCIS_EXCLUDE_RUN_SERVICES = "idp";
           WEB_OIDC_CLIENT_ID = "ocis";
-          WEB_OIDC_SCOPE = "openid profile email";
+          WEB_OIDC_SCOPE = "openid profile email roles";
           PROXY_OIDC_REWRITE_WELLKNOWN = "true";
           PROXY_AUTOPROVISION_ACCOUNTS = "true";
           PROXY_USER_OIDC_CLAIM = "preferred_username";
           PROXY_USER_CS3_CLAIM = "username";
-          PROXY_ROLE_ASSIGNMENT_DRIVER = "default";
-          # PROXY_ROLE_ASSIGNMENT_OIDC_CLAIM = "roles";
+          PROXY_ROLE_ASSIGNMENT_DRIVER = "oidc";
         };
       };
 
@@ -39,15 +36,12 @@
           client_max_body_size 0;
           proxy_request_buffering off;
           proxy_read_timeout 3600s;
+          proxy_set_header X-Forwarded-Proto https;
         '';
       };
 
       services.restic.backups.system.paths = ["/var/lib/ocis"];
-      sops.secrets.ocis-env = {
-        owner = "ocis";
-        mode = "0400";
-      };
     };
-    aspectInclude.ocis = with config.flake.lib.aspects; [nginx restic sops];
+    aspectInclude.ocis = with config.flake.lib.aspects; [nginx restic];
   };
 }

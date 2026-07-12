@@ -17,7 +17,6 @@
       monitoring
       forgejo
       jellyfin
-      navidrome
       authentik
       cloudflared
       matrix
@@ -38,7 +37,7 @@
         allowedUsers = ["atlas"];
         cloudflared.publicHosts =
           map (h: "${h}.${config.features.server.domain}")
-          ["forgejo" "jellyfin" "navidrome" "auth" "matrix" "element" "cloud"];
+          ["forgejo" "jellyfin" "auth" "matrix" "element" "cloud"];
       };
 
       boot.loader.systemd-boot.enable = true;
@@ -102,6 +101,9 @@
         nix-tree
         tldr
         ani-cli
+        btop
+        zellij
+        speedtest-cli
       ];
 
       programs.helix.settings.editor.clipboard-provider = "termcode";
