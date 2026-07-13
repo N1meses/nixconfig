@@ -22,6 +22,7 @@ in {
       foot
       laptop
       persistence
+      zed
     ];
 
     finixModule = {pkgs, ...}: {
@@ -118,6 +119,7 @@ in {
       home.packages = with pkgs; [
         btop
         yubikey-manager
+        claude-code
       ];
     };
   };

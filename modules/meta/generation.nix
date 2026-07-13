@@ -75,6 +75,7 @@
                 nixpkgs.pkgs = import inputs.nixpkgs {
                   inherit (host) system;
                   config.allowUnfree = true;
+                  config.permittedInsecurePackages = ["pnpm-10.29.2"];
                   overlays = [
                     (_final: prev: {
                       home-manager = prev.home-manager.overrideAttrs (_: {
