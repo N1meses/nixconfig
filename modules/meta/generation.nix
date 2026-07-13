@@ -54,7 +54,7 @@
 
     finix = {
       moduleSet = config.flake.modules.finix or {};
-      hmModule = inputs.finix-community-modules.nixosModules.home-manager;
+      hmModule = inputs.community-modules.nixosModules.home-manager;
       output = "finixConfigurations";
       select = host: host.finixModule;
       mkSystem = {

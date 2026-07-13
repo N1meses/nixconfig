@@ -7,7 +7,7 @@
     };
     finix.tailscale = {...}: {
       imports = [
-        inputs.finix-community-modules.nixosModules.tailscale
+        inputs.community-modules.nixosModules.tailscale
       ];
       services.tailscale.enable = true;
     };

@@ -108,6 +108,22 @@
         "type": "github"
       }
     },
+    "community-modules": {
+      "locked": {
+        "lastModified": 1783942615,
+        "narHash": "sha256-NgvkoBMmbTQwt8/0hTVuLCbR1djllptfU/rYGy1u3rg=",
+        "owner": "N1meses",
+        "repo": "community-modules",
+        "rev": "14b8e266edb0ae0c26068ce26ee5a6ad696177f6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "N1meses",
+        "ref": "fix/perservation",
+        "repo": "community-modules",
+        "type": "github"
+      }
+    },
     "deploy-rs": {
       "inputs": {
         "flake-compat": "flake-compat_2",
@@ -152,31 +168,16 @@
     },
     "finix": {
       "locked": {
-        "lastModified": 1783613492,
-        "narHash": "sha256-c58+jbQ37YU/fKDuBsucjiEX2dp/vTW9J5qBK/4blII=",
+        "lastModified": 1783890931,
+        "narHash": "sha256-Lc1BuKpkzKrdN298T5ePbMewppTnlOEk/+DeY8xt2zQ=",
         "owner": "finix-community",
         "repo": "finix",
-        "rev": "aaf0c752a3db4f9065d5f2e00e5569e8488c3bd8",
+        "rev": "8772d4008c6fc27b5c7e8692c5c482ea17164862",
         "type": "github"
       },
       "original": {
         "owner": "finix-community",
         "repo": "finix",
-        "type": "github"
-      }
-    },
-    "finix-community-modules": {
-      "locked": {
-        "lastModified": 1783556335,
-        "narHash": "sha256-APHiqjlTyjJS6zVoqDlFioDoCGxXIhPjj/rVo84V3WA=",
-        "owner": "finix-community",
-        "repo": "community-modules",
-        "rev": "e116e6f540353d61a10db733a2ccd4030b0854dd",
-        "type": "github"
-      },
-      "original": {
-        "owner": "finix-community",
-        "repo": "community-modules",
         "type": "github"
       }
     },
@@ -1233,10 +1234,10 @@
     "root": {
       "inputs": {
         "authentik-nix": "authentik-nix",
+        "community-modules": "community-modules",
         "deploy-rs": "deploy-rs",
         "disko": "disko",
         "finix": "finix",
-        "finix-community-modules": "finix-community-modules",
         "flake-parts": "flake-parts_2",
         "hardware": "hardware",
         "home-manager": "home-manager",
