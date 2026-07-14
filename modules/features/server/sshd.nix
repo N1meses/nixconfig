@@ -47,9 +47,20 @@ _: {
         };
       };
     };
-    finix.sshd = {modules, ...}: {
+    finix.sshd = {
+      modules,
+      lib,
+      ...
+    }: {
       imports = [modules.openssh];
-      services.openssh.enable = true;
+      services.openssh = {
+        enable = true;
+        settings = {
+          PasswordAuthentication = lib.mkDefault false;
+          PermitRootLogin = lib.mkDefault "no";
+          KbdInteractiveAuthentication = lib.mkDefault false;
+        };
+      };
     };
   };
 }
