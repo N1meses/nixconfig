@@ -82,8 +82,7 @@
     };
 
     finix.url = "github:finix-community/finix";
-    community-modules.url = "github:finix-community/community-modules/fix/perservation";
-    preservation.url = "github:parzivale/preservation";
+    community-modules.url = "github:finix-community/community-modules";
   };
 
   outputs = inputs:

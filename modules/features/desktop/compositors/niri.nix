@@ -269,7 +269,7 @@ in {
                 };
               };
 
-              xwayland-satellite.path = "${inputs.niri-nix.packages.${pkgs.stdenv.hostPlatform.system}.niri-unstable}/bin/xwayland-satellite";
+              xwayland-satellite.path = "${pkgs.xwayland-satellite}/bin/xwayland-satellite";
               binds =
                 staticBinds
                 // mouseBinds
