@@ -135,7 +135,6 @@ in {
 
           wayland.windowManager.niri = {
             enable = true;
-            package = lib.mkDefault inputs.niri-nix.packages.${pkgs.stdenv.hostPlatform.system}.niri-unstable;
 
             settings = {
               environment = {

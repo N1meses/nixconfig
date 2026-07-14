@@ -15,13 +15,21 @@ _: {
     boot.kernelParams = [
       "random.trust_cpu=on"
       "random.trust_bootloader=on"
+      "quiet"
+      "loglevel=3"
     ];
+
+    # keep kernel printk off the greeter VT at runtime (console_loglevel=3)
+    boot.kernel.sysctl."kernel.printk" = "3 4 1 3";
 
     hardware = {
       graphics.extraPackages = [pkgs.intel-media-driver];
       graphics.extraPackages32 = [pkgs.pkgsi686Linux.intel-media-driver];
 
-      firmware = [pkgs.linux-firmware];
+      firmware = [
+        pkgs.linux-firmware
+        pkgs.sof-firmware
+      ];
     };
   };
 }
