@@ -11,26 +11,30 @@ in {
   aspects.noctaliaSettings.home = {
     config,
     lib,
+    pkgs,
     ...
   }: let
-    flakeRoot = inputs.self;
     tomlSettings = fromTOML (builtins.readFile ./noctalia-config.toml);
   in {
-    config = lib.mkMerge [
-      {
-        programs.noctalia.settings = mkDefaults tomlSettings;
-      }
-      {
-        programs.noctalia.settings = {
-          shell.avatar_path = "${flakeRoot}/assets/icons/hunter.jpeg";
-          shell.screenshot.directory = "${config.xdg.userDirs.pictures}/Screenshots";
-          wallpaper.directory = "${config.xdg.userDirs.pictures}/Wallpapers";
+    options.noctalia.settings = lib.mkOption {
+      type = (pkgs.formats.toml {}).type;
+      default = {};
+      description = "noctalia settings, serialized to ~/.config/noctalia/settings.toml";
+    };
 
-          widget.control-center = {
-            custom_image = "${flakeRoot}/assets/icons/nixos.png";
-          };
-        };
-      }
-    ];
+    config = {
+      noctalia.settings = lib.mkMerge [
+        (mkDefaults tomlSettings)
+        {
+          shell.avatar_path = "${inputs.self}/assets/icons/hunter.jpeg";
+          shell.screenshot.directory = "${config.directory}/Pictures/Screenshots";
+          wallpaper.directory = "${config.directory}/Pictures/Wallpapers";
+          widget.control-center.custom_image = "${inputs.self}/assets/icons/nixos.png";
+        }
+      ];
+
+      xdg.config.files."noctalia/settings.toml".source =
+        (pkgs.formats.toml {}).generate "noctalia-settings" config.noctalia.settings;
+    };
   };
 }

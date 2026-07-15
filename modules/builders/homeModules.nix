@@ -13,13 +13,7 @@ in {
       ]
       ++ (aspectsFor homeModules (resolveAspects host.aspects));
 
-    home = {
-      inherit (host) username;
-      inherit (host) homeDirectory;
-      inherit (host) stateVersion;
-    };
-
-    programs.git = {
+    rum.programs.git = {
       enable = true;
       settings.user = {
         name = host.git.name;

@@ -18,8 +18,10 @@
     {
       networking.hostName = name;
       networking.hostId = lib.mkIf (host.hostId != "") host.hostId;
-      home-manager.users.${host.username} =
+      hjem.extraModules = [inputs.hjem-rum.hjemModules.default];
+      hjem.users.${host.username} =
         lib.mkIf (host.homeModule != null) {
+          enable = true;
           imports =
             [
               (mkHomeModules {
@@ -37,7 +39,7 @@
   classes = {
     nixos = {
       moduleSet = config.aspectLib.nixosModules;
-      hmModule = inputs.home-manager.nixosModules.home-manager;
+      hmModule = inputs.hjem.nixosModules.default;
       output = "nixosConfigurations";
       layer = "nixos";
       select = host: host.nixosModule;
@@ -55,7 +57,6 @@
                 nixpkgs.config.allowUnfree = true;
                 nixpkgs.config.permittedInsecurePackages = ["pnpm-10.29.2"];
                 system.stateVersion = host.stateVersion;
-                home-manager.useGlobalPkgs = true;
               }
             ];
         };
@@ -63,7 +64,7 @@
 
     finix = {
       moduleSet = config.aspectLib.finixModules or {};
-      hmModule = inputs.community-modules.nixosModules.home-manager;
+      hmModule = inputs.hjem.finixModules.default;
       output = "finixConfigurations";
       layer = "finix";
       select = host: host.finixModule;
@@ -86,14 +87,6 @@
                   inherit (host) system;
                   config.allowUnfree = true;
                   config.permittedInsecurePackages = ["pnpm-10.29.2"];
-                  overlays = [
-                    (_final: prev: {
-                      home-manager = prev.home-manager.overrideAttrs (_: {
-                        src =
-                          inputs.home-manager;
-                      });
-                    })
-                  ];
                 };
               }
             ];
@@ -120,21 +113,4 @@
 in {
   nixosConfigurations = buildClass classes.nixos;
   finixConfigurations = buildClass classes.finix;
-  homeConfigurations =
-    lib.mapAttrs
-    (_name: host:
-      inputs.home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        modules = [
-          (mkHomeModules {
-            inherit host;
-            inherit (host) homeModule;
-          })
-          {
-            nixpkgs.config.allowUnfree = true;
-            nixpkgs.config.permittedInsecurePackages = ["pnpm-10.29.2"];
-          }
-        ];
-      })
-    (lib.filterAttrs (_: host: host.homeModule != null) hosts);
 }
