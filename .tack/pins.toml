@@ -30,9 +30,6 @@ gh = "github:{path}"
 [inputs.nixpkgs]
 url = "gh:nixos/nixpkgs?rev=e7a3ca8092b61ff85b6a45bf863ea2b2d6a661b3"
 
-[inputs.import-tree]
-url = "gh:vic/import-tree"
-
 [inputs.sops-nix]
 url = "gh:Mic92/sops-nix"
 
