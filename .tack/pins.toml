@@ -1,0 +1,96 @@
+# tack pins
+# edit by hand or with tack add / rm / alias
+# nix reads pins.lock.json
+# this file drives tack update
+
+# shorturl schemes
+# scheme rest expands rest into {path}
+[shorturls]
+gh = "github:{path}"
+
+# all_follow maps input names to the top-level pin they follow
+# opt out per-input with exclude_follow
+[all_follow]
+ nixpkgs = ["nixpkgs"]
+# nixpkgs = ["nixpkgs-stable", "nixpkgs-unstable"]
+
+# inputs.<name> fields
+#   url             required, shorturl ok, ?rev=<sha> pins an exact commit
+#   type            flake (default), fetch, or fixed
+#   flake           legacy false means type = "fetch"
+#   follows         { child = "pin" } override map
+#   exclude_follow  all_follow names to skip
+#   dir             subdir holding flake.nix
+#   submodules      fetch git submodules
+#   unpack          fixed-only tarball or file
+[inputs]
+
+[inputs.nixpkgs]
+url = "gh:nixos/nixpkgs?rev=e7a3ca8092b61ff85b6a45bf863ea2b2d6a661b3"
+
+[inputs.import-tree]
+url = "gh:vic/import-tree"
+
+[inputs.sops-nix]
+url = "gh:Mic92/sops-nix"
+
+[inputs.disko]
+url = "gh:nix-community/disko"
+
+[inputs.finix]
+url = "gh:finix-community/finix"
+
+[inputs.hjem]
+url = "gh:feel-co/hjem"
+
+[inputs.hjem-rum]
+url = "gh:snugnug/hjem-rum"
+
+[inputs.deploy-rs]
+url = "gh:serokell/deploy-rs"
+
+[inputs.preservation]
+url = "gh:parzivale/preservation"
+
+[inputs.hardware]
+url = "gh:NixOS/nixos-hardware"
+
+[inputs.nixarr]
+url = "gh:rasmus-kirk/nixarr"
+
+[inputs.impermanence]
+url = "gh:nix-community/impermanence"
+
+[inputs.nix-index-database]
+url = "gh:nix-community/nix-index-database"
+
+[inputs.authentik-nix]
+url = "gh:nix-community/authentik-nix"
+
+[inputs.nix-cachyos-kernel]
+url = "gh:xddxdd/nix-cachyos-kernel"
+
+[inputs.niri-nix]
+url = "git+https://codeberg.org/BANanaD3V/niri-nix"
+
+[inputs.hyprland]
+url = "gh:hyprwm/Hyprland"
+submodules = true
+
+[inputs.mango]
+url = "gh:mangowm/mango"
+
+[inputs.noctalia]
+url = "gh:noctalia-dev/noctalia/cachix"
+
+[inputs.opencode]
+url = "gh:anomalyco/opencode/dev"
+
+[inputs.systems]
+url = "gh:nix-systems/default-linux"
+
+[inputs.community-modules]
+url = "gh:N1meses/community-modules/fix/perservation"
+
+[inputs.home-manager]
+url = "gh:nix-community/home-manager"
