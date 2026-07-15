@@ -8,7 +8,7 @@
     then lib.mapAttrs (_: mkDefaults) val
     else lib.mkDefault val;
 in {
-  flake.modules.homeManager.noctaliaSettings = {
+  aspects.noctaliaSettings.home = {
     config,
     lib,
     ...

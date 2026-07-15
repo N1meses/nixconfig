@@ -55,7 +55,7 @@
     ._config
     .fileSystems;
 in {
-  flake.modules.finix.diskoIcarus = {lib, ...}: {
+  aspects.diskoIcarus.finix = {lib, ...}: {
     fileSystems = lib.mkMerge [
       fileSystems
       {
@@ -74,5 +74,5 @@ in {
     ];
   };
 
-  flake.diskoConfigurations.icarus.disko.devices = devices;
+  diskoConfigurations.icarus.disko.devices = devices;
 }

@@ -1,6 +1,5 @@
 {config, ...}: {
-  flake = {
-    modules.nixos.forgejo = {config, ...}: let
+    aspects.forgejo.nixos = {config, ...}: let
       cfg = config.features.server;
     in {
       services.forgejo = {
@@ -35,6 +34,5 @@
         };
       };
     };
-    aspectInclude.forgejo = with config.flake.lib.aspects; [nginx restic];
-  };
+    aspects.forgejo.includes = with config.aspectLib.names; [nginx restic];
 }

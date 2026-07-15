@@ -1,5 +1,5 @@
 {inputs, ...}: {
-  flake.modules.homeManager.helix = {lib, ...}: {
+  aspects.helix.home = {lib, ...}: {
     home.sessionVariables = {
       EDITOR = "hx";
       VISUAL = lib.mkDefault "hx";

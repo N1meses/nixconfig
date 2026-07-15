@@ -1,5 +1,5 @@
 {config, ...}: {
-  flake.aspectInclude.apps = with config.flake.lib.aspects; [
+  aspects.apps.includes = with config.aspectLib.names; [
     yazi
     browser
     gtk

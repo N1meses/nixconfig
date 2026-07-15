@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.monitoring = {pkgs, ...}: {
+  aspects.monitoring.nixos = {pkgs, ...}: {
     services.netdata.enable = true;
     services.netdata.package = pkgs.netdata.override {withCloudUi = true;};
     services.netdata.config.plugins."scripts.d" = "no";

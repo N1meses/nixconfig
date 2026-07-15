@@ -1,5 +1,5 @@
 {config, ...}: {
-  flake.aspectInclude.workstation = with config.flake.lib.aspects; [
+  aspects.workstation.includes = with config.aspectLib.names; [
     base
     desktop
     niri

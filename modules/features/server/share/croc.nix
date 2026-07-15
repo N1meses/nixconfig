@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.croc = {pkgs, ...}: {
+  aspects.croc.nixos = {pkgs, ...}: {
     systemd.services.croc-relay = {
       description = "Croc relay server";
       after = ["network-online.target"];

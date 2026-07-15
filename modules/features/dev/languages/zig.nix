@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.zig = {pkgs, ...}: {
+  aspects.zig.home = {pkgs, ...}: {
     home.packages = with pkgs; [zls zig];
     programs.helix.languages = {
       language-server.zls.command = "${pkgs.zls}/bin/zls";

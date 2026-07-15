@@ -1,5 +1,5 @@
 {inputs, ...}: {
-  flake.modules.homeManager.opencode = {
+  aspects.opencode.home = {
     pkgs,
     config,
     ...

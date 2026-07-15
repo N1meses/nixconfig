@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.diskoAtlas = {config, ...}: let
+  aspects.diskoAtlas.nixos = {config, ...}: let
     mkTankDisk = id: {
       type = "disk";
       device = "/dev/disk/by-id/${id}";

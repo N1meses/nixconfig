@@ -47,14 +47,14 @@ fi
 # --- hardware<Hostname>.nix (flake module wrapper) ---
 cat > "$HOST_DIR/hardware${CAP}.nix" << EOF
 {...}: {
-  flake.modules.nixos.hardware${CAP} = import ./hardware-configuration.nix;
+  aspects.hardware.nixos${CAP} = import ./hardware-configuration.nix;
 }
 EOF
 
 # --- disko<Hostname>.nix ---
 cat > "$HOST_DIR/disko${CAP}.nix" << EOF
 {...}: {
-  flake.modules.nixos.disko${CAP} = {...}: {
+  aspects.disko.nixos${CAP} = {...}: {
     # TODO: configure disk layout
     # Examples: https://github.com/nix-community/disko/tree/master/example
     disko.devices = {
@@ -98,7 +98,7 @@ cat > "$HOST_DIR/$HOSTNAME.nix" << EOF
     stateVersion = "25.11";
     # extraGroups = [];
     # hostId = "";  # for ZFS: head -c4 /dev/urandom | od -A none -t x4 | tr -d ' '
-    aspects = with config.flake.lib.aspects; [
+    aspects = with config.aspectLib.names; [
       core
       shell
       users

@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.graphics = {lib, ...}: {
+  aspects.graphics.nixos = {lib, ...}: {
     hardware.graphics.enable = true;
 
     services.xserver = {

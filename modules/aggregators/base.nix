@@ -1,5 +1,5 @@
 {config, ...}: {
-  flake.aspectInclude.base = with config.flake.lib.aspects; [
+  aspects.base.includes = with config.aspectLib.names; [
     core
     shell
     local

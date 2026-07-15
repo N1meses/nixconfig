@@ -1,6 +1,5 @@
 {config, ...}: {
-  flake = {
-    modules.nixos.jellyfin = {config, ...}: let
+    aspects.jellyfin.nixos = {config, ...}: let
       cfg = config.features.server;
     in {
       services.jellyfin.enable = true;
@@ -17,6 +16,5 @@
 
       users.users.jellyfin.extraGroups = ["media" "render" "video"];
     };
-    aspectInclude.jellyfin = with config.flake.lib.aspects; [nginx restic];
-  };
+    aspects.jellyfin.includes = with config.aspectLib.names; [nginx restic];
 }

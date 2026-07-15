@@ -1,6 +1,6 @@
 {config, ...}: let
-  mkNoctaliaNiri = config.flake.lib.mkNoctaliaNiri;
-  mkNoctaliaMango = config.flake.lib.mkNoctaliaMango;
+  mkNoctaliaNiri = config.aspectLib.mkNoctaliaNiri;
+  mkNoctaliaMango = config.aspectLib.mkNoctaliaMango;
 in {
   registry.hosts.prometheus = {
     username = "prometheus";
@@ -8,7 +8,7 @@ in {
     stateVersion = "25.05";
     homeDirectory = "/home/prometheus";
     extraGroups = ["gamemode" "libvirtd" "kvm"];
-    aspects = with config.flake.lib.aspects; [
+    aspects = with config.aspectLib.names; [
       workstation
       hardwarePrometheus
       cachyosKernel

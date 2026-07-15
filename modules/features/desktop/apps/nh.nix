@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.nh = {config, ...}: {
+  aspects.nh.home = {config, ...}: {
     programs.nh = {
       enable = true;
       clean = {

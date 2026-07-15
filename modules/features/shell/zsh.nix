@@ -1,17 +1,17 @@
 _: {
-  flake.modules = {
-    nixos.zsh = _: {
+  aspects.zsh = {
+    nixos = _: {
       programs.zsh.enable = true;
     };
 
-    finix.zsh = {pkgs, ...}: {
+    finix = {pkgs, ...}: {
       users.defaultUserShell = pkgs.zsh;
       environment.shells = [pkgs.zsh];
       environment.systemPackages = [pkgs.zsh];
       environment.etc."zshenv".text = "";
     };
 
-    homeManager.zsh = {
+    home = {
       pkgs,
       lib,
       config,

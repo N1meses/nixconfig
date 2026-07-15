@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.javascript = {pkgs, ...}: {
+  aspects.javascript.home = {pkgs, ...}: {
     home.packages = with pkgs; [
       nodePackages.typescript-language-server
       nodePackages.vscode-langservers-extracted

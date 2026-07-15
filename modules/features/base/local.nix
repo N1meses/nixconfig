@@ -11,8 +11,11 @@ _: let
     LC_TIME = "de_DE.UTF-8";
   };
 in {
-  flake.modules = {
-    nixos.local = {lib, ...}: {
+  aspects.local = {
+    nixos = {
+      lib,
+      ...
+    }: {
       time.timeZone = lib.mkDefault "Europe/Berlin";
       console.keyMap = lib.mkDefault "de";
 
@@ -20,7 +23,10 @@ in {
       i18n.extraLocaleSettings = lib.mkDefault localSettings;
     };
 
-    finix.local = {lib, ...}: {
+    finix = {
+      lib,
+      ...
+    }: {
       time.timeZone = lib.mkDefault "Europe/Berlin";
       hardware.console = {
         enable = true;

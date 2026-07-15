@@ -3,13 +3,13 @@
   inputs,
   ...
 }: let
-  mkNoctaliaNiri = config.flake.lib.mkNoctaliaNiri;
+  mkNoctaliaNiri = config.aspectLib.mkNoctaliaNiri;
 in {
   registry.hosts.icarus = {
     username = "icarus";
     system = "x86_64-linux";
     stateVersion = "25.11";
-    aspects = with config.flake.lib.aspects; [
+    aspects = with config.aspectLib.names; [
       hardwareIcarus
       diskoIcarus
       sshd

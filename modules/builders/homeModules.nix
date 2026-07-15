@@ -1,9 +1,9 @@
 {config, ...}: let
-  homeModules = config.flake.modules.homeManager;
-  aspectsFor = config.flake.lib.aspectsFor;
-  resolveAspects = config.flake.lib.resolveAspects;
+  homeModules = config.aspectLib.homeModules;
+  aspectsFor = config.aspectLib.aspectsFor;
+  resolveAspects = config.aspectLib.resolveAspects;
 in {
-  flake.lib.mkHomeModules = {
+  aspectLib.mkHomeModules = {
     host,
     homeModule,
   }: {

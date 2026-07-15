@@ -1,6 +1,5 @@
 {config, ...}: {
-  flake = {
-    modules.nixos.nextcloud = {
+    aspects.nextcloud.nixos = {
       config,
       pkgs,
       ...
@@ -58,6 +57,5 @@
 
       users.users.nextcloud.extraGroups = ["media"];
     };
-    aspectInclude.nextcloud = with config.flake.lib.aspects; [nginx restic sops];
-  };
+    aspects.nextcloud.includes = with config.aspectLib.names; [nginx restic sops];
 }

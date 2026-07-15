@@ -1,6 +1,6 @@
 _: {
-  flake.modules = {
-    nixos.virtualisation = {
+  aspects.virtualisation = {
+    nixos = {
       config,
       lib,
       pkgs,

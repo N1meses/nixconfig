@@ -4,27 +4,10 @@
   ...
 }: let
   t = lib.types;
-  aspectNames = lib.unique (
-    lib.attrNames config.flake.modules.nixos
-    ++ lib.attrNames config.flake.modules.homeManager
-    ++ lib.attrNames (config.flake.modules.finix or {})
-    ++ lib.attrNames (config.flake.aspectInclude or {})
-  );
+  aspectNames = builtins.attrNames config.aspects;
 in {
-  options = {
-    flake = {
-      lib = lib.mkOption {
-        type = t.lazyAttrsOf t.raw;
-        default = {};
-      };
-
-      aspectInclude = lib.mkOption {
-        type = t.attrsOf (t.listOf (t.enum aspectNames));
-        default = {};
-      };
-    };
-
-    registry.hosts = lib.mkOption {
+  options.registry = {
+    hosts = lib.mkOption {
       type = t.attrsOf (t.submodule ({config, ...}: {
         options = {
           username = lib.mkOption {
@@ -43,9 +26,9 @@ in {
             default = [];
             description = ''
               Module names enabled on this host, resolved against
-              flake.modules.{nixos,homeManager}.<name>. Each aspect routes to
+              aspectLib.{nixos,home}.<name>. Each aspect routes to
               whichever layer(s) define it: nixos-only names apply to the system,
-              homeManager-only names apply to home, names in both apply to both.
+              home-only names apply to home, names in both apply to both.
               Names defined in neither layer fail the build.
             '';
           };
@@ -113,23 +96,6 @@ in {
         };
       }));
       default = {};
-    };
-  };
-
-  config = {
-    flake.lib = {
-      aspects = lib.genAttrs aspectNames (n: n);
-
-      aspectsFor = layerModules: aspectNames:
-        map (n: layerModules.${n}) (lib.filter (n: layerModules ? ${n}) aspectNames);
-
-      resolveAspects = roots: let
-        inc = config.flake.aspectInclude;
-      in
-        map (e: e.key) (builtins.genericClosure {
-          startSet = map (n: {key = n;}) roots;
-          operator = {key, ...}: map (dep: {key = dep;}) (inc.${key} or []);
-        });
     };
   };
 }

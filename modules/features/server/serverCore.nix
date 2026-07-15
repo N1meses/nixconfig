@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.serverCore = {
+  aspects.serverCore.nixos = {
     lib,
     pkgs,
     ...

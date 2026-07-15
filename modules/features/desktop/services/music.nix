@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.music = _: {
+  aspects.music.nixos = _: {
     services.mpd = {
       enable = true;
     };

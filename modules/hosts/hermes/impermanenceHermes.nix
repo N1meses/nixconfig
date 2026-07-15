@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.impermanenceHermes = _: {
+  aspects.impermanenceHermes.nixos = _: {
     environment.persistence."/persist" = {
       hideMounts = true;
       directories = [

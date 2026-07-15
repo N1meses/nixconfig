@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.browser = {
+  aspects.browser.home = {
     pkgs,
     config,
     lib,

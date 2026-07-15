@@ -1,5 +1,5 @@
 {config, ...}: {
-  flake.aspectInclude.desktop = with config.flake.lib.aspects; [
+  aspects.desktop.includes = with config.aspectLib.names; [
     services
     apps
     noctalia

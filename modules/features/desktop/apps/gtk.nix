@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.gtk = {pkgs, ...}: {
+  aspects.gtk.home = {pkgs, ...}: {
     gtk = {
       enable = true;
       font = {

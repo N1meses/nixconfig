@@ -6,7 +6,7 @@
     extraGroups = ["plugdev"];
     hostId = "2e95e7c9";
     domain = "nimeses.com";
-    aspects = with config.flake.lib.aspects; [
+    aspects = with config.aspectLib.names; [
       server
       hardwareAthena
       monitoring

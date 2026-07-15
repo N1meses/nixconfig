@@ -3,8 +3,7 @@
   config,
   ...
 }: {
-  flake = {
-    modules.nixos.authentik = {config, ...}: let
+    aspects.authentik.nixos = {config, ...}: let
       cfg = config.features.server;
     in {
       imports = [inputs.authentik-nix.nixosModules.default];
@@ -36,6 +35,5 @@
 
       sops.secrets."authentik-env" = {};
     };
-    aspectInclude.authentik = with config.flake.lib.aspects; [nginx restic sops];
-  };
+    aspects.authentik.includes = with config.aspectLib.names; [nginx restic sops];
 }

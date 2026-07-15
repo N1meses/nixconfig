@@ -1,6 +1,5 @@
 {config, ...}: {
-  flake = {
-    modules.homeManager.foot = {lib, ...}: {
+    aspects.foot.home = {lib, ...}: {
       features.compositors.terminal = lib.mkDefault {
         command = "foot";
         execFlag = "";
@@ -18,6 +17,5 @@
         };
       };
     };
-    aspectInclude.foot = with config.flake.lib.aspects; [compositors];
-  };
+    aspects.foot.includes = with config.aspectLib.names; [compositors];
 }

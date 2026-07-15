@@ -1,7 +1,7 @@
 {config, ...}: let
   flakeConfig = config;
 in {
-  flake.modules.nixos.cachyosKernel = {...}: {
-    imports = [flakeConfig.flake.modules.nixos.overlays];
+  aspects.cachyosKernel.nixos = {...}: {
+    imports = [flakeConfig.aspects.overlays.nixos];
   };
 }

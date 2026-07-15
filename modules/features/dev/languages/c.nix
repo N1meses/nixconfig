@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.c = {pkgs, ...}: {
+  aspects.c.home = {pkgs, ...}: {
     home.packages = with pkgs; [clang-tools ccls gcc];
     programs.helix.languages = {
       language-server.clangd.command = "${pkgs.clang-tools}/bin/clangd";

@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.ollama = {
+  aspects.ollama.nixos = {
     config,
     lib,
     ...

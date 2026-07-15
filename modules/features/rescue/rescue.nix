@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.rescue = {pkgs, ...}: {
+  aspects.rescue.nixos = {pkgs, ...}: {
     boot.supportedFilesystems = ["ntfs" "exfat" "zfs"];
 
     environment.systemPackages = with pkgs; [

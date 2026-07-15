@@ -1,6 +1,5 @@
 {config, ...}: {
-  flake = {
-    modules.nixos.matrix = {config, ...}: let
+    aspects.matrix.nixos = {config, ...}: let
       cfg = config.features.server;
     in {
       services.matrix-tuwunel = {
@@ -63,6 +62,5 @@
         '';
       };
     };
-    aspectInclude.matrix = with config.flake.lib.aspects; [nginx restic sops];
-  };
+    aspects.matrix.includes = with config.aspectLib.names; [nginx restic sops];
 }

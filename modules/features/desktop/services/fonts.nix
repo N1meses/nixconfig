@@ -1,6 +1,6 @@
 _: {
-  flake.modules = {
-    nixos.fonts = {pkgs, ...}: {
+  aspects.fonts = {
+    nixos = {pkgs, ...}: {
       fonts.packages = with pkgs; [
         ibm-plex
         google-fonts
@@ -9,7 +9,7 @@ _: {
       ];
     };
 
-    finix.fonts = {pkgs, ...}: {
+    finix = {pkgs, ...}: {
       fonts = {
         fontconfig.enable = true;
         packages = with pkgs; [

@@ -1,5 +1,5 @@
 {config, ...}: {
-  flake.aspectInclude.shell = with config.flake.lib.aspects; [
+  aspects.shell.includes = with config.aspectLib.names; [
     zsh
     shellTools
     starship

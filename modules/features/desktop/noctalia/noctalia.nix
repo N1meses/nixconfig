@@ -6,21 +6,20 @@
 }: let
   flakeConfig = config;
 in {
-  flake = {
-    lib.mkNoctaliaNiri = cmd:
+    aspectLib.mkNoctaliaNiri = cmd:
       ["noctalia" "msg"] ++ (lib.splitString " " cmd);
 
-    lib.mkNoctaliaHypr = cmd: "exec, noctalia msg ${cmd}";
+    aspectLib.mkNoctaliaHypr = cmd: "exec, noctalia msg ${cmd}";
 
-    lib.mkNoctaliaMango = cmd: "spawn, noctalia msg ${cmd}";
+    aspectLib.mkNoctaliaMango = cmd: "spawn, noctalia msg ${cmd}";
 
-    aspectInclude.noctalia = with config.flake.lib.aspects; [compositors];
+    aspects.noctalia.includes = with config.aspectLib.names; [compositors];
 
-    modules = {
-      homeManager.noctalia = {pkgs, ...}: {
+    aspects.noctalia = {
+      home = {pkgs, ...}: {
         imports = [
           inputs.noctalia.homeModules.default
-          flakeConfig.flake.modules.homeManager.noctaliaSettings
+          flakeConfig.aspects.noctaliaSettings.home
         ];
 
         home.packages = [
@@ -41,5 +40,4 @@ in {
         programs.noctalia.enable = true;
       };
     };
-  };
 }

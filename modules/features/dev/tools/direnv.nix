@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.direnv = _: {
+  aspects.direnv.home = _: {
     programs.direnv = {
       enable = true;
       nix-direnv.enable = true;

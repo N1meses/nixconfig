@@ -1,5 +1,5 @@
 _: {
-  flake.modules.finix.persistence = {
+  aspects.persistence.finix = {
     config,
     lib,
     ...

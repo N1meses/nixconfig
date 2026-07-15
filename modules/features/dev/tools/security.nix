@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.security = {pkgs, ...}: {
+  aspects.security.home = {pkgs, ...}: {
     home.packages = with pkgs; [
       nmap
       netcat

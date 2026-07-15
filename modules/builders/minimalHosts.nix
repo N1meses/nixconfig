@@ -12,15 +12,15 @@
     host = config.registry.hosts.${name};
     hardwareKey = "hardware${capitalize name}";
     diskoKey = "disko${capitalize name}";
-    hasDisko = builtins.hasAttr diskoKey config.flake.modules.nixos;
+    hasDisko = builtins.hasAttr diskoKey config.aspectLib.nixosModules;
   in
     inputs.nixpkgs.lib.nixosSystem {
       specialArgs = {inherit inputs;};
       modules =
-        [config.flake.modules.nixos.${hardwareKey}]
+        [config.aspectLib.nixosModules.${hardwareKey}]
         ++ lib.optionals hasDisko [
           inputs.disko.nixosModules.disko
-          config.flake.modules.nixos.${diskoKey}
+          config.aspectLib.nixosModules.${diskoKey}
         ]
         ++ [
           {
@@ -48,7 +48,7 @@
         ];
     };
 in {
-  flake.nixosConfigurations =
+  nixosConfigurations =
     lib.mapAttrs'
     (name: _: lib.nameValuePair "${name}Minimal" (mkMinimal name))
     (lib.filterAttrs (_: h: h.nixosModule != null) config.registry.hosts);

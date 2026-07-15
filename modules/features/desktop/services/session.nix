@@ -1,5 +1,5 @@
 _: {
-  flake.modules.finix.session = {
+  aspects.session.finix = {
     pkgs,
     modules,
     ...

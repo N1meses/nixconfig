@@ -57,7 +57,7 @@ modules/
 │   └── icarus/     hardware, disko          # finix (experimental)
 ├── lib/
 │   ├── compositors.nix             # shared features.compositors.* options (monitors, gaps, colors, …)
-│   └── registry.nix                # registry.hosts + aspects (enum + flake.lib.aspects) + aspectInclude closure
+│   └── registry.nix                # registry.hosts + aspects (enum + aspectLib.aspects) + aspectInclude closure
 ├── meta/
 │   ├── flakeParts.nix              # flake-parts setup
 │   ├── generation.nix              # NixOS generator: registry.hosts → nixosConfigurations (commonModule: hostName, domain)
@@ -168,8 +168,8 @@ directly by the host (`workstation` adds `niri`).
 
 | Function | Usage | Output |
 |----------|-------|--------|
-| `config.flake.lib.mkNoctaliaNiri` | `mkNoctaliaNiri "volume increase"` | `["noctalia-shell" "ipc" "call" "volume" "increase"]` |
-| `config.flake.lib.mkNoctaliaHypr` | `mkNoctaliaHypr "volume increase"` | `"exec, noctalia-shell ipc call volume increase"` |
+| `config.aspectLib.mkNoctaliaNiri` | `mkNoctaliaNiri "volume increase"` | `["noctalia-shell" "ipc" "call" "volume" "increase"]` |
+| `config.aspectLib.mkNoctaliaHypr` | `mkNoctaliaHypr "volume increase"` | `"exec, noctalia-shell ipc call volume increase"` |
 
 ---
 
@@ -333,7 +333,7 @@ Infrastructure modules — not imported by hosts, wired in automatically.
 | File | Purpose |
 |------|---------|
 | `compositors.nix` | HM module — defines all shared `features.compositors.*` options (monitors, gaps, colors, borders, opacity, cursor, keyboard, terminal) |
-| `registry.nix` | Defines `options.registry.hosts` — host registry (username, system, stateVersion, domain, hostId, extraGroups, homeDirectory, **aspects**, **nixosModule**, **homeModule**). Exposes `flake.lib.aspects` (name→name map for the bare form), folds `flake.aspectInclude` keys into the valid-names enum, and resolves the transitive closure of aspects. |
+| `registry.nix` | Defines `options.registry.hosts` — host registry (username, system, stateVersion, domain, hostId, extraGroups, homeDirectory, **aspects**, **nixosModule**, **homeModule**). Exposes `aspectLib.aspects` (name→name map for the bare form), folds `flake.aspectInclude` keys into the valid-names enum, and resolves the transitive closure of aspects. |
 
 ### Aspects (host module selection)
 
@@ -344,10 +344,10 @@ the standalone `homeConfigurations` build). Names can also be **aggregators**
 (`flake.aspectInclude.<name>` keys) that expand to more names — see Aggregators & Role
 Bundles. The option is enum-typed against all module names **plus** all aggregator keys,
 so typos fail at eval with the full valid list. Written bare via
-`with config.flake.lib.aspects; [ … ]`.
+`with config.aspectLib.names; [ … ]`.
 
 ```nix
-registry.hosts.nimeses.aspects = with config.flake.lib.aspects; [
+registry.hosts.nimeses.aspects = with config.aspectLib.names; [
   workstation                 # role bundle → base + desktop + niri + …
   hardwareNimeses             # host-only
   gaming performance          # extra profiles
@@ -358,7 +358,7 @@ registry.hosts.nimeses.aspects = with config.flake.lib.aspects; [
 
 ## Deployment (deploy-rs)
 
-`modules/meta/deploy.nix` generates `flake.deploy.nodes` from the registry — one node
+`modules/meta/deploy.nix` generates `deploy.nodes` from the registry — one node
 per NixOS host (filtered to those with a `nixosConfigurations` entry, so `*Minimal`
 variants and finix `icarus` are excluded).
 

@@ -4,7 +4,7 @@
   lib,
   ...
 }: {
-  flake.deploy.nodes =
+  deploy.nodes =
     lib.mapAttrs (name: host: {
       hostname = name;
       profiles.system = {
@@ -13,9 +13,9 @@
         interactiveSudo = true;
         path =
           inputs.deploy-rs.lib.${host.system}.activate.nixos
-          config.flake.nixosConfigurations.${name};
+          config.nixosConfigurations.${name};
       };
     })
-    (lib.filterAttrs (name: _: config.flake.nixosConfigurations ? ${name})
+    (lib.filterAttrs (name: _: config.nixosConfigurations ? ${name})
       config.registry.hosts);
 }

@@ -3,7 +3,7 @@
   inputs,
   ...
 }: {
-  flake.modules.nixos.nixarr = {
+  aspects.nixarr.nixos = {
     config,
     lib,
     ...
@@ -77,5 +77,5 @@
     users.groups.readarr = {};
   };
 
-  flake.aspectInclude.nixarr = with config.flake.lib.aspects; [restic sops];
+  aspects.nixarr.includes = with config.aspectLib.names; [restic sops];
 }

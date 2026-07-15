@@ -1,5 +1,5 @@
 {lib, ...}: {
-  flake.modules.homeManager.ssh = _: {
+  aspects.ssh.home = _: {
     programs.ssh = {
       enable = true;
       enableDefaultConfig = false;

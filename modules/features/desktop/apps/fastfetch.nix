@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.fastfetch = {config, ...}: {
+  aspects.fastfetch.home = {config, ...}: {
     programs.fastfetch = {
       enable = true;
       settings = {

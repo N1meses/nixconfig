@@ -1,13 +1,13 @@
 _: {
-  flake.modules = {
-    nixos.bluetooth = _: {
+  aspects.bluetooth = {
+    nixos = _: {
       hardware.bluetooth = {
         enable = true;
         powerOnBoot = true;
       };
       services.blueman.enable = true;
     };
-    finix.bluetooth = {
+    finix = {
       modules,
       lib,
       ...

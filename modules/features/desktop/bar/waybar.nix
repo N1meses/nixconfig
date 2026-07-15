@@ -1,6 +1,5 @@
 {config, ...}: {
-  flake = {
-    modules.homeManager.waybar = {config, ...}: let
+    aspects.waybar.home = {config, ...}: let
       c = config.features.compositors;
       bg = c.colors.background;
       active = c.colors.active;
@@ -111,6 +110,5 @@
         '';
       };
     };
-    aspectInclude.waybar = with config.flake.lib.aspects; [compositors];
-  };
+    aspects.waybar.includes = with config.aspectLib.names; [compositors];
 }

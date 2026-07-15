@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.git = {pkgs, ...}: {
+  aspects.git.home = {pkgs, ...}: {
     programs = {
       delta = {
         enable = true;

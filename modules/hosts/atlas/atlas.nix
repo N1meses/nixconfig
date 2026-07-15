@@ -10,7 +10,7 @@
     extraGroups = ["plugdev"];
     hostId = "32947ba6";
     domain = "nimeses.com";
-    aspects = with config.flake.lib.aspects; [
+    aspects = with config.aspectLib.names; [
       server
       hardwareAtlas
       diskoAtlas

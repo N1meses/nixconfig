@@ -30,8 +30,8 @@
     trusted-public-keys = substitutersKeys;
   };
 in {
-  flake.modules = {
-    nixos.core = {
+  aspects.core = {
+    nixos = {
       pkgs,
       lib,
       ...
@@ -98,12 +98,12 @@ in {
       };
     };
 
-    homeManager.core = _: {
+    home = _: {
       programs.home-manager.enable = true;
       xdg.enable = true;
     };
 
-    finix.core = {
+    finix = {
       pkgs,
       lib,
       modules,

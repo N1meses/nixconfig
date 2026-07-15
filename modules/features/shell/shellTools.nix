@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.shellTools = _: {
+  aspects.shellTools.home = _: {
     programs = {
       zoxide = {
         enable = true;

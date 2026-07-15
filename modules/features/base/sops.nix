@@ -1,5 +1,5 @@
 {inputs, ...}: {
-  flake.modules.nixos.sops = {
+  aspects.sops.nixos = {
     config,
     lib,
     pkgs,

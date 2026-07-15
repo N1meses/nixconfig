@@ -57,9 +57,8 @@
     "Mod+Shift+9" = {move-window-to-workspace = 9;};
   };
 in {
-  flake = {
-    modules = {
-      nixos.niri = {pkgs, ...}: {
+    aspects.niri = {
+      nixos = {pkgs, ...}: {
         imports = [inputs.niri-nix.nixosModules.default];
         programs.niri = {
           enable = true;
@@ -67,7 +66,7 @@ in {
         };
       };
 
-      finix.niri = {
+      finix = {
         modules,
         lib,
         ...
@@ -82,7 +81,7 @@ in {
         programs.niri.enable = true;
       };
 
-      homeManager.niri = {
+      home = {
         config,
         lib,
         pkgs,
@@ -290,6 +289,5 @@ in {
         };
       };
     };
-    aspectInclude.niri = with config.flake.lib.aspects; [compositors];
-  };
+    aspects.niri.includes = with config.aspectLib.names; [compositors];
 }

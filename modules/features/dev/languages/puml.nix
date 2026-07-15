@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.puml = {pkgs, ...}: {
+  aspects.puml.home = {pkgs, ...}: {
     home.packages = with pkgs; [plantuml];
   };
 }

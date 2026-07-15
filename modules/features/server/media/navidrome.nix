@@ -1,6 +1,5 @@
 {config, ...}: {
-  flake = {
-    modules.nixos.navidrome = {config, ...}: let
+    aspects.navidrome.nixos = {config, ...}: let
       cfg = config.features.server;
     in {
       services.navidrome = {
@@ -23,6 +22,5 @@
 
       users.users.navidrome.extraGroups = ["media"];
     };
-    aspectInclude.navidrome = with config.flake.lib.aspects; [nginx restic];
-  };
+    aspects.navidrome.includes = with config.aspectLib.names; [nginx restic];
 }

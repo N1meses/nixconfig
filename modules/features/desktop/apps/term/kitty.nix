@@ -1,6 +1,5 @@
 {config, ...}: {
-  flake = {
-    modules.homeManager.kitty = {lib, ...}: {
+    aspects.kitty.home = {lib, ...}: {
       features.compositors.autoStart = ["kitty --single-instance"];
 
       features.compositors.terminal = lib.mkDefault {
@@ -26,6 +25,5 @@
         };
       };
     };
-    aspectInclude.kitty = with config.flake.lib.aspects; [compositors];
-  };
+    aspects.kitty.includes = with config.aspectLib.names; [compositors];
 }

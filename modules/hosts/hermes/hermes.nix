@@ -3,7 +3,7 @@
   inputs,
   ...
 }: let
-  mkNoctaliaNiri = config.flake.lib.mkNoctaliaNiri;
+  mkNoctaliaNiri = config.aspectLib.mkNoctaliaNiri;
 in {
   registry.hosts.hermes = {
     username = "hermes";
@@ -11,7 +11,7 @@ in {
     stateVersion = "25.11";
     extraGroups = ["video" "input"];
     hostId = "50fb8101"; # required so the rescue role can create/import ZFS pools
-    aspects = with config.flake.lib.aspects; [
+    aspects = with config.aspectLib.names; [
       base
       hardwareHermes
       diskoHermes

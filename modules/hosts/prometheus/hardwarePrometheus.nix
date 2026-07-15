@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.hardwarePrometheus = {
+  aspects.hardwarePrometheus.nixos = {
     config,
     lib,
     ...

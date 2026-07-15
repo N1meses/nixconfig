@@ -1,6 +1,6 @@
 _: {
-  flake.modules = {
-    nixos.sshd = {
+  aspects.sshd = {
+    nixos = {
       lib,
       config,
       ...
@@ -47,7 +47,7 @@ _: {
         };
       };
     };
-    finix.sshd = {
+    finix = {
       modules,
       lib,
       ...

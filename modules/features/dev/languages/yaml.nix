@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.yaml = {pkgs, ...}: {
+  aspects.yaml.home = {pkgs, ...}: {
     home.packages = with pkgs; [yaml-language-server yamlfmt];
     programs.helix.languages = {
       language-server.yaml-language-server = {

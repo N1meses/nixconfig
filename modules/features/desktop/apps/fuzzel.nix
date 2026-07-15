@@ -1,6 +1,5 @@
 {config, ...}: {
-  flake = {
-    modules.homeManager.fuzzel = {
+    aspects.fuzzel.home = {
       lib,
       config,
       ...
@@ -41,6 +40,5 @@
         };
       };
     };
-    aspectInclude.fuzzel = with config.flake.lib.aspects; [compositors];
-  };
+    aspects.fuzzel.includes = with config.aspectLib.names; [compositors];
 }

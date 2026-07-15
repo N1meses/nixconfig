@@ -1,6 +1,5 @@
 {config, ...}: {
-  flake = {
-    modules.homeManager.mako = {config, ...}: let
+    aspects.mako.home = {config, ...}: let
       c = config.features.compositors;
     in {
       services.mako = {
@@ -24,6 +23,5 @@
         };
       };
     };
-    aspectInclude.mako = with config.flake.lib.aspects; [compositors];
-  };
+    aspects.mako.includes = with config.aspectLib.names; [compositors];
 }

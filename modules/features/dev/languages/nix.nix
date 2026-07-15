@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.nix = {pkgs, ...}: {
+  aspects.nix.home = {pkgs, ...}: {
     home.packages = with pkgs; [nixd alejandra];
     programs.helix.languages = {
       language-server.nixd.command = "${pkgs.nixd}/bin/nixd";

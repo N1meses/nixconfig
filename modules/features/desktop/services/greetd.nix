@@ -1,6 +1,6 @@
 _: {
-  flake.modules = {
-    nixos.greetd = {
+  aspects.greetd = {
+    nixos = {
       pkgs,
       lib,
       ...
@@ -15,7 +15,7 @@ _: {
       security.pam.services.greetd.enableGnomeKeyring = true;
     };
 
-    finix.greetd = {modules, ...}: {
+    finix = {modules, ...}: {
       imports = [modules.tuigreet];
 
       programs.tuigreet.enable = true;

@@ -1,6 +1,5 @@
 {config, ...}: {
-  flake = {
-    modules.homeManager.yazi = {
+    aspects.yazi.home = {
       pkgs,
       config,
       lib,
@@ -88,6 +87,5 @@
         };
       };
     };
-    aspectInclude.yazi = with config.flake.lib.aspects; [compositors];
-  };
+    aspects.yazi.includes = with config.aspectLib.names; [compositors];
 }

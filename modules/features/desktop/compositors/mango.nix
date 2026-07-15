@@ -3,16 +3,15 @@
   inputs,
   ...
 }: {
-  flake = {
-    modules = {
-      nixos.mango = {...}: {
+    aspects.mango = {
+      nixos = {...}: {
         imports = [
           inputs.mango.nixosModules.mango
         ];
         programs.mango.enable = true;
       };
 
-      homeManager.mango = {
+      home = {
         lib,
         config,
         pkgs,
@@ -230,6 +229,5 @@
         };
       };
     };
-    aspectInclude.mango = with config.flake.lib.aspects; [compositors];
-  };
+    aspects.mango.includes = with config.aspectLib.names; [compositors];
 }

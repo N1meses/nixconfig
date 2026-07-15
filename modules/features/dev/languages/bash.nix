@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.bash = {pkgs, ...}: {
+  aspects.bash.home = {pkgs, ...}: {
     home.packages = with pkgs; [nodePackages.bash-language-server shellcheck shfmt bash];
     programs.helix.languages = {
       language-server.bash-language-server = {

@@ -1,5 +1,5 @@
 _: {
-  flake.modules.finix.hardwareIcarus = {pkgs, ...}: {
+  aspects.hardwareIcarus.finix = {pkgs, ...}: {
     boot.initrd.availableKernelModules = [
       "nvme"
       "xhci_pci"

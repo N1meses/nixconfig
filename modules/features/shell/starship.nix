@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.starship = {lib, ...}: {
+  aspects.starship.home = {lib, ...}: {
     programs.starship = {
       enable = lib.mkDefault true;
       enableZshIntegration = true;

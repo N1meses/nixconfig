@@ -1,6 +1,5 @@
 {config, ...}: {
-  flake = {
-    modules.nixos.vaultwarden = {config, ...}: let
+    aspects.vaultwarden.nixos = {config, ...}: let
       cfg = config.features.server;
     in {
       features.server.tls = true;
@@ -40,6 +39,5 @@
         };
       };
     };
-    aspectInclude.vaultwarden = with config.flake.lib.aspects; [nginx restic sops];
-  };
+    aspects.vaultwarden.includes = with config.aspectLib.names; [nginx restic sops];
 }

@@ -1,6 +1,6 @@
 _: {
-  flake.modules = {
-    nixos.ly = _: {
+  aspects.ly = {
+    nixos = _: {
       services.displayManager.ly = {
         enable = true;
         settings = {
@@ -11,7 +11,7 @@ _: {
       security.pam.services.ly.enableGnomeKeyring = true;
     };
 
-    finix.ly = {modules, ...}: {
+    finix = {modules, ...}: {
       imports = [modules.ly];
 
       services.ly = {

@@ -1,6 +1,5 @@
 {config, ...}: {
-  flake = {
-    modules.nixos.element = {
+    aspects.element.nixos = {
       config,
       pkgs,
       ...
@@ -33,6 +32,5 @@
         locations."/".extraConfig = "try_files $uri $uri/ /index.html;";
       };
     };
-    aspectInclude.element = with config.flake.lib.aspects; [nginx];
-  };
+    aspects.element.includes = with config.aspectLib.names; [nginx];
 }

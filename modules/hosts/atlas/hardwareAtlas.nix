@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.hardwareAtlas = {
+  aspects.hardwareAtlas.nixos = {
     config,
     lib,
     pkgs,

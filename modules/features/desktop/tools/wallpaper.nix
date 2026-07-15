@@ -1,6 +1,5 @@
 {config, ...}: {
-  flake = {
-    modules.homeManager.wallpaper = {
+    aspects.wallpaper.home = {
       lib,
       config,
       pkgs,
@@ -48,6 +47,5 @@
         };
       };
     };
-    aspectInclude.wallpaper = with config.flake.lib.aspects; [compositors];
-  };
+    aspects.wallpaper.includes = with config.aspectLib.names; [compositors];
 }

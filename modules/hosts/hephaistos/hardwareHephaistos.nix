@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.hardwareHephaistos = {
+  aspects.hardwareHephaistos.nixos = {
     config,
     lib,
     ...

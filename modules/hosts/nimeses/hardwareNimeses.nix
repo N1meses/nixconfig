@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.hardwareNimeses = {
+  aspects.hardwareNimeses.nixos = {
     inputs,
     config,
     lib,

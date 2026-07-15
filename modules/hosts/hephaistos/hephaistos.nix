@@ -5,7 +5,7 @@
     stateVersion = "25.05";
     extraGroups = ["plugdev"];
     domain = "hephaistos.tail4109e2.ts.net";
-    aspects = with config.flake.lib.aspects; [
+    aspects = with config.aspectLib.names; [
       server
       hardwareHephaistos
       vaultwarden

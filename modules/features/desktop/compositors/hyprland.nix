@@ -45,13 +45,12 @@
     "SUPER,C,centerwindow"
   ];
 in {
-  flake = {
-    modules = {
-      nixos.hyprland = _: {
+    aspects.hyprland = {
+      nixos = _: {
         programs.hyprland.enable = true;
       };
 
-      homeManager.hyprland = {
+      home = {
         config,
         lib,
         pkgs,
@@ -238,6 +237,5 @@ in {
         };
       };
     };
-    aspectInclude.hyprland = with config.flake.lib.aspects; [compositors];
-  };
+    aspects.hyprland.includes = with config.aspectLib.names; [compositors];
 }

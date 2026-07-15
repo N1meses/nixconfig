@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.compositors = {
+  aspects.compositors.home = {
     lib,
     pkgs,
     ...

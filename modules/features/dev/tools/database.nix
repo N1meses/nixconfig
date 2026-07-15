@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.database = {pkgs, ...}: {
+  aspects.database.home = {pkgs, ...}: {
     home.packages = with pkgs; [
       sqlite
       postgresql

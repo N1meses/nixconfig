@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.userServices = {
+  aspects.userServices.home = {
     config,
     lib,
     ...

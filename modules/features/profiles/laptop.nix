@@ -1,6 +1,6 @@
 _: {
-  flake.modules = {
-    nixos.laptop = {lib, ...}: {
+  aspects.laptop = {
+    nixos = {lib, ...}: {
       services = {
         upower.enable = lib.mkDefault true;
         thermald.enable = lib.mkDefault true;
@@ -27,7 +27,7 @@ _: {
       services.acpid.enable = lib.mkDefault true;
     };
 
-    finix.laptop = {
+    finix = {
       config,
       lib,
       modules,

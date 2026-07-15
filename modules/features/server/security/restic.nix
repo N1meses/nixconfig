@@ -1,6 +1,5 @@
 {config, ...}: {
-  flake = {
-    modules.nixos.restic = {
+    aspects.restic.nixos = {
       config,
       lib,
       ...
@@ -17,6 +16,5 @@
         pruneOpts = ["--keep-daily 7" "--keep-weekly 4" "--keep-monthly 6"];
       };
     };
-    aspectInclude.restic = with config.flake.lib.aspects; [sops];
-  };
+    aspects.restic.includes = with config.aspectLib.names; [sops];
 }

@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.hardwareAthena = {
+  aspects.hardwareAthena.nixos = {
     lib,
     pkgs,
     ...

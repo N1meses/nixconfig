@@ -1,6 +1,5 @@
 {config, ...}: {
-  flake = {
-    modules.nixos.airvpn = {config, ...}: {
+    aspects.airvpn.nixos = {config, ...}: {
       sops.secrets.airvpn-wg-conf-system = {};
 
       networking.wg-quick.interfaces.airvpn = {
@@ -13,6 +12,5 @@
 
       systemd.services.tailscaled.after = ["wg-quick-airvpn.service"];
     };
-    aspectInclude.airvpn = with config.flake.lib.aspects; [sops];
-  };
+    aspects.airvpn.includes = with config.aspectLib.names; [sops];
 }

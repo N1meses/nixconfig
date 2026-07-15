@@ -1,6 +1,5 @@
 {config, ...}: {
-  flake = {
-    modules.nixos.cloudflared = {
+    aspects.cloudflared.nixos = {
       config,
       pkgs,
       lib,
@@ -45,6 +44,5 @@
       };
     };
 
-    aspectInclude.cloudflared = with config.flake.lib.aspects; [nginx sops];
-  };
+    aspects.cloudflared.includes = with config.aspectLib.names; [nginx sops];
 }

@@ -5,7 +5,7 @@
     pkgs,
     ...
   }: let
-    finixModules = config.flake.modules.finix;
+    finixModules = config.aspectLib.finixModules;
 
     aspectsFor = aspects:
       map (n: finixModules.${n})
@@ -30,7 +30,7 @@
       users.users.root.password = pwHash;
     };
   in {
-    flake.packages.vm-icarus =
+    packages.vm-icarus =
       (testLib.mkTest {
         name = "icarus-vm";
         nodes.machine = vmNode;

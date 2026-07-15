@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.gaming = {
+  aspects.gaming.nixos = {
     pkgs,
     lib,
     ...

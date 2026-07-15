@@ -1,8 +1,8 @@
 {config, ...}: let
   flakeConfig = config;
 in {
-  flake.modules = {
-    nixos.users = {
+  aspects.users = {
+    nixos = {
       config,
       lib,
       pkgs,
@@ -28,7 +28,7 @@ in {
         };
     };
 
-    finix.users = {
+    finix = {
       config,
       lib,
       pkgs,

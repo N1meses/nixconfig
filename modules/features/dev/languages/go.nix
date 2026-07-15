@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.go = {pkgs, ...}: {
+  aspects.go.home = {pkgs, ...}: {
     home.packages = with pkgs; [gopls gotools golangci-lint go];
     programs.helix.languages = {
       language-server.gopls.command = "${pkgs.gopls}/bin/gopls";

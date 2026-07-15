@@ -6,9 +6,9 @@
   ...
 }: let
   hosts = config.registry.hosts;
-  aspectsFor = config.flake.lib.aspectsFor;
-  resolveAspects = config.flake.lib.resolveAspects;
-  mkHomeModules = config.flake.lib.mkHomeModules;
+  aspectsFor = config.aspectLib.aspectsFor;
+  resolveAspects = config.aspectLib.resolveAspects;
+  mkHomeModules = config.aspectLib.mkHomeModules;
 
   commonModule = name: host:
     {
@@ -27,7 +27,7 @@
 
   classes = {
     nixos = {
-      moduleSet = config.flake.modules.nixos;
+      moduleSet = config.aspectLib.nixosModules;
       hmModule = inputs.home-manager.nixosModules.home-manager;
       output = "nixosConfigurations";
       select = host: host.nixosModule;
@@ -52,7 +52,7 @@
     };
 
     finix = {
-      moduleSet = config.flake.modules.finix or {};
+      moduleSet = config.aspectLib.finixModules or {};
       hmModule = inputs.community-modules.nixosModules.home-manager;
       output = "finixConfigurations";
       select = host: host.finixModule;
@@ -105,32 +105,24 @@
             ++ [cls.hmModule (commonModule name host)];
         }
     ) (lib.filterAttrs (_: host: cls.select host != null) hosts);
-  bothSet = lib.filter (n: hosts.${n}.nixosModule != null && hosts.${n}.finixModule != null) (lib.attrNames hosts);
 in {
-  flake = lib.mkMerge (
-    (lib.mapAttrsToList (_: cls: {${cls.output} = buildClass cls;}) classes)
-    ++ lib.optional (bothSet != [])
-    (throw "hosts set both nixosModule and finixModule (a host is one system class): ${toString bothSet}")
-    ++ [
-      {
-        homeConfigurations =
-          lib.mapAttrs
-          (_name: host:
-              inputs.home-manager.lib.homeManagerConfiguration {
-                inherit pkgs;
-                modules = [
-                  (mkHomeModules {
-                    inherit host;
-                    inherit (host) homeModule;
-                  })
-                  {
-                    nixpkgs.config.allowUnfree = true;
-                    nixpkgs.config.permittedInsecurePackages = ["pnpm-10.29.2"];
-                  }
-                ];
-              })
-          (lib.filterAttrs (_: host: host.homeModule != null) hosts);
-      }
-    ]
-  );
+  nixosConfigurations = buildClass classes.nixos;
+  finixConfigurations = buildClass classes.finix;
+  homeConfigurations =
+    lib.mapAttrs
+    (_name: host:
+      inputs.home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        modules = [
+          (mkHomeModules {
+            inherit host;
+            inherit (host) homeModule;
+          })
+          {
+            nixpkgs.config.allowUnfree = true;
+            nixpkgs.config.permittedInsecurePackages = ["pnpm-10.29.2"];
+          }
+        ];
+      })
+    (lib.filterAttrs (_: host: host.homeModule != null) hosts);
 }

@@ -1,9 +1,9 @@
 {config, ...}: let
   flakeConfig = config;
 in {
-  flake.modules = {
-    nixos.services = {...}: {
-      imports = with flakeConfig.flake.modules.nixos; [
+  aspects.services = {
+    nixos = {...}: {
+      imports = with config.aspectLib.nixosModules; [
         graphics
         fonts
         portals
@@ -12,14 +12,14 @@ in {
       ];
     };
 
-    homeManager.services = {...}: {
-      imports = with flakeConfig.flake.modules.homeManager; [
+    home = {...}: {
+      imports = with config.aspectLib.homeModules; [
         userServices
       ];
     };
 
-    finix.services = {...}: {
-      imports = with flakeConfig.flake.modules.finix; [
+    finix = {...}: {
+      imports = with config.aspectLib.finixModules; [
         fonts
         ly
         audio

@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.nginx = {
+  aspects.nginx.nixos = {
     lib,
     pkgs,
     config,

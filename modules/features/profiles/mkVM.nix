@@ -1,6 +1,6 @@
 _: {
-  flake.modules = {
-    nixos.mkVM = {lib, ...}: {
+  aspects.mkVM = {
+    nixos = {lib, ...}: {
       virtualisation.vmVariant = {
         virtualisation = {
           memorySize = lib.mkDefault 4096;

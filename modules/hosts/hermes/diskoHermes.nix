@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.diskoHermes = {lib, ...}: {
+  aspects.diskoHermes.nixos = {lib, ...}: {
     disko.devices.nodev."/" = {
       fsType = "tmpfs";
       mountOptions = ["defaults" "size=50%" "mode=755"];

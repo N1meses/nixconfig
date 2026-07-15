@@ -1,5 +1,5 @@
 {config, ...}: {
-  flake.aspectInclude.server = with config.flake.lib.aspects; [
+  aspects.server.includes = with config.aspectLib.names; [
     base
     serverCore
     sshd

@@ -1,6 +1,5 @@
 {config, ...}: {
-  flake = {
-    modules.homeManager.ghostty = {lib, ...}: {
+    aspects.ghostty.home = {lib, ...}: {
       features.compositors.terminal = lib.mkDefault {
         command = "ghostty";
         execFlag = "-e";
@@ -20,6 +19,5 @@
         };
       };
     };
-    aspectInclude.ghostty = with config.flake.lib.aspects; [compositors];
-  };
+    aspects.ghostty.includes = with config.aspectLib.names; [compositors];
 }

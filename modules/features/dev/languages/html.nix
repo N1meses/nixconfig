@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.html = {pkgs, ...}: {
+  aspects.html.home = {pkgs, ...}: {
     home.packages = with pkgs; [nodePackages.vscode-langservers-extracted];
     programs.helix.languages = {
       language-server.vscode-html-languageserver = {
