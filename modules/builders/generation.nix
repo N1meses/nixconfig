@@ -10,16 +10,25 @@
   resolveAspects = config.aspectLib.resolveAspects;
   mkHomeModules = config.aspectLib.mkHomeModules;
 
+  # fleet fragments for `layer` from every host EXCEPT `self`
+  fleetFor = layer: self:
+    map (f: f.${layer}) (builtins.attrValues (builtins.removeAttrs config.fleet [self]));
+
   commonModule = name: host:
     {
       networking.hostName = name;
       networking.hostId = lib.mkIf (host.hostId != "") host.hostId;
       home-manager.users.${host.username} =
-        lib.mkIf (host.homeModule != null)
-        (mkHomeModules {
-          inherit host;
-          inherit (host) homeModule;
-        });
+        lib.mkIf (host.homeModule != null) {
+          imports =
+            [
+              (mkHomeModules {
+                inherit host;
+                inherit (host) homeModule;
+              })
+            ]
+            ++ fleetFor "home" name;
+        };
     }
     // lib.optionalAttrs (host.domain != "") {
       features.server.domain = host.domain;
@@ -30,6 +39,7 @@
       moduleSet = config.aspectLib.nixosModules;
       hmModule = inputs.home-manager.nixosModules.home-manager;
       output = "nixosConfigurations";
+      layer = "nixos";
       select = host: host.nixosModule;
       mkSystem = {
         host,
@@ -55,6 +65,7 @@
       moduleSet = config.aspectLib.finixModules or {};
       hmModule = inputs.community-modules.nixosModules.home-manager;
       output = "finixConfigurations";
+      layer = "finix";
       select = host: host.finixModule;
       mkSystem = {
         host,
@@ -102,7 +113,8 @@
               (cls.select host)
             ]
             ++ aspectsFor cls.moduleSet (resolveAspects host.aspects)
-            ++ [cls.hmModule (commonModule name host)];
+            ++ [cls.hmModule (commonModule name host)]
+            ++ fleetFor cls.layer name;
         }
     ) (lib.filterAttrs (_: host: cls.select host != null) hosts);
 in {
