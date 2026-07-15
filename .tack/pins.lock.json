@@ -67,9 +67,9 @@
     "type": "github",
     "owner": "nix-community",
     "repo": "home-manager",
-    "rev": "a45a7c451455a51ae740ec3bce4024b312809c29",
-    "narHash": "sha256-r376E2XpakiXwModDHIxlvB6qLq4iFVEq730vxOO4JY=",
-    "lastModified": 1783963347
+    "rev": "6dc9e081ba2afc8c3b81ccddcb895f786155b292",
+    "narHash": "sha256-PZcuvieLhy1OaX5LQr4kZgO59x/7rS47vWSqOXiBhts=",
+    "lastModified": 1784123766
   },
   "hyprland": {
     "type": "git",
@@ -92,9 +92,9 @@
     "type": "github",
     "owner": "mangowm",
     "repo": "mango",
-    "rev": "e5196ece1f5ca528b107746fffd46de441815416",
-    "narHash": "sha256-UivrgHYyhdPfxT4SYDoQ4pcjOUdvinFXWtt7gFvVjlE=",
-    "lastModified": 1784111992
+    "rev": "02cfbbad99d9003ade2ef944d5d27969564647a2",
+    "narHash": "sha256-BgQpab+V64aTbMP6b5Ly0/HxhClYAoAytDlUsRz+KHQ=",
+    "lastModified": 1784125412
   },
   "niri-nix": {
     "type": "git",
@@ -132,25 +132,25 @@
     "type": "github",
     "owner": "nixos",
     "repo": "nixpkgs",
-    "rev": "e7a3ca8092b61ff85b6a45bf863ea2b2d6a661b3",
-    "narHash": "sha256-UgCQzxeWI75XM8G+hPrPh+MKzEPjG3SpAj7dtqSbksA=",
-    "lastModified": 1783776592
+    "rev": "d407951447dcd00442e97087bf374aad70c04cea",
+    "narHash": "sha256-8i/87eeoqiGE4yOTjwSA3Eh/ziJRQEmd/unYU+K27sk=",
+    "lastModified": 1783224372
   },
   "noctalia": {
     "type": "github",
     "owner": "noctalia-dev",
     "repo": "noctalia",
-    "rev": "ca2eb327c5558f3ca92ab099f203addab8d17f92",
-    "narHash": "sha256-n7JDbIvuESjyvUehomxtpqfCMDWCSACWIwJzxUm2oak=",
-    "lastModified": 1784118365
+    "rev": "000ba5eda0a243c589296300bd99c9245c26e691",
+    "narHash": "sha256-4Ol0RoGw90/Fx/vK+sUDpynTQ0TLk2BbWHQ1aWTGeQc=",
+    "lastModified": 1784122137
   },
   "opencode": {
     "type": "github",
     "owner": "anomalyco",
     "repo": "opencode",
-    "rev": "04bdf7732bae0cbb2ab3e003d65bddb8d56edacf",
-    "narHash": "sha256-rukof9FH1zfsrfoCYBk/CAZeStZbRLpSXQB5mH5pjXM=",
-    "lastModified": 1784114258
+    "rev": "656f2990173eb5112ca82b770caad391a160c4ee",
+    "narHash": "sha256-RipK0SdknTLpv+1mq6SHU5+1q1N5lmV+uhNEzfJeQtU=",
+    "lastModified": 1784125610
   },
   "preservation": {
     "type": "github",

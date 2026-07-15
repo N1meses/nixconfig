@@ -1,8 +1,8 @@
 {
   inputs,
-  withSystem,
   config,
   lib,
+  pkgs,
   ...
 }: let
   hosts = config.registry.hosts;
@@ -35,21 +35,20 @@
         host,
         modules,
       }:
-        withSystem host.system (_:
-          inputs.nixpkgs.lib.nixosSystem {
-            specialArgs = {inherit inputs;};
-            modules =
-              modules
-              ++ [
-                {
-                  nixpkgs.hostPlatform = host.system;
-                  nixpkgs.config.allowUnfree = true;
-                  nixpkgs.config.permittedInsecurePackages = ["pnpm-10.29.2"];
-                  system.stateVersion = host.stateVersion;
-                  home-manager.useGlobalPkgs = true;
-                }
-              ];
-          });
+        inputs.nixpkgs.lib.nixosSystem {
+          specialArgs = {inherit inputs;};
+          modules =
+            modules
+            ++ [
+              {
+                nixpkgs.hostPlatform = host.system;
+                nixpkgs.config.allowUnfree = true;
+                nixpkgs.config.permittedInsecurePackages = ["pnpm-10.29.2"];
+                system.stateVersion = host.stateVersion;
+                home-manager.useGlobalPkgs = true;
+              }
+            ];
+        };
     };
 
     finix = {
@@ -117,7 +116,6 @@ in {
         homeConfigurations =
           lib.mapAttrs
           (_name: host:
-            withSystem host.system ({pkgs, ...}:
               inputs.home-manager.lib.homeManagerConfiguration {
                 inherit pkgs;
                 modules = [
@@ -130,7 +128,7 @@ in {
                     nixpkgs.config.permittedInsecurePackages = ["pnpm-10.29.2"];
                   }
                 ];
-              }))
+              })
           (lib.filterAttrs (_: host: host.homeModule != null) hosts);
       }
     ]
