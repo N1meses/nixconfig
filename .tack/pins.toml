@@ -12,6 +12,8 @@ gh = "github:{path}"
 # opt out per-input with exclude_follow
 [all_follow]
  nixpkgs = ["nixpkgs"]
+ hjem         = ["hjem"]
+ home-manager = ["home-manager"]
 # nixpkgs = ["nixpkgs-stable", "nixpkgs-unstable"]
 
 # inputs.<name> fields
