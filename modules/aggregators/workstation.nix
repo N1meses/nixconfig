@@ -6,6 +6,7 @@
     ly
     git
     nix
+    nixIndex
     zed
     kitty
   ];

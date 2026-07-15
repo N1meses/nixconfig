@@ -18,6 +18,17 @@
     "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
     "kopuz.cachix.org-1:J2X3AnAYhKTJW5S3aCLoA1ckonQXVNZMQvhZA0YAufw="
   ];
+
+  nixSettings = {
+    experimental-features = ["nix-command" "flakes"];
+    auto-optimise-store = true;
+    trusted-users = ["@wheel" "root"];
+    download-buffer-size = 524288000;
+    http-connections = 0;
+    max-substitution-jobs = 32;
+    inherit substituters;
+    trusted-public-keys = substitutersKeys;
+  };
 in {
   flake.modules = {
     nixos.core = {
@@ -50,27 +61,7 @@ in {
         registry.nixpkgs.flake = inputs.nixpkgs;
         nixPath = ["nixpkgs=${inputs.nixpkgs}"];
 
-        settings = {
-          experimental-features = [
-            "nix-command"
-            "flakes"
-          ];
-
-          auto-optimise-store = true;
-
-          trusted-users = [
-            "@wheel"
-            "root"
-          ];
-
-          download-buffer-size = 524288000;
-          http-connections = 0;
-          max-substitution-jobs = 16;
-
-          inherit substituters;
-
-          trusted-public-keys = substitutersKeys;
-        };
+        settings = nixSettings;
 
         gc = {
           automatic = true;
@@ -154,33 +145,12 @@ in {
       services.nix-daemon = {
         enable = true;
 
-        settings = {
-          experimental-features = [
-            "nix-command"
-            "flakes"
-          ];
-
-          auto-optimise-store = true;
-
-          trusted-users = [
-            "@wheel"
-            "root"
-          ];
-
-          download-buffer-size = 524288000;
-          http-connections = 0;
-          max-substitution-jobs = 32;
-
-          inherit substituters;
-
-          trusted-public-keys = substitutersKeys;
-        };
+        settings = nixSettings;
       };
 
       services.cron = {
         enable = true;
-        systab = ["0 12 * * * root ${pkgs.nix}/bin/nix-collect-garbage
-        --delete-older-than 7d"];
+        systab = ["0 12 * * * root ${pkgs.nix}/bin/nix-collect-garbage --delete-older-than 7d"];
       };
 
       security.pam.environment = {
