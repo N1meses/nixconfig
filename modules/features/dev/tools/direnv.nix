@@ -1,6 +1,6 @@
 _: {
   aspects.direnv.home = _: {
-    programs.direnv = {
+    rum.programs.direnv = {
       enable = true;
       nix-direnv.enable = true;
       enableZshIntegration = true;

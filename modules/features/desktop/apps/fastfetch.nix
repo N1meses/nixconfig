@@ -1,6 +1,6 @@
 _: {
   aspects.fastfetch.home = {config, ...}: {
-    programs.fastfetch = {
+    rum.programs.fastfetch = {
       enable = true;
       settings = {
         logo = {
@@ -50,7 +50,7 @@ _: {
       };
     };
 
-    xdg.configFile."fastfetch/nixowos.txt".text = ''
+    xdg.config.files."fastfetch/nixowos.txt".text = ''
       $1           ▗▄▄▄       $2▗▄▄▄▄    ▄▄▄▖
       $1           ▜███▙       $2▜███▙  ▟███▛
       $1            ▜███▙       $2▜███▙▟███▛       $1▗

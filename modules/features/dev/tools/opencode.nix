@@ -63,7 +63,7 @@
 
         tui.diff_style = "auto";
 
-        instructions = ["${config.home.homeDirectory}/AGENTS.md"];
+        instructions = ["${config.directory}/AGENTS.md"];
 
         provider = {
           google = {

@@ -1,16 +1,16 @@
 {inputs, ...}: {
   aspects.helix.home = {lib, ...}: {
-    home.sessionVariables = {
+    environment.sessionVariables = {
       EDITOR = "hx";
       VISUAL = lib.mkDefault "hx";
     };
 
-    xdg.mimeApps.defaultApplications = {
+    features.mimeApps.defaultApplications = {
       "text/plain" = lib.mkDefault ["Helix.desktop"];
       "text/x-nix" = lib.mkDefault ["Helix.desktop"];
     };
 
-    programs.helix = {
+    rum.programs.helix = {
       enable = true;
 
       themes = import "${inputs.self}/assets/themes/nox-default.nix";

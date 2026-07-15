@@ -293,5 +293,5 @@ in {
       };
     };
   };
-  aspects.niri.includes = with config.aspectLib.names; [compositors];
+  aspects.niri.includes = with config.aspectLib.names; [compositors portalsHjem];
 }

@@ -1,6 +1,6 @@
 _: {
   aspects.security.home = {pkgs, ...}: {
-    home.packages = with pkgs; [
+    packages = with pkgs; [
       nmap
       netcat
       mtr

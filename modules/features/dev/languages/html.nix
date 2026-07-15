@@ -1,7 +1,7 @@
 _: {
   aspects.html.home = {pkgs, ...}: {
-    home.packages = with pkgs; [nodePackages.vscode-langservers-extracted];
-    programs.helix.languages = {
+    packages = with pkgs; [nodePackages.vscode-langservers-extracted];
+    rum.programs.helix.languages = {
       language-server.vscode-html-languageserver = {
         command = "${pkgs.nodePackages.vscode-langservers-extracted}/bin/vscode-html-languageserver";
         args = ["--stdio"];

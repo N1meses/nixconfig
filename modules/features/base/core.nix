@@ -98,10 +98,7 @@ in {
       };
     };
 
-    home = _: {
-      programs.home-manager.enable = true;
-      xdg.enable = true;
-    };
+    home = _: {};
 
     finix = {
       pkgs,

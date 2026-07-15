@@ -84,14 +84,7 @@ in {
         };
       };
 
-      home.pointerCursor = {
-        package = pkgs.nordzy-cursor-theme;
-        name = "Nordzy-cursors";
-        size = 24;
-        gtk.enable = true;
-      };
-
-      home.packages = with pkgs; [
+      packages = with pkgs; [
         antigravity-cli
         claude-code
         vesktop

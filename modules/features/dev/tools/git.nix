@@ -9,7 +9,7 @@ _: {
       lazygit.enable = true;
     };
 
-    home.packages = with pkgs; [
+    packages = with pkgs; [
       pre-commit
       commitizen
       lefthook

@@ -1,18 +1,40 @@
-{lib, ...}: {
-  aspects.ssh.home = _: {
-    programs.ssh = {
-      enable = true;
-      enableDefaultConfig = false;
-      settings = {
+_: {
+  aspects.ssh.home = {
+    config,
+    lib,
+    ...
+  }: let
+    inherit (lib) mkDefault mkOption concatStrings mapAttrsToList concatMapStrings isList isBool isAttrs;
+    # ssh_config directives are case-insensitive, so the camelCase keys work as-is
+    toLine = k: v:
+      if isAttrs v
+      then concatStrings (mapAttrsToList (ek: ev: "  ${k} ${ek}=${toString ev}\n") v) # SetEnv
+      else if isList v
+      then concatMapStrings (x: "  ${k} ${toString x}\n") v
+      else if isBool v
+      then "  ${k} ${
+        if v
+        then "yes"
+        else "no"
+      }\n"
+      else "  ${k} ${toString v}\n";
+    toBlock = host: opts: "Host ${host}\n" + concatStrings (mapAttrsToList toLine opts);
+  in {
+    options.ssh.matchBlocks = mkOption {
+      type = lib.types.attrsOf (lib.types.attrsOf lib.types.anything);
+      default = {};
+      description = "ssh Host blocks; contributed to by hosts, emitted to ~/.ssh/config.";
+    };
+
+    config = {
+      ssh.matchBlocks = {
         "*" = {
-          SetEnv = {
-            TERM = "xterm-256color";
-          };
+          SetEnv.TERM = "xterm-256color";
           compression = true;
           serverAliveInterval = 60;
           serverAliveCountMax = 3;
           identityAgent = "none";
-          identityFile = lib.mkDefault [
+          identityFile = mkDefault [
             "~/.ssh/id_ed25519_sk_rk_bio"
             "~/.ssh/id_ed25519_sk_rk_nfc"
           ];
@@ -20,34 +42,37 @@
           controlPath = "~/.ssh/cm-%r@%h:%p";
           controlPersist = "10m";
         };
-        "hephaistos" = {
-          hostname = lib.mkDefault "100.127.108.44";
-          user = lib.mkDefault "hephaistos";
+        hephaistos = {
+          hostname = mkDefault "100.127.108.44";
+          user = mkDefault "hephaistos";
         };
-        "prometheus" = {
-          hostname = lib.mkDefault "100.93.27.90";
-          user = lib.mkDefault "prometheus";
+        prometheus = {
+          hostname = mkDefault "100.93.27.90";
+          user = mkDefault "prometheus";
         };
-        "forgejo" = {
-          hostname = lib.mkDefault "100.75.163.80";
-          user = lib.mkDefault "forgejo";
-          port = lib.mkDefault 2222;
+        forgejo = {
+          hostname = mkDefault "100.75.163.80";
+          user = mkDefault "forgejo";
+          port = mkDefault 2222;
         };
-        "athena" = {
-          hostname = lib.mkDefault "100.75.163.80";
-          user = lib.mkDefault "athena";
+        athena = {
+          hostname = mkDefault "100.75.163.80";
+          user = mkDefault "athena";
         };
         "atlas-unlock" = {
           hostname = "192.168.68.10";
           port = 2222;
           user = "root";
-          proxyJump = lib.mkDefault "hephaistos";
+          proxyJump = mkDefault "hephaistos";
         };
-        "atlas" = {
-          hostname = lib.mkDefault "100.68.232.99";
-          user = lib.mkDefault "atlas";
+        atlas = {
+          hostname = mkDefault "100.68.232.99";
+          user = mkDefault "atlas";
         };
       };
+
+      files.".ssh/config".text =
+        concatStrings (mapAttrsToList toBlock config.ssh.matchBlocks);
     };
   };
 }

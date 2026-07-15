@@ -1,6 +1,6 @@
 _: {
   aspects.starship.home = {lib, ...}: {
-    programs.starship = {
+    rum.programs.starship = {
       enable = lib.mkDefault true;
       enableZshIntegration = true;
 

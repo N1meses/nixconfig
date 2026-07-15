@@ -1,7 +1,7 @@
 _: {
   aspects.nix.home = {pkgs, ...}: {
-    home.packages = with pkgs; [nixd alejandra];
-    programs.helix.languages = {
+    packages = with pkgs; [nixd alejandra];
+    rum.programs.helix.languages = {
       language-server.nixd.command = "${pkgs.nixd}/bin/nixd";
       language = [
         {

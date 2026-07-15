@@ -94,7 +94,7 @@
     };
 
     homeModule = {pkgs, ...}: {
-      home.packages = with pkgs; [
+      packages = with pkgs; [
         trash-cli
         nom
         nvd
@@ -106,8 +106,8 @@
         speedtest-cli
       ];
 
-      programs.helix.settings.editor.clipboard-provider = "termcode";
-      programs.ssh.settings."*".identityFile = ["~/.ssh/id_ed25519"];
+      rum.programs.helix.settings.editor.clipboard-provider = "termcode";
+      ssh.matchBlocks."*".identityFile = ["~/.ssh/id_ed25519"];
     };
   };
 }

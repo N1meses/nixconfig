@@ -1,7 +1,7 @@
 _: {
   aspects.markdown.home = {pkgs, ...}: {
-    home.packages = with pkgs; [marksman];
-    programs.helix.languages = {
+    packages = with pkgs; [marksman];
+    rum.programs.helix.languages = {
       language-server.marksman = {
         command = "${pkgs.marksman}/bin/marksman";
         args = ["server"];

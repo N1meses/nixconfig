@@ -1,7 +1,7 @@
 _: {
   aspects.rust.home = {pkgs, ...}: {
-    home.packages = with pkgs; [rust-analyzer rustfmt clippy rustc cargo];
-    programs.helix.languages = {
+    packages = with pkgs; [rust-analyzer rustfmt clippy rustc cargo];
+    rum.programs.helix.languages = {
       language-server.rust-analyzer.command = "${pkgs.rust-analyzer}/bin/rust-analyzer";
       language = [
         {

@@ -47,7 +47,7 @@
     };
 
     homeModule = {pkgs, ...}: {
-      home.packages = with pkgs; [
+      packages = with pkgs; [
         trash-cli
         nom
         nvd
@@ -56,7 +56,7 @@
         ani-cli
       ];
 
-      programs.helix.settings.editor.clipboard-provider = "termcode";
+      rum.programs.helix.settings.editor.clipboard-provider = "termcode";
     };
   };
 }

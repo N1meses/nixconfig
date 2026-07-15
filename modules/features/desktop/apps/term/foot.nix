@@ -7,7 +7,7 @@
         appId = "foot";
       };
 
-      programs.foot = {
+      rum.programs.foot = {
         enable = true;
         settings = {
           main = {

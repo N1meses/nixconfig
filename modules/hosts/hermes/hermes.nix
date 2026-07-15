@@ -66,7 +66,7 @@ in {
     }: let
       flakeRoot = inputs.self;
     in {
-      programs.noctalia.settings.wallpaper = {
+      noctalia.settings.wallpaper = {
         directory = lib.mkForce "${flakeRoot}/assets/icons";
         default.path = lib.mkForce "${flakeRoot}/assets/icons/wallpaper.jpg";
         last.path = lib.mkForce "${flakeRoot}/assets/icons/wallpaper.jpg";
@@ -79,14 +79,7 @@ in {
         "Mod+b" = {spawn = mkNoctaliaNiri "bar-toggle";};
       };
 
-      home.pointerCursor = {
-        package = pkgs.nordzy-cursor-theme;
-        name = "Nordzy-cursors";
-        size = 24;
-        gtk.enable = true;
-      };
-
-      home.packages = with pkgs; [
+      packages = with pkgs; [
         btop
         claude-code
         sops

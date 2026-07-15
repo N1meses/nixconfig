@@ -53,7 +53,7 @@ in {
     };
 
     homeModule = {pkgs, ...}: {
-      programs.noctalia.settings.bar.default.position = "top";
+      noctalia.settings.bar.default.position = "top";
 
       features = {
         compositors = {
@@ -102,7 +102,7 @@ in {
         };
       };
 
-      home.sessionVariables = {
+      environment.sessionVariables = {
         GDK_SCALE = "1";
         GDK_DPI_SCALE = "1";
         QT_SCALE_FACTOR = "1";
@@ -111,15 +111,7 @@ in {
         LIBVA_DRIVER_NAME = "nvidia";
       };
 
-      home.pointerCursor = {
-        gtk.enable = true;
-        x11.enable = true;
-        package = pkgs.nordzy-cursor-theme;
-        name = "Nordzy-cursors";
-        size = 24;
-      };
-
-      programs.mpv = {
+      rum.programs.mpv = {
         enable = true;
         scripts = [pkgs.mpvScripts.mpris];
         config = {
@@ -129,7 +121,7 @@ in {
         };
       };
 
-      home.packages = with pkgs; [
+      packages = with pkgs; [
         btop
         croc
         trash-cli

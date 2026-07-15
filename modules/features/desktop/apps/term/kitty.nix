@@ -10,7 +10,7 @@
         args = ["--single-instance"];
       };
 
-      programs.kitty = {
+      rum.programs.kitty = {
         enable = true;
         shellIntegration.enableZshIntegration = true;
         extraConfig = "include ~/.config/kitty/themes/noctalia.conf";

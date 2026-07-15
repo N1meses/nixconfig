@@ -9,7 +9,7 @@
     in {
       features.compositors.launcher.command = lib.mkDefault "fuzzel";
 
-      programs.fuzzel = {
+      rum.programs.fuzzel = {
         enable = true;
         settings = {
           main = {

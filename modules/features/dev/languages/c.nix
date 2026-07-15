@@ -1,7 +1,7 @@
 _: {
   aspects.c.home = {pkgs, ...}: {
-    home.packages = with pkgs; [clang-tools ccls gcc];
-    programs.helix.languages = {
+    packages = with pkgs; [clang-tools ccls gcc];
+    rum.programs.helix.languages = {
       language-server.clangd.command = "${pkgs.clang-tools}/bin/clangd";
       language = [
         {

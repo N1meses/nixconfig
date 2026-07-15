@@ -7,7 +7,7 @@
         appId = "com.mitchellh.ghostty";
       };
 
-      programs.ghostty = {
+      rum.programs.ghostty = {
         enable = true;
         enableZshIntegration = true;
         settings = {

@@ -31,20 +31,9 @@
           then "${pkgs.swaybg}/bin/swaybg -i ${cfg.image} -m fill"
           else "${pkgs.swaybg}/bin/swaybg -c '${color}'";
       in {
-        home.packages = [pkgs.swaybg];
-
-        systemd.user.services.swaybg = {
-          Unit = {
-            Description = "swaybg wallpaper daemon";
-            PartOf = ["graphical-session.target"];
-            After = ["graphical-session.target"];
-          };
-          Service = {
-            ExecStart = cmd;
-            Restart = "on-failure";
-          };
-          Install.WantedBy = ["graphical-session.target"];
-        };
+        packages = [pkgs.swaybg];
+        # run via compositor autostart (hjem has no user services)
+        features.compositors.autoStart = [cmd];
       };
     };
     aspects.wallpaper.includes = with config.aspectLib.names; [compositors];

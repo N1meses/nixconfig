@@ -27,10 +27,6 @@
           + lib.optionalString (c.terminal.execFlag != "") " ${c.terminal.execFlag}"
           + " ${cmd}";
       in {
-        imports = [
-          inputs.mango.hmModules.mango
-        ];
-
         options.features.compositors.mango = {
           extraBinds = lib.mkOption {
             type = lib.types.listOf lib.types.str;
@@ -38,41 +34,15 @@
           };
         };
 
-        config = {
-          home.packages = [pkgs.xwayland-satellite];
-
-          xdg.portal = {
-            enable = lib.mkDefault true;
-            extraPortals = with pkgs; [
-              xdg-desktop-portal-wlr
-              xdg-desktop-portal-gtk
-            ];
-            config.mango = {
-              default = ["wlr" "gtk"];
-              "org.freedesktop.impl.portal.ScreenCast" = ["wlr"];
-              "org.freedesktop.impl.portal.Screenshot" = ["wlr"];
-              "org.freedesktop.impl.portal.Secret" = ["gnome-keyring"];
-              "org.freedesktop.impl.portal.Inhibit" = ["gtk"];
-              "org.freedesktop.impl.portal.Notification" = ["gtk"];
-              "org.freedesktop.impl.portal.Account" = ["gtk"];
-              "org.freedesktop.impl.portal.Background" = ["gtk"];
-              "org.freedesktop.impl.portal.Email" = ["gtk"];
-              "org.freedesktop.impl.portal.OpenURI" = ["gtk"];
-              "org.freedesktop.impl.portal.Print" = ["gtk"];
-              "org.freedesktop.impl.portal.AppChooser" = ["gtk"];
-            };
-          };
-
-          wayland.windowManager.mango = {
-            enable = true;
-            package = inputs.mango.packages.${pkgs.stdenv.hostPlatform.system}.mango;
-            autostart_sh =
-              ''
-                ${pkgs.xwayland-satellite}/bin/xwayland-satellite &
-              ''
-              + lib.concatMapStrings (cmd: "${cmd}\n") c.autoStart;
-
-            settings = {
+        config = let
+          mangoLib = import "${inputs.mango}/nix/lib.nix" lib;
+          autostartText =
+            ''
+              ${pkgs.xwayland-satellite}/bin/xwayland-satellite &
+              dbus-update-activation-environment --all
+            ''
+            + lib.concatMapStrings (cmd: "${cmd}\n") c.autoStart;
+          settings = {
               monitorrule = lib.optionals (c.monitors != null) (
                 lib.mapAttrsToList (
                   name: m: "name:^${name}$,width:${toString m.resolution.width},height:${toString m.resolution.height},refresh:${toString m.refreshRate},x:${toString m.position.x},y:${toString m.position.y},scale:${toString m.scale},vrr:${
@@ -224,10 +194,36 @@
                 "AWT_TOOLKIT,MToolkit"
                 "DISPLAY,:0"
               ];
+          };
+        in {
+          packages = [pkgs.xwayland-satellite];
+
+          features.portals = {
+            desktop = "mango";
+            extraPortals = with pkgs; [xdg-desktop-portal-wlr xdg-desktop-portal-gtk];
+            backendMap = {
+              default = "wlr;gtk";
+              "org.freedesktop.impl.portal.ScreenCast" = "wlr";
+              "org.freedesktop.impl.portal.Screenshot" = "wlr";
+              "org.freedesktop.impl.portal.Secret" = "gnome-keyring";
+              "org.freedesktop.impl.portal.Inhibit" = "gtk";
+              "org.freedesktop.impl.portal.Notification" = "gtk";
+              "org.freedesktop.impl.portal.Account" = "gtk";
+              "org.freedesktop.impl.portal.Background" = "gtk";
+              "org.freedesktop.impl.portal.Email" = "gtk";
+              "org.freedesktop.impl.portal.OpenURI" = "gtk";
+              "org.freedesktop.impl.portal.Print" = "gtk";
+              "org.freedesktop.impl.portal.AppChooser" = "gtk";
             };
           };
+
+          xdg.config.files."mango/config.conf".text =
+            mangoLib.toMango {} settings
+            + "\nexec-once=~/.config/mango/autostart.sh\n";
+          xdg.config.files."mango/autostart.sh".source =
+            pkgs.writeShellScript "mango-autostart" autostartText;
         };
       };
     };
-    aspects.mango.includes = with config.aspectLib.names; [compositors];
+    aspects.mango.includes = with config.aspectLib.names; [compositors portalsHjem];
 }

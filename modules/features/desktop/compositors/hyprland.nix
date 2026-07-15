@@ -223,5 +223,5 @@ in {
       };
     };
   };
-  aspects.hyprland.includes = with config.aspectLib.names; [compositors];
+  aspects.hyprland.includes = with config.aspectLib.names; [compositors portalsHjem];
 }

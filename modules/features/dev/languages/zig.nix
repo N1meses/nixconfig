@@ -1,7 +1,7 @@
 _: {
   aspects.zig.home = {pkgs, ...}: {
-    home.packages = with pkgs; [zls zig];
-    programs.helix.languages = {
+    packages = with pkgs; [zls zig];
+    rum.programs.helix.languages = {
       language-server.zls.command = "${pkgs.zls}/bin/zls";
       language = [
         {

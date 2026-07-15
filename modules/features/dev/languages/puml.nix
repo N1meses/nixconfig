@@ -1,5 +1,5 @@
 _: {
   aspects.puml.home = {pkgs, ...}: {
-    home.packages = with pkgs; [plantuml];
+    packages = with pkgs; [plantuml];
   };
 }

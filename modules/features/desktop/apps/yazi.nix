@@ -17,7 +17,7 @@
       };
 
       config = {
-        programs.yazi = {
+        rum.programs.yazi = {
           enable = true;
           enableBashIntegration = true;
           shellWrapperName = "yy";
@@ -46,9 +46,9 @@
           };
         };
 
-        home.packages = with pkgs; [xdg-terminal-exec xdg-desktop-portal-termfilechooser];
+        packages = with pkgs; [xdg-terminal-exec xdg-desktop-portal-termfilechooser];
 
-        xdg.configFile."xdg-desktop-portal-termfilechooser/yazi-wrapper.sh" = {
+        xdg.config.files."xdg-desktop-portal-termfilechooser/yazi-wrapper.sh" = {
           executable = true;
           text = ''
             #!${pkgs.bash}/bin/bash
@@ -75,9 +75,9 @@
           '';
         };
 
-        xdg.configFile."xdg-desktop-portal-termfilechooser/config".text = ''
+        xdg.config.files."xdg-desktop-portal-termfilechooser/config".text = ''
           [filechooser]
-          cmd=${config.home.homeDirectory}/.config/xdg-desktop-portal-termfilechooser/yazi-wrapper.sh
+          cmd=${config.directory}/.config/xdg-desktop-portal-termfilechooser/yazi-wrapper.sh
         '';
 
         xdg.portal.config = {

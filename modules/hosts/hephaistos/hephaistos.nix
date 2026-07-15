@@ -27,14 +27,14 @@
     };
 
     homeModule = {pkgs, ...}: {
-      home.packages = with pkgs; [
+      packages = with pkgs; [
         trash-cli
         nom
         nvd
         nix-tree
         tldr
       ];
-      programs.helix.settings.editor.clipboard-provider = "termcode";
+      rum.programs.helix.settings.editor.clipboard-provider = "termcode";
     };
   };
 }

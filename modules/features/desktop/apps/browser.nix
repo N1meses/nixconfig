@@ -22,10 +22,9 @@ _: {
     };
 
     config = {
-      home.packages = [pkgs.brave];
+      packages = [pkgs.brave];
 
-      xdg.mimeApps = {
-        enable = true;
+      features.mimeApps = {
         defaultApplications = {
           "text/html" = [desktopFile];
           "x-scheme-handler/http" = [desktopFile];
@@ -34,7 +33,7 @@ _: {
           "x-scheme-handler/unknown" = [desktopFile];
           "application/pdf" = ["org.pwmt.zathura.desktop"];
         };
-        associations.added = {
+        addedAssociations = {
           "text/html" = [desktopFile];
           "application/pdf" = ["org.pwmt.zathura.desktop"];
         };

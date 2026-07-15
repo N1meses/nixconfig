@@ -1,13 +1,13 @@
 _: {
   aspects.javascript.home = {pkgs, ...}: {
-    home.packages = with pkgs; [
+    packages = with pkgs; [
       nodePackages.typescript-language-server
       nodePackages.vscode-langservers-extracted
       nodePackages.prettier
       nodePackages.eslint
       bun
     ];
-    programs.helix.languages = {
+    rum.programs.helix.languages = {
       language-server.typescript-language-server = {
         command = "${pkgs.nodePackages.typescript-language-server}/bin/typescript-language-server";
         args = ["--stdio"];

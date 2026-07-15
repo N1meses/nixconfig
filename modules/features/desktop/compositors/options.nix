@@ -156,7 +156,7 @@ _: {
     };
 
     config = {
-      home.packages = with pkgs; [
+      packages = with pkgs; [
         wayland-utils
         wl-clipboard
       ];

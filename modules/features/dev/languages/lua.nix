@@ -1,7 +1,7 @@
 _: {
   aspects.lua.home = {pkgs, ...}: {
-    home.packages = with pkgs; [lua-language-server stylua lua];
-    programs.helix.languages = {
+    packages = with pkgs; [lua-language-server stylua lua];
+    rum.programs.helix.languages = {
       language-server.lua-language-server.command = "${pkgs.lua-language-server}/bin/lua-language-server";
       language = [
         {
