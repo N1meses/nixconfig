@@ -5,8 +5,11 @@
 }:
 {
   aspects.hyprland = {
-    nixos = _: {
-      programs.hyprland.enable = true;
+    nixos = {pkgs, ...}: {
+      programs.hyprland = {
+        enable = true;
+        package = pkgs.hyprland;
+      };
     };
 
     home =

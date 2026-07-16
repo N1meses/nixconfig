@@ -50,7 +50,7 @@ in
 
       hardware.enableRedistributableFirmware = true;
 
-      boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto;
+      boot.kernelPackages = pkgs.linuxPackages_latest;
 
       environment = {
         variables.QT_QPA_PLATFORMTHEME = "qt6ct";
@@ -114,6 +114,12 @@ in
             "Mod+b" = {
               spawn = mkNoctaliaNiri "bar-toggle";
             };
+            "F12" = {
+              spwan = mkNoctaliaNiri "screenshot-fullscreen";
+            };
+            "Mod+F12" = {
+              spwan = mkNoctaliaNiri "screenshot-region";
+            };
           };
 
           hyprland.extraBinds = [
@@ -165,7 +171,6 @@ in
         adw-gtk3
         nwg-look
         gnome-themes-extra
-        vesktop
         file-roller
         claude-code
         ckb-next

@@ -67,9 +67,9 @@
     "type": "git",
     "url": "https://github.com/hyprwm/Hyprland.git",
     "ref": "HEAD",
-    "rev": "d7fc7240f4efd0abac1c1f23f09b78b30b4e0782",
-    "narHash": "sha256-ObppmTM2V0x6oJG+T0fqZWncVy2O/oFTSDY5nXPp3u8=",
-    "lastModified": 1784118734,
+    "rev": "b5003998788d16c4d121a8a323972f192ee85efb",
+    "narHash": "sha256-aNEBl/ptL59Sqtn3wpdaj6vj9a7xqomnQOPpI4RmNUo=",
+    "lastModified": 1784196147,
     "submodules": true
   },
   "impermanence": {
@@ -122,11 +122,11 @@
   },
   "nixpkgs": {
     "type": "github",
-    "owner": "nixos",
+    "owner": "NixOS",
     "repo": "nixpkgs",
-    "rev": "d407951447dcd00442e97087bf374aad70c04cea",
-    "narHash": "sha256-8i/87eeoqiGE4yOTjwSA3Eh/ziJRQEmd/unYU+K27sk=",
-    "lastModified": 1783224372
+    "rev": "c1191de36517814c364744fd376fcf44aebc0354",
+    "narHash": "sha256-aOMaHSOvkRqB43coZoKl+4MXnr6yfSTfjpkU0Gk30mw=",
+    "lastModified": 1784204784
   },
   "noctalia": {
     "type": "github",

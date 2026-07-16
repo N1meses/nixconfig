@@ -45,6 +45,7 @@ _: {
           "dmask=000"
           "fmask=022"
           "nofail"
+          "rw"
         ];
       };
 
