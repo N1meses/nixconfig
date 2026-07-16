@@ -7,32 +7,47 @@ _: {
   }: let
     cfg = config.features.portals;
     ini = pkgs.formats.ini {};
+    backendType = lib.types.attrsOf lib.types.str;
   in {
     options.features.portals = {
-      desktop = lib.mkOption {
-        type = lib.types.nullOr lib.types.str;
-        default = null;
-        description = "XDG_CURRENT_DESKTOP name; selects <desktop>-portals.conf.";
-      };
-      backendMap = lib.mkOption {
-        type = ini.type;
+      desktops = lib.mkOption {
+        type = lib.types.attrsOf (lib.types.submodule {
+          options = {
+            backendMap = lib.mkOption {
+              type = backendType;
+              default = {};
+              description = "[preferred] section: interface -> backend (semicolon-separated for fallbacks).";
+            };
+            extraPortals = lib.mkOption {
+              type = lib.types.listOf lib.types.package;
+              default = [];
+              description = "Portal backend packages (xdg-desktop-portal-*).";
+            };
+          };
+        });
         default = {};
-        description = ''
-          Contents of the [preferred] section: interface -> backend string
-          (semicolon-separated for multiple, e.g. "gnome;gtk").
-        '';
       };
-      extraPortals = lib.mkOption {
-        type = lib.types.listOf lib.types.package;
-        default = [];
-        description = "Portal backend packages (xdg-desktop-portal-*).";
+
+      commonBackends = lib.mkOption {
+        type = backendType;
+        default = {};
       };
     };
 
-    config = lib.mkIf (cfg.desktop != null) {
-      packages = [pkgs.xdg-desktop-portal] ++ cfg.extraPortals;
-      xdg.config.files."xdg-desktop-portal/${cfg.desktop}-portals.conf".source =
-        ini.generate "${cfg.desktop}-portals.conf" {preferred = cfg.backendMap;};
+    config = lib.mkIf (cfg.desktops != {}) {
+      packages =
+        [pkgs.xdg-desktop-portal]
+        ++ lib.concatMap (d: d.extraPortals) (lib.attrValues cfg.desktops);
+
+      xdg.config.files = lib.mapAttrs' (
+        name: d:
+          lib.nameValuePair "xdg-desktop-portal/${name}-portals.conf" {
+            source =
+              ini.generate "${name}-portals.conf"
+              {preferred = cfg.commonBackends // d.backendMap;};
+          }
+      )
+      cfg.desktops;
     };
   };
 }

@@ -2,8 +2,7 @@ _: {
   aspects.direnv.home = _: {
     rum.programs.direnv = {
       enable = true;
-      nix-direnv.enable = true;
-      enableZshIntegration = true;
+      integrations.zsh.enable = true;
     };
   };
 }

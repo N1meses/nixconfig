@@ -41,7 +41,7 @@
               ${pkgs.xwayland-satellite}/bin/xwayland-satellite &
               dbus-update-activation-environment --all
             ''
-            + lib.concatMapStrings (cmd: "${cmd}\n") c.autoStart;
+            + lib.concatMapStrings (cmd: "${cmd} &\n") c.autoStart;
           settings = {
               monitorrule = lib.optionals (c.monitors != null) (
                 lib.mapAttrsToList (
@@ -198,8 +198,7 @@
         in {
           packages = [pkgs.xwayland-satellite];
 
-          features.portals = {
-            desktop = "mango";
+          features.portals.desktops.mango = {
             extraPortals = with pkgs; [xdg-desktop-portal-wlr xdg-desktop-portal-gtk];
             backendMap = {
               default = "wlr;gtk";

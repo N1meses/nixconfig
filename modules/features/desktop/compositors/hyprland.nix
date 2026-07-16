@@ -73,8 +73,7 @@ in {
       };
 
       config = {
-        features.portals = {
-          desktop = "Hyprland";
+        features.portals.desktops.Hyprland = {
           extraPortals = [
             inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
             pkgs.xdg-desktop-portal-gtk

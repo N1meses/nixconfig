@@ -2,9 +2,23 @@ _: {
   aspects.userServices.home = {
     config,
     lib,
+    pkgs,
     ...
   }: let
     cfg = config.features.services.user;
+    udiskieArgs = lib.concatStringsSep " " [
+      (
+        if cfg.storage.udiskie.automount
+        then "-a"
+        else "-A"
+      )
+      (
+        if cfg.storage.udiskie.notify
+        then "-n"
+        else "-N"
+      )
+      "-T"
+    ];
   in {
     options.features.services.user.storage.udiskie = {
       notify = lib.mkOption {
@@ -17,17 +31,14 @@ _: {
       };
     };
 
-    config.services = {
-      gnome-keyring.enable = true;
+    config = {
+      packages = with pkgs; [gnome-keyring udiskie wl-clip-persist];
 
-      udiskie = {
-        enable = true;
-        notify = cfg.storage.udiskie.notify;
-        automount = cfg.storage.udiskie.automount;
-        tray = "never";
-      };
-
-      wl-clip-persist.enable = true;
+      features.compositors.autoStart = [
+        "${pkgs.gnome-keyring}/bin/gnome-keyring-daemon --foreground --components=secrets,pkcs11"
+        "${pkgs.udiskie}/bin/udiskie ${udiskieArgs}"
+        "${pkgs.wl-clip-persist}/bin/wl-clip-persist --clipboard regular"
+      ];
     };
   };
 }

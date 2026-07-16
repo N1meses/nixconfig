@@ -10,7 +10,7 @@ in {
     system = "x86_64-linux";
     stateVersion = "25.11";
     extraGroups = ["video" "input"];
-    hostId = "50fb8101"; # required so the rescue role can create/import ZFS pools
+    hostId = "50fb8101";
     aspects = with config.aspectLib.names; [
       base
       hardwareHermes

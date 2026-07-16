@@ -10,7 +10,6 @@
   resolveAspects = config.aspectLib.resolveAspects;
   mkHomeModules = config.aspectLib.mkHomeModules;
 
-  # fleet fragments for `layer` from every host EXCEPT `self`
   fleetFor = layer: self:
     map (f: f.${layer}) (builtins.attrValues (builtins.removeAttrs config.fleet [self]));
 
@@ -73,7 +72,7 @@
         modules,
       }: let
         eval = inputs.nixpkgs.lib.evalModules {
-          class = "finix";
+          class = "nixos";
           specialArgs = {
             inherit inputs;
             modules = inputs.finix.nixosModules;

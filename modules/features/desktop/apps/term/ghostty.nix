@@ -9,7 +9,6 @@
 
       rum.programs.ghostty = {
         enable = true;
-        enableZshIntegration = true;
         settings = {
           theme = "noctalia";
           font-size = 12;

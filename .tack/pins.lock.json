@@ -63,14 +63,6 @@
     "narHash": "sha256-oIIP2d7qELHfumkhHuofn7tryoAcuBwtYt0mDSyHF4s=",
     "lastModified": 1783395473
   },
-  "home-manager": {
-    "type": "github",
-    "owner": "nix-community",
-    "repo": "home-manager",
-    "rev": "6dc9e081ba2afc8c3b81ccddcb895f786155b292",
-    "narHash": "sha256-PZcuvieLhy1OaX5LQr4kZgO59x/7rS47vWSqOXiBhts=",
-    "lastModified": 1784123766
-  },
   "hyprland": {
     "type": "git",
     "url": "https://github.com/hyprwm/Hyprland.git",
@@ -143,14 +135,6 @@
     "rev": "000ba5eda0a243c589296300bd99c9245c26e691",
     "narHash": "sha256-4Ol0RoGw90/Fx/vK+sUDpynTQ0TLk2BbWHQ1aWTGeQc=",
     "lastModified": 1784122137
-  },
-  "opencode": {
-    "type": "github",
-    "owner": "anomalyco",
-    "repo": "opencode",
-    "rev": "656f2990173eb5112ca82b770caad391a160c4ee",
-    "narHash": "sha256-RipK0SdknTLpv+1mq6SHU5+1q1N5lmV+uhNEzfJeQtU=",
-    "lastModified": 1784125610
   },
   "preservation": {
     "type": "github",

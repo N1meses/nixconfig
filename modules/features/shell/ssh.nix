@@ -5,7 +5,6 @@ _: {
     ...
   }: let
     inherit (lib) mkDefault mkOption concatStrings mapAttrsToList concatMapStrings isList isBool isAttrs;
-    # ssh_config directives are case-insensitive, so the camelCase keys work as-is
     toLine = k: v:
       if isAttrs v
       then concatStrings (mapAttrsToList (ek: ev: "  ${k} ${ek}=${toString ev}\n") v) # SetEnv

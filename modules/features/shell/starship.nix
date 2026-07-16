@@ -2,7 +2,7 @@ _: {
   aspects.starship.home = {lib, ...}: {
     rum.programs.starship = {
       enable = lib.mkDefault true;
-      enableZshIntegration = true;
+      integrations.zsh.enable = true;
 
       settings = {
         scan_timeout = 30;

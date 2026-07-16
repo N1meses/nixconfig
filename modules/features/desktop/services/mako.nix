@@ -36,7 +36,6 @@
     packages = [pkgs.mako];
     xdg.config.files."mako/config".text =
       lib.concatStringsSep "\n" (lib.mapAttrsToList (k: v: "${k}=${toVal v}") settings);
-    # run as a compositor autostart (hjem has no user services)
     features.compositors.autoStart = ["mako"];
   };
   aspects.mako.includes = with config.aspectLib.names; [compositors];

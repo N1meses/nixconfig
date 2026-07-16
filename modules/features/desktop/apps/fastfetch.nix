@@ -4,7 +4,7 @@ _: {
       enable = true;
       settings = {
         logo = {
-          source = "${config.xdg.configHome}/fastfetch/nixowos.txt";
+          source = "${config.xdg.config.directory}/fastfetch/nixowos.txt";
           type = "file";
           padding = {
             top = 1;

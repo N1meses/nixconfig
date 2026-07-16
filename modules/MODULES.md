@@ -27,15 +27,14 @@ modules/
 │   │   │   ├── gtk.nix             # GTK theme (adw-gtk3, Pop icons)
 │   │   │   ├── nh.nix              # nh helper + auto-cleanup
 │   │   │   └── yazi.nix            # yazi + termfilechooser portal
-│   │   ├── bar/waybar.nix          # Waybar status bar
-│   │   ├── compositors/            # hyprland, mango, niri (each nixos + HM)
+│   │   ├── compositors/            # hyprland, mango, niri (each nixos + hjem)
 │   │   ├── noctalia/               # noctalia.nix (shell + lib fns) + noctaliaSettings.nix
 │   │   ├── services/               # audio, bluetooth, fonts, graphics, greetd, ly, mako, music, portals, session, userServices
 │   │   └── tools/                  # screenshot, wallpaper (HM)
 │   ├── dev/
 │   │   ├── editors/                # helix, zed (HM)
 │   │   ├── languages/              # bash c css go html java javascript json lua markdown nix puml python rust yaml zig (HM, import = enable)
-│   │   └── tools/                  # build cli database direnv git network opencode security (HM, import = enable)
+│   │   └── tools/                  # build cli database direnv git network security (import = enable)
 │   ├── profiles/                   # gaming, laptop, performance, virtualisation, mkVM (nixos, import = enable)
 │   ├── rescue/rescue.nix           # rescue/install toolkit (disko, cryptsetup, parted, …)
 │   ├── server/                     # nixos, import = enable
@@ -132,7 +131,6 @@ directly by the host (`workstation` adds `niri`).
 
 | Module | Side | Configures |
 |--------|------|------------|
-| `waybar` | HM | Waybar status bar |
 
 ### Services
 
@@ -197,7 +195,6 @@ All HM side. Import = enable.
 | `direnv` | direnv + nix-direnv |
 | `git` | git, delta, lazygit, pre-commit, commitizen, lefthook, tig, git-absorb |
 | `network` | httpie, bandwhich |
-| `opencode` | opencode (from inputs), MCP integration, custom agents |
 | `security` | nmap, netcat, mtr, tcpdump, traceroute |
 
 ### Languages

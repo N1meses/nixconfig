@@ -11,107 +11,66 @@ _: {
       environment.etc."zshenv".text = "";
     };
 
-    home = {
-      pkgs,
-      lib,
-      config,
-      ...
-    }: {
-      programs = {
-        eza = {
-          enable = true;
-          enableZshIntegration = true;
-          git = true;
+    home = {pkgs, ...}: {
+      packages = [pkgs.eza];
+
+      rum.programs.zsh = {
+        enable = true;
+
+        plugins = {
+          autosuggestions.source = "${pkgs.zsh-autosuggestions}/share/zsh-autosuggestions/zsh-autosuggestions.zsh";
+          forgit.source = "${pkgs.zsh-forgit}/share/zsh/zsh-forgit/forgit.plugin.zsh";
+          fzf-tab.source = "${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh";
+          history-substring-search.source = "${pkgs.zsh-history-substring-search}/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh";
+          nix-shell.source = "${pkgs.zsh-nix-shell}/share/zsh/plugins/zsh-nix-shell/nix-shell.plugin.zsh";
+          syntax-highlighting.source = "${pkgs.zsh-syntax-highlighting}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh";
         };
 
-        zsh = {
-          enable = true;
-          dotDir = "${config.xdg.configHome}/zsh";
-          enableCompletion = lib.mkDefault true;
-          autosuggestion.enable = lib.mkDefault true;
-          syntaxHighlighting = {
-            enable = lib.mkDefault true;
-            highlighters = ["main"];
-          };
+        initConfig = ''
+          # completions — regenerate the compdump at most once a day
+          autoload -Uz compinit
+          if [[ -n ~/.zcompdump(#qNmh+24) ]]; then
+            compinit
+          else
+            compinit -C
+          fi
 
-          completionInit = ''
-            autoload -Uz compinit
-            # Only regenerate compdump once a day
-            if [[ -n ~/.zcompdump(#qNmh+24) ]]; then
-              compinit
-            else
-              compinit -C
-            fi
-          '';
+          # aliases
+          alias rm='rm -i'
+          alias cp='cp -i'
+          alias mv='mv -i'
 
-          shellAliases = {
-            rm = "rm -i";
-            cp = "cp -i";
-            mv = "mv -i";
+          alias ..='cd ..'
+          alias ...='cd ../..'
+          alias ....='cd ../../..'
+          alias -- -='cd -'
 
-            ".." = "cd ..";
-            "..." = "cd ../..";
-            "...." = "cd ../../..";
-            "-" = "cd -";
+          alias re='exec $SHELL -l'
 
-            re = "exec $SHELL -l";
+          alias ls='eza --icons=auto --git'
+          alias ll='eza -l --icons=auto --git --header'
+          alias la='eza -la --icons=auto --git --header'
+          alias lt='eza --tree --level=2 --icons=auto'
+          alias lt3='eza --tree --level=3 --icons=auto'
+          alias llm='eza -l --sort=modified --icons=auto --git'
+          alias lls='eza -l --sort=size --icons=auto --git'
 
-            ls = "eza --icons=auto --git";
-            ll = "eza -l --icons=auto --git --header";
-            la = "eza -la --icons=auto --git --header";
-            lt = "eza --tree --level=2 --icons=auto";
-            lt3 = "eza --tree --level=3 --icons=auto";
-            llm = "eza -l --sort=modified --icons=auto --git";
-            lls = "eza -l --sort=size --icons=auto --git";
+          alias grep='grep --color=auto'
 
-            grep = "grep --color=auto";
+          alias du='du -h'
+          alias df='df -h'
 
-            du = "du -h";
-            df = "df -h";
-          };
+          # history
+          HISTSIZE=10000
+          SAVEHIST=10000
+          HISTFILE="$HOME/.zsh_history"
+          setopt HIST_FCNTL_LOCK HIST_IGNORE_DUPS HIST_IGNORE_SPACE SHARE_HISTORY
 
-          initContent = ''
-            # show fastfetch only in login shells, not every shell
-            if [[ -o login ]] && command -v fastfetch >/dev/null; then
-              fastfetch
-            fi
-
-            # Set history options for better performance
-            setopt HIST_FCNTL_LOCK
-            setopt HIST_IGNORE_DUPS
-            setopt SHARE_HISTORY
-          '';
-
-          plugins = [
-            {
-              name = "fzf-tab";
-              src = "${pkgs.zsh-fzf-tab}/share/fzf-tab";
-            }
-            {
-              name = "zsh-history-substring-search";
-              src = "${pkgs.zsh-history-substring-search}/share/zsh/plugins/zsh-history-substring-search";
-            }
-            {
-              name = "zsh-forgit";
-              src = "${pkgs.zsh-forgit}/share/zsh/zsh-forgit";
-            }
-            {
-              name = "zsh-nix-shell";
-              src = "${pkgs.zsh-nix-shell}/share/zsh/plugins/zsh-nix-shell";
-              file = "nix-shell.plugin.zsh";
-            }
-          ];
-
-          history = {
-            size = 10000;
-            save = 10000;
-            path = "$HOME/.zsh_history";
-            ignoreAllDups = false;
-            ignoreDups = true;
-            ignoreSpace = true;
-            share = true;
-          };
-        };
+          # show fastfetch only in login shells, not every shell
+          if [[ -o login ]] && command -v fastfetch >/dev/null; then
+            fastfetch
+          fi
+        '';
       };
     };
   };

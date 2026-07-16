@@ -117,8 +117,9 @@ in {
         spawn-at-startup =
           map (cmd: {_args = ["sh" "-c" cmd];}) c.autoStart;
 
-        output = lib.mkIf (c.monitors != null && c.monitors != {}) (
-          lib.mkDefault (
+        output =
+          if (c.monitors != null && c.monitors != {})
+          then
             lib.mapAttrsToList (
               name: m: {
                 _args = [name];
@@ -131,8 +132,7 @@ in {
               }
             )
             c.monitors
-          )
-        );
+          else [];
         layout = {
           gaps = c.gaps.inner;
           border = {
@@ -260,8 +260,7 @@ in {
       };
 
       config = {
-        features.portals = {
-          desktop = "niri";
+        features.portals.desktops.niri = {
           extraPortals = with pkgs; [
             xdg-desktop-portal-gnome
             xdg-desktop-portal-gtk

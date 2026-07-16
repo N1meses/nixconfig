@@ -5,6 +5,5 @@
     gtk
     nh
     fastfetch
-    mimeApps
   ];
 }

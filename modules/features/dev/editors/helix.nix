@@ -5,7 +5,7 @@
       VISUAL = lib.mkDefault "hx";
     };
 
-    features.mimeApps.defaultApplications = {
+    xdg.mime-apps.default-applications = {
       "text/plain" = lib.mkDefault ["Helix.desktop"];
       "text/x-nix" = lib.mkDefault ["Helix.desktop"];
     };

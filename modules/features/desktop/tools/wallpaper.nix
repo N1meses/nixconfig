@@ -32,7 +32,6 @@
           else "${pkgs.swaybg}/bin/swaybg -c '${color}'";
       in {
         packages = [pkgs.swaybg];
-        # run via compositor autostart (hjem has no user services)
         features.compositors.autoStart = [cmd];
       };
     };

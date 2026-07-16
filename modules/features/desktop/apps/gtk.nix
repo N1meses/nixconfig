@@ -23,7 +23,6 @@ _: {
       };
     };
 
-    # cursor for the compositor / xwayland / non-gtk apps (was home.pointerCursor)
     packages = [pkgs.nordzy-cursor-theme];
     environment.sessionVariables = {
       XCURSOR_THEME = cursorName;

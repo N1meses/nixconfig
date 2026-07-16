@@ -12,9 +12,8 @@
 
       rum.programs.kitty = {
         enable = true;
-        shellIntegration.enableZshIntegration = true;
-        extraConfig = "include ~/.config/kitty/themes/noctalia.conf";
         settings = {
+          include = "~/.config/kitty/themes/noctalia.conf";
           font_family = "IBM Plex Mono";
           font_size = 12;
           term = "xterm-256color";

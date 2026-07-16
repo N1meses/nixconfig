@@ -13,7 +13,6 @@ gh = "github:{path}"
 [all_follow]
  nixpkgs = ["nixpkgs"]
  hjem         = ["hjem"]
- home-manager = ["home-manager"]
 # nixpkgs = ["nixpkgs-stable", "nixpkgs-unstable"]
 
 # inputs.<name> fields
@@ -79,17 +78,11 @@ url = "gh:mangowm/mango"
 [inputs.noctalia]
 url = "gh:noctalia-dev/noctalia/cachix"
 
-[inputs.opencode]
-url = "gh:anomalyco/opencode/dev"
-
 [inputs.systems]
 url = "gh:nix-systems/default-linux"
 
 [inputs.community-modules]
 url = "gh:N1meses/community-modules/fix/perservation"
-
-[inputs.home-manager]
-url = "gh:nix-community/home-manager"
 
 [inputs.nixpkgs]
 url = "gh:nixos/nixpkgs?rev=d407951447dcd00442e97087bf374aad70c04cea"

@@ -1,17 +1,14 @@
 _: {
   aspects.git.home = {pkgs, ...}: {
-    programs = {
-      delta = {
-        enable = true;
-        enableGitIntegration = true;
-      };
-
-      lazygit.enable = true;
+    rum.programs.git.settings = {
+      core.pager = "delta";
+      interactive.diffFilter = "delta --color-only";
     };
 
     packages = with pkgs; [
+      delta
+      lazygit
       pre-commit
-      commitizen
       lefthook
       tig
       git-absorb

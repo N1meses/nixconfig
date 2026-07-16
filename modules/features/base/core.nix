@@ -113,6 +113,7 @@ in {
         modules.polkit
         modules.chronyd
         modules.cron
+        modules."nix-daemon"
       ];
 
       programs.limine.enable = true;
