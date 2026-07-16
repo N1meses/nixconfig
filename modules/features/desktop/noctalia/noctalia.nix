@@ -9,7 +9,8 @@ in {
   aspectLib.mkNoctaliaNiri = cmd:
     ["noctalia" "msg"] ++ (lib.splitString " " cmd);
 
-  aspectLib.mkNoctaliaHypr = cmd: "exec, noctalia msg ${cmd}";
+  # full Lua bind line for hyprland's raw `extraBinds` (0.55 Lua config)
+  aspectLib.mkNoctaliaHypr = keys: cmd: ''hl.bind("${keys}", hl.dsp.exec_cmd("noctalia msg ${cmd}"))'';
 
   aspectLib.mkNoctaliaMango = cmd: "spawn, noctalia msg ${cmd}";
 

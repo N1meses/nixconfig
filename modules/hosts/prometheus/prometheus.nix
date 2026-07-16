@@ -1,6 +1,6 @@
 {config, ...}: let
   mkNoctaliaNiri = config.aspectLib.mkNoctaliaNiri;
-  mkNoctaliaMango = config.aspectLib.mkNoctaliaMango;
+  mkNoctaliaHypr = config.aspectLib.mkNoctaliaHypr;
 in {
   registry.hosts.prometheus = {
     username = "prometheus";
@@ -12,7 +12,7 @@ in {
       workstation
       hardwarePrometheus
       cachyosKernel
-      mango
+      hyprland
       gaming
       performance
       virtualisation
@@ -86,18 +86,21 @@ in {
             "Mod+b" = {spawn = mkNoctaliaNiri "bar-toggle";};
           };
 
-          mango.extraBinds = [
-            "NONE, F10, ${mkNoctaliaMango "volume-up"}"
-            "NONE, F9, ${mkNoctaliaMango "volume-down"}"
-            "NONE, F5, ${mkNoctaliaMango "volume-mute"}"
+          hyprland.extraBinds = [
+            (mkNoctaliaHypr "F10" "volume-up")
+            (mkNoctaliaHypr "F9" "volume-down")
+            (mkNoctaliaHypr "F5" "volume-mute")
 
-            "NONE, F7, ${mkNoctaliaMango "media toggle"}"
-            "NONE, F8, ${mkNoctaliaMango "media next"}"
-            "NONE, F6, ${mkNoctaliaMango "media previous"}"
+            (mkNoctaliaHypr "F7" "media toggle")
+            (mkNoctaliaHypr "F8" "media next")
+            (mkNoctaliaHypr "F6" "media previous")
 
-            "SUPER+SHIFT, Q, ${mkNoctaliaMango "session lock"}"
-            "SUPER, N, ${mkNoctaliaMango "panel-toggle launcher"}"
-            "SUPER, B, ${mkNoctaliaMango "bar-toggle"}"
+            (mkNoctaliaHypr "SUPER + SHIFT + Q" "session lock")
+            (mkNoctaliaHypr "SUPER + N" "panel-toggle launcher")
+            (mkNoctaliaHypr "SUPER + B" "bar-toggle")
+
+            (mkNoctaliaHypr "F12" "screenshot-fullscreen")
+            (mkNoctaliaHypr "SUPER + F12" "screenshot-region")
           ];
         };
       };

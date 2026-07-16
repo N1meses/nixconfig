@@ -44,9 +44,6 @@ url = "gh:snugnug/hjem-rum"
 [inputs.deploy-rs]
 url = "gh:serokell/deploy-rs"
 
-[inputs.preservation]
-url = "gh:parzivale/preservation"
-
 [inputs.hardware]
 url = "gh:NixOS/nixos-hardware"
 

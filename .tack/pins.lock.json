@@ -136,14 +136,6 @@
     "narHash": "sha256-4Ol0RoGw90/Fx/vK+sUDpynTQ0TLk2BbWHQ1aWTGeQc=",
     "lastModified": 1784122137
   },
-  "preservation": {
-    "type": "github",
-    "owner": "parzivale",
-    "repo": "preservation",
-    "rev": "06e858e7ff848b91c2b795321415ffa4df2d1311",
-    "narHash": "sha256-E2DmIciyRTYmGvh9qKVLSeZeSZt96MB1MQVB8gADl3Y=",
-    "lastModified": 1780279390
-  },
   "sops-nix": {
     "type": "github",
     "owner": "Mic92",
