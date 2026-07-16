@@ -4,17 +4,19 @@
 
 ```
 modules/
-├── aggregators/                    # role bundles + aspect aggregators (flake.aspectInclude keys)
+├── aggregators/                    # role bundles + aspect aggregators (aspects.<name>.includes)
 │   ├── base.nix                    # bundle → core, shell, local, users, tailscale, helix
 │   ├── workstation.nix             # bundle → base, desktop, niri, ly, git, nix, zed, kitty
 │   ├── server.nix                  # bundle → base, serverCore, sshd, git, network, nh, yazi
 │   ├── shell.nix                   # → zsh, shellTools, starship, ssh
 │   ├── apps.nix                    # → yazi, browser, gtk, nh, fastfetch
 │   ├── desktop.nix                 # → services, apps, noctalia
-│   └── services.nix                # direct-import module (nixos+HM+finix), deliberately NOT aspectInclude
+│   └── services.nix                # aspect with real nixos/home/finix slots (not just includes) — see below
 ├── features/
 │   ├── base/
-│   │   ├── core.nix                # nixos: boot, Nix settings/GC, substituters, nix-ld · HM: home-manager, XDG
+│   │   ├── core.nix                # nixos: boot, Nix settings/GC, substituters, nix-ld (home slot empty)
+│   │   ├── users.nix               # user accounts (nixos + finix), authorized keys
+│   │   ├── overlays.nix            # package overlays
 │   │   ├── local.nix               # timezone (Europe/Berlin), locale (en_US/de_DE), keymap (de)
 │   │   ├── cachyosKernel.nix       # CachyOS kernel overlay import
 │   │   └── sops.nix                # sops-nix helper (defaultSopsFile per host)
@@ -27,13 +29,13 @@ modules/
 │   │   │   ├── gtk.nix             # GTK theme (adw-gtk3, Pop icons)
 │   │   │   ├── nh.nix              # nh helper + auto-cleanup
 │   │   │   └── yazi.nix            # yazi + termfilechooser portal
-│   │   ├── compositors/            # hyprland, mango, niri (each nixos + hjem)
+│   │   ├── compositors/            # hyprland, mango, niri (each nixos + hjem) + options.nix (shared features.compositors.*)
 │   │   ├── noctalia/               # noctalia.nix (shell + lib fns) + noctaliaSettings.nix
 │   │   ├── services/               # audio, bluetooth, fonts, graphics, greetd, ly, mako, music, portals, session, userServices
-│   │   └── tools/                  # screenshot, wallpaper (HM)
+│   │   └── tools/                  # screenshot, wallpaper (hjem)
 │   ├── dev/
-│   │   ├── editors/                # helix, zed (HM)
-│   │   ├── languages/              # bash c css go html java javascript json lua markdown nix puml python rust yaml zig (HM, import = enable)
+│   │   ├── editors/                # helix, zed (hjem)
+│   │   ├── languages/              # bash c css go html java javascript json lua markdown nix puml python rust yaml zig (hjem, import = enable)
 │   │   └── tools/                  # build cli database direnv git network security (import = enable)
 │   ├── profiles/                   # gaming, laptop, performance, virtualisation, mkVM (nixos, import = enable)
 │   ├── rescue/rescue.nix           # rescue/install toolkit (disko, cryptsetup, parted, …)
@@ -54,20 +56,19 @@ modules/
 │   ├── athena/     hardware                 # server (public, full stack)
 │   ├── hermes/     hardware, disko, imperm. # base
 │   └── icarus/     hardware, disko          # finix (experimental)
-├── lib/
-│   ├── compositors.nix             # shared features.compositors.* options (monitors, gaps, colors, …)
-│   └── registry.nix                # registry.hosts + aspects (enum + aspectLib.aspects) + aspectInclude closure
-├── meta/
-│   ├── flakeParts.nix              # flake-parts setup
-│   ├── generation.nix              # NixOS generator: registry.hosts → nixosConfigurations (commonModule: hostName, domain)
-│   ├── homeModules.nix             # home-manager routing / homeConfigurations
+├── options/                        # module schema
+│   ├── registry.nix                # registry.hosts + aspects enum (aspectLib.names)
+│   ├── aspects.nix                 # aspects.<name>.{nixos,home,finix,includes} + aspectLib helpers
+│   ├── fleet.nix                   # cross-host fleet bus (fleet.<host>.{nixos,finix,home})
+│   └── outputs.nix                 # top-level output attrs
+├── builders/                       # eval → outputs (consumed by default.nix)
+│   ├── generation.nix              # registry.hosts → nixos/finixConfigurations (splices each host's hjem user)
+│   ├── homeModules.nix             # per-host hjem module assembly (aspect home slots + git identity)
 │   ├── deploy.nix                  # deploy-rs deploy.nodes (generated from the registry)
 │   ├── minimalHosts.nix            # <host>Minimal install/rescue nixosConfigurations
 │   ├── finixVm.nix                 # finix VM build (icarus)
-│   ├── checks.nix                  # every host toplevel into nix flake check
-│   ├── nixpkgs.nix                 # nixpkgs config + overlays
-│   ├── overlays.nix                # package overlays
-│   └── users.nix                   # user account definitions
+│   ├── checks.nix                  # every host toplevel folded into the `checks` attr
+│   └── nixpkgs.nix                 # nixpkgs config + overlays
 └── MODULES.md                      # this file
 ```
 
@@ -75,10 +76,10 @@ modules/
 
 ## Aggregators & Role Bundles
 
-Aggregators live in `modules/aggregators/` and are keyed entries of
-`flake.aspectInclude.<name>` — a name in a host's `aspects` list that expands to a
-list of other aspect names via transitive closure (`resolveAspects`). An aggregator
-key needs **no backing module**; it contributes only its members. The **role bundles**
+Aggregators live in `modules/aggregators/` and are aspects that carry only an
+`aspects.<name>.includes` list — a name in a host's `aspects` list that expands to
+other aspect names via transitive closure (`aspectLib.resolveAspects`). An aggregator
+needs **no layer slot**; it contributes only its members. The **role bundles**
 (`base`, `workstation`, `server`) are the top-level aggregators — a host lists a bundle
 plus a few extras instead of repeating the common set.
 
@@ -88,13 +89,13 @@ plus a few extras instead of repeating the common set.
 | `workstation` | role bundle | **base**, desktop, niri, ly, git, nix, zed, kitty |
 | `server` | role bundle | **base**, serverCore, sshd, git, network, nh, yazi |
 | `shell` | aggregator | zsh, shellTools, starship, ssh |
-| `apps` | aggregator (HM) | yazi, browser, gtk, nh, fastfetch |
+| `apps` | aggregator (hjem) | yazi, browser, gtk, nh, fastfetch |
 | `desktop` | aggregator | services, apps, noctalia |
-| `services` | **direct-import module** | see below |
+| `services` | **aspect w/ layer slots** | see below |
 
-`services` is deliberately **not** an aspectInclude — it stays a per-layer
-direct-import module because it encodes cross-layer asymmetry that name-based routing
-can't express: nixos imports `graphics, fonts, portals, audio, bluetooth`; HM imports
+`services` is deliberately **not** a pure-`includes` aggregator — it carries real
+nixos/home/finix slots because it encodes cross-layer asymmetry that name-based
+routing can't express: nixos imports `graphics, fonts, portals, audio, bluetooth`; hjem imports
 `userServices`; finix imports `fonts, ly`. Don't "simplify" it into an aggregator.
 
 ---
@@ -108,24 +109,24 @@ directly by the host (`workstation` adds `niri`).
 
 | Module | Side | Packages | Options |
 |--------|------|----------|---------|
-| `browser` | HM | brave | `features.apps.browser.defaultBrowser` (brave\|firefox\|chromium) |
-| `fastfetch` | HM | — | — |
-| `foot` | HM | foot (`apps/term/`) | — |
-| `ghostty` | HM | ghostty (`apps/term/`) | — |
-| `kitty` | HM | kitty (`apps/term/`) | — |
-| `fuzzel` | HM | fuzzel | — |
-| `gtk` | HM | adw-gtk3, pop-icon-theme | — |
-| `nh` | HM | — | — |
-| `yazi` | HM | xdg-desktop-portal-termfilechooser, xdg-terminal-exec | `features.apps.yazi.terminalFilechooser.terminal` (default: ghostty) |
+| `browser` | hjem | brave | `features.apps.browser.defaultBrowser` (brave\|firefox\|chromium) |
+| `fastfetch` | hjem | — | — |
+| `foot` | hjem | foot (`apps/term/`) | — |
+| `ghostty` | hjem | ghostty (`apps/term/`) | — |
+| `kitty` | hjem | kitty (`apps/term/`) | — |
+| `fuzzel` | hjem | fuzzel | — |
+| `gtk` | hjem | adw-gtk3, pop-icon-theme | — |
+| `nh` | hjem | — | — |
+| `yazi` | hjem | xdg-desktop-portal-termfilechooser, xdg-terminal-exec | `features.apps.yazi.terminalFilechooser.terminal` (default: ghostty) |
 
 ### Compositors
 
 | Module | Side | Options |
 |--------|------|---------|
-| `niri` | nixos + HM | `features.compositors.niri.enable`, `.extraBinds`, `.autoStart`, `.input.touchpad.enable` |
-| `hyprland` | nixos + HM | `features.compositors.hyprland.enable`, `.extraBinds`, `.autoStart`, `.input.touchpad.enable` |
-| `mango` | nixos + HM | import = enable (no `.enable`), `features.compositors.mango.extraBinds`, `.autoStart` |
-| `lib/compositors` | nixos + HM | `features.compositors.monitors.<name>.{resolution, refreshRate, scale, transform, position, vrr.enable, primary}` |
+| `niri` | nixos + hjem | `features.compositors.niri.enable`, `.extraBinds`, `.autoStart`, `.input.touchpad.enable` |
+| `hyprland` | nixos + hjem | `features.compositors.hyprland.enable`, `.extraBinds`, `.autoStart`, `.input.touchpad.enable` |
+| `mango` | nixos + hjem | import = enable (no `.enable`), `features.compositors.mango.extraBinds`, `.autoStart` |
+| `lib/compositors` | nixos + hjem | `features.compositors.monitors.<name>.{resolution, refreshRate, scale, transform, position, vrr.enable, primary}` |
 
 ### Bar
 
@@ -142,25 +143,25 @@ directly by the host (`workstation` adds `niri`).
 | `graphics` | nixos | DRM, modesetting, XKB (de) | — |
 | `greetd` | nixos | tuigreet, GNOME Keyring PAM | — |
 | `ly` | nixos (+ finix) | ly display manager, GNOME Keyring PAM | — |
-| `mako` | HM | Mako notification daemon | — |
+| `mako` | hjem | Mako notification daemon | — |
 | `music` | nixos | MPD | — |
 | `portals` | nixos | XDG portal, dbus, udisks2 | — |
 | `session` | finix | seatd, getty tty1, doas, greetd PAM (finix session) | — |
-| `userServices` | HM | gnome-keyring, udiskie | `features.services.user.storage.udiskie.{notify, automount}` |
+| `userServices` | hjem | gnome-keyring, udiskie | `features.services.user.storage.udiskie.{notify, automount}` |
 
 ### Tools
 
 | Module | Side | Configures | Options |
 |--------|------|------------|---------|
-| `screenshot` | HM | screenshot tooling | — |
-| `wallpaper` | HM | wallpaper configuration | `features.compositors.wallpaper.image` |
+| `screenshot` | hjem | screenshot tooling | — |
+| `wallpaper` | hjem | wallpaper configuration | `features.compositors.wallpaper.image` |
 
 ### Noctalia
 
 | Module | Side | Configures |
 |--------|------|------------|
-| `noctalia` | nixos + HM | noctalia-shell shell layer, spawn-at-startup, layer rules |
-| `noctaliaSettings` | HM | Full noctalia config (bar, launcher, audio, notifications, wallpaper, etc.) |
+| `noctalia` | nixos + hjem | noctalia-shell shell layer, spawn-at-startup, layer rules |
+| `noctaliaSettings` | hjem | Full noctalia config (bar, launcher, audio, notifications, wallpaper, etc.) |
 
 `noctalia.nix` also exposes two shared lib functions:
 
@@ -177,15 +178,15 @@ directly by the host (`workstation` adds `niri`).
 
 | Module | Side | Packages | Sets |
 |--------|------|----------|------|
-| `helix` | HM | — | `EDITOR=hx`, `VISUAL=hx` (mkDefault), mimeApps text/* → helix, `clipboard-provider` (mkDefault wayland) |
-| `zed` | HM | zed-editor-fhs | `VISUAL=zeditor --wait` (overrides helix default) |
+| `helix` | hjem | — | `EDITOR=hx`, `VISUAL=hx` (mkDefault), mimeApps text/* → helix, `clipboard-provider` (mkDefault wayland) |
+| `zed` | hjem | zed-editor-fhs | `VISUAL=zeditor --wait` (overrides helix default) |
 
 > Servers set `programs.helix.settings.editor.clipboard-provider = "termcode"` in their
 > host `homeModule` so yank/paste works over SSH (OSC 52) where there's no Wayland clipboard.
 
 ### Tools
 
-All HM side. Import = enable.
+All hjem side. Import = enable.
 
 | Module | Packages |
 |--------|----------|
@@ -199,7 +200,7 @@ All HM side. Import = enable.
 
 ### Languages
 
-All HM side. Import = enable.
+All hjem side. Import = enable.
 
 | Module | Packages | Helix LSP |
 |--------|----------|-----------|
@@ -282,8 +283,7 @@ Service modules opt into backup by adding their state dir to
 
 | Module | Side | Configures |
 |--------|------|------------|
-| `core` | nixos | systemd-boot, Plymouth, Nix flakes/GC/auto-optimise, NetworkManager, nix-ld, **all substituters/caches** (cache.nixos.org, nix-community, niri-nix, noctalia, hyprland, lantian, kopuz) |
-| `core` | HM | home-manager, XDG base dirs |
+| `core` | nixos | systemd-boot, Plymouth, Nix GC/auto-optimise, NetworkManager, nix-ld, **all substituters/caches** (cache.nixos.org, nix-community, niri-nix, noctalia, hyprland, lantian, kopuz). finix slot: limine, nix-daemon, chrony, cron, networkmanager, polkit. (home slot empty — XDG dirs come from hjem) |
 | `local` | nixos | Timezone (Europe/Berlin), locale (en_US / de_DE), keymap (de) |
 | `cachyosKernel` | nixos | CachyOS kernel overlay import |
 | `sops` | nixos | sops-nix helper — per-host `defaultSopsFile`, age key wiring |
@@ -316,10 +316,10 @@ All nixos side. Import = enable.
 | Module | Side | Configures |
 |--------|------|------------|
 | `shell` | aggregator | zsh, shellTools, starship, ssh |
-| `zsh` | nixos + HM | zsh, eza aliases, history, syntax highlighting, fastfetch on login |
-| `shellTools` | HM | zoxide, fzf, ripgrep, fd |
-| `starship` | HM | Starship prompt (git, nix-shell, python, OS symbol) |
-| `ssh` | HM | SSH config + YubiKey FIDO2 identities, ControlMaster multiplexing, host aliases |
+| `zsh` | nixos + hjem | zsh, eza aliases, history, syntax highlighting, fastfetch on login |
+| `shellTools` | hjem | zoxide, fzf, ripgrep, fd |
+| `starship` | hjem | Starship prompt (git, nix-shell, python, OS symbol) |
+| `ssh` | hjem | SSH config + YubiKey FIDO2 identities, ControlMaster multiplexing, host aliases |
 
 ---
 
@@ -329,18 +329,17 @@ Infrastructure modules — not imported by hosts, wired in automatically.
 
 | File | Purpose |
 |------|---------|
-| `compositors.nix` | HM module — defines all shared `features.compositors.*` options (monitors, gaps, colors, borders, opacity, cursor, keyboard, terminal) |
-| `registry.nix` | Defines `options.registry.hosts` — host registry (username, system, stateVersion, domain, hostId, extraGroups, homeDirectory, **aspects**, **nixosModule**, **homeModule**). Exposes `aspectLib.aspects` (name→name map for the bare form), folds `flake.aspectInclude` keys into the valid-names enum, and resolves the transitive closure of aspects. |
+| `compositors.nix` | hjem module — defines all shared `features.compositors.*` options (monitors, gaps, colors, borders, opacity, cursor, keyboard, terminal) |
+| `registry.nix` | Defines `options.registry.hosts` — host registry (username, system, stateVersion, domain, hostId, extraGroups, homeDirectory, **aspects**, **nixosModule**, **homeModule**, **finixModule**). Aspect schema + `aspectLib.{names,resolveAspects,…}` live in `options/aspects.nix`, which folds every `aspects.<name>` (incl. `includes` aggregators) into the valid-names enum. |
 
 ### Aspects (host module selection)
 
-Each host lists its modules once as `registry.hosts.<host>.aspects`. Names route to
-whichever layer defines them (`flake.modules.nixos.<name>` → system,
-`flake.modules.homeManager.<name>` → home, both → both; nixos-only names are skipped by
-the standalone `homeConfigurations` build). Names can also be **aggregators**
-(`flake.aspectInclude.<name>` keys) that expand to more names — see Aggregators & Role
-Bundles. The option is enum-typed against all module names **plus** all aggregator keys,
-so typos fail at eval with the full valid list. Written bare via
+Each host lists its aspects once as `registry.hosts.<host>.aspects`. Names route to
+whichever layer slot they define (`aspects.<name>.nixos` → system,
+`.home` → that host's hjem user, `.finix` → a finix system; any subset). Names can
+also be **aggregators** (aspects with only an `includes` list) that expand to more
+names — see Aggregators & Role Bundles. The option is enum-typed against all aspect
+names, so typos fail at eval with the full valid list. Written bare via
 `with config.aspectLib.names; [ … ]`.
 
 ```nix
@@ -355,13 +354,14 @@ registry.hosts.nimeses.aspects = with config.aspectLib.names; [
 
 ## Deployment (deploy-rs)
 
-`modules/meta/deploy.nix` generates `deploy.nodes` from the registry — one node
+`modules/builders/deploy.nix` generates `deploy.nodes` from the registry — one node
 per NixOS host (filtered to those with a `nixosConfigurations` entry, so `*Minimal`
-variants and finix `icarus` are excluded).
+variants and finix `icarus` are excluded). The nodes are exposed by `default.nix`;
+flakeless, deploy-rs reads them via `--file` (experimental in deploy-rs).
 
 ```bash
-deploy .#<host>                 # build locally, copy closure, activate remotely
-deploy .#<host> --skip-checks   # skip the slow flake-check pre-flight
+deploy --file . <host>                 # build locally, copy closure, activate remotely
+deploy --file . <host> --skip-checks   # skip the slow pre-flight checks
 ```
 
 Per node: `sshUser = <host>`, `user = "root"`, `interactiveSudo = true`, and

@@ -88,6 +88,7 @@ in
           helix
           curl
           wget
+          tack
           (pkgs.writeShellScriptBin "nixos-revision" ''
             echo "${inputs.self.rev or "dirty"}"
           '')
@@ -107,6 +108,12 @@ in
           ];
         };
       };
+
+    home = { pkgs, ... }: {
+      packages = [
+        pkgs.tack
+      ];
+    };
 
     finix =
       {
@@ -190,6 +197,7 @@ in
           helix
           curl
           wget
+          tack
           (pkgs.writeShellScriptBin "finix-revision" ''
             echo "${inputs.self.rev or "dirty"}"
           '')

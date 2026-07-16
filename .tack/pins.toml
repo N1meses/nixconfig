@@ -12,7 +12,7 @@ gh = "github:{path}"
 # opt out per-input with exclude_follow
 [all_follow]
  nixpkgs = ["nixpkgs"]
- hjem         = ["hjem"]
+ hjem = ["hjem"]
 # nixpkgs = ["nixpkgs-stable", "nixpkgs-unstable"]
 
 # inputs.<name> fields
@@ -28,9 +28,11 @@ gh = "github:{path}"
 
 [inputs.sops-nix]
 url = "gh:Mic92/sops-nix"
+exclude_follow = ["nixpkgs"]
 
 [inputs.disko]
 url = "gh:nix-community/disko"
+exclude_follow = ["nixpkgs"]
 
 [inputs.finix]
 url = "gh:finix-community/finix"
@@ -52,18 +54,23 @@ url = "gh:rasmus-kirk/nixarr"
 
 [inputs.impermanence]
 url = "gh:nix-community/impermanence"
+exclude_follow = ["nixpkgs"]
 
 [inputs.nix-index-database]
 url = "gh:nix-community/nix-index-database"
+exclude_follow = ["nixpkgs"]
 
 [inputs.authentik-nix]
 url = "gh:nix-community/authentik-nix"
+exclude_follow = ["nixpkgs"]
 
 [inputs.nix-cachyos-kernel]
 url = "gh:xddxdd/nix-cachyos-kernel"
+exclude_follow = ["nixpkgs"]
 
 [inputs.niri-nix]
 url = "git+https://codeberg.org/BANanaD3V/niri-nix"
+exclude_follow = ["nixpkgs"]
 
 [inputs.hyprland]
 url = "gh:hyprwm/Hyprland"
@@ -71,9 +78,11 @@ submodules = true
 
 [inputs.mango]
 url = "gh:mangowm/mango"
+exclude_follow = ["nixpkgs"]
 
 [inputs.noctalia]
 url = "gh:noctalia-dev/noctalia/cachix"
+exclude_follow = ["nixpkgs"]
 
 [inputs.systems]
 url = "gh:nix-systems/default-linux"

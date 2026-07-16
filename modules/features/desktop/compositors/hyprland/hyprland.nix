@@ -5,7 +5,7 @@
 }:
 {
   aspects.hyprland = {
-    nixos = {pkgs, ...}: {
+    nixos = { pkgs, ... }: {
       programs.hyprland = {
         enable = true;
         package = pkgs.hyprland;

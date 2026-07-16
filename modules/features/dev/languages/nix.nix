@@ -2,7 +2,7 @@ _: {
   aspects.nix.home = { pkgs, ... }: {
     packages = with pkgs; [
       nixd
-      alejandra
+      nixfmt
     ];
     rum.programs.helix.languages = {
       language-server.nixd.command = "${pkgs.nixd}/bin/nixd";
@@ -11,7 +11,7 @@ _: {
           name = "nix";
           auto-format = true;
           language-servers = [ "nixd" ];
-          formatter.command = "${pkgs.nixfmt}/bin/nxifmt";
+          formatter.command = "${pkgs.nixfmt}/bin/nixfmt";
         }
       ];
     };

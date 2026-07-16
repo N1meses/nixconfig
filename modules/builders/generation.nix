@@ -53,7 +53,10 @@ let
             {
               nixpkgs.hostPlatform = host.system;
               nixpkgs.config.allowUnfree = true;
-              nixpkgs.config.permittedInsecurePackages = [ "pnpm-10.29.2" ];
+              nixpkgs.config.permittedInsecurePackages = [
+                "pnpm-10.29.2"
+                "electron-40.10.5"
+              ];
               system.stateVersion = host.stateVersion;
             }
           ];
