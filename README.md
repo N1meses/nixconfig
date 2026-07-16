@@ -15,7 +15,7 @@ nixconfig/
 │   ├── aggregators/       # Role bundles + aspect aggregators (base, workstation, server, shell, apps, desktop, services)
 │   ├── features/          # Feature modules (base, desktop, dev, profiles, rescue, server, shell)
 │   │   ├── base/          # core (nixos + hjem), local, cachyosKernel, sops
-│   │   ├── desktop/       # compositors, apps, bar, services, noctalia, tools
+│   │   ├── desktop/       # compositors, apps, services, noctalia, tools
 │   │   ├── dev/           # editors, tools, languages
 │   │   ├── profiles/      # gaming, laptop, performance, virtualisation, mkVM
 │   │   ├── rescue/        # minimal rescue shell
@@ -26,6 +26,7 @@ nixconfig/
 │   │   ├── prometheus/     # Desktop PC / NVIDIA (workstation)
 │   │   ├── hephaistos/     # Server — Tailscale-only (vaultwarden, croc)
 │   │   ├── athena/         # Server — public (nimeses.com, full stack)
+│   │   ├── atlas/          # NAS (storage + oCIS/media)
 │   │   ├── hermes/         # Minimal desktop / kiosk (base)
 │   │   └── icarus/         # finix (experimental, non-NixOS)
 │   ├── options/           # schema — registry, aspects, fleet, shared compositor options
@@ -83,7 +84,7 @@ Create `modules/hosts/<hostname>/<hostname>.nix` — use an existing host as ref
     };
 
     homeModule = {pkgs, ...}: {
-      # e.g. home.packages, features.compositors.*, ...
+      # hjem home slot — e.g. packages, rum.programs.*, features.compositors.*, ...
     };
   };
 }
@@ -146,7 +147,7 @@ socket (otherwise a broken sshd/firewall could falsely confirm).
 ```bash
 tack update               # update all pins (.tack/pins.lock.json)
 tack update <input>       # update a specific pin
-nix-build --file . --attr checks.<system>.<host> --no-out-link   # eval/build a host
+nix-build --file . --attr checks.host-<host> --no-out-link   # eval/build a host
 nh clean all              # remove old generations
 ```
 
@@ -167,10 +168,11 @@ nix repl --file .         # open repl with default.nix loaded
 | `prometheus` | Desktop PC (NVIDIA) | workstation | — |
 | `hephaistos` | Server — Tailscale-only | server | hephaistos.tail4109e2.ts.net |
 | `athena` | Server — full public stack | server | nimeses.com |
+| `atlas` | NAS (storage + oCIS/media) | server | — |
 | `hermes` | Minimal desktop / kiosk | base | — |
 | `icarus` | finix (experimental, non-NixOS) | — | — |
 
-The five NixOS hosts are also deploy-rs targets (`deploy --file . <host>`); `icarus`
+The six NixOS hosts are also deploy-rs targets (`deploy --file . <host>`); `icarus`
 is a finix build, not a NixOS deploy node.
 
 ---
