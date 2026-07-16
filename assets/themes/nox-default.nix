@@ -78,41 +78,47 @@
     # MARKUP
     "markup.heading" = {
       fg = "blue";
-      modifiers = ["bold"];
+      modifiers = [ "bold" ];
     };
     "markup.heading.1" = {
       fg = "blue";
-      modifiers = ["bold"];
+      modifiers = [ "bold" ];
     };
     "markup.heading.2" = {
       fg = "blue";
-      modifiers = ["bold"];
+      modifiers = [ "bold" ];
     };
     "markup.heading.3" = {
       fg = "blue";
-      modifiers = ["bold"];
+      modifiers = [ "bold" ];
     };
     "markup.heading.4" = {
       fg = "blue";
-      modifiers = ["bold"];
+      modifiers = [ "bold" ];
     };
     "markup.heading.5" = {
       fg = "blue";
-      modifiers = ["bold"];
+      modifiers = [ "bold" ];
     };
     "markup.heading.6" = {
       fg = "blue";
-      modifiers = ["bold"];
+      modifiers = [ "bold" ];
     };
     "markup.bold" = {
       fg = "blue";
-      modifiers = ["bold"];
+      modifiers = [ "bold" ];
     };
-    "markup.italic" = {modifiers = ["italic"];};
-    "markup.strikethrough" = {modifiers = ["crossed_out"];};
+    "markup.italic" = {
+      modifiers = [ "italic" ];
+    };
+    "markup.strikethrough" = {
+      modifiers = [ "crossed_out" ];
+    };
     "markup.link.url" = {
       fg = "link_blue";
-      underline = {style = "line";};
+      underline = {
+        style = "line";
+      };
     };
     "markup.link.text" = "cyan";
     "markup.link.label" = "cyan";
@@ -133,14 +139,30 @@
     "diff.delta.gutter" = "diff_yellow";
 
     # UI ELEMENTS
-    "ui.background" = {bg = "background";};
-    "ui.text" = {fg = "text";};
-    "ui.text.focus" = {fg = "white";};
-    "ui.text.info" = {fg = "text_gray";};
-    "ui.virtual" = {fg = "virtual_text";};
-    "ui.virtual.indent-guide" = {fg = "virtual_text";};
-    "ui.virtual.whitespace" = {fg = "whitespace";};
-    "ui.virtual.inlay-hint" = {fg = "hint_gray";};
+    "ui.background" = {
+      bg = "background";
+    };
+    "ui.text" = {
+      fg = "text";
+    };
+    "ui.text.focus" = {
+      fg = "white";
+    };
+    "ui.text.info" = {
+      fg = "text_gray";
+    };
+    "ui.virtual" = {
+      fg = "virtual_text";
+    };
+    "ui.virtual.indent-guide" = {
+      fg = "virtual_text";
+    };
+    "ui.virtual.whitespace" = {
+      fg = "whitespace";
+    };
+    "ui.virtual.inlay-hint" = {
+      fg = "hint_gray";
+    };
 
     "ui.cursor" = {
       bg = "cursor";
@@ -155,12 +177,22 @@
       fg = "cursor_match_fg";
     };
 
-    "ui.selection" = {bg = "selection";};
-    "ui.selection.primary" = {bg = "selection";};
-    "ui.highlight" = {bg = "highlight";};
+    "ui.selection" = {
+      bg = "selection";
+    };
+    "ui.selection.primary" = {
+      bg = "selection";
+    };
+    "ui.highlight" = {
+      bg = "highlight";
+    };
 
-    "ui.linenr" = {fg = "linenr";};
-    "ui.linenr.selected" = {fg = "linenr_selected";};
+    "ui.linenr" = {
+      fg = "linenr";
+    };
+    "ui.linenr.selected" = {
+      fg = "linenr_selected";
+    };
 
     "ui.statusline" = {
       fg = "white";
@@ -191,7 +223,9 @@
       fg = "text";
       bg = "popup_bg";
     };
-    "ui.window" = {fg = "window_border";};
+    "ui.window" = {
+      fg = "window_border";
+    };
     "ui.help" = {
       fg = "text_gray";
       bg = "popup_bg";
@@ -240,8 +274,12 @@
         color = "hint_gray";
       };
     };
-    "diagnostic.unnecessary" = {modifiers = ["dim"];};
-    "diagnostic.deprecated" = {modifiers = ["crossed_out"];};
+    "diagnostic.unnecessary" = {
+      modifiers = [ "dim" ];
+    };
+    "diagnostic.deprecated" = {
+      modifiers = [ "crossed_out" ];
+    };
 
     # PALETTE
     palette = {

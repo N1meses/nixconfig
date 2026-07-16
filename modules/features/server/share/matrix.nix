@@ -1,12 +1,15 @@
-{config, ...}: {
-    aspects.matrix.nixos = {config, ...}: let
+{ config, ... }: {
+  aspects.matrix.nixos =
+    { config, ... }:
+    let
       cfg = config.features.server;
-    in {
+    in
+    {
       services.matrix-tuwunel = {
         enable = true;
         settings.global = {
           server_name = "matrix.${cfg.domain}";
-          port = [6167];
+          port = [ 6167 ];
           allow_federation = true;
           new_user_displayname_suffix = "";
           require_auth_for_profile_requests = true;
@@ -32,7 +35,7 @@
         };
       };
 
-      services.restic.backups.system.paths = ["/var/lib/tuwunel"];
+      services.restic.backups.system.paths = [ "/var/lib/tuwunel" ];
 
       sops.secrets."matrix-oidc-secret" = {
         owner = "tuwunel";
@@ -62,5 +65,9 @@
         '';
       };
     };
-    aspects.matrix.includes = with config.aspectLib.names; [nginx restic sops];
+  aspects.matrix.includes = with config.aspectLib.names; [
+    nginx
+    restic
+    sops
+  ];
 }

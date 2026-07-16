@@ -2,14 +2,19 @@
   config,
   inputs,
   ...
-}: let
+}:
+let
   mkNoctaliaNiri = config.aspectLib.mkNoctaliaNiri;
-in {
+in
+{
   registry.hosts.hermes = {
     username = "hermes";
     system = "x86_64-linux";
     stateVersion = "25.11";
-    extraGroups = ["video" "input"];
+    extraGroups = [
+      "video"
+      "input"
+    ];
     hostId = "50fb8101";
     aspects = with config.aspectLib.names; [
       base
@@ -28,7 +33,7 @@ in {
       browser
     ];
 
-    nixosModule = {lib, ...}: {
+    nixosModule = { lib, ... }: {
       imports = [
         inputs.disko.nixosModules.disko
         inputs.impermanence.nixosModules.impermanence
@@ -59,31 +64,40 @@ in {
       '';
     };
 
-    homeModule = {
-      pkgs,
-      lib,
-      ...
-    }: let
-      flakeRoot = inputs.self;
-    in {
-      noctalia.settings.wallpaper = {
-        directory = lib.mkForce "${flakeRoot}/assets/icons";
-        default.path = lib.mkForce "${flakeRoot}/assets/icons/wallpaper.jpg";
-        last.path = lib.mkForce "${flakeRoot}/assets/icons/wallpaper.jpg";
-        monitors = lib.mkForce {};
-      };
+    homeModule =
+      {
+        pkgs,
+        lib,
+        ...
+      }:
+      let
+        flakeRoot = inputs.self;
+      in
+      {
+        noctalia.settings.wallpaper = {
+          directory = lib.mkForce "${flakeRoot}/assets/icons";
+          default.path = lib.mkForce "${flakeRoot}/assets/icons/wallpaper.jpg";
+          last.path = lib.mkForce "${flakeRoot}/assets/icons/wallpaper.jpg";
+          monitors = lib.mkForce { };
+        };
 
-      features.compositors.niri.extraBinds = {
-        "Mod+Shift+q" = {spawn = mkNoctaliaNiri "session lock";};
-        "Mod+n" = {spawn = mkNoctaliaNiri "panel-toggle launcher";};
-        "Mod+b" = {spawn = mkNoctaliaNiri "bar-toggle";};
-      };
+        features.compositors.niri.extraBinds = {
+          "Mod+Shift+q" = {
+            spawn = mkNoctaliaNiri "session lock";
+          };
+          "Mod+n" = {
+            spawn = mkNoctaliaNiri "panel-toggle launcher";
+          };
+          "Mod+b" = {
+            spawn = mkNoctaliaNiri "bar-toggle";
+          };
+        };
 
-      packages = with pkgs; [
-        btop
-        claude-code
-        sops
-      ];
-    };
+        packages = with pkgs; [
+          btop
+          claude-code
+          sops
+        ];
+      };
   };
 }

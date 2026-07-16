@@ -1,7 +1,9 @@
-{config, ...}: let
+{ config, ... }:
+let
   flakeConfig = config;
-in {
-  aspects.cachyosKernel.nixos = {...}: {
-    imports = [flakeConfig.aspects.overlays.nixos];
+in
+{
+  aspects.cachyosKernel.nixos = { ... }: {
+    imports = [ flakeConfig.aspects.overlays.nixos ];
   };
 }

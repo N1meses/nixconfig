@@ -1,19 +1,22 @@
-{config, ...}: {
-    aspects.yazi.home = {
+{ config, ... }: {
+  aspects.yazi.home =
+    {
       pkgs,
       config,
       lib,
       ...
-    }: let
+    }:
+    let
       cfg = config.features.apps.yazi;
       term = config.features.compositors.terminal;
       termBin = "${pkgs.${cfg.terminalFilechooser.terminal}}/bin/${cfg.terminalFilechooser.terminal}";
       execFlag = lib.optionalString (term.execFlag != "") "${term.execFlag} ";
-    in {
+    in
+    {
       options.features.apps.yazi.terminalFilechooser = {
-        enable =
-          lib.mkEnableOption "yazi as the xdg-desktop-portal file chooser"
-          // {default = true;};
+        enable = lib.mkEnableOption "yazi as the xdg-desktop-portal file chooser" // {
+          default = true;
+        };
         terminal = lib.mkOption {
           type = lib.types.str;
           default = config.features.compositors.terminal.command;
@@ -37,7 +40,10 @@
               };
               tasks = {
                 image_alloc = 536870912;
-                image_bound = [65535 65535];
+                image_bound = [
+                  65535
+                  65535
+                ];
               };
               opener = {
                 edit = [
@@ -64,7 +70,10 @@
         }
 
         (lib.mkIf cfg.terminalFilechooser.enable {
-          packages = with pkgs; [xdg-terminal-exec xdg-desktop-portal-termfilechooser];
+          packages = with pkgs; [
+            xdg-terminal-exec
+            xdg-desktop-portal-termfilechooser
+          ];
 
           xdg.config.files."xdg-desktop-portal-termfilechooser/yazi-wrapper.sh" = {
             executable = true;
@@ -102,5 +111,8 @@
         })
       ];
     };
-    aspects.yazi.includes = with config.aspectLib.names; [compositors portalsHjem];
+  aspects.yazi.includes = with config.aspectLib.names; [
+    compositors
+    portalsHjem
+  ];
 }

@@ -4,15 +4,15 @@ _: {
       programs.zsh.enable = true;
     };
 
-    finix = {pkgs, ...}: {
+    finix = { pkgs, ... }: {
       users.defaultUserShell = pkgs.zsh;
-      environment.shells = [pkgs.zsh];
-      environment.systemPackages = [pkgs.zsh];
+      environment.shells = [ pkgs.zsh ];
+      environment.systemPackages = [ pkgs.zsh ];
       environment.etc."zshenv".text = "";
     };
 
-    home = {pkgs, ...}: {
-      packages = [pkgs.eza];
+    home = { pkgs, ... }: {
+      packages = [ pkgs.eza ];
 
       rum.programs.zsh = {
         enable = true;

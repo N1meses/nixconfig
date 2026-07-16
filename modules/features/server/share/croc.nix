@@ -1,10 +1,10 @@
 _: {
-  aspects.croc.nixos = {pkgs, ...}: {
+  aspects.croc.nixos = { pkgs, ... }: {
     systemd.services.croc-relay = {
       description = "Croc relay server";
-      after = ["network-online.target"];
-      wants = ["network-online.target"];
-      wantedBy = ["multi-user.target"];
+      after = [ "network-online.target" ];
+      wants = [ "network-online.target" ];
+      wantedBy = [ "multi-user.target" ];
 
       serviceConfig = {
         ExecStart = "${pkgs.croc}/bin/croc relay";

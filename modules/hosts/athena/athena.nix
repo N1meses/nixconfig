@@ -1,9 +1,9 @@
-{config, ...}: {
+{ config, ... }: {
   registry.hosts.athena = {
     username = "athena";
     system = "x86_64-linux";
     stateVersion = "25.05";
-    extraGroups = ["plugdev"];
+    extraGroups = [ "plugdev" ];
     hostId = "2e95e7c9";
     domain = "nimeses.com";
     aspects = with config.aspectLib.names; [
@@ -21,32 +21,39 @@
       fastfetch
     ];
 
-    nixosModule = {
-      pkgs,
-      config,
-      ...
-    }: {
-      features.server = {
-        allowedUsers = ["athena"];
-        cloudflared.publicHosts =
-          map (h: "${h}.${config.features.server.domain}")
-          ["forgejo" "jellyfin" "navidrome" "auth" "matrix" "element"];
+    nixosModule =
+      {
+        pkgs,
+        config,
+        ...
+      }:
+      {
+        features.server = {
+          allowedUsers = [ "athena" ];
+          cloudflared.publicHosts = map (h: "${h}.${config.features.server.domain}") [
+            "forgejo"
+            "jellyfin"
+            "navidrome"
+            "auth"
+            "matrix"
+            "element"
+          ];
+        };
+
+        boot.kernelPackages = pkgs.linuxPackages_6_18;
+
+        environment.systemPackages = with pkgs; [
+          ntfs3g
+          git
+          wget
+          nix
+          wol
+          wakeonlan
+          sops
+        ];
       };
 
-      boot.kernelPackages = pkgs.linuxPackages_6_18;
-
-      environment.systemPackages = with pkgs; [
-        ntfs3g
-        git
-        wget
-        nix
-        wol
-        wakeonlan
-        sops
-      ];
-    };
-
-    homeModule = {pkgs, ...}: {
+    homeModule = { pkgs, ... }: {
       packages = with pkgs; [
         trash-cli
         nom

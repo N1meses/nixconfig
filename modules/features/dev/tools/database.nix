@@ -1,5 +1,5 @@
 _: {
-  aspects.database.home = {pkgs, ...}: {
+  aspects.database.home = { pkgs, ... }: {
     packages = with pkgs; [
       sqlite
       postgresql

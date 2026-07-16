@@ -1,13 +1,13 @@
-{inputs, ...}: {
-  aspects.helix.home = {lib, ...}: {
+{ inputs, ... }: {
+  aspects.helix.home = { lib, ... }: {
     environment.sessionVariables = {
       EDITOR = "hx";
       VISUAL = lib.mkDefault "hx";
     };
 
     xdg.mime-apps.default-applications = {
-      "text/plain" = lib.mkDefault ["Helix.desktop"];
-      "text/x-nix" = lib.mkDefault ["Helix.desktop"];
+      "text/plain" = lib.mkDefault [ "Helix.desktop" ];
+      "text/x-nix" = lib.mkDefault [ "Helix.desktop" ];
     };
 
     rum.programs.helix = {

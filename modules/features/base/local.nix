@@ -1,4 +1,5 @@
-_: let
+_:
+let
   localSettings = {
     LC_ADDRESS = "de_DE.UTF-8";
     LC_IDENTIFICATION = "de_DE.UTF-8";
@@ -10,31 +11,36 @@ _: let
     LC_TELEPHONE = "de_DE.UTF-8";
     LC_TIME = "de_DE.UTF-8";
   };
-in {
+in
+{
   aspects.local = {
-    nixos = {
-      lib,
-      ...
-    }: {
-      time.timeZone = lib.mkDefault "Europe/Berlin";
-      console.keyMap = lib.mkDefault "de";
+    nixos =
+      {
+        lib,
+        ...
+      }:
+      {
+        time.timeZone = lib.mkDefault "Europe/Berlin";
+        console.keyMap = lib.mkDefault "de";
 
-      i18n.defaultLocale = lib.mkDefault "en_US.UTF-8";
-      i18n.extraLocaleSettings = lib.mkDefault localSettings;
-    };
-
-    finix = {
-      lib,
-      ...
-    }: {
-      time.timeZone = lib.mkDefault "Europe/Berlin";
-      hardware.console = {
-        enable = true;
-        keyMap = lib.mkDefault "de";
+        i18n.defaultLocale = lib.mkDefault "en_US.UTF-8";
+        i18n.extraLocaleSettings = lib.mkDefault localSettings;
       };
 
-      i18n.defaultLocale = lib.mkDefault "en_US.UTF-8";
-      i18n.extraLocaleSettings = lib.mkDefault localSettings;
-    };
+    finix =
+      {
+        lib,
+        ...
+      }:
+      {
+        time.timeZone = lib.mkDefault "Europe/Berlin";
+        hardware.console = {
+          enable = true;
+          keyMap = lib.mkDefault "de";
+        };
+
+        i18n.defaultLocale = lib.mkDefault "en_US.UTF-8";
+        i18n.extraLocaleSettings = lib.mkDefault localSettings;
+      };
   };
 }

@@ -1,19 +1,24 @@
-{config, ...}: {
-    aspects.fuzzel.home = {
+{ config, ... }: {
+  aspects.fuzzel.home =
+    {
       lib,
       config,
       ...
-    }: let
+    }:
+    let
       c = config.features.compositors;
       toFuzzel = hex: "${lib.removePrefix "#" hex}ff";
-    in {
+    in
+    {
       features.compositors.launcher.command = lib.mkDefault "fuzzel";
 
       rum.programs.fuzzel = {
         enable = true;
         settings = {
           main = {
-            terminal = "${c.terminal.command}${lib.optionalString (c.terminal.execFlag != "") " ${c.terminal.execFlag}"}";
+            terminal = "${c.terminal.command}${
+              lib.optionalString (c.terminal.execFlag != "") " ${c.terminal.execFlag}"
+            }";
             font = "IBM Plex Mono:size=12";
             prompt = "» ";
             width = 40;
@@ -40,5 +45,5 @@
         };
       };
     };
-    aspects.fuzzel.includes = with config.aspectLib.names; [compositors];
+  aspects.fuzzel.includes = with config.aspectLib.names; [ compositors ];
 }

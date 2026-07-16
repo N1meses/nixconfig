@@ -1,5 +1,5 @@
 _: {
-  aspects.starship.home = {lib, ...}: {
+  aspects.starship.home = { lib, ... }: {
     rum.programs.starship = {
       enable = lib.mkDefault true;
       integrations.zsh.enable = true;

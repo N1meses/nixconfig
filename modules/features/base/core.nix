@@ -1,4 +1,5 @@
-{inputs, ...}: let
+{ inputs, ... }:
+let
   substituters = [
     "https://cache.nixos.org"
     "https://nix-community.cachix.org"
@@ -20,168 +21,179 @@
   ];
 
   nixSettings = {
-    experimental-features = ["nix-command" "flakes"];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
     auto-optimise-store = true;
-    trusted-users = ["@wheel" "root"];
+    trusted-users = [
+      "@wheel"
+      "root"
+    ];
     download-buffer-size = 524288000;
     http-connections = 0;
     max-substitution-jobs = 32;
     inherit substituters;
     trusted-public-keys = substitutersKeys;
   };
-in {
+in
+{
   aspects.core = {
-    nixos = {
-      pkgs,
-      lib,
-      ...
-    }: {
-      boot = {
-        kernelPackages = lib.mkDefault pkgs.linuxPackages;
+    nixos =
+      {
+        pkgs,
+        lib,
+        ...
+      }:
+      {
+        boot = {
+          kernelPackages = lib.mkDefault pkgs.linuxPackages;
 
-        plymouth.enable = lib.mkDefault true;
+          plymouth.enable = lib.mkDefault true;
 
-        loader = {
-          grub.enable = lib.mkDefault false;
-          systemd-boot = {
-            enable = lib.mkDefault true;
-            editor = lib.mkDefault false;
-            configurationLimit = lib.mkDefault 10;
+          loader = {
+            grub.enable = lib.mkDefault false;
+            systemd-boot = {
+              enable = lib.mkDefault true;
+              editor = lib.mkDefault false;
+              configurationLimit = lib.mkDefault 10;
+            };
+            efi.canTouchEfiVariables = lib.mkDefault true;
           };
-          efi.canTouchEfiVariables = lib.mkDefault true;
+
+          initrd = {
+            systemd.enable = lib.mkDefault true;
+            verbose = lib.mkDefault false;
+          };
         };
 
-        initrd = {
-          systemd.enable = lib.mkDefault true;
-          verbose = lib.mkDefault false;
+        nix = {
+          registry.nixpkgs.flake = inputs.nixpkgs;
+          nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+
+          settings = nixSettings;
+
+          gc = {
+            automatic = true;
+            dates = "daily";
+            options = "--delete-older-than 7d";
+          };
         };
-      };
 
-      nix = {
-        registry.nixpkgs.flake = inputs.nixpkgs;
-        nixPath = ["nixpkgs=${inputs.nixpkgs}"];
+        networking.networkmanager.enable = lib.mkDefault true;
+        networking.firewall.enable = lib.mkDefault true;
 
-        settings = nixSettings;
-
-        gc = {
-          automatic = true;
-          dates = "daily";
-          options = "--delete-older-than 7d";
-        };
-      };
-
-      networking.networkmanager.enable = lib.mkDefault true;
-      networking.firewall.enable = lib.mkDefault true;
-
-      environment.systemPackages = with pkgs; [
-        git
-        helix
-        curl
-        wget
-        (pkgs.writeShellScriptBin "nixos-revision" ''
-          echo "${inputs.self.rev or "dirty"}"
-        '')
-      ];
-
-      programs.nix-ld = {
-        enable = true;
-        libraries = with pkgs; [
+        environment.systemPackages = with pkgs; [
+          git
+          helix
           curl
-          stdenv.cc.cc
-          zlib
-          fuse3
-          icu
-          nss
-          openssl
-          expat
+          wget
+          (pkgs.writeShellScriptBin "nixos-revision" ''
+            echo "${inputs.self.rev or "dirty"}"
+          '')
         ];
-      };
-    };
 
-    finix = {
-      pkgs,
-      lib,
-      modules,
-      ...
-    }: {
-      imports = [
-        modules.limine
-        modules.getty
-        modules.networkmanager
-        modules.polkit
-        modules.chronyd
-        modules.cron
-        modules."nix-daemon"
-      ];
-
-      programs.limine.enable = true;
-
-      services.chrony.enable = true;
-
-      services.udev = {
-        enable = true;
-      };
-
-      services.polkit.enable = true;
-
-      finit.services.syslogd = lib.mkDefault {
-        description = "syslog";
-        command = "${pkgs.busybox}/bin/syslogd -n";
-        runlevels = "2345";
-      };
-
-      boot = {
-        kernelPackages = pkgs.linuxPackages_latest;
-
-        loader = {
-          efi.canTouchEfiVariables = true;
+        programs.nix-ld = {
+          enable = true;
+          libraries = with pkgs; [
+            curl
+            stdenv.cc.cc
+            zlib
+            fuse3
+            icu
+            nss
+            openssl
+            expat
+          ];
         };
       };
 
-      services.nix-daemon = {
-        enable = true;
+    finix =
+      {
+        pkgs,
+        lib,
+        modules,
+        ...
+      }:
+      {
+        imports = [
+          modules.limine
+          modules.getty
+          modules.networkmanager
+          modules.polkit
+          modules.chronyd
+          modules.cron
+          modules."nix-daemon"
+        ];
 
-        settings = nixSettings;
-      };
+        programs.limine.enable = true;
 
-      services.cron = {
-        enable = true;
-        systab = ["0 12 * * * root ${pkgs.nix}/bin/nix-collect-garbage --delete-older-than 7d"];
-      };
+        services.chrony.enable = true;
 
-      security.pam.environment = {
-        NIX_PATH.default = "nixpkgs=flake:nixpkgs";
-        XDG_DATA_DIRS.default = ["/etc/profiles/per-user/@{PAM_USER}/share"];
-        XCURSOR_PATH.default = ["/etc/profiles/per-user/@{PAM_USER}/share/icons"];
-      };
+        services.udev = {
+          enable = true;
+        };
 
-      environment.etc."nix/registry.json".text = builtins.toJSON {
-        version = 2;
-        flakes = [
-          {
-            from = {
-              type = "indirect";
-              id = "nixpkgs";
-            };
-            to = {
-              type = "path";
-              path = inputs.nixpkgs.outPath;
-            };
-          }
+        services.polkit.enable = true;
+
+        finit.services.syslogd = lib.mkDefault {
+          description = "syslog";
+          command = "${pkgs.busybox}/bin/syslogd -n";
+          runlevels = "2345";
+        };
+
+        boot = {
+          kernelPackages = pkgs.linuxPackages_latest;
+
+          loader = {
+            efi.canTouchEfiVariables = true;
+          };
+        };
+
+        services.nix-daemon = {
+          enable = true;
+
+          settings = nixSettings;
+        };
+
+        services.cron = {
+          enable = true;
+          systab = [ "0 12 * * * root ${pkgs.nix}/bin/nix-collect-garbage --delete-older-than 7d" ];
+        };
+
+        security.pam.environment = {
+          NIX_PATH.default = "nixpkgs=flake:nixpkgs";
+          XDG_DATA_DIRS.default = [ "/etc/profiles/per-user/@{PAM_USER}/share" ];
+          XCURSOR_PATH.default = [ "/etc/profiles/per-user/@{PAM_USER}/share/icons" ];
+        };
+
+        environment.etc."nix/registry.json".text = builtins.toJSON {
+          version = 2;
+          flakes = [
+            {
+              from = {
+                type = "indirect";
+                id = "nixpkgs";
+              };
+              to = {
+                type = "path";
+                path = inputs.nixpkgs.outPath;
+              };
+            }
+          ];
+        };
+
+        services.networkmanager.enable = true;
+
+        environment.systemPackages = with pkgs; [
+          git
+          helix
+          curl
+          wget
+          (pkgs.writeShellScriptBin "finix-revision" ''
+            echo "${inputs.self.rev or "dirty"}"
+          '')
         ];
       };
-
-      services.networkmanager.enable = true;
-
-      environment.systemPackages = with pkgs; [
-        git
-        helix
-        curl
-        wget
-        (pkgs.writeShellScriptBin "finix-revision" ''
-          echo "${inputs.self.rev or "dirty"}"
-        '')
-      ];
-    };
   };
 }

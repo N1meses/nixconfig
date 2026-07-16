@@ -1,7 +1,10 @@
-{config, ...}: {
-    aspects.jellyfin.nixos = {config, ...}: let
+{ config, ... }: {
+  aspects.jellyfin.nixos =
+    { config, ... }:
+    let
       cfg = config.features.server;
-    in {
+    in
+    {
       services.jellyfin.enable = true;
 
       services.nginx.virtualHosts."jellyfin.${cfg.domain}" = {
@@ -12,9 +15,16 @@
         };
       };
 
-      services.restic.backups.system.paths = ["/var/lib/jellyfin"];
+      services.restic.backups.system.paths = [ "/var/lib/jellyfin" ];
 
-      users.users.jellyfin.extraGroups = ["media" "render" "video"];
+      users.users.jellyfin.extraGroups = [
+        "media"
+        "render"
+        "video"
+      ];
     };
-    aspects.jellyfin.includes = with config.aspectLib.names; [nginx restic];
+  aspects.jellyfin.includes = with config.aspectLib.names; [
+    nginx
+    restic
+  ];
 }

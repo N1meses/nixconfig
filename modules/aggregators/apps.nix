@@ -1,4 +1,4 @@
-{config, ...}: {
+{ config, ... }: {
   aspects.apps.includes = with config.aspectLib.names; [
     yazi
     browser

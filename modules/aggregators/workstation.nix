@@ -1,4 +1,4 @@
-{config, ...}: {
+{ config, ... }: {
   aspects.workstation.includes = with config.aspectLib.names; [
     base
     desktop

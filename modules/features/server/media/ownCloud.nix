@@ -1,9 +1,12 @@
-{config, ...}: {
-    aspects.ocis.nixos = {config, ...}: let
+{ config, ... }: {
+  aspects.ocis.nixos =
+    { config, ... }:
+    let
       cfg = config.features.server;
       ocisUrl = "https://cloud.${cfg.domain}";
       issuer = "https://auth.${cfg.domain}/application/o/ocis/";
-    in {
+    in
+    {
       services.ocis = {
         enable = true;
         address = "127.0.0.1";
@@ -39,7 +42,10 @@
         '';
       };
 
-      services.restic.backups.system.paths = ["/var/lib/ocis"];
+      services.restic.backups.system.paths = [ "/var/lib/ocis" ];
     };
-    aspects.ocis.includes = with config.aspectLib.names; [nginx restic];
+  aspects.ocis.includes = with config.aspectLib.names; [
+    nginx
+    restic
+  ];
 }

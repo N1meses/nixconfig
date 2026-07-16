@@ -1,7 +1,10 @@
-{config, ...}: {
-    aspects.forgejo.nixos = {config, ...}: let
+{ config, ... }: {
+  aspects.forgejo.nixos =
+    { config, ... }:
+    let
       cfg = config.features.server;
-    in {
+    in
+    {
       services.forgejo = {
         enable = true;
         database.type = "sqlite3";
@@ -22,9 +25,9 @@
         };
       };
 
-      networking.firewall.interfaces."tailscale0".allowedTCPPorts = [2222];
+      networking.firewall.interfaces."tailscale0".allowedTCPPorts = [ 2222 ];
 
-      services.restic.backups.system.paths = ["/var/lib/forgejo"];
+      services.restic.backups.system.paths = [ "/var/lib/forgejo" ];
 
       services.nginx.virtualHosts."forgejo.${cfg.domain}" = {
         locations."/" = {
@@ -34,5 +37,8 @@
         };
       };
     };
-    aspects.forgejo.includes = with config.aspectLib.names; [nginx restic];
+  aspects.forgejo.includes = with config.aspectLib.names; [
+    nginx
+    restic
+  ];
 }

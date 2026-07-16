@@ -1,4 +1,4 @@
-{inputs, ...}: {
+{ inputs, ... }: {
   aspects.overlays.nixos = {
     nixpkgs.overlays = [
       inputs.nix-cachyos-kernel.overlays.pinned

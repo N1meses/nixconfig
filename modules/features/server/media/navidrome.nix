@@ -1,7 +1,10 @@
-{config, ...}: {
-    aspects.navidrome.nixos = {config, ...}: let
+{ config, ... }: {
+  aspects.navidrome.nixos =
+    { config, ... }:
+    let
       cfg = config.features.server;
-    in {
+    in
+    {
       services.navidrome = {
         enable = true;
         settings = {
@@ -11,7 +14,7 @@
         };
       };
 
-      services.restic.backups.system.paths = ["/var/lib/navidrome"];
+      services.restic.backups.system.paths = [ "/var/lib/navidrome" ];
 
       services.nginx.virtualHosts."navidrome.${cfg.domain}" = {
         locations."/" = {
@@ -20,7 +23,10 @@
         };
       };
 
-      users.users.navidrome.extraGroups = ["media"];
+      users.users.navidrome.extraGroups = [ "media" ];
     };
-    aspects.navidrome.includes = with config.aspectLib.names; [nginx restic];
+  aspects.navidrome.includes = with config.aspectLib.names; [
+    nginx
+    restic
+  ];
 }

@@ -1,5 +1,5 @@
 _: {
-  aspects.shellTools.home = {pkgs, ...}: {
+  aspects.shellTools.home = { pkgs, ... }: {
     rum.programs.zoxide = {
       enable = true;
       integrations.zsh.enable = true;
@@ -8,6 +8,9 @@ _: {
       enable = true;
       integrations.zsh.enable = true;
     };
-    packages = with pkgs; [ripgrep fd];
+    packages = with pkgs; [
+      ripgrep
+      fd
+    ];
   };
 }

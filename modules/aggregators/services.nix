@@ -1,8 +1,10 @@
-{config, ...}: let
+{ config, ... }:
+let
   flakeConfig = config;
-in {
+in
+{
   aspects.services = {
-    nixos = {...}: {
+    nixos = { ... }: {
       imports = with config.aspectLib.nixosModules; [
         graphics
         fonts
@@ -12,13 +14,13 @@ in {
       ];
     };
 
-    home = {...}: {
+    home = { ... }: {
       imports = with config.aspectLib.homeModules; [
         userServices
       ];
     };
 
-    finix = {...}: {
+    finix = { ... }: {
       imports = with config.aspectLib.finixModules; [
         fonts
         ly

@@ -1,5 +1,15 @@
 _: {
-  aspects.cli.home = {pkgs, ...}: {
-    packages = with pkgs; [jq yq sd just hyperfine tokei watchexec btop gh];
+  aspects.cli.home = { pkgs, ... }: {
+    packages = with pkgs; [
+      jq
+      yq
+      sd
+      just
+      hyperfine
+      tokei
+      watchexec
+      btop
+      gh
+    ];
   };
 }

@@ -1,11 +1,14 @@
-{config, ...}: {
-    aspects.element.nixos = {
+{ config, ... }: {
+  aspects.element.nixos =
+    {
       config,
       pkgs,
       ...
-    }: let
+    }:
+    let
       cfg = config.features.server;
-    in {
+    in
+    {
       services.nginx.virtualHosts."element.${cfg.domain}" = {
         root = pkgs.element-web.override {
           conf = {
@@ -22,7 +25,7 @@
 
             integrations_ui_url = "";
             integrations_rest_url = "";
-            integrations_widgets_urls = [];
+            integrations_widgets_urls = [ ];
 
             bug_report_endpoint_url = "";
 
@@ -32,5 +35,5 @@
         locations."/".extraConfig = "try_files $uri $uri/ /index.html;";
       };
     };
-    aspects.element.includes = with config.aspectLib.names; [nginx];
+  aspects.element.includes = with config.aspectLib.names; [ nginx ];
 }

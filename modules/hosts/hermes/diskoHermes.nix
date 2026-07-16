@@ -1,8 +1,12 @@
 _: {
-  aspects.diskoHermes.nixos = {lib, ...}: {
+  aspects.diskoHermes.nixos = { lib, ... }: {
     disko.devices.nodev."/" = {
       fsType = "tmpfs";
-      mountOptions = ["defaults" "size=50%" "mode=755"];
+      mountOptions = [
+        "defaults"
+        "size=50%"
+        "mode=755"
+      ];
     };
 
     fileSystems."/persist".neededForBoot = true;
@@ -24,7 +28,7 @@ _: {
               type = "filesystem";
               format = "vfat";
               mountpoint = "/boot";
-              mountOptions = ["umask=0077"];
+              mountOptions = [ "umask=0077" ];
             };
           };
           nix = {

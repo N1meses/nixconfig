@@ -1,4 +1,4 @@
-{config, ...}: {
+{ config, ... }: {
   aspects.server.includes = with config.aspectLib.names; [
     base
     serverCore

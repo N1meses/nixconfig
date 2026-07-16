@@ -1,5 +1,5 @@
 _: {
-  aspects.git.home = {pkgs, ...}: {
+  aspects.git.home = { pkgs, ... }: {
     rum.programs.git.settings = {
       core.pager = "delta";
       interactive.diffFilter = "delta --color-only";

@@ -1,12 +1,15 @@
-{config, ...}: {
-    aspects.wallpaper.home = {
+{ config, ... }: {
+  aspects.wallpaper.home =
+    {
       lib,
       config,
       pkgs,
       ...
-    }: let
+    }:
+    let
       c = config.features.compositors;
-    in {
+    in
+    {
       options.features.compositors.wallpaper = {
         color = lib.mkOption {
           type = lib.types.nullOr lib.types.str;
@@ -20,20 +23,20 @@
         };
       };
 
-      config = let
-        cfg = config.features.compositors.wallpaper;
-        color =
-          if cfg.color != null
-          then cfg.color
-          else c.colors.background;
-        cmd =
-          if cfg.image != null
-          then "${pkgs.swaybg}/bin/swaybg -i ${cfg.image} -m fill"
-          else "${pkgs.swaybg}/bin/swaybg -c '${color}'";
-      in {
-        packages = [pkgs.swaybg];
-        features.compositors.autoStart = [cmd];
-      };
+      config =
+        let
+          cfg = config.features.compositors.wallpaper;
+          color = if cfg.color != null then cfg.color else c.colors.background;
+          cmd =
+            if cfg.image != null then
+              "${pkgs.swaybg}/bin/swaybg -i ${cfg.image} -m fill"
+            else
+              "${pkgs.swaybg}/bin/swaybg -c '${color}'";
+        in
+        {
+          packages = [ pkgs.swaybg ];
+          features.compositors.autoStart = [ cmd ];
+        };
     };
-    aspects.wallpaper.includes = with config.aspectLib.names; [compositors];
+  aspects.wallpaper.includes = with config.aspectLib.names; [ compositors ];
 }

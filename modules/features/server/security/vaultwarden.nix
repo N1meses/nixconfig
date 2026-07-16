@@ -1,7 +1,10 @@
-{config, ...}: {
-    aspects.vaultwarden.nixos = {config, ...}: let
+{ config, ... }: {
+  aspects.vaultwarden.nixos =
+    { config, ... }:
+    let
       cfg = config.features.server;
-    in {
+    in
+    {
       features.server.tls = true;
 
       services.vaultwarden = {
@@ -27,7 +30,7 @@
 
       services.vaultwarden.backupDir = "/var/backup/vaultwarden";
 
-      services.restic.backups.system.paths = [config.services.vaultwarden.backupDir];
+      services.restic.backups.system.paths = [ config.services.vaultwarden.backupDir ];
 
       services.nginx.virtualHosts."${cfg.domain}" = {
         addSSL = true;
@@ -39,5 +42,9 @@
         };
       };
     };
-    aspects.vaultwarden.includes = with config.aspectLib.names; [nginx restic sops];
+  aspects.vaultwarden.includes = with config.aspectLib.names; [
+    nginx
+    restic
+    sops
+  ];
 }

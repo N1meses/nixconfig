@@ -1,6 +1,6 @@
 _: {
   aspects.fonts = {
-    nixos = {pkgs, ...}: {
+    nixos = { pkgs, ... }: {
       fonts.packages = with pkgs; [
         ibm-plex
         google-fonts
@@ -9,7 +9,7 @@ _: {
       ];
     };
 
-    finix = {pkgs, ...}: {
+    finix = { pkgs, ... }: {
       fonts = {
         fontconfig.enable = true;
         packages = with pkgs; [

@@ -1,16 +1,16 @@
 _: {
-  aspects.json.home = {pkgs, ...}: {
-    packages = with pkgs; [nodePackages.vscode-langservers-extracted];
+  aspects.json.home = { pkgs, ... }: {
+    packages = with pkgs; [ nodePackages.vscode-langservers-extracted ];
     rum.programs.helix.languages = {
       language-server.vscode-json-languageserver = {
         command = "${pkgs.nodePackages.vscode-langservers-extracted}/bin/vscode-json-languageserver";
-        args = ["--stdio"];
+        args = [ "--stdio" ];
       };
       language = [
         {
           name = "json";
           auto-format = true;
-          language-servers = ["vscode-json-languageserver"];
+          language-servers = [ "vscode-json-languageserver" ];
         }
       ];
     };

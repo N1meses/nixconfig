@@ -1,13 +1,19 @@
-{config, ...}: let
+{ config, ... }:
+let
   mkNoctaliaNiri = config.aspectLib.mkNoctaliaNiri;
   mkNoctaliaHypr = config.aspectLib.mkNoctaliaHypr;
-in {
+in
+{
   registry.hosts.prometheus = {
     username = "prometheus";
     system = "x86_64-linux";
     stateVersion = "25.05";
     homeDirectory = "/home/prometheus";
-    extraGroups = ["gamemode" "libvirtd" "kvm"];
+    extraGroups = [
+      "gamemode"
+      "libvirtd"
+      "kvm"
+    ];
     aspects = with config.aspectLib.names; [
       workstation
       hardwarePrometheus
@@ -25,7 +31,7 @@ in {
       direnv
     ];
 
-    nixosModule = {pkgs, ...}: {
+    nixosModule = { pkgs, ... }: {
       networking = {
         interfaces.eno1.wakeOnLan.enable = true;
         firewall.enable = true;
@@ -48,11 +54,17 @@ in {
 
       environment = {
         variables.QT_QPA_PLATFORMTHEME = "qt6ct";
-        systemPackages = with pkgs; [wol ethtool ntfs3g git wget];
+        systemPackages = with pkgs; [
+          wol
+          ethtool
+          ntfs3g
+          git
+          wget
+        ];
       };
     };
 
-    homeModule = {pkgs, ...}: {
+    homeModule = { pkgs, ... }: {
       noctalia.settings.bar.default.position = "top";
 
       features = {
@@ -73,17 +85,35 @@ in {
           };
 
           niri.extraBinds = {
-            "F10" = {spawn = mkNoctaliaNiri "volume-up";};
-            "F9" = {spawn = mkNoctaliaNiri "volume-down";};
-            "F5" = {spawn = mkNoctaliaNiri "volume-mute";};
+            "F10" = {
+              spawn = mkNoctaliaNiri "volume-up";
+            };
+            "F9" = {
+              spawn = mkNoctaliaNiri "volume-down";
+            };
+            "F5" = {
+              spawn = mkNoctaliaNiri "volume-mute";
+            };
 
-            "F7" = {spawn = mkNoctaliaNiri "media toggle";};
-            "F8" = {spawn = mkNoctaliaNiri "media next";};
-            "F6" = {spawn = mkNoctaliaNiri "media previous";};
+            "F7" = {
+              spawn = mkNoctaliaNiri "media toggle";
+            };
+            "F8" = {
+              spawn = mkNoctaliaNiri "media next";
+            };
+            "F6" = {
+              spawn = mkNoctaliaNiri "media previous";
+            };
 
-            "Mod+Shift+q" = {spawn = mkNoctaliaNiri "session lock";};
-            "Mod+n" = {spawn = mkNoctaliaNiri "panel-toggle launcher";};
-            "Mod+b" = {spawn = mkNoctaliaNiri "bar-toggle";};
+            "Mod+Shift+q" = {
+              spawn = mkNoctaliaNiri "session lock";
+            };
+            "Mod+n" = {
+              spawn = mkNoctaliaNiri "panel-toggle launcher";
+            };
+            "Mod+b" = {
+              spawn = mkNoctaliaNiri "bar-toggle";
+            };
           };
 
           hyprland.extraBinds = [
@@ -116,7 +146,7 @@ in {
 
       rum.programs.mpv = {
         enable = true;
-        scripts = [pkgs.mpvScripts.mpris];
+        scripts = [ pkgs.mpvScripts.mpris ];
         config = {
           vo = "gpu-next";
           gpu-api = "vulkan";

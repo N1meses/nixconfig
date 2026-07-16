@@ -1,5 +1,5 @@
 _: {
-  aspects.hardwareHermes.nixos = {lib, ...}: {
+  aspects.hardwareHermes.nixos = { lib, ... }: {
     boot.initrd.availableKernelModules = [
       "xhci_pci"
       "ehci_pci"
@@ -10,11 +10,11 @@ _: {
       "uas"
       "sd_mod"
     ];
-    boot.initrd.kernelModules = [];
-    boot.kernelModules = [];
-    boot.extraModulePackages = [];
+    boot.initrd.kernelModules = [ ];
+    boot.kernelModules = [ ];
+    boot.extraModulePackages = [ ];
 
-    swapDevices = [];
+    swapDevices = [ ];
 
     networking.useDHCP = lib.mkDefault true;
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

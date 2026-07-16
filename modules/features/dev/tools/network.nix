@@ -1,5 +1,8 @@
 _: {
-  aspects.network.home = {pkgs, ...}: {
-    packages = with pkgs; [httpie bandwhich];
+  aspects.network.home = { pkgs, ... }: {
+    packages = with pkgs; [
+      httpie
+      bandwhich
+    ];
   };
 }

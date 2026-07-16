@@ -1,5 +1,5 @@
 _: {
-  aspects.fastfetch.home = {config, ...}: {
+  aspects.fastfetch.home = { config, ... }: {
     rum.programs.fastfetch = {
       enable = true;
       settings = {

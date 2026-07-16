@@ -2,56 +2,61 @@
   config,
   inputs,
   ...
-}: {
-    aspects.mango = {
-      nixos = {...}: {
-        imports = [
-          inputs.mango.nixosModules.mango
-        ];
-        programs.mango.enable = true;
-      };
+}:
+{
+  aspects.mango = {
+    nixos = { ... }: {
+      imports = [
+        inputs.mango.nixosModules.mango
+      ];
+      programs.mango.enable = true;
+    };
 
-      home = {
+    home =
+      {
         lib,
         config,
         pkgs,
         ...
-      }: let
+      }:
+      let
         cfg = config.features.compositors.mango;
         c = config.features.compositors;
         toMango = hex: "0x${lib.removePrefix "#" hex}ff";
         scratchpadId = "${c.terminal.command}-scratchpad";
-        termArgs = lib.optionalString (c.terminal.args != []) " ${lib.concatStringsSep " " c.terminal.args}";
-        termClass = cls: cmd:
+        termArgs = lib.optionalString (
+          c.terminal.args != [ ]
+        ) " ${lib.concatStringsSep " " c.terminal.args}";
+        termClass =
+          cls: cmd:
           "${c.terminal.command}${termArgs} ${c.terminal.classFlag}=${cls}"
           + lib.optionalString (c.terminal.execFlag != "") " ${c.terminal.execFlag}"
           + " ${cmd}";
-      in {
+      in
+      {
         options.features.compositors.mango = {
           extraBinds = lib.mkOption {
             type = lib.types.listOf lib.types.str;
-            default = [];
+            default = [ ];
           };
         };
 
-        config = let
-          mangoLib = import "${inputs.mango}/nix/lib.nix" lib;
-          autostartText =
-            ''
+        config =
+          let
+            mangoLib = import "${inputs.mango}/nix/lib.nix" lib;
+            autostartText = ''
               ${pkgs.xwayland-satellite}/bin/xwayland-satellite &
               dbus-update-activation-environment --all
             ''
             + lib.concatMapStrings (cmd: "${cmd} &\n") c.autoStart;
-          settings = {
+            settings = {
               monitorrule = lib.optionals (c.monitors != null) (
                 lib.mapAttrsToList (
-                  name: m: "name:^${name}$,width:${toString m.resolution.width},height:${toString m.resolution.height},refresh:${toString m.refreshRate},x:${toString m.position.x},y:${toString m.position.y},scale:${toString m.scale},vrr:${
-                    if m.vrr.enable
-                    then "1"
-                    else "0"
+                  name: m:
+                  "name:^${name}$,width:${toString m.resolution.width},height:${toString m.resolution.height},refresh:${toString m.refreshRate},x:${toString m.position.x},y:${toString m.position.y},scale:${toString m.scale},vrr:${
+                    if m.vrr.enable then "1" else "0"
                   }"
-                )
-                c.monitors
+                ) c.monitors
               );
 
               focused_opacity = c.opacity.focused;
@@ -134,52 +139,51 @@
                 "SUPER,DOWN,focusdir,right"
               ];
 
-              bind =
-                [
-                  "SUPER,Return,spawn,${c.terminal.command}${termArgs}"
-                  "SUPER,Escape,quit"
-                  "SUPER,q,killclient"
-                  "SUPER,h,focusdir,left"
-                  "SUPER,j,focusdir,down"
-                  "SUPER,k,focusdir,up"
-                  "SUPER,l,focusdir,right"
-                  "SUPER+SHIFT,h,exchange_client,left"
-                  "SUPER+SHIFT,j,exchange_client,down"
-                  "SUPER+SHIFT,k,exchange_client,up"
-                  "SUPER+SHIFT,l,exchange_client,right"
-                  "SUPER+CTRL,h,resizewin,-50,+0"
-                  "SUPER+CTRL,j,resizewin,+0,+50"
-                  "SUPER+CTRL,k,resizewin,+0,-50"
-                  "SUPER+CTRL,l,resizewin,+50,+0"
-                  "SUPER+SHIFT,f,togglefullscreen"
-                  "SUPER,f,togglemaximizescreen"
-                  "SUPER,v,togglefloating"
-                  "SUPER,c,centerwin"
-                  "SUPER,o,toggleoverview"
-                  "SUPER,s,switch_layout"
-                  "SUPER,i,minimized"
-                  "SUPER+SHIFT,i,restore_minimized"
-                  "SUPER,1,view,1"
-                  "SUPER,2,view,2"
-                  "SUPER,3,view,3"
-                  "SUPER,4,view,4"
-                  "SUPER,5,view,5"
-                  "SUPER,6,view,6"
-                  "SUPER,7,view,7"
-                  "SUPER,8,view,8"
-                  "SUPER,9,view,9"
-                  "SUPER+SHIFT,1,tag,1"
-                  "SUPER+SHIFT,2,tag,2"
-                  "SUPER+SHIFT,3,tag,3"
-                  "SUPER+SHIFT,4,tag,4"
-                  "SUPER+SHIFT,5,tag,5"
-                  "SUPER+SHIFT,6,tag,6"
-                  "SUPER+SHIFT,7,tag,7"
-                  "SUPER+SHIFT,8,tag,8"
-                  "SUPER+SHIFT,9,tag,9"
-                  "SUPER,e,toggle_named_scratchpad,${scratchpadId},none,${termClass scratchpadId "yazi"}"
-                ]
-                ++ cfg.extraBinds;
+              bind = [
+                "SUPER,Return,spawn,${c.terminal.command}${termArgs}"
+                "SUPER,Escape,quit"
+                "SUPER,q,killclient"
+                "SUPER,h,focusdir,left"
+                "SUPER,j,focusdir,down"
+                "SUPER,k,focusdir,up"
+                "SUPER,l,focusdir,right"
+                "SUPER+SHIFT,h,exchange_client,left"
+                "SUPER+SHIFT,j,exchange_client,down"
+                "SUPER+SHIFT,k,exchange_client,up"
+                "SUPER+SHIFT,l,exchange_client,right"
+                "SUPER+CTRL,h,resizewin,-50,+0"
+                "SUPER+CTRL,j,resizewin,+0,+50"
+                "SUPER+CTRL,k,resizewin,+0,-50"
+                "SUPER+CTRL,l,resizewin,+50,+0"
+                "SUPER+SHIFT,f,togglefullscreen"
+                "SUPER,f,togglemaximizescreen"
+                "SUPER,v,togglefloating"
+                "SUPER,c,centerwin"
+                "SUPER,o,toggleoverview"
+                "SUPER,s,switch_layout"
+                "SUPER,i,minimized"
+                "SUPER+SHIFT,i,restore_minimized"
+                "SUPER,1,view,1"
+                "SUPER,2,view,2"
+                "SUPER,3,view,3"
+                "SUPER,4,view,4"
+                "SUPER,5,view,5"
+                "SUPER,6,view,6"
+                "SUPER,7,view,7"
+                "SUPER,8,view,8"
+                "SUPER,9,view,9"
+                "SUPER+SHIFT,1,tag,1"
+                "SUPER+SHIFT,2,tag,2"
+                "SUPER+SHIFT,3,tag,3"
+                "SUPER+SHIFT,4,tag,4"
+                "SUPER+SHIFT,5,tag,5"
+                "SUPER+SHIFT,6,tag,6"
+                "SUPER+SHIFT,7,tag,7"
+                "SUPER+SHIFT,8,tag,8"
+                "SUPER+SHIFT,9,tag,9"
+                "SUPER,e,toggle_named_scratchpad,${scratchpadId},none,${termClass scratchpadId "yazi"}"
+              ]
+              ++ cfg.extraBinds;
 
               env = [
                 "NIXOS_OZONE_WL,1"
@@ -194,35 +198,41 @@
                 "AWT_TOOLKIT,MToolkit"
                 "DISPLAY,:0"
               ];
-          };
-        in {
-          packages = [pkgs.xwayland-satellite];
-
-          features.portals.desktops.mango = {
-            extraPortals = with pkgs; [xdg-desktop-portal-wlr xdg-desktop-portal-gtk];
-            backendMap = {
-              default = "wlr;gtk";
-              "org.freedesktop.impl.portal.ScreenCast" = "wlr";
-              "org.freedesktop.impl.portal.Screenshot" = "wlr";
-              "org.freedesktop.impl.portal.Secret" = "gnome-keyring";
-              "org.freedesktop.impl.portal.Inhibit" = "gtk";
-              "org.freedesktop.impl.portal.Notification" = "gtk";
-              "org.freedesktop.impl.portal.Account" = "gtk";
-              "org.freedesktop.impl.portal.Background" = "gtk";
-              "org.freedesktop.impl.portal.Email" = "gtk";
-              "org.freedesktop.impl.portal.OpenURI" = "gtk";
-              "org.freedesktop.impl.portal.Print" = "gtk";
-              "org.freedesktop.impl.portal.AppChooser" = "gtk";
             };
-          };
+          in
+          {
+            packages = [ pkgs.xwayland-satellite ];
 
-          xdg.config.files."mango/config.conf".text =
-            mangoLib.toMango {} settings
-            + "\nexec-once=~/.config/mango/autostart.sh\n";
-          xdg.config.files."mango/autostart.sh".source =
-            pkgs.writeShellScript "mango-autostart" autostartText;
-        };
+            features.portals.desktops.mango = {
+              extraPortals = with pkgs; [
+                xdg-desktop-portal-wlr
+                xdg-desktop-portal-gtk
+              ];
+              backendMap = {
+                default = "wlr;gtk";
+                "org.freedesktop.impl.portal.ScreenCast" = "wlr";
+                "org.freedesktop.impl.portal.Screenshot" = "wlr";
+                "org.freedesktop.impl.portal.Secret" = "gnome-keyring";
+                "org.freedesktop.impl.portal.Inhibit" = "gtk";
+                "org.freedesktop.impl.portal.Notification" = "gtk";
+                "org.freedesktop.impl.portal.Account" = "gtk";
+                "org.freedesktop.impl.portal.Background" = "gtk";
+                "org.freedesktop.impl.portal.Email" = "gtk";
+                "org.freedesktop.impl.portal.OpenURI" = "gtk";
+                "org.freedesktop.impl.portal.Print" = "gtk";
+                "org.freedesktop.impl.portal.AppChooser" = "gtk";
+              };
+            };
+
+            xdg.config.files."mango/config.conf".text =
+              mangoLib.toMango { } settings + "\nexec-once=~/.config/mango/autostart.sh\n";
+            xdg.config.files."mango/autostart.sh".source =
+              pkgs.writeShellScript "mango-autostart" autostartText;
+          };
       };
-    };
-    aspects.mango.includes = with config.aspectLib.names; [compositors portalsHjem];
+  };
+  aspects.mango.includes = with config.aspectLib.names; [
+    compositors
+    portalsHjem
+  ];
 }

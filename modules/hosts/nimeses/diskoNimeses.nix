@@ -15,7 +15,7 @@ _: {
                   type = "filesystem";
                   format = "vfat";
                   mountpoint = "/boot";
-                  mountOptions = ["umask=0077"];
+                  mountOptions = [ "umask=0077" ];
                 };
               };
               root = {
@@ -23,7 +23,7 @@ _: {
                 content = {
                   type = "luks";
                   name = "crypted";
-                  extraOpenArgs = ["--allow-discards"];
+                  extraOpenArgs = [ "--allow-discards" ];
 
                   content = {
                     type = "filesystem";

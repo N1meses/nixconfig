@@ -1,9 +1,9 @@
-{config, ...}: {
+{ config, ... }: {
   registry.hosts.hephaistos = {
     username = "hephaistos";
     system = "x86_64-linux";
     stateVersion = "25.05";
-    extraGroups = ["plugdev"];
+    extraGroups = [ "plugdev" ];
     domain = "hephaistos.tail4109e2.ts.net";
     aspects = with config.aspectLib.names; [
       server
@@ -14,7 +14,7 @@
       fastfetch
     ];
 
-    nixosModule = {pkgs, ...}: {
+    nixosModule = { pkgs, ... }: {
       boot.kernelPackages = pkgs.linuxPackages_latest;
 
       environment.systemPackages = with pkgs; [
@@ -26,7 +26,7 @@
       ];
     };
 
-    homeModule = {pkgs, ...}: {
+    homeModule = { pkgs, ... }: {
       packages = with pkgs; [
         trash-cli
         nom

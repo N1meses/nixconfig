@@ -1,11 +1,11 @@
-{inputs, ...}: {
+{ inputs, ... }: {
   aspects.tailscale = {
     nixos = _: {
       services.tailscale.enable = true;
       services.tailscale.permitCertUid = "root";
-      networking.firewall.trustedInterfaces = ["tailscale0"];
+      networking.firewall.trustedInterfaces = [ "tailscale0" ];
     };
-    finix = {...}: {
+    finix = { ... }: {
       imports = [
         inputs.community-modules.nixosModules.tailscale
       ];

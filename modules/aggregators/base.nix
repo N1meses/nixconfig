@@ -1,4 +1,4 @@
-{config, ...}: {
+{ config, ... }: {
   aspects.base.includes = with config.aspectLib.names; [
     core
     shell

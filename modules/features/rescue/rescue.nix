@@ -1,6 +1,10 @@
 _: {
-  aspects.rescue.nixos = {pkgs, ...}: {
-    boot.supportedFilesystems = ["ntfs" "exfat" "zfs"];
+  aspects.rescue.nixos = { pkgs, ... }: {
+    boot.supportedFilesystems = [
+      "ntfs"
+      "exfat"
+      "zfs"
+    ];
 
     environment.systemPackages = with pkgs; [
       nixos-install-tools

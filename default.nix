@@ -5,19 +5,29 @@ let
   inherit (lib) hasPrefix;
   inherit (lib.fileset) toList fileFilter;
 
-  importTree = path:
-    toList (fileFilter (file: file.hasExt "nix" && !(hasPrefix "_" file.name)) path);
+  importTree = path: toList (fileFilter (file: file.hasExt "nix" && !(hasPrefix "_" file.name)) path);
 
   gitRev =
-    let e = builtins.tryEval (
-      let head = builtins.readFile ./.git/HEAD;
+    let
+      e = builtins.tryEval (
+        let
+          head = builtins.readFile ./.git/HEAD;
           m = builtins.match "ref: (.*[^\n])\n?" head;
-      in if m != null
-         then builtins.substring 0 40 (builtins.readFile (./.git + "/${builtins.head m}"))
-         else builtins.substring 0 40 head);
-    in if e.success then e.value else "dirty";
+        in
+        if m != null then
+          builtins.substring 0 40 (builtins.readFile (./.git + "/${builtins.head m}"))
+        else
+          builtins.substring 0 40 head
+      );
+    in
+    if e.success then e.value else "dirty";
 
-  inputs = tack // { self = { outPath = lib.cleanSource ./.; rev = gitRev; }; };
+  inputs = tack // {
+    self = {
+      outPath = lib.cleanSource ./.;
+      rev = gitRev;
+    };
+  };
 
   eval = nixpkgs.lib.evalModules {
     specialArgs = {
@@ -27,5 +37,4 @@ let
     modules = importTree ./modules;
   };
 in
-  eval.config
-
+eval.config

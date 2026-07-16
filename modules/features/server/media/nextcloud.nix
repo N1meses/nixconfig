@@ -1,11 +1,14 @@
-{config, ...}: {
-    aspects.nextcloud.nixos = {
+{ config, ... }: {
+  aspects.nextcloud.nixos =
+    {
       config,
       pkgs,
       ...
-    }: let
+    }:
+    let
       cfg = config.features.server;
-    in {
+    in
+    {
       services.nextcloud = {
         enable = true;
         package = pkgs.nextcloud33;
@@ -21,7 +24,7 @@
         };
 
         settings = {
-          trusted_proxies = ["127.0.0.1"];
+          trusted_proxies = [ "127.0.0.1" ];
           overwriteprotocol = "https";
           "overwrite.cli.url" = "https://nextcloud.${cfg.domain}";
         };
@@ -44,7 +47,10 @@
 
       services.postgresqlBackup = {
         enable = true;
-        databases = ["nextcloud" "authentik"];
+        databases = [
+          "nextcloud"
+          "authentik"
+        ];
         location = "/var/backup/postgresql";
         compression = "zstd";
         startAt = "*-*-* 02:00:00";
@@ -55,7 +61,11 @@
         "var/backup/postgresql"
       ];
 
-      users.users.nextcloud.extraGroups = ["media"];
+      users.users.nextcloud.extraGroups = [ "media" ];
     };
-    aspects.nextcloud.includes = with config.aspectLib.names; [nginx restic sops];
+  aspects.nextcloud.includes = with config.aspectLib.names; [
+    nginx
+    restic
+    sops
+  ];
 }

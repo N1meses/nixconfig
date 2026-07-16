@@ -1,8 +1,8 @@
 _: {
-  aspects.monitoring.nixos = {pkgs, ...}: {
+  aspects.monitoring.nixos = { pkgs, ... }: {
     services.netdata.enable = true;
-    services.netdata.package = pkgs.netdata.override {withCloudUi = true;};
+    services.netdata.package = pkgs.netdata.override { withCloudUi = true; };
     services.netdata.config.plugins."scripts.d" = "no";
-    networking.firewall.interfaces."tailscale0".allowedTCPPorts = [19999];
+    networking.firewall.interfaces."tailscale0".allowedTCPPorts = [ 19999 ];
   };
 }

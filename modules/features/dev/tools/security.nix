@@ -1,5 +1,5 @@
 _: {
-  aspects.security.home = {pkgs, ...}: {
+  aspects.security.home = { pkgs, ... }: {
     packages = with pkgs; [
       nmap
       netcat

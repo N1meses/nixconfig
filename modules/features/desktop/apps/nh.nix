@@ -1,16 +1,21 @@
-{config, ...}: let
+{ config, ... }:
+let
   flakeConfig = config;
-in {
-  aspects.nh.nixos = {config, ...}: let
-    host = flakeConfig.registry.hosts.${config.networking.hostName} or null;
-  in {
-    programs.nh = {
-      enable = true;
-      clean = {
+in
+{
+  aspects.nh.nixos =
+    { config, ... }:
+    let
+      host = flakeConfig.registry.hosts.${config.networking.hostName} or null;
+    in
+    {
+      programs.nh = {
         enable = true;
-        extraArgs = "all --keep-since 7d --keep 5";
+        clean = {
+          enable = true;
+          extraArgs = "all --keep-since 7d --keep 5";
+        };
+        #flake = "${host.homeDirectory}/nixconfig";
       };
-      #flake = "${host.homeDirectory}/nixconfig";
     };
-  };
 }

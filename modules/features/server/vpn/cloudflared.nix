@@ -1,16 +1,19 @@
-{config, ...}: {
-    aspects.cloudflared.nixos = {
+{ config, ... }: {
+  aspects.cloudflared.nixos =
+    {
       config,
       pkgs,
       lib,
       ...
-    }: let
+    }:
+    let
       cfg = config.features.server;
-    in {
+    in
+    {
       options = {
         features.server.cloudflared.publicHosts = lib.mkOption {
           type = lib.types.listOf lib.types.str;
-          default = [];
+          default = [ ];
           description = "nginx virtualHost names exposed publicly via the cloudflare tunnel on this host.";
         };
 
@@ -31,18 +34,19 @@
           };
         };
 
-        sops.secrets."cloudflare-tunnel" = {};
+        sops.secrets."cloudflare-tunnel" = { };
 
-        environment.systemPackages = [pkgs.cloudflared];
+        environment.systemPackages = [ pkgs.cloudflared ];
 
-        assertions =
-          map (h: {
-            assertion = config.services.nginx.virtualHosts ? ${h};
-            message = "cloudflared.publicHosts: \"${h}\" is not an nginx virtualHost on ${config.networking.hostName} (typo? service not enabled?)";
-          })
-          cfg.cloudflared.publicHosts;
+        assertions = map (h: {
+          assertion = config.services.nginx.virtualHosts ? ${h};
+          message = "cloudflared.publicHosts: \"${h}\" is not an nginx virtualHost on ${config.networking.hostName} (typo? service not enabled?)";
+        }) cfg.cloudflared.publicHosts;
       };
     };
 
-    aspects.cloudflared.includes = with config.aspectLib.names; [nginx sops];
+  aspects.cloudflared.includes = with config.aspectLib.names; [
+    nginx
+    sops
+  ];
 }

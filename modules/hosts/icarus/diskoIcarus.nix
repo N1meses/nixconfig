@@ -1,8 +1,12 @@
-{inputs, ...}: let
+{ inputs, ... }:
+let
   devices = {
     nodev."/" = {
       fsType = "tmpfs";
-      mountOptions = ["mode=0755" "size=25%"];
+      mountOptions = [
+        "mode=0755"
+        "size=25%"
+      ];
     };
     disk.icarus = {
       device = "/dev/nvme0n1";
@@ -17,7 +21,7 @@
               type = "filesystem";
               format = "vfat";
               mountpoint = "/boot";
-              mountOptions = ["umask=0077"];
+              mountOptions = [ "umask=0077" ];
             };
           };
           nix = {
@@ -46,16 +50,12 @@
       system = "x86_64-linux";
       modules = [
         inputs.disko.nixosModules.disko
-        {disko.devices = devices;}
+        { disko.devices = devices; }
       ];
-    })
-    .config
-    .disko
-    .devices
-    ._config
-    .fileSystems;
-in {
-  aspects.diskoIcarus.finix = {lib, ...}: {
+    }).config.disko.devices._config.fileSystems;
+in
+{
+  aspects.diskoIcarus.finix = { lib, ... }: {
     fileSystems = lib.mkMerge [
       fileSystems
       {
@@ -63,12 +63,16 @@ in {
         "/tmp" = {
           device = "tmpfs";
           fsType = "tmpfs";
-          options = ["nosuid" "nodev" "mode=1777"];
+          options = [
+            "nosuid"
+            "nodev"
+            "mode=1777"
+          ];
         };
         "/boot" = {
           device = lib.mkForce "/dev/nvme0n1p1";
           noCheck = true;
-          options = ["X-mount.mkdir"];
+          options = [ "X-mount.mkdir" ];
         };
       }
     ];
