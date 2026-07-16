@@ -7,6 +7,7 @@ _: {
       };
       services.blueman.enable = true;
     };
+
     finix = {
       modules,
       lib,

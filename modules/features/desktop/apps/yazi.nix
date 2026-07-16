@@ -63,8 +63,6 @@
           '';
         }
 
-        # the whole portal-based terminal file chooser — opt out per host with
-        # features.apps.yazi.terminalFilechooser.enable = false
         (lib.mkIf cfg.terminalFilechooser.enable {
           packages = with pkgs; [xdg-terminal-exec xdg-desktop-portal-termfilechooser];
 

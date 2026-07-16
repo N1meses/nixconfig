@@ -10,7 +10,7 @@ in {
         enable = true;
         extraArgs = "all --keep-since 7d --keep 5";
       };
-      flake = "${host.homeDirectory}/nixconfig";
+      #flake = "${host.homeDirectory}/nixconfig";
     };
   };
 }

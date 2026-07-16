@@ -43,7 +43,7 @@ in {
 
       users.users.nimeses.hashedPasswordFile = config.sops.secrets.nimeses-password.path;
 
-      boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
+      boot.kernelPackages = pkgs.linuxPackages_latest;
     };
 
     homeModule = {pkgs, ...}: {

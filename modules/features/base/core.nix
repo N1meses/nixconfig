@@ -98,8 +98,6 @@ in {
       };
     };
 
-    home = _: {};
-
     finix = {
       pkgs,
       lib,
