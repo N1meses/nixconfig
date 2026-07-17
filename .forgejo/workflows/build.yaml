@@ -14,6 +14,6 @@ jobs:
           mkdir -p "$roots"
           for chk in $(nix eval --file . checks --apply builtins.attrNames --json | jq -r '.[]'); do
             echo "::group::$chk"
-            nix-build --file . --attr "checks.$chk" -o "$roots/$chk"
+            nix-build . --attr "checks.$chk" -o "$roots/$chk"
             echo "::endgroup::"
           done
