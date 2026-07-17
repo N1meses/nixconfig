@@ -17,6 +17,7 @@
       diskoAtlas
       monitoring
       forgejo
+      binaryCache
       jellyfin
       authentik
       cloudflared

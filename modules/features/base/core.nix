@@ -8,6 +8,7 @@ let
     "https://hyprland.cachix.org"
     "https://attic.xuyh0120.win/lantian"
     "https://kopuz.cachix.org"
+    "http://atlas:5000"
   ];
 
   substitutersKeys = [
@@ -18,6 +19,7 @@ let
     "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
     "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
     "kopuz.cachix.org-1:J2X3AnAYhKTJW5S3aCLoA1ckonQXVNZMQvhZA0YAufw="
+    "atlas-1:nd8FMmgrkHr4YT5AvMZhWVqGYvKEKi+5Lw1/Eg1k1wE="
   ];
 
   nixSettings = {
