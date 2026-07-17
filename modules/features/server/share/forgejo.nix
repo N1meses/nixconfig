@@ -22,6 +22,7 @@
           service.ALLOW_ONLY_EXTERNAL_REGISTRATION = true;
           log.LEVEL = "Warn";
           picture.AVATAR_MAX_FILE_SIZE = 5242880;
+          actions.ENABLED = true;
         };
       };
 

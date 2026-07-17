@@ -1,0 +1,19 @@
+name: build-fleet
+on:
+  push:
+    branches: [main]
+jobs:
+  build:
+    runs-on: nix # matches the runner label `nix:host`
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build every host closure and root it (survives daily gc -d 7d)
+        run: |
+          set -euo pipefail
+          roots=/var/lib/gitea-runner/ci-roots   # runner StateDirectory subtree, writable by the runner uid
+          mkdir -p "$roots"
+          for chk in $(nix eval --file . checks --apply builtins.attrNames --json | jq -r '.[]'); do
+            echo "::group::$chk"
+            nix-build --file . --attr "checks.$chk" -o "$roots/$chk"
+            echo "::endgroup::"
+          done

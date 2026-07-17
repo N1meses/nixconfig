@@ -18,6 +18,7 @@
       monitoring
       forgejo
       binaryCache
+      forgejoRunner
       jellyfin
       authentik
       cloudflared
