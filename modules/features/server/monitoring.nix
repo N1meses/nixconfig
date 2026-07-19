@@ -1,6 +1,6 @@
 let
   parentHost = "athena";
-  parentDest = "athena.tail4109e2.ts.net:19999";
+  parentDest = "100.75.163.80:19999";
 in
 { config, ... }: {
   aspects.monitoring.nixos =
