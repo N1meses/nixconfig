@@ -12,6 +12,7 @@
       monitoring
       vaultwarden
       croc
+      technitium
       fastfetch
     ];
 
