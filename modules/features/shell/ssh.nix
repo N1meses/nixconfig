@@ -60,7 +60,7 @@ _: {
             user = mkDefault "prometheus";
           };
           forgejo = {
-            hostname = mkDefault "100.75.163.80";
+            hostname = mkDefault "100.68.232.99";
             user = mkDefault "forgejo";
             port = mkDefault 2222;
           };
