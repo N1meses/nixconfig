@@ -44,7 +44,7 @@ in
                   api key = ${config.sops.placeholder."netdata-stream-key"}
             '';
       };
-      services.netdata.configDir."stream.conf" = config.sops.templates."netdata-stream.conf".path;
+      environment.etc."netdata/stream.conf".source = config.sops.templates."netdata-stream.conf".path;
     };
   aspects.monitoring.includes = with config.aspectLib.names; [ sops ];
 }
