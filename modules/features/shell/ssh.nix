@@ -72,7 +72,7 @@ _: {
             hostname = "192.168.68.10";
             port = 2222;
             user = "root";
-            proxyJump = mkDefault "hephaistos";
+            proxyJump = mkDefault "athena";
           };
           atlas = {
             hostname = mkDefault "100.68.232.99";
