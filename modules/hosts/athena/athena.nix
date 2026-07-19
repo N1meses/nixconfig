@@ -5,40 +5,23 @@
     stateVersion = "25.05";
     extraGroups = [ "plugdev" ];
     hostId = "2e95e7c9";
-    domain = "nimeses.com";
+    domain = "athena.tail4109e2.ts.net";
     aspects = with config.aspectLib.names; [
       server
       hardwareAthena
       monitoring
-      forgejo
-      jellyfin
-      navidrome
-      authentik
-      cloudflared
-      matrix
-      element
-      nixarr
+      vaultwarden
+      croc
       fastfetch
     ];
 
     nixosModule =
       {
         pkgs,
-        config,
         ...
       }:
       {
-        features.server = {
-          allowedUsers = [ "athena" ];
-          cloudflared.publicHosts = map (h: "${h}.${config.features.server.domain}") [
-            "forgejo"
-            "jellyfin"
-            "navidrome"
-            "auth"
-            "matrix"
-            "element"
-          ];
-        };
+        features.server.allowedUsers = [ "athena" ];
 
         boot.kernelPackages = pkgs.linuxPackages_6_18;
 
