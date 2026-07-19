@@ -36,13 +36,6 @@ _: {
         ];
       };
 
-      swapDevices = [
-        {
-          device = "/var/swapfile";
-          size = 16 * 1024;
-        }
-      ];
-
       hardware.graphics = {
         enable = true;
         extraPackages = with pkgs; [ intel-media-driver ];
