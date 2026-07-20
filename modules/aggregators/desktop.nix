@@ -3,5 +3,6 @@
     services
     apps
     noctalia
+    session
   ];
 }

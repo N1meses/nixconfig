@@ -7,7 +7,6 @@ _: {
     }:
     {
       imports = [ modules.doas ];
-      services.seatd.enable = true;
       finit.runlevel = 3;
 
       services.dbus = {

@@ -13,20 +13,20 @@ in
     stateVersion = "25.11";
     aspects = with config.aspectLib.names; [
       base
+      desktop
+      niri
+      ly
+      laptop
+      sshd
       hardwareIcarus
       diskoIcarus
-      sshd
-      ly
-      session
-      laptop
-      persistence
+      devUdev
+      netNM
+      seatElogind
+      impermanence
     ];
 
     finixModule = { pkgs, ... }: {
-      imports = [
-        inputs.community-modules.nixosModules.preservation
-      ];
-
       programs.resolvconf.enable = true;
 
       users.users.icarus = {
@@ -49,18 +49,6 @@ in
           KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1050", GROUP="yubikey", MODE="0660"
         '')
       ];
-
-      preservation = {
-        enable = true;
-        preserveAt."/persist".directories = [
-          "/home"
-          "/var/lib/sshd"
-          "/var/lib/NetworkManager"
-          "/etc/NetworkManager/system-connections"
-          "/var/lib/dbus"
-          "/var/lib/tailscale"
-        ];
-      };
     };
 
     homeModule =

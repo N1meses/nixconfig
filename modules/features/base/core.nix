@@ -126,7 +126,6 @@ in
         imports = [
           modules.limine
           modules.getty
-          modules.networkmanager
           modules.polkit
           modules.chronyd
           modules.cron
@@ -137,10 +136,6 @@ in
 
         services.chrony.enable = true;
 
-        services.udev = {
-          enable = true;
-        };
-
         services.polkit.enable = true;
 
         finit.services.syslogd = lib.mkDefault {
@@ -150,7 +145,7 @@ in
         };
 
         boot = {
-          kernelPackages = pkgs.linuxPackages_latest;
+          kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
 
           loader = {
             efi.canTouchEfiVariables = true;
@@ -189,8 +184,6 @@ in
             }
           ];
         };
-
-        services.networkmanager.enable = true;
 
         environment.systemPackages = with pkgs; [
           git
