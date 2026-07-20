@@ -6,45 +6,80 @@
   ...
 }:
 let
+  hosts = config.registry.hosts;
   finixModules = config.aspectLib.finixModules;
-
-  aspectsFor = aspects: map (n: finixModules.${n}) (lib.filter (n: finixModules ? ${n}) aspects);
+  aspectsFor = config.aspectLib.aspectsFor;
+  resolveAspects = config.aspectLib.resolveAspects;
+  mkHomeModules = config.aspectLib.mkHomeModules;
 
   testLib = import "${inputs.finix}/tests/lib" {
     inherit (pkgs) lib;
     inherit pkgs;
   };
 
-  pwHash = "$6$If7oQG5J2MpI2v.T$RpwZ8z.uJyvGyky4gKzanEhOUTCzpdSZQC/UuoiRvB.FwH3WPs.fKmbhk
-  RfL8nmhCnn55qZjG8RzFcJbOePKH/";
+  fleetFor =
+    layer: self: map (f: f.${layer}) (builtins.attrValues (removeAttrs config.fleet [ self ]));
 
-  vmNode = {
-    imports = aspectsFor [
-      "core"
-      "session"
-      "greetd"
-      "niri"
-      "fonts"
-      "mkVM"
+  isDiskLayer =
+    n:
+    lib.hasPrefix "disko" n
+    || lib.hasPrefix "hardware" n
+    || lib.elem n [
+      "impermanence"
+      "luks"
     ];
-    services.udev.enable = lib.mkForce false;
-    users.users.icarus = {
-      isNormalUser = true;
-      extraGroups = [
-        "wheel"
-        "seat"
-      ];
-      password = pwHash;
+
+  vmAspectNames =
+    host:
+    lib.filter (n: !isDiskLayer n) (
+      resolveAspects (host.aspects ++ lib.concatMap (u: config.registry.users.${u}.aspects) host.users)
+    );
+
+  homeModule =
+    name: host:
+    {
+      hjem.extraModules = [ inputs.hjem-rum.hjemModules.default ];
+      hjem.users = lib.genAttrs host.users (uname: {
+        enable = true;
+        imports = [
+          (mkHomeModules {
+            inherit host;
+            user = config.registry.users.${uname};
+          })
+        ]
+        ++ fleetFor "home" name;
+      });
+    }
+    // lib.optionalAttrs (host.domain != "") {
+      features.server.domain = host.domain;
     };
-    users.users.root.password = pwHash;
+
+  vmNode = name: host: {
+    imports = [
+      host.finixModule
+    ]
+    ++ aspectsFor finixModules (vmAspectNames host)
+    ++ [
+      inputs.hjem.finixModules.default
+      (homeModule name host)
+      finixModules.mkVM
+    ]
+    ++ fleetFor "finix" name;
   };
-in
-{
-  packages.vm-icarus =
+
+  mkHostVm =
+    name: host:
     (testLib.mkTest {
-      name = "icarus-vm";
-      nodes.machine = vmNode;
+      name = "${name}-vm";
+      nodes.machine = vmNode name host;
       testScript = "start_all()";
       extraDriverArgs = [ "--interactive" ];
     }).driverInteractive;
+
+  finixHosts = lib.filterAttrs (_: host: host.finixModule != null) hosts;
+in
+{
+  packages = lib.mapAttrs' (
+    name: host: lib.nameValuePair "vm-${name}" (mkHostVm name host)
+  ) finixHosts;
 }

@@ -30,7 +30,7 @@ _: {
       };
     };
 
-    finix.mkVM =
+    finix =
       {
         pkgs,
         lib,
@@ -54,7 +54,6 @@ _: {
           ];
         };
         testing.graphics.enable = true;
-        services.mdevd.enable = true;
       };
   };
 }
