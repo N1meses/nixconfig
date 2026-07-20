@@ -9,6 +9,7 @@ in
 {
   registry.hosts.icarus = {
     username = "icarus";
+    users = with config.registry.userNames; [ icarus ];
     system = "x86_64-linux";
     stateVersion = "25.11";
     aspects = with config.aspectLib.names; [

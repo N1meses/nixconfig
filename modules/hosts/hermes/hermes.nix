@@ -9,6 +9,7 @@ in
 {
   registry.hosts.hermes = {
     username = "hermes";
+    users = with config.registry.userNames; [ hermes ];
     system = "x86_64-linux";
     stateVersion = "25.11";
     extraGroups = [

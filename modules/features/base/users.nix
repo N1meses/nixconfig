@@ -18,23 +18,26 @@ in
             hostname = config.networking.hostName;
             host = flakeConfig.registry.hosts.${hostname} or null;
             ifTheyExist = gs: builtins.filter (g: builtins.hasAttr g config.users.groups) gs;
+            mkUser =
+              uname:
+              let
+                u = flakeConfig.registry.users.${uname};
+              in
+              {
+                isNormalUser = true;
+                shell = pkgs.zsh;
+                extraGroups = ifTheyExist (
+                  [
+                    "wheel"
+                    "networkmanager"
+                  ]
+                  ++ host.extraGroups
+                  ++ u.extraGroups
+                );
+                openssh.authorizedKeys.keys = u.keys;
+              };
           in
-          lib.mkIf (host != null) {
-            ${host.username} = {
-              isNormalUser = true;
-              shell = pkgs.zsh;
-              extraGroups = ifTheyExist (
-                [
-                  "wheel"
-                  "networkmanager"
-                ]
-                ++ host.extraGroups
-              );
-              openssh.authorizedKeys.keys = map builtins.readFile (
-                lib.filesystem.listFilesRecursive ./super/keys
-              );
-            };
-          };
+          lib.mkIf (host != null) (lib.genAttrs host.users mkUser);
       };
 
     finix =
@@ -50,20 +53,25 @@ in
             hostname = config.networking.hostName;
             host = flakeConfig.registry.hosts.${hostname} or null;
             ifTheyExist = gs: builtins.filter (g: builtins.hasAttr g config.users.groups) gs;
+            mkUser =
+              uname:
+              let
+                u = flakeConfig.registry.users.${uname};
+              in
+              {
+                isNormalUser = true;
+                shell = pkgs.zsh;
+                extraGroups = ifTheyExist (
+                  [
+                    "wheel"
+                    "networkmanager"
+                  ]
+                  ++ host.extraGroups
+                  ++ u.extraGroups
+                );
+              };
           in
-          lib.mkIf (host != null) {
-            ${host.username} = {
-              isNormalUser = true;
-              shell = pkgs.zsh;
-              extraGroups = ifTheyExist (
-                [
-                  "wheel"
-                  "networkmanager"
-                ]
-                ++ host.extraGroups
-              );
-            };
-          };
+          lib.mkIf (host != null) (lib.genAttrs host.users mkUser);
       };
   };
 }

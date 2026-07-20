@@ -2,7 +2,6 @@
   inputs,
   config,
   lib,
-  pkgs,
   ...
 }:
 let
@@ -12,7 +11,11 @@ let
   mkHomeModules = config.aspectLib.mkHomeModules;
 
   fleetFor =
-    layer: self: map (f: f.${layer}) (builtins.attrValues (builtins.removeAttrs config.fleet [ self ]));
+    layer: self: map (f: f.${layer}) (builtins.attrValues (removeAttrs config.fleet [ self ]));
+
+  systemAspectNames =
+    host:
+    resolveAspects (host.aspects ++ lib.concatMap (u: config.registry.users.${u}.aspects) host.users);
 
   commonModule =
     name: host:
@@ -20,16 +23,16 @@ let
       networking.hostName = name;
       networking.hostId = lib.mkIf (host.hostId != "") host.hostId;
       hjem.extraModules = [ inputs.hjem-rum.hjemModules.default ];
-      hjem.users.${host.username} = lib.mkIf (host.homeModule != null) {
+      hjem.users = lib.genAttrs host.users (uname: {
         enable = true;
         imports = [
           (mkHomeModules {
             inherit host;
-            inherit (host) homeModule;
+            user = config.registry.users.${uname};
           })
         ]
         ++ fleetFor "home" name;
-      };
+      });
     }
     // lib.optionalAttrs (host.domain != "") {
       features.server.domain = host.domain;
@@ -109,7 +112,7 @@ let
         modules = [
           (cls.select host)
         ]
-        ++ aspectsFor cls.moduleSet (resolveAspects host.aspects)
+        ++ aspectsFor cls.moduleSet (systemAspectNames host)
         ++ [
           cls.hmModule
           (commonModule name host)

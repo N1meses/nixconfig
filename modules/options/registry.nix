@@ -6,9 +6,50 @@
 let
   t = lib.types;
   aspectNames = builtins.attrNames config.aspects;
+  userNames = builtins.attrNames config.registry.users;
 in
 {
   options.registry = {
+    users = lib.mkOption {
+      default = { };
+      description = "Portable first-class user accounts, subscribed by hosts via hosts.<h>.users.";
+      type = t.attrsOf (
+        t.submodule {
+          options = {
+            aspects = lib.mkOption {
+              type = t.listOf (t.enum aspectNames);
+              default = [ ];
+              description = ''
+                Home-env aspects for this user; .home applies to the user,
+                .nixos/.finix ride to any host it is subscribed on.
+              '';
+            };
+            extraGroups = lib.mkOption {
+              type = t.listOf t.str;
+              default = [ ];
+              description = "Role/persona groups that follow this account.";
+            };
+            keys = lib.mkOption {
+              type = t.listOf t.str;
+              default = [ ];
+              description = "Authorized ssh public keys for this account.";
+            };
+            homeModule = lib.mkOption {
+              type = t.nullOr t.deferredModule;
+              default = null;
+            };
+          };
+        }
+      );
+    };
+
+    userNames = lib.mkOption {
+      type = t.attrsOf t.str;
+      readOnly = true;
+      default = lib.genAttrs userNames (n: n);
+      description = "Identity map of user names for `with config.registry.userNames;`.";
+    };
+
     hosts = lib.mkOption {
       type = t.attrsOf (
         t.submodule (
@@ -17,6 +58,12 @@ in
               username = lib.mkOption {
                 type = t.str;
                 description = "primary user for this host";
+              };
+
+              users = lib.mkOption {
+                type = t.listOf (t.enum userNames);
+                default = [ ];
+                description = "User accounts subscribed on this host.";
               };
 
               extraGroups = lib.mkOption {

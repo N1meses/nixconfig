@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, lib, ... }:
 let
   homeModules = config.aspectLib.homeModules;
   aspectsFor = config.aspectLib.aspectsFor;
@@ -8,13 +8,13 @@ in
   aspectLib.mkHomeModules =
     {
       host,
-      homeModule,
+      user,
     }:
     {
-      imports = [
-        homeModule
-      ]
-      ++ (aspectsFor homeModules (resolveAspects host.aspects));
+      imports =
+        lib.optional (user.homeModule != null) user.homeModule
+        ++ lib.optional (host.homeModule != null) host.homeModule
+        ++ aspectsFor homeModules (resolveAspects user.aspects);
 
       rum.programs.git = {
         enable = true;

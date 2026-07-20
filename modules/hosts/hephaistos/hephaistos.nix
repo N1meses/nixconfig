@@ -1,6 +1,7 @@
 { config, ... }: {
   registry.hosts.hephaistos = {
     username = "hephaistos";
+    users = with config.registry.userNames; [ hephaistos ];
     system = "x86_64-linux";
     stateVersion = "25.05";
     extraGroups = [ "plugdev" ];

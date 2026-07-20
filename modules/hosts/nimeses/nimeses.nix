@@ -9,6 +9,7 @@ in
 {
   registry.hosts.nimeses = {
     username = "nimeses";
+    users = with config.registry.userNames; [ nimeses ];
     system = "x86_64-linux";
     stateVersion = "25.11";
     extraGroups = [
