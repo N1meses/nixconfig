@@ -9,26 +9,16 @@ in
     system = "x86_64-linux";
     stateVersion = "25.05";
     homeDirectory = "/home/prometheus";
-    extraGroups = [
-      "gamemode"
-      "libvirtd"
-      "kvm"
-    ];
+    extraGroups = [ ];
     aspects = with config.aspectLib.names; [
-      workstation
+      base
+      ly
+      nixIndex
       hardwarePrometheus
       cachyosKernel
-      hyprland
       gaming
       performance
       virtualisation
-      c
-      python
-      rust
-      markdown
-      cli
-      build
-      direnv
     ];
 
     nixosModule = { pkgs, ... }: {
@@ -159,25 +149,6 @@ in
           hwdec = "auto-copy";
         };
       };
-
-      packages = with pkgs; [
-        btop
-        croc
-        trash-cli
-        grim
-        nom
-        nvd
-        nix-tree
-        adw-gtk3
-        nwg-look
-        gnome-themes-extra
-        file-roller
-        claude-code
-        ckb-next
-        element-desktop
-        jellyfin-mpv-shim
-        gparted
-      ];
     };
   };
 }

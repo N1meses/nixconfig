@@ -23,14 +23,8 @@ in
       impermanenceHermes
       cachyosKernel
       rescue
-      services
-      niri
-      noctalia
       ly
       nh
-      foot
-      yazi
-      browser
     ];
 
     nixosModule = { lib, ... }: {
@@ -66,7 +60,6 @@ in
 
     homeModule =
       {
-        pkgs,
         lib,
         ...
       }:
@@ -92,12 +85,6 @@ in
             spawn = mkNoctaliaNiri "bar-toggle";
           };
         };
-
-        packages = with pkgs; [
-          btop
-          claude-code
-          sops
-        ];
       };
   };
 }

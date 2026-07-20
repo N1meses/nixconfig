@@ -11,24 +11,16 @@ in
     users = with config.registry.userNames; [ nimeses ];
     system = "x86_64-linux";
     stateVersion = "25.11";
-    extraGroups = [
-      "libvirtd"
-      "kvm"
-    ];
+    extraGroups = [ ];
     aspects = with config.aspectLib.names; [
-      workstation
+      base
+      ly
+      nixIndex
       diskoNimeses
       hardwareNimeses
       cachyosKernel
       laptop
       airvpn
-      python
-      c
-      rust
-      markdown
-      direnv
-      cli
-      music
       sops
     ];
 
@@ -116,20 +108,6 @@ in
           };
         };
       };
-
-      packages = with pkgs; [
-        antigravity-cli
-        claude-code
-        vesktop
-        element-desktop
-        sops
-        obsidian
-        tor-browser
-        mpv
-        nicotine-plus
-        rmpc
-        inputs.deploy-rs.packages.${pkgs.stdenv.hostPlatform.system}.default
-      ];
     };
   };
 }

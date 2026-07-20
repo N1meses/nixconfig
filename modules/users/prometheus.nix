@@ -1,23 +1,46 @@
 { config, lib, ... }:
 {
   registry.users.prometheus = {
-    extraGroups = [ ];
+    extraGroups = [
+      "gamemode"
+      "libvirtd"
+      "kvm"
+    ];
     keys = map builtins.readFile (lib.filesystem.listFilesRecursive ../features/base/super/keys);
     aspects = with config.aspectLib.names; [
-      workstation
-      hardwarePrometheus
-      cachyosKernel
+      cliEnv
+      desktop
+      niri
       hyprland
-      gaming
-      performance
-      virtualisation
+      nix
+      zed
+      kitty
       c
       python
       rust
       markdown
-      cli
       build
       direnv
     ];
+    homeModule = { pkgs, ... }: {
+      packages = with pkgs; [
+        btop
+        croc
+        trash-cli
+        grim
+        nom
+        nvd
+        nix-tree
+        adw-gtk3
+        nwg-look
+        gnome-themes-extra
+        file-roller
+        claude-code
+        ckb-next
+        element-desktop
+        jellyfin-mpv-shim
+        gparted
+      ];
+    };
   };
 }

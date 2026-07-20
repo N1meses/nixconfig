@@ -7,13 +7,15 @@
     hostId = "2e95e7c9";
     domain = "athena.tail4109e2.ts.net";
     aspects = with config.aspectLib.names; [
-      server
+      base
+      serverCore
+      sshd
+      nh
       hardwareAthena
       monitoring
       vaultwarden
       croc
       technitium
-      fastfetch
     ];
 
     nixosModule =
@@ -37,16 +39,7 @@
         ];
       };
 
-    homeModule = { pkgs, ... }: {
-      packages = with pkgs; [
-        trash-cli
-        nom
-        nvd
-        nix-tree
-        tldr
-        ani-cli
-      ];
-
+    homeModule = { ... }: {
       rum.programs.helix.settings.editor.clipboard-provider = "termcode";
     };
   };

@@ -1,8 +1,4 @@
-{ config, ... }:
-let
-  flakeConfig = config;
-in
-{
+{ config, ... }: {
   aspects.services = {
     nixos = { ... }: {
       imports = with config.aspectLib.nixosModules; [
@@ -23,7 +19,6 @@ in
     finix = { ... }: {
       imports = with config.aspectLib.finixModules; [
         fonts
-        ly
         audio
         bluetooth
       ];

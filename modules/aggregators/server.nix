@@ -1,11 +1,17 @@
 { config, ... }: {
-  aspects.server.includes = with config.aspectLib.names; [
-    base
-    serverCore
-    sshd
-    git
-    network
-    nh
-    yazi
-  ];
+
+  aspects.server = {
+    home = {
+      features.apps.yazi.terminalFilechooser = false;
+    };
+
+    includes = with config.aspectLib.names; [
+      base
+      cliEnv
+      serverCore
+      sshd
+      network
+      nh
+    ];
+  };
 }

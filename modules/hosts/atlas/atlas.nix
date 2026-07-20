@@ -12,7 +12,10 @@
     hostId = "32947ba6";
     domain = "nimeses.com";
     aspects = with config.aspectLib.names; [
-      server
+      base
+      serverCore
+      sshd
+      nh
       hardwareAtlas
       diskoAtlas
       monitoring
@@ -26,7 +29,6 @@
       element
       nixarr
       ocis
-      fastfetch
     ];
 
     nixosModule =
@@ -108,19 +110,7 @@
         ];
       };
 
-    homeModule = { pkgs, ... }: {
-      packages = with pkgs; [
-        trash-cli
-        nom
-        nvd
-        nix-tree
-        tldr
-        ani-cli
-        btop
-        zellij
-        speedtest-cli
-      ];
-
+    homeModule = { ... }: {
       rum.programs.helix.settings.editor.clipboard-provider = "termcode";
       ssh.matchBlocks."*".identityFile = [ "~/.ssh/id_ed25519" ];
     };

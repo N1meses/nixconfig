@@ -1,10 +1,10 @@
 { config, ... }: {
   aspects.workstation.includes = with config.aspectLib.names; [
     base
+    cliEnv
     desktop
     niri
     ly
-    git
     nix
     nixIndex
     zed

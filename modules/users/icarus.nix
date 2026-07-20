@@ -4,21 +4,20 @@
     extraGroups = [ ];
     keys = map builtins.readFile (lib.filesystem.listFilesRecursive ../features/base/super/keys);
     aspects = with config.aspectLib.names; [
-      hardwareIcarus
-      diskoIcarus
-      sshd
-      base
+      cliEnv
       niri
-      ly
-      users
-      session
-      nix
       desktop
+      nix
       ssh
       foot
-      laptop
-      persistence
       zed
     ];
+    homeModule = { pkgs, ... }: {
+      packages = with pkgs; [
+        btop
+        yubikey-manager
+        claude-code
+      ];
+    };
   };
 }

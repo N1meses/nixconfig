@@ -12,21 +12,14 @@ in
     system = "x86_64-linux";
     stateVersion = "25.11";
     aspects = with config.aspectLib.names; [
+      base
       hardwareIcarus
       diskoIcarus
       sshd
-      base
-      niri
       ly
-      users
       session
-      nix
-      desktop
-      ssh
-      foot
       laptop
       persistence
-      zed
     ];
 
     finixModule = { pkgs, ... }: {
@@ -72,7 +65,6 @@ in
 
     homeModule =
       {
-        pkgs,
         lib,
         ...
       }:
@@ -139,12 +131,6 @@ in
             "pipewire 2>&1 & sleep 0.5; wireplumber 2>&1 & sleep 0.5; pipewire-pulse 2>&1 &"
           ];
         };
-
-        packages = with pkgs; [
-          btop
-          yubikey-manager
-          claude-code
-        ];
       };
   };
 }

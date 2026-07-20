@@ -4,20 +4,20 @@
     extraGroups = [ ];
     keys = map builtins.readFile (lib.filesystem.listFilesRecursive ../features/base/super/keys);
     aspects = with config.aspectLib.names; [
-      base
-      hardwareHermes
-      diskoHermes
-      impermanenceHermes
-      cachyosKernel
-      rescue
+      cliEnv
       services
       niri
       noctalia
-      ly
-      nh
       foot
       yazi
       browser
     ];
+    homeModule = { pkgs, ... }: {
+      packages = with pkgs; [
+        btop
+        claude-code
+        sops
+      ];
+    };
   };
 }

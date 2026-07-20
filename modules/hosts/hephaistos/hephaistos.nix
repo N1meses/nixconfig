@@ -6,12 +6,13 @@
     extraGroups = [ "plugdev" ];
     domain = "hephaistos.tail4109e2.ts.net";
     aspects = with config.aspectLib.names; [
-      server
+      base
+      serverCore
+      sshd
+      nh
       hardwareHephaistos
       vaultwarden
       croc
-      nix
-      fastfetch
     ];
 
     nixosModule = { pkgs, ... }: {
@@ -26,14 +27,7 @@
       ];
     };
 
-    homeModule = { pkgs, ... }: {
-      packages = with pkgs; [
-        trash-cli
-        nom
-        nvd
-        nix-tree
-        tldr
-      ];
+    homeModule = { ... }: {
       rum.programs.helix.settings.editor.clipboard-provider = "termcode";
     };
   };
