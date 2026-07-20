@@ -12,7 +12,7 @@
       "ControlPath=none"
     ];
     profiles.system = {
-      sshUser = host.username;
+      sshUser = name;
       user = "root";
       interactiveSudo = true;
       path = inputs.deploy-rs.lib.${host.system}.activate.nixos config.nixosConfigurations.${name};

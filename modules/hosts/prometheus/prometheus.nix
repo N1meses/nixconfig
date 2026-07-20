@@ -5,7 +5,6 @@ let
 in
 {
   registry.hosts.prometheus = {
-    username = "prometheus";
     users = with config.registry.userNames; [ prometheus ];
     system = "x86_64-linux";
     stateVersion = "25.05";

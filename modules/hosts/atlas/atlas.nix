@@ -5,7 +5,6 @@
 }:
 {
   registry.hosts.atlas = {
-    username = "atlas";
     users = with config.registry.userNames; [ atlas ];
     system = "x86_64-linux";
     stateVersion = "25.05";

@@ -53,13 +53,8 @@ in
     hosts = lib.mkOption {
       type = t.attrsOf (
         t.submodule (
-          { config, ... }: {
+          { name, ... }: {
             options = {
-              username = lib.mkOption {
-                type = t.str;
-                description = "primary user for this host";
-              };
-
               users = lib.mkOption {
                 type = t.listOf (t.enum userNames);
                 default = [ ];
@@ -102,7 +97,7 @@ in
 
               homeDirectory = lib.mkOption {
                 type = t.str;
-                default = "/home/${config.username}";
+                default = "/home/${name}";
                 description = "path to home directory";
               };
 

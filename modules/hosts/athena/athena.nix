@@ -1,6 +1,5 @@
 { config, ... }: {
   registry.hosts.athena = {
-    username = "athena";
     users = with config.registry.userNames; [ athena ];
     system = "x86_64-linux";
     stateVersion = "25.05";
