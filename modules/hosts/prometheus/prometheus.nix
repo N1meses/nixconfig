@@ -151,4 +151,9 @@ in
       };
     };
   };
+
+  fleet.prometheus.home.ssh.matchBlocks.prometheus = {
+    hostname = "100.93.27.90";
+    user = "prometheus";
+  };
 }

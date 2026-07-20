@@ -113,6 +113,39 @@
     homeModule = { ... }: {
       rum.programs.helix.settings.editor.clipboard-provider = "termcode";
       ssh.matchBlocks."*".identityFile = [ "~/.ssh/id_ed25519" ];
+      ssh.matchBlocks.forgejo = {
+        hostname = "100.68.232.99";
+        user = "forgejo";
+        port = 2222;
+      };
+    };
+  };
+
+  fleet.atlas = {
+    nixos.nix.settings = {
+      substituters = [ "http://atlas:5000" ];
+      trusted-public-keys = [ "atlas-1:nd8FMmgrkHr4YT5AvMZhWVqGYvKEKi+5Lw1/Eg1k1wE=" ];
+    };
+    finix.services.nix-daemon.settings = {
+      substituters = [ "http://atlas:5000" ];
+      trusted-public-keys = [ "atlas-1:nd8FMmgrkHr4YT5AvMZhWVqGYvKEKi+5Lw1/Eg1k1wE=" ];
+    };
+    home.ssh.matchBlocks = {
+      atlas = {
+        hostname = "100.68.232.99";
+        user = "atlas";
+      };
+      forgejo = {
+        hostname = "100.68.232.99";
+        user = "forgejo";
+        port = 2222;
+      };
+      "atlas-unlock" = {
+        hostname = "192.168.68.10";
+        port = 2222;
+        user = "root";
+        proxyJump = "athena";
+      };
     };
   };
 }

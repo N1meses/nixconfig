@@ -43,4 +43,9 @@
       rum.programs.helix.settings.editor.clipboard-provider = "termcode";
     };
   };
+
+  fleet.athena.home.ssh.matchBlocks.athena = {
+    hostname = "100.75.163.80";
+    user = "athena";
+  };
 }

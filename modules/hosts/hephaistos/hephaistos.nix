@@ -31,4 +31,9 @@
       rum.programs.helix.settings.editor.clipboard-provider = "termcode";
     };
   };
+
+  fleet.hephaistos.home.ssh.matchBlocks.hephaistos = {
+    hostname = "100.127.108.44";
+    user = "hephaistos";
+  };
 }

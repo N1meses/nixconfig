@@ -51,33 +51,6 @@ _: {
             controlPath = "~/.ssh/cm-%r@%h:%p";
             controlPersist = "10m";
           };
-          hephaistos = {
-            hostname = mkDefault "100.127.108.44";
-            user = mkDefault "hephaistos";
-          };
-          prometheus = {
-            hostname = mkDefault "100.93.27.90";
-            user = mkDefault "prometheus";
-          };
-          forgejo = {
-            hostname = mkDefault "100.68.232.99";
-            user = mkDefault "forgejo";
-            port = mkDefault 2222;
-          };
-          athena = {
-            hostname = mkDefault "100.75.163.80";
-            user = mkDefault "athena";
-          };
-          "atlas-unlock" = {
-            hostname = "192.168.68.10";
-            port = 2222;
-            user = "root";
-            proxyJump = mkDefault "athena";
-          };
-          atlas = {
-            hostname = mkDefault "100.68.232.99";
-            user = mkDefault "atlas";
-          };
         };
 
         files.".ssh/config".text = concatStrings (mapAttrsToList toBlock config.ssh.matchBlocks);
