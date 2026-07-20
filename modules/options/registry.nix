@@ -32,7 +32,34 @@ in
             keys = lib.mkOption {
               type = t.listOf t.str;
               default = [ ];
-              description = "Authorized ssh public keys for this account.";
+              description = "Authorized ssh public keys for this account (nixos hosts only — finix has no per-user openssh.authorizedKeys).";
+            };
+            uid = lib.mkOption {
+              type = t.nullOr t.int;
+              default = null;
+              description = "Stable uid; keeps /persist home ownership consistent across hosts and reinstalls.";
+            };
+            hashedPassword = lib.mkOption {
+              type = t.nullOr t.str;
+              default = null;
+              description = "Hashed password (mkpasswd -m sha-512). Applied as hashedPassword on nixos, password on finix.";
+            };
+            hashedPasswordFile = lib.mkOption {
+              type = t.nullOr t.str;
+              default = null;
+              description = "Path to a file holding the hashed password (e.g. a sops secret). nixos→hashedPasswordFile, finix→passwordFile.";
+            };
+            git = {
+              name = lib.mkOption {
+                type = t.str;
+                default = "N1meses";
+                description = "Git author name for this user's commits.";
+              };
+              email = lib.mkOption {
+                type = t.str;
+                default = "nilshasenthal@gmail.com";
+                description = "Git author email for this user's commits.";
+              };
             };
             homeModule = lib.mkOption {
               type = t.nullOr t.deferredModule;
@@ -114,17 +141,6 @@ in
                   modules build their vhosts from it (e.g. "matrix.''${domain}").
                   athena uses a public domain; hephaistos uses its tailnet FQDN.
                 '';
-              };
-
-              git = {
-                name = lib.mkOption {
-                  type = t.str;
-                  default = "N1meses";
-                };
-                email = lib.mkOption {
-                  type = t.str;
-                  default = "nilshasenthal@gmail.com";
-                };
               };
 
               nixosModule = lib.mkOption {

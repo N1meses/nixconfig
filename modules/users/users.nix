@@ -35,7 +35,10 @@ in
                   ++ u.extraGroups
                 );
                 openssh.authorizedKeys.keys = u.keys;
-              };
+              }
+              // lib.optionalAttrs (u.uid != null) { uid = u.uid; }
+              // lib.optionalAttrs (u.hashedPassword != null) { hashedPassword = u.hashedPassword; }
+              // lib.optionalAttrs (u.hashedPasswordFile != null) { hashedPasswordFile = u.hashedPasswordFile; };
           in
           lib.mkIf (host != null) (lib.genAttrs host.users mkUser);
       };
@@ -69,7 +72,10 @@ in
                   ++ host.extraGroups
                   ++ u.extraGroups
                 );
-              };
+              }
+              // lib.optionalAttrs (u.uid != null) { uid = u.uid; }
+              // lib.optionalAttrs (u.hashedPassword != null) { password = u.hashedPassword; }
+              // lib.optionalAttrs (u.hashedPasswordFile != null) { passwordFile = u.hashedPasswordFile; };
           in
           lib.mkIf (host != null) (lib.genAttrs host.users mkUser);
       };

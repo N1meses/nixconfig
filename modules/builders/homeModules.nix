@@ -19,8 +19,8 @@ in
       rum.programs.git = {
         enable = true;
         settings.user = {
-          name = host.git.name;
-          email = host.git.email;
+          name = user.git.name;
+          email = user.git.email;
         };
       };
     };
