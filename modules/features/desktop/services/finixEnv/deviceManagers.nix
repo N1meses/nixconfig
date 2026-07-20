@@ -5,7 +5,6 @@ _: {
     {
       services.mdevd.enable = true;
       services.mdevd.nlgroups = 4;
-      boot.kernelModules = [ "evdev" ];
       finit.services.mdevd.path = lib.mkBefore [ pkgs.kmod ];
     };
   aspects.devGardendevd.finix = _: { services.gardendevd.enable = true; };

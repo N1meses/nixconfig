@@ -14,8 +14,6 @@ _: {
       ];
       boot.initrd.kernelModules = [ "i915" ];
 
-      boot.kernelModules = [ "iwlwifi" ];
-
       boot.kernelParams = [
         "random.trust_cpu=on"
         "random.trust_bootloader=on"
