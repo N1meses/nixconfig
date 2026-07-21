@@ -4,5 +4,6 @@
     local
     users
     tailscale
+    doas
   ];
 }

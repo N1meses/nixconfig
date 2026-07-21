@@ -18,10 +18,16 @@
       coreutilsGnu
     ];
 
-    finixModule = { pkgs, lib, ... }: {
+    finixModule = { config, pkgs, lib, ... }: {
       programs.resolvconf.enable = true;
 
       boot.loader.efi.canTouchEfiVariables = lib.mkForce false;
+
+      finit.tasks.loadkmap = {
+        description = "load console keymap (finix console.nix has no gardendevd path)";
+        command = "${pkgs.execline}/bin/redirfd -r 0 ${config.hardware.console.binaryKeyMap} ${pkgs.busybox}/bin/loadkmap";
+        conditions = "service/syslogd/ready";
+      };
 
       boot.kernelPackages = pkgs.linuxPackages_6_12;
 

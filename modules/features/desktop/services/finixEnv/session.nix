@@ -2,11 +2,9 @@ _: {
   aspects.session.finix =
     {
       pkgs,
-      modules,
       ...
     }:
     {
-      imports = [ modules.doas ];
       finit.runlevel = 3;
 
       services.dbus = {
@@ -19,10 +17,5 @@ _: {
         "/share/applications"
         "/share/mime"
       ];
-
-      programs.doas = {
-        enable = true;
-        persist = true;
-      };
     };
 }
