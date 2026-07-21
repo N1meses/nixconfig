@@ -18,8 +18,10 @@
       coreutilsGnu
     ];
 
-    finixModule = { pkgs, ... }: {
+    finixModule = { pkgs, lib, ... }: {
       programs.resolvconf.enable = true;
+
+      boot.loader.efi.canTouchEfiVariables = lib.mkForce false;
 
       boot.kernelPackages = pkgs.linuxPackages_6_12;
 
