@@ -12,6 +12,7 @@ let
           ESP = {
             size = "1G";
             type = "EF00";
+            label = "nimeses-ESP";
             content = {
               type = "filesystem";
               format = "vfat";
