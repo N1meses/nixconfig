@@ -93,7 +93,10 @@ let
                 nixpkgs.pkgs = import inputs.nixpkgs {
                   inherit (host) system;
                   config.allowUnfree = true;
-                  config.permittedInsecurePackages = [ "pnpm-10.29.2" ];
+                  config.permittedInsecurePackages = [
+                    "pnpm-10.29.2"
+                    "minio-2025-10-15T17-29-55Z"
+                  ];
                 };
               }
             ];

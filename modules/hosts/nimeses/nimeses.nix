@@ -1,6 +1,5 @@
 {
   config,
-  inputs,
   ...
 }:
 let
@@ -14,36 +13,31 @@ in
     extraGroups = [ ];
     aspects = with config.aspectLib.names; [
       base
+      desktop
+      niri
       ly
-      nixIndex
-      diskoNimeses
-      hardwareNimeses
-      cachyosKernel
       laptop
-      airvpn
-      sops
+      hardwareNimeses
+      diskoNimeses
+
+      devUdev
+      netNM
+      seatElogind
+      luks
+      coreutilsGnu
+      virtualisation
     ];
 
-    nixosModule =
-      {
-        pkgs,
-        config,
-        ...
-      }:
-      {
-        imports = [
-          inputs.disko.nixosModules.disko
-        ];
+    finixModule = { pkgs, ... }: {
+      users.users.root.passwordFile = "/var/lib/nimeses/root.passwd";
 
-        sops = {
-          age.keyFile = "/home/nimeses/.config/sops/age/keys.txt";
-          secrets.nimeses-password.neededForUsers = true;
-        };
-
-        users.users.nimeses.hashedPasswordFile = config.sops.secrets.nimeses-password.path;
-
-        boot.kernelPackages = pkgs.linuxPackages_latest;
-      };
+      users.groups.yubikey = { };
+      services.udev.packages = [
+        (pkgs.writeTextDir "etc/udev/rules.d/70-fido2.rules" ''
+          KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1050", GROUP="yubikey", MODE="0660"
+        '')
+      ];
+    };
 
     homeModule = { pkgs, ... }: {
       features = {

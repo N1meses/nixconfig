@@ -6,9 +6,15 @@
 }:
 {
   registry.users.nimeses = {
+    uid = 1000;
+    hashedPasswordFile = "/var/lib/nimeses/user.passwd";
     extraGroups = [
-      "libvirtd"
+      "incus-admin"
       "kvm"
+      "video"
+      "input"
+      "audio"
+      "yubikey"
     ];
     keys = map builtins.readFile (lib.filesystem.listFilesRecursive ../features/base/super/keys);
     aspects = with config.aspectLib.names; [

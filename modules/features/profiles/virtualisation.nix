@@ -54,5 +54,17 @@ _: {
           "transparent_hugepage=madvise"
         ];
       };
+
+    finix =
+      { modules, ... }:
+      {
+        imports = [
+          modules.incus
+          modules.sysklogd
+        ];
+
+        services.sysklogd.enable = true;
+        services.incus.enable = true;
+      };
   };
 }
