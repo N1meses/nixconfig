@@ -8,6 +8,7 @@
     domain = "athena.tail4109e2.ts.net";
     aspects = with config.aspectLib.names; [
       base
+      git
       serverCore
       sshd
       nh

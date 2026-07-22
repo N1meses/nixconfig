@@ -1,6 +1,6 @@
 _: {
   aspects.hardwareNimeses.finix =
-    { pkgs, ... }:
+    { lib, pkgs, ... }:
     {
       boot.initrd.availableKernelModules = [
         "nvme"
@@ -30,6 +30,7 @@ _: {
       };
 
       hardware.firmware = [ pkgs.linux-firmware ];
+      hardware.cpu.amd.updateMicrocode = lib.mkDefault true;
 
       environment.variables = {
         AMD_VULKAN_ICD = "RADV";

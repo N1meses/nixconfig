@@ -12,6 +12,7 @@ in
     extraGroups = [ ];
     aspects = with config.aspectLib.names; [
       base
+      git
       ly
       nixIndex
       hardwarePrometheus

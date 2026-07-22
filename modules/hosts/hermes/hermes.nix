@@ -18,6 +18,7 @@ in
     hostId = "50fb8101";
     aspects = with config.aspectLib.names; [
       base
+      git
       hardwareHermes
       diskoHermes
       impermanenceHermes

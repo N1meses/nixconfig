@@ -13,6 +13,7 @@
     domain = "nimeses.com";
     aspects = with config.aspectLib.names; [
       base
+      git
       serverCore
       sshd
       nh
