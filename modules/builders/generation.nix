@@ -23,6 +23,7 @@ let
       networking.hostName = name;
       networking.hostId = lib.mkIf (host.hostId != "") host.hostId;
       hjem.extraModules = [ inputs.hjem-rum.hjemModules.default ];
+      hjem.clobberByDefault = true;
       hjem.users = lib.genAttrs host.users (uname: {
         enable = true;
         imports = [

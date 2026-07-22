@@ -38,6 +38,8 @@ _: {
             "x-scheme-handler/about" = [ desktopFile ];
             "x-scheme-handler/unknown" = [ desktopFile ];
             "application/pdf" = [ "org.pwmt.zathura.desktop" ];
+            "x-scheme-handler/element" = [ "element-desktop.desktop" ];
+            "x-scheme-handler/io.element.desktop" = [ "element-desktop.desktop" ];
           };
           added-associations = {
             "text/html" = [ desktopFile ];

@@ -1,4 +1,15 @@
 _: {
+  aspects.portalsHjem.finix =
+    { pkgs, ... }:
+    {
+      environment.systemPackages = with pkgs; [
+        xdg-desktop-portal
+        xdg-desktop-portal-gtk
+        xdg-desktop-portal-gnome
+        xdg-desktop-portal-termfilechooser
+      ];
+    };
+
   aspects.portalsHjem.home =
     {
       config,
@@ -42,8 +53,11 @@ _: {
       config = lib.mkIf (cfg.desktops != { }) {
         packages = [
           pkgs.xdg-desktop-portal
+          pkgs.xdg-utils
         ]
         ++ lib.concatMap (d: d.extraPortals) (lib.attrValues cfg.desktops);
+
+        environment.sessionVariables.GTK_USE_PORTAL = "1";
 
         xdg.config.files = lib.mapAttrs' (
           name: d:

@@ -15,7 +15,10 @@ _: {
       boot.kernelParams = [
         "amd_pstate=active"
         "amdgpu.ppfeaturemask=0xffffffff"
+        "quiet"
+        "loglevel=3"
       ];
+      boot.kernel.sysctl."kernel.printk" = "3 4 1 3";
 
       hardware.graphics = {
         enable = true;

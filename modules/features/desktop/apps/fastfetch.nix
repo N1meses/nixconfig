@@ -29,7 +29,6 @@ _: {
             text = "nixos-revision";
           }
           "shell"
-          "display"
           {
             type = "wm";
             format = "{2} ({3})";

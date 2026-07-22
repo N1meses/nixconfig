@@ -48,7 +48,7 @@ in
               height = 1920;
             };
             refreshRate = 120.0;
-            scale = 1.6;
+            scale = 1.8;
             transform = "0";
             vrr.enable = true;
             position = {
@@ -100,6 +100,11 @@ in
               spawn = mkNoctaliaNiri "screenshot-region";
             };
           };
+          autoStart = [
+            "pipewire 2>&1 & sleep 0.5"
+            "wireplumber 2>&1 & sleep 0.5"
+            "pipewire-pulse 2>&1 &"
+          ];
         };
       };
     };
