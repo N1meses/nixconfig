@@ -3,6 +3,7 @@ _: {
     {
       config,
       lib,
+      pkgs,
       ...
     }:
     let
@@ -36,6 +37,10 @@ _: {
       };
 
       config = {
+        packages = [
+          pkgs.openssh
+        ];
+
         ssh.matchBlocks = {
           "*" = {
             SetEnv.TERM = "xterm-256color";
