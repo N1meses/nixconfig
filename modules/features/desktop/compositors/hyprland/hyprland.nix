@@ -133,6 +133,6 @@
   };
   aspects.hyprland.includes = with config.aspectLib.names; [
     compositors
-    portalsHjem
+    portals
   ];
 }

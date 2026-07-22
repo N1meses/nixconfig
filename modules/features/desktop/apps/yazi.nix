@@ -113,6 +113,6 @@
     };
   aspects.yazi.includes = with config.aspectLib.names; [
     compositors
-    portalsHjem
+    portals
   ];
 }

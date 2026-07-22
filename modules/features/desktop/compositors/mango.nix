@@ -233,6 +233,6 @@
   };
   aspects.mango.includes = with config.aspectLib.names; [
     compositors
-    portalsHjem
+    portals
   ];
 }
