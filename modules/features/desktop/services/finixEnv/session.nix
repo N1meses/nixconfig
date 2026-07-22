@@ -16,6 +16,8 @@ _: {
       environment.pathsToLink = [
         "/share/applications"
         "/share/mime"
+        "/share/xdg-desktop-portal"
+        "/share/glib-2.0/schemas"
       ];
     };
 }

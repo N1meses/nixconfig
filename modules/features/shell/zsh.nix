@@ -26,7 +26,7 @@ _: {
           syntax-highlighting.source = "${pkgs.zsh-syntax-highlighting}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh";
         };
 
-        initConfig = ''
+        initConfig = "\n" + ''
           # completions — regenerate the compdump at most once a day
           autoload -Uz compinit
           if [[ -n ~/.zcompdump(#qNmh+24) ]]; then

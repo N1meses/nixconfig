@@ -11,6 +11,7 @@ _: {
     in
     {
       rum.misc.gtk = {
+        enable = true;
         packages = with pkgs; [
           adw-gtk3
           pop-icon-theme
