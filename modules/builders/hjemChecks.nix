@@ -64,6 +64,21 @@ let
       run = f: "python3 -c 'import tomllib,sys; tomllib.load(open(sys.argv[1],\"rb\"))' ${f}";
     }
     {
+      deps = [ pkgs.python3 ];
+      match = t: hasSuffix ".json" t || hasSuffix ".jsonc" t;
+      run = f: "python3 -c 'import json,sys; json.load(open(sys.argv[1]))' ${f}";
+    }
+    {
+      deps = [ pkgs.lua ];
+      match = t: hasSuffix ".lua" t;
+      run = f: "lua -e 'assert(loadfile(\"${f}\"))'";
+    }
+    {
+      deps = [ pkgs.kitty ];
+      match = t: hasSuffix "/kitty/kitty.conf" t;
+      run = f: "kitty +runpy 'from kitty.config import load_config; load_config(\"${f}\")'";
+    }
+    {
       deps = [ pkgs.bash ];
       match = t: hasSuffix ".sh" t;
       run = f: "bash -n ${f}";
