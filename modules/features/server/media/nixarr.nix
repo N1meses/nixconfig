@@ -8,6 +8,7 @@
     {
       config,
       lib,
+      options,
       ...
     }:
     {
@@ -28,6 +29,10 @@
         enable = true;
         mediaDir = "/media";
         stateDir = "/var/lib/nixarr";
+
+        nixarr-py.package = options.nixarr.nixarr-py.package.default.overrideAttrs (_: {
+          pname = "nixarr-py";
+        });
 
         vpn = {
           enable = true;
