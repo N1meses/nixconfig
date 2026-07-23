@@ -106,10 +106,10 @@ in
               spawn = mkNoctaliaNiri "bar-toggle";
             };
             "F12" = {
-              spwan = mkNoctaliaNiri "screenshot-fullscreen";
+              spawn = mkNoctaliaNiri "screenshot-fullscreen";
             };
             "Mod+F12" = {
-              spwan = mkNoctaliaNiri "screenshot-region";
+              spawn = mkNoctaliaNiri "screenshot-region";
             };
           };
 

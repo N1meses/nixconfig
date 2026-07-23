@@ -65,9 +65,9 @@ modules/
 │   ├── generation.nix              # registry.hosts → nixos/finixConfigurations (splices each host's hjem user)
 │   ├── homeModules.nix             # per-host hjem module assembly (aspect home slots + git identity)
 │   ├── deploy.nix                  # deploy-rs deploy.nodes (generated from the registry)
-│   ├── minimalHosts.nix            # <host>Minimal install/rescue nixosConfigurations
 │   ├── finixVm.nix                 # finix VM build (icarus)
 │   ├── checks.nix                  # every host toplevel folded into the `checks` attr
+│   ├── hjemChecks.nix              # validates generated hjem dotfiles (syntax/parse gate)
 │   └── nixpkgs.nix                 # nixpkgs config + overlays
 └── MODULES.md                      # this file
 ```
@@ -355,8 +355,8 @@ registry.hosts.nimeses.aspects = with config.aspectLib.names; [
 ## Deployment (deploy-rs)
 
 `modules/builders/deploy.nix` generates `deploy.nodes` from the registry — one node
-per NixOS host (filtered to those with a `nixosConfigurations` entry, so `*Minimal`
-variants and finix `icarus` are excluded). The nodes are exposed by `default.nix`;
+per NixOS host (filtered to those with a `nixosConfigurations` entry, so finix
+`icarus` is excluded). The nodes are exposed by `default.nix`;
 flakeless, deploy-rs reads them via `--file` (experimental in deploy-rs).
 
 ```bash

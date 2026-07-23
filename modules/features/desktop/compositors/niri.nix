@@ -225,19 +225,6 @@ in
             ];
           }) c.autoStart;
 
-          output =
-            if (c.monitors != null && c.monitors != { }) then
-              lib.mapAttrsToList (name: m: {
-                _args = [ name ];
-                inherit (m) scale;
-                mode = "${toString m.resolution.width}x${toString m.resolution.height}@${toString m.refreshRate}";
-                position._props = {
-                  x = m.position.x;
-                  y = m.position.y;
-                };
-              }) c.monitors
-            else
-              [ ];
           layout = {
             gaps = c.gaps.inner;
             border = {
@@ -354,6 +341,17 @@ in
             hide-when-typing = [ ];
             hide-after-inactive-ms = 3000;
           };
+        }
+        // lib.optionalAttrs (c.monitors != null && c.monitors != { }) {
+          output = lib.mapAttrsToList (name: m: {
+            _args = [ name ];
+            inherit (m) scale;
+            mode = "${toString m.resolution.width}x${toString m.resolution.height}@${toString m.refreshRate}";
+            position._props = {
+              x = m.position.x;
+              y = m.position.y;
+            };
+          }) c.monitors;
         };
       in
       {

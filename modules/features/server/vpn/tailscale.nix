@@ -5,11 +5,12 @@
       services.tailscale.permitCertUid = "root";
       networking.firewall.trustedInterfaces = [ "tailscale0" ];
     };
-    finix = { ... }: {
+    finix = { lib, ... }: {
       imports = [
         inputs.community-modules.nixosModules.tailscale
       ];
       services.tailscale.enable = true;
+      finit.services.tailscaled.conditions = lib.mkForce [ "service/syslogd/ready" ];
     };
   };
 }
