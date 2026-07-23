@@ -124,8 +124,47 @@ let
         ++ fleetFor cls.layer name;
       }
     ) (lib.filterAttrs (_: host: cls.select host != null) hosts);
+
+  userFiles = user: [
+    user.files
+    user.xdg.cache.files
+    user.xdg.config.files
+    user.xdg.data.files
+    user.xdg.state.files
+  ];
+
+  fileToJson =
+    f:
+    lib.filterAttrs (_: v: v != null) {
+      inherit (f)
+        clobber
+        gid
+        permissions
+        source
+        target
+        type
+        uid
+        ;
+    };
+
+  mkStandaloneUser = user: {
+    manifest = {
+      version = 3;
+      files = map fileToJson (
+        lib.filter (f: f.enable) (lib.concatMap lib.attrValues (userFiles user))
+      );
+    };
+    inherit (user) packages;
+  };
+
+  mkStandaloneHost =
+    c: lib.mapAttrs (_: mkStandaloneUser) (lib.filterAttrs (_: u: u.enable) c.config.hjem.users);
+
+  nixos = buildClass classes.nixos;
+  finix = buildClass classes.finix;
 in
 {
-  nixosConfigurations = buildClass classes.nixos;
-  finixConfigurations = buildClass classes.finix;
+  nixosConfigurations = nixos;
+  finixConfigurations = finix;
+  homeConfigurations = lib.mapAttrs (_: mkStandaloneHost) (finix // nixos);
 }

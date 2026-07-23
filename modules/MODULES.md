@@ -62,7 +62,7 @@ modules/
 │   ├── fleet.nix                   # cross-host fleet bus (fleet.<host>.{nixos,finix,home})
 │   └── outputs.nix                 # top-level output attrs
 ├── builders/                       # eval → outputs (consumed by default.nix)
-│   ├── generation.nix              # registry.hosts → nixos/finixConfigurations (splices each host's hjem user)
+│   ├── generation.nix              # registry.hosts → nixos/finix/homeConfigurations (splices each host's hjem user)
 │   ├── homeModules.nix             # per-host hjem module assembly (aspect home slots + git identity)
 │   ├── deploy.nix                  # deploy-rs deploy.nodes (generated from the registry)
 │   ├── finixVm.nix                 # finix VM build (icarus)
@@ -349,6 +349,34 @@ registry.hosts.nimeses.aspects = with config.aspectLib.names; [
   gaming performance          # extra profiles
 ];
 ```
+
+---
+
+## Standalone hjem (`hjem standalone`)
+
+`generation.nix` also emits `homeConfigurations.<host>.<user>` — `{ manifest; packages; }`
+in the shape `hjem standalone` consumes (manifest `version = 3`, validated against
+hjem's own `manifest/v3.cue`). Keyed by **host** because usernames are not unique
+(`bellerophon` uses the `icarus` user).
+
+`hjem.nix` in the repo root is the `--config` entry point: it resolves the current
+host from `/etc/hostname` and picks that host's sole user, erroring clearly if a
+host ever has more than one.
+
+```bash
+hjem standalone build  --config ./hjem.nix   # evaluate + validate, records under builds/
+hjem standalone switch --config ./hjem.nix   # APPLY — see warning below
+hjem standalone generations / rollback
+```
+
+> [!WARNING]
+> Do **not** `switch` while the system generation still manages the same files.
+> `commonModule` in `generation.nix` splices `hjem.users` into the system with
+> `clobberByDefault = true`, and standalone keeps separate state
+> (`~/.local/state/hjem/standalone` vs `/var/lib/hjem/manifest-<user>.json`).
+> Both would consider themselves the owner and clobber each other's symlinks,
+> with the winner decided by whichever ran last. There is no conflict guard in
+> the CLI. `build` is always safe — it never links anything.
 
 ---
 

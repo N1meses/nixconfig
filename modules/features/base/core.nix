@@ -112,6 +112,7 @@ in
     home = { pkgs, ... }: {
       packages = [
         pkgs.tack
+        (pkgs.callPackage "${inputs.hjem}/cli/package.nix" { })
       ];
     };
 
