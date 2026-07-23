@@ -43,6 +43,7 @@
         mpv
         nicotine-plus
         rmpc
+        nh
         inputs.deploy-rs.packages.${pkgs.stdenv.hostPlatform.system}.default
       ];
     };
