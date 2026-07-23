@@ -8,6 +8,8 @@ _: {
     }:
     let
       inherit (lib)
+        filterAttrs
+        hasInfix
         mkDefault
         mkOption
         concatStrings
@@ -28,6 +30,8 @@ _: {
         else
           "  ${k} ${toString v}\n";
       toBlock = host: opts: "Host ${host}\n" + concatStrings (mapAttrsToList toLine opts);
+      render = blocks: concatStrings (mapAttrsToList toBlock blocks);
+      isPattern = host: hasInfix "*" host || hasInfix "?" host;
     in
     {
       options.ssh.matchBlocks = mkOption {
@@ -58,7 +62,13 @@ _: {
           };
         };
 
-        files.".ssh/config".text = concatStrings (mapAttrsToList toBlock config.ssh.matchBlocks);
+        files.".ssh/config".text =
+          let
+            blocks = config.ssh.matchBlocks;
+          in
+          render (filterAttrs (h: _: !isPattern h) blocks)
+          + render (filterAttrs (h: _: isPattern h && h != "*") blocks)
+          + render (filterAttrs (h: _: h == "*") blocks);
       };
     };
 }
