@@ -150,9 +150,7 @@ let
   mkStandaloneUser = user: {
     manifest = {
       version = 3;
-      files = map fileToJson (
-        lib.filter (f: f.enable) (lib.concatMap lib.attrValues (userFiles user))
-      );
+      files = map fileToJson (lib.filter (f: f.enable) (lib.concatMap lib.attrValues (userFiles user)));
     };
     inherit (user) packages;
   };

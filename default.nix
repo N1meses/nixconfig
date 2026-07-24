@@ -1,5 +1,5 @@
 let
-  tack = import ./.tack;
+  tack = import ./override.nix;
   inherit (tack) nixpkgs;
   inherit (nixpkgs) lib;
   inherit (lib) hasPrefix;

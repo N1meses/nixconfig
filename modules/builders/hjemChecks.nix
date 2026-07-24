@@ -31,10 +31,7 @@ let
       deps = [ pkgs.zsh ];
       match =
         t:
-        hasSuffix "/.zshrc" t
-        || hasSuffix "/.zshenv" t
-        || hasSuffix "/.zprofile" t
-        || hasSuffix ".zsh" t;
+        hasSuffix "/.zshrc" t || hasSuffix "/.zshenv" t || hasSuffix "/.zprofile" t || hasSuffix ".zsh" t;
       run = f: ''
         zsh -n ${f}
         if grep -nP '^\s*(?!function\s)[^\s#()]+\s+[^\s()]+\s*\(\)\s*\{' ${f}; then
