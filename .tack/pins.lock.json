@@ -9,11 +9,11 @@
   },
   "community-modules": {
     "type": "github",
-    "owner": "N1meses",
+    "owner": "finix-community",
     "repo": "community-modules",
-    "rev": "53ab124bdf6c7eab8884cad329c27801401f767a",
-    "narHash": "sha256-/nPmrLuhcIVMejXQwlALt3bE6Vg51OjOjpub87GqpOM=",
-    "lastModified": 1783952258
+    "rev": "9dfe8ae9df007c441abbe3184e531e70dffa05b0",
+    "narHash": "sha256-McTnmfCE/IkPZDLWewezlg4w7k5fEK5caq2clxLs6+c=",
+    "lastModified": 1784125385
   },
   "deploy-rs": {
     "type": "github",

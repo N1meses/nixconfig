@@ -88,7 +88,7 @@ exclude_follow = ["nixpkgs"]
 url = "gh:nix-systems/default-linux"
 
 [inputs.community-modules]
-url = "gh:N1meses/community-modules/fix/perservation"
+url = "gh:finix-community/community-modules"
 
 [inputs.nixpkgs]
 url = "github:NixOS/nixpkgs"
