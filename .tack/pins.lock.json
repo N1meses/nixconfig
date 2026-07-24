@@ -35,9 +35,9 @@
     "type": "github",
     "owner": "finix-community",
     "repo": "finix",
-    "rev": "e07d863ce581674295a755fddb070c6010927dff",
-    "narHash": "sha256-cDLdKTds/LlRjeH95CkWBROHN7v5rlSjz3BEs3Q7E+8=",
-    "lastModified": 1784681711
+    "rev": "e251bb6babb5f87ff89c78e49d553c438587db74",
+    "narHash": "sha256-mmfcg8HoWsUD070OAYuNnrByd8wxj6fX5yvZR+rwSCE=",
+    "lastModified": 1784928177
   },
   "hardware": {
     "type": "github",
