@@ -17,6 +17,10 @@ let
     host:
     resolveAspects (host.aspects ++ lib.concatMap (u: config.registry.users.${u}.aspects) host.users);
 
+  niriOverlay = final: prev: {
+    niri = prev.niri.override { libdisplay-info = prev.libdisplay-info_0_2; };
+  };
+
   commonModule =
     name: host:
     {
@@ -55,12 +59,15 @@ let
           specialArgs = { inherit inputs; };
           modules = modules ++ [
             {
-              nixpkgs.hostPlatform = host.system;
-              nixpkgs.config.allowUnfree = true;
-              nixpkgs.config.permittedInsecurePackages = [
-                "pnpm-10.29.2"
-                "electron-40.10.5"
-              ];
+              nixpkgs = {
+                hostPlatform = host.system;
+                config.allowUnfree = true;
+                config.permittedInsecurePackages = [
+                  "pnpm-10.29.2"
+                  "electron-40.10.5"
+                ];
+                overlays = [ niriOverlay ];
+              };
               system.stateVersion = host.stateVersion;
             }
           ];
@@ -98,6 +105,7 @@ let
                     "pnpm-10.29.2"
                     "minio-2025-10-15T17-29-55Z"
                   ];
+                  overlays = [ niriOverlay ];
                 };
               }
             ];
