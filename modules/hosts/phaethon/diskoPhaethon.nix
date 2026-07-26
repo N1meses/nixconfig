@@ -42,17 +42,14 @@ let
         root = {
           type = "zfs_fs";
           mountpoint = "/";
-          options.canmount = "noauto";
         };
         nix = {
           type = "zfs_fs";
           mountpoint = "/nix";
-          options.canmount = "noauto";
         };
         docker = {
           type = "zfs_fs";
           mountpoint = "/var/lib/docker";
-          options.canmount = "noauto";
         };
       };
     };
