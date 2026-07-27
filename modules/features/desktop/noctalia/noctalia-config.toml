@@ -1,3 +1,7 @@
+[accessibility]
+high_contrast = false
+ui_scale = 1.0
+
 [audio]
 enable_overdrive = true
 enable_sounds = false
@@ -24,10 +28,12 @@ order = [ "default" ]
     capsule_padding = 1.0
     capsule_thickness = 0.75999999046325684
     center = [ "media", "audio_visualizer" ]
+    concave_edge_corners = true
     contact_shadow = false
     enabled = true
     end = [ "wallpaper", "group:g1", "battery", "output_volume", "bluetooth", "network", "clock", "session" ]
     font_weight = 500
+    hover_highlight = true
     layer = "top"
     margin_edge = 10
     margin_ends = 8
@@ -44,18 +50,15 @@ order = [ "default" ]
     scale = 1.0
     shadow = false
     show_on_workspace_switch = true
+    smart_auto_hide = false
     start = [ "control-center", "tray", "taskbar" ]
     thickness = 35
     widget_spacing = 4
 
         [bar.default.dead_zone]
-        command = ""
-        middle_command = ""
-        right_command = ""
-        scroll_down_command = ""
-        scroll_up_command = ""
 
         [[bar.default.capsule_group]]
+        enabled = true
         fill = "surface_variant"
         id = "g1"
         members = [ "sysmon", "cpu", "ram", "network_rx", "network_tx" ]
@@ -69,15 +72,23 @@ warning_threshold = 20
 enable_ddcutil = false
 ignore_mmids = []
 minimum_brightness = 0.0
+sync_all_monitors = false
 
 [calendar]
 enabled = false
 refresh_minutes = 15
 
 [control_center]
+hidden_tabs = []
 sidebar = "compact"
 sidebar_section = "compact"
 width = 700
+
+    [control_center.calendar]
+    event_date_format = "%A %e %B"
+    event_time_format = "%H:%M"
+    show_events_card = true
+    show_week_numbers = false
 
     [[control_center.shortcuts]]
     type = "wifi"
@@ -112,14 +123,20 @@ active_opacity = 1.0
 active_scale = 1.0
 auto_hide = false
 background_opacity = 0.68999999761581421
+border = "outline"
+border_width = 0.0
+concave_edge_corners = true
 cross_axis_padding = 8
 enabled = false
 icon_size = 48
 inactive_opacity = 0.85000002384185791
 inactive_scale = 0.85000002384185791
 item_spacing = 6
+launcher_custom_image = ""
+launcher_custom_image_colorize = false
 launcher_icon = "grid-dots"
 launcher_position = "none"
+layer = "top"
 magnification = true
 magnification_scale = 1.4500000476837158
 main_axis_padding = 16
@@ -138,6 +155,7 @@ shadow = true
 show_dots = false
 show_instance_count = true
 show_running = true
+smart_auto_hide = false
 
 [hooks]
 battery_charging = []
@@ -158,6 +176,26 @@ theme_mode_changed = []
 wallpaper_changed = []
 wifi_disabled = []
 wifi_enabled = []
+
+[hot_corners]
+delay_ms = 0
+enabled = false
+
+    [hot_corners.bottom_left]
+    action = "none"
+    command = ""
+
+    [hot_corners.bottom_right]
+    action = "none"
+    command = ""
+
+    [hot_corners.top_left]
+    action = "none"
+    command = ""
+
+    [hot_corners.top_right]
+    action = "none"
+    command = ""
 
 [idle]
 behavior_order = [ "lock", "screen-off", "lock-and-suspend" ]
@@ -197,6 +235,7 @@ validate = [ "Return", "KP_Enter" ]
 [location]
 address = ""
 auto_locate = false
+custom_schedule = false
 sunrise = ""
 sunset = ""
 
@@ -241,6 +280,7 @@ temperature_night = 4000
 
 [notification]
 background_opacity = 0.89999997615814209
+border = true
 collapse_on_dismiss = true
 enable_daemon = true
 layer = "top"
@@ -254,6 +294,8 @@ show_app_name = true
 
 [osd]
 background_opacity = 0.89999997615814209
+border = true
+enabled = true
 monitors = []
 offset_x = 8
 offset_y = 8
@@ -267,6 +309,7 @@ scale = 1.0
     brightness = true
     caffeine = true
     dnd = true
+    keyboard_backlight = true
     keyboard_layout = true
     lock_keys = true
     media = true
@@ -278,18 +321,19 @@ scale = 1.0
     volume_output = true
     wifi = true
 
+[plugin_settings]
+
 [plugins]
-enabled = [ "noctalia/screen_recorder" ]
+auto_update = true
+enabled = [ "noctalia/screen_recorder", "noctalia/wallhaven", "noctalia/notes" ]
 
     [[plugins.source]]
-    auto_update = false
     enabled = true
     kind = "git"
     location = "https://github.com/noctalia-dev/official-plugins"
     name = "official"
 
     [[plugins.source]]
-    auto_update = false
     enabled = true
     kind = "git"
     location = "https://github.com/noctalia-dev/community-plugins"
@@ -297,22 +341,29 @@ enabled = [ "noctalia/screen_recorder" ]
 
 [shell]
 app_icon_colorize = false
-avatar_path = "/nix/store/cfymp7sgp9l3cg3dsfnqq6268l31ammj-source/assets/icons/hunter.jpeg"
+avatar_path = "/nix/store/wip3q9m4xzdwzlvcw9ylz4nynqkjml36-source/assets/icons/hunter.jpeg"
+button_borders = true
+card_borders = true
 clipboard_auto_paste = "auto"
 clipboard_confirm_clear_history = true
 clipboard_enabled = true
 clipboard_history_max_entries = 50
 clipboard_image_action_command = ""
+clipboard_keep_from_closed_apps = true
 corner_radius_scale = 0.94999998807907104
 date_format = "%A, %x"
 disable_mipmaps = false
+external_ip_enabled = true
 font_family = "IBM Plex Mono"
+input_borders = true
 launch_apps_as_systemd_services = false
-middle_click_opens_widget_settings = true
+launch_apps_custom_command = ""
 niri_overview_type_to_launch_enabled = true
 offline_mode = false
 password_style = "random"
 polkit_agent = true
+popup_borders = true
+popup_shadows = true
 screen_time_enabled = true
 settings_show_advanced = true
 setup_wizard_enabled = true
@@ -320,19 +371,21 @@ shared_gl_context = true
 show_location = true
 telemetry_enabled = true
 time_format = "{:%H:%M}"
-ui_scale = 1.0
 
     [shell.animation]
     enabled = true
     speed = 2.0
 
     [shell.greeter_sync]
+    auto_sync = false
 
     [shell.launcher]
     app_grid = false
+    auto_paste = "auto"
     categories = true
     compact = false
-    session_search = false
+    fetch_exchange_rates = true
+    provider_prefix = "/"
     show_icons = true
     sort_by_usage = true
 
@@ -350,6 +403,7 @@ ui_scale = 1.0
     floating_offset = 8
     launcher_placement = "floating"
     launcher_position = "center"
+    list_item_background = false
     open_near_click_clipboard = false
     open_near_click_control_center = true
     open_near_click_launcher = false
@@ -367,6 +421,7 @@ ui_scale = 1.0
     [shell.privacy]
     cam_filter_regex = ""
     mic_filter_regex = ""
+    screen_filter_regex = ""
 
     [shell.screen_corners]
     enabled = true
@@ -381,62 +436,72 @@ ui_scale = 1.0
     pipe_command = ""
     pipe_to_command = false
     save_to_file = true
+    show_cursor = false
 
-    [shell.session.power]
+    [shell.session]
+    grid = false
+    grid_columns = 2
+    show_shortcuts = true
 
-    [[shell.session.actions]]
-    action = "lock"
-    command = ""
-    countdown_seconds = 0.0
-    enabled = true
-    glyph = ""
-    label = ""
-    shortcut = "1"
-    variant = "default"
+        [shell.session.power]
 
-    [[shell.session.actions]]
-    action = "logout"
-    command = ""
-    countdown_seconds = 0.0
-    enabled = true
-    glyph = ""
-    label = ""
-    shortcut = "2"
-    variant = "default"
+        [[shell.session.actions]]
+        action = "lock"
+        command = ""
+        countdown_seconds = 0.0
+        enabled = true
+        glyph = ""
+        label = ""
+        shortcut = "1"
+        variant = "default"
 
-    [[shell.session.actions]]
-    action = "suspend"
-    command = ""
-    countdown_seconds = 0.0
-    enabled = true
-    glyph = ""
-    label = ""
-    shortcut = "3"
-    variant = "default"
+        [[shell.session.actions]]
+        action = "logout"
+        command = ""
+        countdown_seconds = 0.0
+        enabled = true
+        glyph = ""
+        label = ""
+        shortcut = "2"
+        variant = "default"
 
-    [[shell.session.actions]]
-    action = "reboot"
-    command = ""
-    countdown_seconds = 0.0
-    enabled = true
-    glyph = ""
-    label = ""
-    shortcut = "4"
-    variant = "default"
+        [[shell.session.actions]]
+        action = "suspend"
+        command = ""
+        countdown_seconds = 0.0
+        enabled = true
+        glyph = ""
+        label = ""
+        shortcut = "3"
+        variant = "default"
 
-    [[shell.session.actions]]
-    action = "shutdown"
-    command = ""
-    countdown_seconds = 0.0
-    enabled = true
-    glyph = ""
-    label = ""
-    shortcut = "5"
-    variant = "destructive"
+        [[shell.session.actions]]
+        action = "reboot"
+        command = ""
+        countdown_seconds = 0.0
+        enabled = true
+        glyph = ""
+        label = ""
+        shortcut = "4"
+        variant = "default"
+
+        [[shell.session.actions]]
+        action = "shutdown"
+        command = ""
+        countdown_seconds = 0.0
+        enabled = true
+        glyph = ""
+        label = ""
+        shortcut = "5"
+        variant = "destructive"
 
     [shell.shadow]
     alpha = 0.89999997615814209
     direction = "down"
+
+[storage]
+key_file = ""
+key_source = "secret-service"
 
 [system.monitor]
 cpu_poll_seconds = 2.0
@@ -445,9 +510,15 @@ cpu_temp_critical_threshold = 85.0
 cpu_temp_sensor_path = ""
 cpu_usage_activity_threshold = 50.0
 cpu_usage_critical_threshold = 90.0
-disk_pct_activity_threshold = 80.0
-disk_pct_critical_threshold = 95.0
+disk_free_activity_threshold = 80.0
+disk_free_critical_threshold = 95.0
+disk_free_pct_activity_threshold = 80.0
+disk_free_pct_critical_threshold = 95.0
 disk_poll_seconds = 10.0
+disk_used_activity_threshold = 80.0
+disk_used_critical_threshold = 95.0
+disk_used_pct_activity_threshold = 80.0
+disk_used_pct_critical_threshold = 95.0
 enabled = true
 gpu_poll_seconds = 5.0
 gpu_temp_activity_threshold = 60.0
@@ -472,6 +543,7 @@ builtin = "m3-rainbow"
 community_palette = ""
 custom_palette = ""
 mode = "dark"
+pure_black_dark = false
 source = "wallpaper"
 wallpaper_scheme = "m3-rainbow"
 
@@ -526,7 +598,7 @@ type = "battery"
 type = "clock"
 
 [widget.control-center]
-custom_image = "/nix/store/cfymp7sgp9l3cg3dsfnqq6268l31ammj-source/assets/icons/nixos.png"
+custom_image = "/nix/store/wip3q9m4xzdwzlvcw9ylz4nynqkjml36-source/assets/icons/nixos.png"
 scale = 1.5
 type = "control-center"
 
@@ -545,7 +617,6 @@ device = "input"
 type = "volume"
 
 [widget.keyboard_layout]
-cycle_command = ""
 hide_when_single_layout = false
 type = "keyboard_layout"
 
@@ -592,6 +663,7 @@ stat = "ram_used"
 type = "sysmon"
 
 [widget.spacer]
+interactive = false
 type = "spacer"
 
 [widget.sysmon]
@@ -608,3 +680,7 @@ workspace_label_placement = "centered"
 [widget.temp]
 stat = "cpu_temp"
 type = "sysmon"
+
+[widget.tray]
+enabled = false
+type = "tray"
