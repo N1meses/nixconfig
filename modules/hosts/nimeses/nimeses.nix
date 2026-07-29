@@ -4,6 +4,7 @@
 }:
 let
   mkNoctaliaNiri = config.aspectLib.mkNoctaliaNiri;
+  mkNoctaliaHalley = config.aspectLib.mkNoctaliaHalley;
 in
 {
   registry.hosts.nimeses = {
@@ -15,6 +16,7 @@ in
       base
       desktop
       niri
+      halley
       ly
       laptop
       hardwareNimeses
@@ -100,6 +102,22 @@ in
               spawn = mkNoctaliaNiri "screenshot-region";
             };
           };
+          halley.extraBinds = {
+            "$var.mod+n" = mkNoctaliaHalley "panel-toggle launcher";
+            "$var.mod+b" = mkNoctaliaHalley "bar-toggle";
+            "$var.mod+shift+q" = mkNoctaliaHalley "session lock";
+            "XF86AudioRaiseVolume" = mkNoctaliaHalley "volume-up";
+            "XF86AudioLowerVolume" = mkNoctaliaHalley "volume-down";
+            "XF86AudioMute" = mkNoctaliaHalley "volume-mute";
+            "XF86MonBrightnessUp" = mkNoctaliaHalley "brightness-up";
+            "XF86MonBrightnessDown" = mkNoctaliaHalley "brightness-down";
+            "XF86AudioPlay" = mkNoctaliaHalley "media toggle";
+            "XF86AudioNext" = mkNoctaliaHalley "media next";
+            "XF86AudioPrev" = mkNoctaliaHalley "media previous";
+            "print" = mkNoctaliaHalley "screenshot-fullscreen";
+            "$var.mod+print" = mkNoctaliaHalley "screenshot-region";
+          };
+
           autoStart = [
             "pipewire 2>&1 & sleep 0.5"
             "wireplumber 2>&1 & sleep 0.5"

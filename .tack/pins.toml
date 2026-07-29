@@ -92,3 +92,6 @@ url = "gh:finix-community/community-modules"
 
 [inputs.nixpkgs]
 url = "github:NixOS/nixpkgs"
+
+[inputs.halley]
+url = "gh:N1meses/halley/feat/flake"

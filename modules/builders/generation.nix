@@ -21,6 +21,11 @@ let
     niri = prev.niri.override { libdisplay-info = prev.libdisplay-info_0_2; };
   };
 
+  commonOverlays = [
+    niriOverlay
+    inputs.halley.overlays.default
+  ];
+
   commonModule =
     name: host:
     {
@@ -66,7 +71,7 @@ let
                   "pnpm-10.29.2"
                   "electron-40.10.5"
                 ];
-                overlays = [ niriOverlay ];
+                overlays = commonOverlays;
               };
               system.stateVersion = host.stateVersion;
             }
@@ -105,7 +110,7 @@ let
                     "pnpm-10.29.2"
                     "minio-2025-10-15T17-29-55Z"
                   ];
-                  overlays = [ niriOverlay ];
+                  overlays = commonOverlays;
                 };
               }
             ];

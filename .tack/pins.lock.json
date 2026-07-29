@@ -11,9 +11,9 @@
     "type": "github",
     "owner": "finix-community",
     "repo": "community-modules",
-    "rev": "281d6e2661f92385a2a464bb57b69cd86e2ca491",
-    "narHash": "sha256-wXwUeN42bYlzW4o6mxbAXQa4brmlVHzorZTvX2kax1s=",
-    "lastModified": 1785083531
+    "rev": "287a1626dea05cfffcb538efe3ba34c87a018c00",
+    "narHash": "sha256-1GhJnHSAxkM+z8cX6qIAfCsdKaH6HnZGErYhRzZvYj0=",
+    "lastModified": 1785159856
   },
   "deploy-rs": {
     "type": "github",
@@ -35,9 +35,17 @@
     "type": "github",
     "owner": "finix-community",
     "repo": "finix",
-    "rev": "8a9b75a16b6f399e12d031dcd714a938af40c9b5",
-    "narHash": "sha256-MSrD5bsN14/TdLXkjojxLvm2OLUwqLEQjqGYfZta6EQ=",
-    "lastModified": 1785015387
+    "rev": "c07d2a551ad4578d31655a43a39939628f6eecb9",
+    "narHash": "sha256-WSjVEo6bjJMg5hp/xJ5wY6W8cpTjtjcNlhx/y94dzZI=",
+    "lastModified": 1785276183
+  },
+  "halley": {
+    "type": "github",
+    "owner": "N1meses",
+    "repo": "halley",
+    "rev": "ec0970a5eaefdc9908a1251ee1efb038a6313ccd",
+    "narHash": "sha256-+AAE9JvmmuDSdJWaniP6sD91VHegbrLMp4VKi2opl2Q=",
+    "lastModified": 1785325636
   },
   "hardware": {
     "type": "github",

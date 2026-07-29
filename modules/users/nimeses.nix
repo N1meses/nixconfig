@@ -21,6 +21,7 @@
       cliEnv
       desktop
       niri
+      halley
       nix
       zed
       kitty
