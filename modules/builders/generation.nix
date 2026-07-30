@@ -17,12 +17,7 @@ let
     host:
     resolveAspects (host.aspects ++ lib.concatMap (u: config.registry.users.${u}.aspects) host.users);
 
-  niriOverlay = final: prev: {
-    niri = prev.niri.override { libdisplay-info = prev.libdisplay-info_0_2; };
-  };
-
   commonOverlays = [
-    niriOverlay
     inputs.halley.overlays.default
   ];
 
