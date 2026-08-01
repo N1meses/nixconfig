@@ -28,6 +28,7 @@ in
       luks
       coreutilsGnu
       virtualisation
+      finitV5
     ];
 
     finixModule = { pkgs, ... }: {
