@@ -1,6 +1,6 @@
 [accessibility]
 high_contrast = false
-ui_scale = 1.0
+ui_scale = 1.0499999523162842
 
 [audio]
 enable_overdrive = true
@@ -27,11 +27,11 @@ order = [ "default" ]
     capsule_opacity = 1.0
     capsule_padding = 1.0
     capsule_thickness = 0.75999999046325684
-    center = [ "media", "audio_visualizer" ]
+    center = [ "audio_visualizer" ]
     concave_edge_corners = true
     contact_shadow = false
     enabled = true
-    end = [ "wallpaper", "group:g1", "battery", "output_volume", "bluetooth", "network", "clock", "session" ]
+    end = [ "group:g4", "group:g1", "battery", "output_volume", "group:g2", "clock", "session" ]
     font_weight = 500
     hover_highlight = true
     layer = "top"
@@ -51,19 +51,51 @@ order = [ "default" ]
     shadow = false
     show_on_workspace_switch = true
     smart_auto_hide = false
-    start = [ "control-center", "tray", "taskbar" ]
+    start = [ "group:g3", "taskbar" ]
     thickness = 35
     widget_spacing = 4
 
         [bar.default.dead_zone]
 
         [[bar.default.capsule_group]]
+        accordion = true
+        accordion_direction = "start"
         enabled = true
         fill = "surface_variant"
         id = "g1"
-        members = [ "sysmon", "cpu", "ram", "network_rx", "network_tx" ]
+        members = [ "sysmon", "network_tx", "network_rx", "cpu", "ram" ]
         opacity = 1.0
         padding = 6.0
+
+        [[bar.default.capsule_group]]
+        accordion = true
+        accordion_direction = "start"
+        enabled = true
+        fill = "surface_variant"
+        id = "g2"
+        members = [ "network", "bluetooth" ]
+        opacity = 1.0
+        padding = 1.0
+
+        [[bar.default.capsule_group]]
+        accordion = true
+        accordion_direction = "end"
+        enabled = true
+        fill = "surface_variant"
+        id = "g3"
+        members = [ "control-center", "tray", "nix_monitor_2" ]
+        opacity = 1.0
+        padding = 1.0
+
+        [[bar.default.capsule_group]]
+        accordion = true
+        accordion_direction = "start"
+        enabled = true
+        fill = "surface_variant"
+        id = "g4"
+        members = [ "wallpaper", "wallhaven_2" ]
+        opacity = 1.0
+        padding = 1.0
 
 [battery]
 warning_threshold = 20
@@ -80,6 +112,7 @@ refresh_minutes = 15
 
 [control_center]
 hidden_tabs = []
+show_shortcut_labels = true
 sidebar = "compact"
 sidebar_section = "compact"
 width = 700
@@ -224,9 +257,12 @@ pre_action_fade_seconds = 2.0
 
 [keybinds]
 cancel = [ "Escape" ]
+copy = [ "Ctrl+c" ]
+delete = [ "Delete" ]
 down = [ "Down" ]
 left = [ "Left" ]
 right = [ "Right" ]
+save = [ "Ctrl+s" ]
 tab_next = [ "Tab" ]
 tab_previous = [ "Shift+ISO_Left_Tab" ]
 up = [ "Up" ]
@@ -245,6 +281,7 @@ blur_intensity = 0.79999995231628418
 blurred_desktop = false
 enabled = true
 fingerprint = true
+lock_before_suspend = true
 monitors = []
 tint_intensity = 0.5
 wallpaper = ""
@@ -252,7 +289,7 @@ wallpaper = ""
 [lockscreen_widgets]
 enabled = true
 schema_version = 1
-widget_order = [ "lockscreen-login-box@eDP-1" ]
+widget_order = [ "lockscreen-login-box@winit", "lockscreen-login-box@eDP-1" ]
 
     [lockscreen_widgets.grid]
     cell_size = 16
@@ -260,8 +297,8 @@ widget_order = [ "lockscreen-login-box@eDP-1" ]
     visible = true
 
     [lockscreen_widgets.widget."lockscreen-login-box@eDP-1"]
-    box_height = 0.0
-    box_width = 0.0
+    box_height = 196.0
+    box_width = 810.0
     cx = 900.0
     cy = 1077.0
     enabled = true
@@ -270,7 +307,41 @@ widget_order = [ "lockscreen-login-box@eDP-1" ]
     type = "login_box"
 
         [lockscreen_widgets.widget."lockscreen-login-box@eDP-1".settings]
+        center_password_text = false
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
         show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@winit"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 1382.0
+    cy = 1703.0
+    enabled = true
+    output = "winit"
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@winit".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
 
 [nightlight]
 enabled = false
@@ -283,6 +354,7 @@ background_opacity = 0.89999997615814209
 border = true
 collapse_on_dismiss = true
 enable_daemon = true
+history_retention_hours = 0
 layer = "top"
 monitors = []
 offset_x = 8
@@ -325,7 +397,14 @@ scale = 1.0
 
 [plugins]
 auto_update = true
-enabled = [ "noctalia/screen_recorder", "noctalia/wallhaven", "noctalia/notes" ]
+enabled = [
+    "noctalia/screen_recorder",
+    "noctalia/wallhaven",
+    "noctalia/notes",
+    "avivbintangaringga/nix-monitor",
+    "cleboost/ssh-launcher",
+    "cleboost/zed-provider"
+]
 
     [[plugins.source]]
     enabled = true
@@ -341,7 +420,7 @@ enabled = [ "noctalia/screen_recorder", "noctalia/wallhaven", "noctalia/notes" ]
 
 [shell]
 app_icon_colorize = false
-avatar_path = "/nix/store/wip3q9m4xzdwzlvcw9ylz4nynqkjml36-source/assets/icons/hunter.jpeg"
+avatar_path = "/nix/store/zgwy3xbsjymfiz7wwipmb9snrb2jf61v-source/assets/icons/hunter.jpeg"
 button_borders = true
 card_borders = true
 clipboard_auto_paste = "auto"
@@ -379,6 +458,8 @@ time_format = "{:%H:%M}"
     [shell.greeter_sync]
     auto_sync = false
 
+    [shell.keyboard_layout]
+
     [shell.launcher]
     app_grid = false
     auto_paste = "auto"
@@ -400,6 +481,7 @@ time_format = "{:%H:%M}"
     clipboard_position = "center"
     control_center_placement = "floating"
     control_center_position = "auto"
+    floating_layer = "overlay"
     floating_offset = 8
     launcher_placement = "floating"
     launcher_position = "center"
@@ -435,6 +517,7 @@ time_format = "{:%H:%M}"
     freeze_screen = true
     pipe_command = ""
     pipe_to_command = false
+    remember_last_region = false
     save_to_file = true
     show_cursor = false
 
@@ -539,7 +622,7 @@ swap_pct_activity_threshold = 20.0
 swap_pct_critical_threshold = 80.0
 
 [theme]
-builtin = "m3-rainbow"
+builtin = "Noctalia"
 community_palette = ""
 custom_palette = ""
 mode = "dark"
@@ -586,9 +669,9 @@ title_scroll = "none"
 type = "active_window"
 
 [widget.audio_visualizer]
-bands = 50
+bands = 60
 type = "audio_visualizer"
-width = 201
+width = 250
 
 [widget.battery]
 show_label = false
@@ -598,13 +681,13 @@ type = "battery"
 type = "clock"
 
 [widget.control-center]
-custom_image = "/nix/store/wip3q9m4xzdwzlvcw9ylz4nynqkjml36-source/assets/icons/nixos.png"
+custom_image = "/nix/store/zgwy3xbsjymfiz7wwipmb9snrb2jf61v-source/assets/icons/nixos.png"
 scale = 1.5
 type = "control-center"
 
 [widget.cpu]
 scale = 0.90000000000000002
-show_label = false
+show_value = false
 stat = "cpu_temp"
 type = "sysmon"
 
@@ -630,6 +713,7 @@ type = "lock_keys"
 
 [widget.media]
 art_size = 16.0
+enabled = false
 hide_when_no_media = true
 max_length = 220.0
 min_length = 80.0
@@ -641,14 +725,23 @@ show_label = false
 type = "network"
 
 [widget.network_rx]
-show_label = false
+show_value = false
 stat = "net_rx"
 type = "sysmon"
 
 [widget.network_tx]
-show_label = false
+show_value = false
 stat = "net_tx"
 type = "sysmon"
+
+[widget.nix-monitor]
+type = "avivbintangaringga/nix-monitor:nix-monitor"
+
+[widget.nix_monitor_2]
+type = "avivbintangaringga/nix-monitor:nix-monitor"
+
+[widget.notes]
+type = "noctalia/notes:notes"
 
 [widget.output_volume]
 device = "output"
@@ -658,7 +751,7 @@ type = "volume"
 [widget.ram]
 label_min_width = 1.0
 scale = 0.90000000000000002
-show_label = false
+show_value = false
 stat = "ram_used"
 type = "sysmon"
 
@@ -667,7 +760,7 @@ interactive = false
 type = "spacer"
 
 [widget.sysmon]
-show_label = false
+show_value = false
 type = "sysmon"
 
 [widget.taskbar]
@@ -682,5 +775,14 @@ stat = "cpu_temp"
 type = "sysmon"
 
 [widget.tray]
-enabled = false
+enabled = true
 type = "tray"
+
+[widget.wallhaven]
+type = "noctalia/wallhaven:wallhaven"
+
+[widget.wallhaven_2]
+type = "noctalia/wallhaven:wallhaven"
+
+[widget.widget]
+type = "blackbartblues/audio-switcher:widget"
