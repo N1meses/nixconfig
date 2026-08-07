@@ -95,3 +95,6 @@ url = "github:NixOS/nixpkgs"
 
 [inputs.halley]
 url = "gh:N1meses/halley/feat/flake"
+
+[inputs.kopuz]
+url = "gh:Kopuz-org/kopuz"

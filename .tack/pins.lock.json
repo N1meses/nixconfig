@@ -88,6 +88,14 @@
     "narHash": "sha256-03+JxvzmfwRu+5JafM0DLbxgHttOQZkUtDWBmeUkN8Y=",
     "lastModified": 1769548169
   },
+  "kopuz": {
+    "type": "github",
+    "owner": "Kopuz-org",
+    "repo": "kopuz",
+    "rev": "7f93887e4d03e95224623bd32a3b2b0ab5dc167a",
+    "narHash": "sha256-v6H6M16kW5/868a/T6x7xmfqyZO70Bn97YVLE4RqV+M=",
+    "lastModified": 1786087303
+  },
   "mango": {
     "type": "github",
     "owner": "mangowm",
