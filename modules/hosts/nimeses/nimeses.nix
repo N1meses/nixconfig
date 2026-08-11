@@ -50,7 +50,7 @@ in
               width = 2880;
               height = 1920;
             };
-            refreshRate = 120.0;
+            refreshRate = 60.001;
             scale = 1.8;
             transform = "0";
             vrr.enable = true;

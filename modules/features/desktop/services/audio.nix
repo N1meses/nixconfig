@@ -25,6 +25,8 @@ _: {
           modules.rtkit
         ];
         programs.pipewire.enable = true;
+        programs.pipewire.alsa.enable = true;
+        programs.pipewire.alsa.support32Bit = true;
         programs.wireplumber.enable = true;
         services.rtkit.enable = true;
         services.rtkit.extraGroups = lib.optionals (!config.services.elogind.enable) [
