@@ -11,8 +11,8 @@ let
   hostNames = lib.sort lib.lessThan (builtins.attrNames config.registry.hosts);
 
   code = s: "`" + s + "`";
-  joinCode = xs: if xs == [ ] then "—" else lib.concatMapStringsSep " " code xs;
-  cell = s: if s == null || s == "" then "—" else s;
+  joinCode = xs: if xs == [ ] then "-" else lib.concatMapStringsSep " " code xs;
+  cell = s: if s == null || s == "" then "-" else s;
 
   hostRow =
     n:
@@ -31,19 +31,8 @@ let
     "| ${code n} | ${if ls == [ ] then "*aggregator*" else lib.concatStringsSep "+" ls} | "
     + "${cell a.description} | ${joinCode a.includes} |";
 
-  inertRows = lib.concatMap (
-    n:
-    let
-      r = config.resolved.${n};
-      real = lib.filter (x: !(lib.elem x r.aggregators)) r.inert;
-    in
-    map (x: "| ${code n} | ${code x} | ${lib.concatStringsSep "+" (layersOf x)} |") real
-  ) hostNames;
-
-  undocumented = lib.filter (n: config.aspectLib.all.${n}.description == null) aspectNames;
-
   modulesMd = ''
-    <!-- GENERATED FILE — DO NOT EDIT.
+    <!-- GENERATED FILE - DO NOT EDIT.
          Source of truth is `config.aspects` / `config.registry`.
          Regenerate with:  nix build --file . packages.docs && cp result/MODULES.md modules/MODULES.md
          `checks.docs` fails if this file drifts from the config. -->
@@ -62,36 +51,12 @@ let
 
     An aspect declares any subset of the layer slots `nixos`, `finix`, `home`, plus an
     optional `includes` list. A host names it once; the builder routes it to whichever
-    slots it defines. An aspect with no slots at all is an aggregator — it exists only
+    slots it defines. An aspect with no slots at all is an aggregator - it exists only
     to pull in the names it includes.
 
     | Aspect | Layers | Description | Includes |
     |--------|--------|-------------|----------|
     ${lib.concatStringsSep "\n" (map aspectRow aspectNames)}
-
-    ## Inert selections
-
-    Aspects a host selects that contribute nothing to it, because they define no slot
-    for that host's class. These are dropped silently at `options/aspects.nix`.
-
-    ${
-      if inertRows == [ ] then
-        "None."
-      else
-        ''
-          | Host | Aspect | Defined for |
-          |------|--------|-------------|
-          ${lib.concatStringsSep "\n" inertRows}''
-    }
-
-    ## Undocumented
-
-    ${
-      if undocumented == [ ] then
-        "None — every aspect carries a description."
-      else
-        "${toString (builtins.length undocumented)} aspects have no `description`: ${joinCode undocumented}"
-    }
   '';
 in
 {
