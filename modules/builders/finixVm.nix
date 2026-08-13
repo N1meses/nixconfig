@@ -20,20 +20,12 @@ let
   fleetFor =
     layer: self: map (f: f.${layer}) (builtins.attrValues (removeAttrs config.fleet [ self ]));
 
-  isDiskLayer =
-    n:
-    lib.hasPrefix "disko" n
-    || lib.hasPrefix "hardware" n
-    || lib.elem n [
-      "impermanence"
-      "luks"
-    ];
-
+  # A VM is not this machine, so `host.machineModules` is simply never spliced in.
+  # That replaces the old name-prefix heuristic ("disko*", "hardware*", luks,
+  # impermanence), which only worked as long as nobody named an aspect badly.
   vmAspectNames =
     host:
-    lib.filter (n: !isDiskLayer n) (
-      resolveAspects (host.aspects ++ lib.concatMap (u: config.registry.users.${u}.aspects) host.users)
-    );
+    resolveAspects (host.aspects ++ lib.concatMap (u: config.registry.users.${u}.aspects) host.users);
 
   homeModule =
     name: host:

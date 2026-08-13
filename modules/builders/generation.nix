@@ -126,6 +126,7 @@ let
         modules = [
           (cls.select host)
         ]
+        ++ host.machineModules
         ++ aspectsFor cls.moduleSet (systemAspectNames host)
         ++ [
           cls.hmModule

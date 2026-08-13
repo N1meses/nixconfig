@@ -5,6 +5,9 @@ let
 in
 {
   registry.hosts.prometheus = {
+    machineModules = [
+      ./_hardware.nix
+    ];
     users = with config.registry.userNames; [ prometheus ];
     system = "x86_64-linux";
     stateVersion = "25.05";
@@ -15,7 +18,6 @@ in
       git
       ly
       nixIndex
-      hardwarePrometheus
       cachyosKernel
       gaming
       performance

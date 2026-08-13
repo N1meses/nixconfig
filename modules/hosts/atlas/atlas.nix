@@ -5,6 +5,10 @@
 }:
 {
   registry.hosts.atlas = {
+    machineModules = [
+      ./_hardware.nix
+      ./_disko.nix
+    ];
     users = with config.registry.userNames; [ atlas ];
     system = "x86_64-linux";
     stateVersion = "25.05";
@@ -17,8 +21,6 @@
       serverCore
       sshd
       nh
-      hardwareAtlas
-      diskoAtlas
       monitoring
       forgejo
       binaryCache

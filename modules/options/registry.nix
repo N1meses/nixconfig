@@ -143,6 +143,21 @@ in
                 '';
               };
 
+              machineModules = lib.mkOption {
+                type = t.listOf t.deferredModule;
+                default = [ ];
+                description = ''
+                  What this machine physically is: hardware, disk layout, encryption,
+                  persistence. Spliced into whichever eval (nixos or finix) the host
+                  builds in, so these modules are class-agnostic.
+
+                  Listed explicitly rather than hidden behind a single machine.nix so
+                  a host's physical makeup is readable without opening another file.
+                  Builds that are not this machine — VMs, images, containers — omit
+                  the list wholesale, which is why these are not aspects.
+                '';
+              };
+
               nixosModule = lib.mkOption {
                 type = t.nullOr t.deferredModule;
                 default = null;

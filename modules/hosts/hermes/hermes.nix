@@ -8,6 +8,11 @@ let
 in
 {
   registry.hosts.hermes = {
+    machineModules = [
+      ./_hardware.nix
+      ./_disko.nix
+      ./_impermanence.nix
+    ];
     users = with config.registry.userNames; [ hermes ];
     system = "x86_64-linux";
     stateVersion = "25.11";
@@ -19,9 +24,6 @@ in
     aspects = with config.aspectLib.names; [
       base
       git
-      hardwareHermes
-      diskoHermes
-      impermanenceHermes
       cachyosKernel
       rescue
       ly

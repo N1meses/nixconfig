@@ -8,6 +8,11 @@ let
 in
 {
   registry.hosts.icarus = {
+    machineModules = [
+      ./_hardware.nix
+      ./_disko.nix
+      ../../features/desktop/services/finixEnv/_impermanence.nix
+    ];
     users = with config.registry.userNames; [ icarus ];
     system = "x86_64-linux";
     stateVersion = "25.11";
@@ -18,12 +23,9 @@ in
       ly
       laptop
       sshd
-      hardwareIcarus
-      diskoIcarus
       devUdev
       netNM
       seatElogind
-      impermanence
     ];
 
     finixModule = { pkgs, ... }: {
@@ -110,4 +112,6 @@ in
         };
       };
   };
+
+  diskoConfigurations.icarus.disko.devices = import ./_devices.nix;
 }

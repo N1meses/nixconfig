@@ -4,6 +4,10 @@ let
 in
 {
   registry.hosts.bellerophon = {
+    machineModules = [
+      ./_hardware.nix
+      ./_disko.nix
+    ];
     users = with config.registry.userNames; [ icarus ];
     system = "x86_64-linux";
     stateVersion = "25.11";
@@ -14,8 +18,6 @@ in
       ly
       laptop
       sshd
-      hardwareBellerophon
-      diskoBellerophon
 
       devMdevd
       netIwd
@@ -82,4 +84,6 @@ in
     hostname = "TODO-tailscale-ip";
     user = "icarus";
   };
+
+  diskoConfigurations.bellerophon.disko.devices = import ./_devices.nix;
 }

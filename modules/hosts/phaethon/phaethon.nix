@@ -1,6 +1,10 @@
 { config, ... }:
 {
   registry.hosts.phaethon = {
+    machineModules = [
+      ./_hardware.nix
+      ./_disko.nix
+    ];
     users = with config.registry.userNames; [ phaethon ];
     system = "x86_64-linux";
     stateVersion = "25.11";
@@ -8,8 +12,6 @@
     aspects = with config.aspectLib.names; [
       base
       sshd
-      hardwarePhaethon
-      diskoPhaethon
       zfs
       docker
 
@@ -39,4 +41,6 @@
     hostname = "TODO-tailscale-ip";
     user = "phaethon";
   };
+
+  diskoConfigurations.phaethon.disko.devices = import ./_devices.nix;
 }

@@ -8,6 +8,10 @@ let
 in
 {
   registry.hosts.nimeses = {
+    machineModules = [
+      ./_hardware.nix
+      ./_disko.nix
+    ];
     users = with config.registry.userNames; [ nimeses ];
     system = "x86_64-linux";
     stateVersion = "25.11";
@@ -19,13 +23,10 @@ in
       halley
       ly
       laptop
-      hardwareNimeses
-      diskoNimeses
 
       devUdev
       netNM
       seatElogind
-      luks
       coreutilsGnu
       virtualisation
       finitV5
@@ -128,4 +129,6 @@ in
       };
     };
   };
+
+  diskoConfigurations.nimeses.disko.devices = import ./_devices.nix;
 }

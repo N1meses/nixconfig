@@ -1,5 +1,8 @@
 { config, ... }: {
   registry.hosts.athena = {
+    machineModules = [
+      ./_hardware.nix
+    ];
     users = with config.registry.userNames; [ athena ];
     system = "x86_64-linux";
     stateVersion = "25.05";
@@ -12,7 +15,6 @@
       serverCore
       sshd
       nh
-      hardwareAthena
       monitoring
       vaultwarden
       croc
