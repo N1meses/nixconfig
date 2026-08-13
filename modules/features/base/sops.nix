@@ -1,7 +1,7 @@
 { inputs, ... }: {
   aspects.sops.nixos =
     {
-      config,
+      hostName,
       lib,
       pkgs,
       ...
@@ -16,7 +16,7 @@
       ];
 
       sops = {
-        defaultSopsFile = lib.mkDefault (inputs.self + "/secrets/${config.networking.hostName}.yaml");
+        defaultSopsFile = lib.mkDefault (inputs.self + "/secrets/${hostName}.yaml");
         age.sshKeyPaths = lib.mkDefault [ ];
         age.keyFile = lib.mkDefault "/root/.config/sops/age/keys.txt";
       };

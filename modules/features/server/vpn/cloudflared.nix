@@ -2,6 +2,7 @@
   aspects.cloudflared.nixos =
     {
       config,
+      hostName,
       pkgs,
       lib,
       ...
@@ -19,7 +20,7 @@
 
         features.server.cloudflared.tunnelId = lib.mkOption {
           type = lib.types.str;
-          default = config.networking.hostName;
+          default = hostName;
           description = "Cloudflare tunnel UUID (or name) this host runs.";
         };
       };
@@ -40,7 +41,7 @@
 
         assertions = map (h: {
           assertion = config.services.nginx.virtualHosts ? ${h};
-          message = "cloudflared.publicHosts: \"${h}\" is not an nginx virtualHost on ${config.networking.hostName} (typo? service not enabled?)";
+          message = "cloudflared.publicHosts: \"${h}\" is not an nginx virtualHost on ${hostName} (typo? service not enabled?)";
         }) cfg.cloudflared.publicHosts;
       };
     };

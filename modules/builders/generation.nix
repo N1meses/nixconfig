@@ -25,6 +25,8 @@ let
     name: host:
     {
       networking.hostName = name;
+      _module.args.hostName = name;
+      _module.args.hostEntry = host;
       networking.hostId = lib.mkIf (host.hostId != "") host.hostId;
       hjem.extraModules = [ inputs.hjem-rum.hjemModules.default ];
       hjem.clobberByDefault = true;

@@ -7,11 +7,12 @@ in
     {
       pkgs,
       config,
+      hostName,
       lib,
       ...
     }:
     let
-      isParent = config.networking.hostName == parentHost;
+      isParent = hostName == parentHost;
     in
     {
       services.netdata.enable = true;

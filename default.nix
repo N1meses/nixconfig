@@ -24,7 +24,13 @@ let
 
   inputs = tack // {
     self = {
-      outPath = lib.cleanSource ./.;
+      outPath = lib.fileset.toSource {
+        root = ./.;
+        fileset = lib.fileset.unions [
+          ./assets
+          ./secrets
+        ];
+      };
       rev = gitRev;
     };
   };

@@ -14,7 +14,7 @@ let
 
   testLib = import "${inputs.finix}/tests/lib" {
     inherit (pkgs) lib;
-    inherit pkgs;
+    pkgs = pkgs.extend inputs.halley.overlays.default;
   };
 
   fleetFor =
@@ -55,6 +55,8 @@ let
     };
 
   vmNode = name: host: {
+    _module.args.hostName = name;
+    _module.args.hostEntry = host;
     imports = [
       host.finixModule
     ]

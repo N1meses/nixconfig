@@ -7,6 +7,7 @@ in
     nixos =
       {
         config,
+        hostEntry,
         lib,
         pkgs,
         ...
@@ -15,8 +16,7 @@ in
         users.mutableUsers = lib.mkDefault true;
         users.users =
           let
-            hostname = config.networking.hostName;
-            host = flakeConfig.registry.hosts.${hostname} or null;
+            host = hostEntry;
             ifTheyExist = gs: builtins.filter (g: builtins.hasAttr g config.users.groups) gs;
             mkUser =
               uname:
@@ -40,12 +40,13 @@ in
               // lib.optionalAttrs (u.hashedPassword != null) { hashedPassword = u.hashedPassword; }
               // lib.optionalAttrs (u.hashedPasswordFile != null) { hashedPasswordFile = u.hashedPasswordFile; };
           in
-          lib.mkIf (host != null) (lib.genAttrs host.users mkUser);
+          lib.genAttrs host.users mkUser;
       };
 
     finix =
       {
         config,
+        hostEntry,
         lib,
         pkgs,
         ...
@@ -53,8 +54,7 @@ in
       {
         users.users =
           let
-            hostname = config.networking.hostName;
-            host = flakeConfig.registry.hosts.${hostname} or null;
+            host = hostEntry;
             ifTheyExist = gs: builtins.filter (g: builtins.hasAttr g config.users.groups) gs;
             mkUser =
               uname:
@@ -77,7 +77,7 @@ in
               // lib.optionalAttrs (u.hashedPassword != null) { password = u.hashedPassword; }
               // lib.optionalAttrs (u.hashedPasswordFile != null) { passwordFile = u.hashedPasswordFile; };
           in
-          lib.mkIf (host != null) (lib.genAttrs host.users mkUser);
+          lib.genAttrs host.users mkUser;
       };
   };
 }

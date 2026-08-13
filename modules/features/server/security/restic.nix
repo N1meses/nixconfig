@@ -2,6 +2,7 @@
   aspects.restic.nixos =
     {
       config,
+      hostName,
       lib,
       ...
     }:
@@ -10,7 +11,7 @@
 
       services.restic.backups.system = {
         passwordFile = config.sops.secrets.restic-password.path;
-        repository = lib.mkDefault "/backup/${config.networking.hostName}";
+        repository = lib.mkDefault "/backup/${hostName}";
         timerConfig = {
           OnCalendar = "daily";
           RandomizedDelaySec = "1h";
