@@ -1,7 +1,58 @@
-{ config, ... }: {
+{ config, ... }:
+{
   aspects.desktop.apps.yazi = {
-    description = "The yazi terminal file manager, wired as the portal file chooser.";
+    description = "The yazi terminal file manager.";
+    home =
+      { pkgs, lib, ... }:
+      {
+        rum.programs.yazi = {
+          enable = true;
+          settings = {
+            mgr = {
+              show_hidden = true;
+              sort_by = "natural";
+            };
+            preview = {
+              image_quality = 80;
+              max_width = 10000;
+              max_height = 10000;
+            };
+            tasks = {
+              image_alloc = 536870912;
+              image_bound = [
+                65535
+                65535
+              ];
+            };
+            opener = {
+              edit = [
+                {
+                  run = ''hx "$@"'';
+                  block = true;
+                }
+              ];
+            };
+          };
+        };
+
+        rum.programs.zsh.initConfig = lib.mkAfter ''
+          function yy() {
+            local tmp; tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+            ${pkgs.yazi}/bin/yazi "$@" --cwd-file="$tmp"
+            local cwd
+            if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+              builtin cd -- "$cwd"
+            fi
+            rm -f -- "$tmp"
+          }
+        '';
+      };
+  };
+
+  aspects.desktop.apps.yaziFilechooser = {
+    description = "yazi wired up as the xdg-desktop-portal file chooser, via termfilechooser.";
     includes = with config.aspectLib.names; [
+      desktop.apps.yazi
       desktop.compositors.compositors
       desktop.services.portals
     ];
@@ -30,92 +81,46 @@
           };
         };
 
-        config = lib.mkMerge [
-          {
-            rum.programs.yazi = {
-              enable = true;
-              settings = {
-                mgr = {
-                  show_hidden = true;
-                  sort_by = "natural";
-                };
-                preview = {
-                  image_quality = 80;
-                  max_width = 10000;
-                  max_height = 10000;
-                };
-                tasks = {
-                  image_alloc = 536870912;
-                  image_bound = [
-                    65535
-                    65535
-                  ];
-                };
-                opener = {
-                  edit = [
-                    {
-                      run = ''hx "$@"'';
-                      block = true;
-                    }
-                  ];
-                };
-              };
-            };
+        config = lib.mkIf cfg.terminalFilechooser.enable {
+          packages = with pkgs; [
+            xdg-terminal-exec
+            xdg-desktop-portal-termfilechooser
+          ];
 
-            rum.programs.zsh.initConfig = lib.mkAfter ''
-              function yy() {
-                local tmp; tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
-                ${pkgs.yazi}/bin/yazi "$@" --cwd-file="$tmp"
-                local cwd
-                if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-                  builtin cd -- "$cwd"
-                fi
-                rm -f -- "$tmp"
-              }
+          xdg.config.files."xdg-desktop-portal-termfilechooser/yazi-wrapper.sh" = {
+            executable = true;
+            text = ''
+              #!${pkgs.bash}/bin/bash
+              set -e
+              multiple="$1"
+              directory="$2"
+              save="$3"
+              path="$4"
+              out="$5"
+
+              if [ -z "$path" ]; then
+                path="."
+              fi
+
+              if [ "$save" = "1" ]; then
+                exec ${termBin} --title=termfilechooser ${execFlag}${pkgs.yazi}/bin/yazi --chooser-file="$out" "$path"
+              elif [ "$directory" = "1" ]; then
+                exec ${termBin} --title=termfilechooser ${execFlag}${pkgs.yazi}/bin/yazi --chooser-file="$out" --cwd-file="$out.1" "$path"
+              elif [ "$multiple" = "1" ]; then
+                exec ${termBin} --title=termfilechooser ${execFlag}${pkgs.yazi}/bin/yazi --chooser-file="$out" "$path"
+              else
+                exec ${termBin} --title=termfilechooser ${execFlag}${pkgs.yazi}/bin/yazi --chooser-file="$out" "$path"
+              fi
             '';
-          }
+          };
 
-          (lib.mkIf cfg.terminalFilechooser.enable {
-            packages = with pkgs; [
-              xdg-terminal-exec
-              xdg-desktop-portal-termfilechooser
-            ];
+          xdg.config.files."xdg-desktop-portal-termfilechooser/config".text = ''
+            [filechooser]
+            cmd=${config.directory}/.config/xdg-desktop-portal-termfilechooser/yazi-wrapper.sh
+          '';
 
-            xdg.config.files."xdg-desktop-portal-termfilechooser/yazi-wrapper.sh" = {
-              executable = true;
-              text = ''
-                #!${pkgs.bash}/bin/bash
-                set -e
-                multiple="$1"
-                directory="$2"
-                save="$3"
-                path="$4"
-                out="$5"
-
-                if [ -z "$path" ]; then
-                  path="."
-                fi
-
-                if [ "$save" = "1" ]; then
-                  exec ${termBin} --title=termfilechooser ${execFlag}${pkgs.yazi}/bin/yazi --chooser-file="$out" "$path"
-                elif [ "$directory" = "1" ]; then
-                  exec ${termBin} --title=termfilechooser ${execFlag}${pkgs.yazi}/bin/yazi --chooser-file="$out" --cwd-file="$out.1" "$path"
-                elif [ "$multiple" = "1" ]; then
-                  exec ${termBin} --title=termfilechooser ${execFlag}${pkgs.yazi}/bin/yazi --chooser-file="$out" "$path"
-                else
-                  exec ${termBin} --title=termfilechooser ${execFlag}${pkgs.yazi}/bin/yazi --chooser-file="$out" "$path"
-                fi
-              '';
-            };
-
-            xdg.config.files."xdg-desktop-portal-termfilechooser/config".text = ''
-              [filechooser]
-              cmd=${config.directory}/.config/xdg-desktop-portal-termfilechooser/yazi-wrapper.sh
-            '';
-
-            features.portals.commonBackends."org.freedesktop.impl.portal.FileChooser" = "termfilechooser";
-          })
-        ];
+          features.portals.commonBackends."org.freedesktop.impl.portal.FileChooser" = "termfilechooser";
+        };
       };
   };
 }

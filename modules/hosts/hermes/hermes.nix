@@ -10,6 +10,7 @@ in
   registry.hosts.hermes = {
     machineModules = [
       ./_hardware.nix
+      ./_boot.nix
       ./_disko.nix
       ./_impermanence.nix
     ];
@@ -31,25 +32,8 @@ in
     ];
 
     nixosModule = { lib, ... }: {
-      imports = [
-        inputs.disko.nixosModules.disko
-        inputs.impermanence.nixosModules.impermanence
-      ];
-
       users.users.hermes.hashedPasswordFile = "/persist/passwords/hermes";
       users.users.root.hashedPasswordFile = "/persist/passwords/hermes";
-
-      boot.loader.grub = {
-        enable = true;
-        efiSupport = true;
-        efiInstallAsRemovable = true;
-        device = lib.mkDefault "/dev/sda";
-      };
-
-      boot.loader.grub.forceInstall = true;
-      boot.plymouth.enable = false;
-      boot.loader.systemd-boot.enable = false;
-      boot.loader.efi.canTouchEfiVariables = false;
 
       hardware.graphics.enable = true;
 

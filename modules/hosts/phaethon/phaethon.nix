@@ -3,6 +3,7 @@
   registry.hosts.phaethon = {
     machineModules = [
       ./_hardware.nix
+      ./_boot.nix
       ./_disko.nix
     ];
     users = with config.registry.userNames; [ phaethon ];
@@ -28,10 +29,6 @@
       }:
       {
         programs.resolvconf.enable = true;
-
-        boot.loader.efi.canTouchEfiVariables = lib.mkForce false;
-
-        boot.kernelPackages = pkgs.linuxPackages_6_12;
 
         users.users.root.password = "$6$0FVRMTDT.48Unjkz$lu5WVd6hcWLt6qVvODKXpkg.4Wa0RODz7ltVfbrpP73vm.ggSdSdAAfVFXDB5WyctBw81HNsPBZfreXT.BHka1";
       };

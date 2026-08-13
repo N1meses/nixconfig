@@ -2,6 +2,7 @@
   registry.hosts.athena = {
     machineModules = [
       ./_hardware.nix
+      ./_boot.nix
     ];
     users = with config.registry.userNames; [ athena ];
     system = "x86_64-linux";

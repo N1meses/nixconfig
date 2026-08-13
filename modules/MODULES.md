@@ -5,20 +5,20 @@
 
 # Module Library
 
-118 aspects, 8 hosts.
+119 aspects, 8 hosts.
 
 ## Hosts
 
 | Host | Class | Users | Aspects | Domain |
 |------|-------|-------|--------:|--------|
-| `athena` | nixos | `athena` | 30 | athena.tail4109e2.ts.net |
-| `atlas` | nixos | `atlas` | 37 | nimeses.com |
-| `bellerophon` | finix | `icarus` | 43 | — |
-| `hermes` | nixos | `hermes` | 32 | — |
-| `icarus` | finix | `icarus` | 42 | — |
-| `nimeses` | finix | `nimeses` | 50 | — |
-| `phaethon` | finix | `phaethon` | 27 | — |
-| `prometheus` | nixos | `prometheus` | 49 | — |
+| `athena` | nixos | `athena` | 28 | athena.tail4109e2.ts.net |
+| `atlas` | nixos | `atlas` | 35 | nimeses.com |
+| `bellerophon` | finix | `icarus` | 44 | — |
+| `hermes` | nixos | `hermes` | 33 | — |
+| `icarus` | finix | `icarus` | 43 | — |
+| `nimeses` | finix | `nimeses` | 51 | — |
+| `phaethon` | finix | `phaethon` | 25 | — |
+| `prometheus` | nixos | `prometheus` | 50 | — |
 
 ## Aspects
 
@@ -32,8 +32,8 @@ to pull in the names it includes.
 | `bundle.apps` | *aggregator* | Everyday graphical apps: file manager, browser, GTK theming, nh and fastfetch. | `desktop.apps.yazi` `desktop.apps.browser` `desktop.apps.gtk` `desktop.apps.nh` `desktop.apps.fastfetch` |
 | `bundle.base` | *aggregator* | Baseline every host gets: nix settings, locale, user accounts, tailscale and privilege escalation. | `core.core` `core.local` `core.users` `server.vpn.tailscale` `finix.doas` |
 | `bundle.cliEnv` | *aggregator* | Interactive shell environment: shell, file manager, editor, CLI tools and git. | `core.core` `bundle.shell` `desktop.apps.yazi` `dev.editors.helix` `dev.tools.cli` `dev.tools.git` |
-| `bundle.desktop` | *aggregator* | Graphical desktop bundle: session services, apps, the noctalia shell and session wiring. | `bundle.services` `bundle.apps` `desktop.noctalia` `finix.session` |
-| `bundle.server` | home | Headless server role: base plus CLI environment, hardened sshd, networking tools and nh. | `bundle.base` `bundle.cliEnv` `server.serverCore` `server.sshd` `dev.tools.network` `desktop.apps.nh` |
+| `bundle.desktop` | *aggregator* | Graphical desktop bundle: session services, apps, the noctalia shell and session wiring. | `bundle.services` `bundle.apps` `desktop.apps.yaziFilechooser` `desktop.noctalia` `finix.session` |
+| `bundle.server` | *aggregator* | Headless server role: base plus CLI environment, hardened sshd, networking tools and nh. | `bundle.base` `bundle.cliEnv` `server.serverCore` `server.sshd` `dev.tools.network` `desktop.apps.nh` |
 | `bundle.services` | *aggregator* | Desktop plumbing every graphical session needs: graphics, fonts, portals, audio, bluetooth and user services. | `desktop.services.graphics` `desktop.services.fonts` `desktop.services.portals` `desktop.services.audio` `desktop.services.bluetooth` `desktop.services.userServices` |
 | `bundle.shell` | *aggregator* | Shell stack: zsh, fzf/zoxide tooling, the starship prompt and ssh client config. | `shell.zsh` `shell.shellTools` `shell.starship` `shell.ssh` |
 | `bundle.workstation` | *aggregator* | Full graphical workstation: base plus CLI environment, desktop, niri, display manager and editors. | `bundle.base` `bundle.cliEnv` `bundle.desktop` `desktop.compositors.niri` `desktop.services.ly` `dev.languages.nix` `dev.tools.nixIndex` `dev.editors.zed` `desktop.apps.term.kitty` |
@@ -53,7 +53,8 @@ to pull in the names it includes.
 | `desktop.apps.term.foot` | home | The foot terminal emulator. | `desktop.compositors.compositors` |
 | `desktop.apps.term.ghostty` | home | The ghostty terminal emulator. | `desktop.compositors.compositors` |
 | `desktop.apps.term.kitty` | home | The kitty terminal emulator. | `desktop.compositors.compositors` |
-| `desktop.apps.yazi` | home | The yazi terminal file manager, wired as the portal file chooser. | `desktop.compositors.compositors` `desktop.services.portals` |
+| `desktop.apps.yazi` | home | The yazi terminal file manager. | — |
+| `desktop.apps.yaziFilechooser` | home | yazi wired up as the xdg-desktop-portal file chooser, via termfilechooser. | `desktop.apps.yazi` `desktop.compositors.compositors` `desktop.services.portals` |
 | `desktop.compositors.compositors` | home | Shared option surface every compositor implements: keybinds, monitors, autostart, terminal and launcher. | — |
 | `desktop.compositors.halley` | finix+home | The halley Wayland compositor. | `desktop.compositors.compositors` `desktop.services.portals` |
 | `desktop.compositors.hyprland` | nixos+home | The Hyprland Wayland compositor. | `desktop.compositors.compositors` `desktop.services.portals` |

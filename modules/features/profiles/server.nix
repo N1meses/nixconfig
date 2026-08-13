@@ -1,10 +1,6 @@
 { config, ... }: {
 
   aspects.bundle.server = {
-    home = {
-      features.apps.yazi.terminalFilechooser = false;
-    };
-
     includes = with config.aspectLib.names; [
       bundle.base
       bundle.cliEnv

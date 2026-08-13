@@ -7,6 +7,7 @@ in
   registry.hosts.prometheus = {
     machineModules = [
       ./_hardware.nix
+      ./_boot.nix
     ];
     users = with config.registry.userNames; [ prometheus ];
     system = "x86_64-linux";

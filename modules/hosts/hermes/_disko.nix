@@ -1,4 +1,6 @@
-{ lib, ... }: {
+{ inputs, lib, ... }: {
+  imports = [ inputs.disko.nixosModules.disko ];
+
   disko.devices.nodev."/" = {
     fsType = "tmpfs";
     mountOptions = [

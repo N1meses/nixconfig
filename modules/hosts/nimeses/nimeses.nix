@@ -17,19 +17,19 @@ in
     stateVersion = "25.11";
     extraGroups = [ ];
     aspects = with config.aspectLib.names; [
-      base
-      desktop
-      niri
-      halley
-      ly
-      laptop
+      bundle.base
+      bundle.desktop
+      desktop.compositors.niri
+      desktop.compositors.halley
+      desktop.services.ly
+      profile.laptop
 
-      devUdev
-      netNM
-      seatElogind
-      coreutilsGnu
-      virtualisation
-      finitV5
+      finix.devUdev
+      finix.netNM
+      finix.seatElogind
+      finix.coreutilsGnu
+      profile.virtualisation
+      core.finitV5
     ];
 
     finixModule = { pkgs, ... }: {

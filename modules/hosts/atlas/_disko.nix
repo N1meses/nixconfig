@@ -1,4 +1,4 @@
-{ config, ... }:
+{ inputs, config, ... }:
 let
   mkTankDisk = id: {
     type = "disk";
@@ -16,6 +16,8 @@ let
   };
 in
 {
+  imports = [ inputs.disko.nixosModules.disko ];
+
   disko.devices = {
     disk = {
       rpool = {

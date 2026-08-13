@@ -4,6 +4,7 @@
     includes = with config.aspectLib.names; [
       bundle.services
       bundle.apps
+      desktop.apps.yaziFilechooser
       desktop.noctalia
       finix.session
     ];

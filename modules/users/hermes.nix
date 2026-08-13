@@ -9,7 +9,7 @@
       desktop.compositors.niri
       desktop.noctalia
       desktop.apps.term.foot
-      desktop.apps.yazi
+      desktop.apps.yaziFilechooser
       desktop.apps.browser
     ];
     homeModule = { pkgs, ... }: {

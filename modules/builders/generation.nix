@@ -117,22 +117,31 @@ let
     };
   };
 
+  hostModules =
+    {
+      cls,
+      name,
+      host,
+      machine ? true,
+    }:
+    [
+      (cls.select host)
+    ]
+    ++ lib.optionals machine host.machineModules
+    ++ aspectsFor cls.moduleSet (systemAspectNames host)
+    ++ [
+      cls.hmModule
+      (commonModule name host)
+    ]
+    ++ fleetFor cls.layer name;
+
   buildClass =
     cls:
     lib.mapAttrs (
       name: host:
       cls.mkSystem {
         inherit host;
-        modules = [
-          (cls.select host)
-        ]
-        ++ host.machineModules
-        ++ aspectsFor cls.moduleSet (systemAspectNames host)
-        ++ [
-          cls.hmModule
-          (commonModule name host)
-        ]
-        ++ fleetFor cls.layer name;
+        modules = hostModules { inherit cls name host; };
       }
     ) (lib.filterAttrs (_: host: cls.select host != null) hosts);
 
@@ -176,4 +185,7 @@ in
   nixosConfigurations = nixos;
   finixConfigurations = finix;
   homeConfigurations = lib.mapAttrs (_: mkStandaloneHost) (finix // nixos);
+
+  aspectLib.hostModules = hostModules;
+  aspectLib.classes = classes;
 }
