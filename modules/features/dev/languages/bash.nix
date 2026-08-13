@@ -1,4 +1,5 @@
 _: {
+  aspects.bash.description = "Bash toolchain and Helix language-server wiring.";
   aspects.bash.home = { pkgs, ... }: {
     packages = with pkgs; [
       nodePackages.bash-language-server

@@ -1,4 +1,5 @@
 _: {
+  aspects.greetd.description = "greetd display manager with the tuigreet frontend.";
   aspects.greetd = {
     nixos =
       {

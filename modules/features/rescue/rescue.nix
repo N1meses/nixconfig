@@ -1,4 +1,5 @@
 _: {
+  aspects.rescue.description = "Recovery toolkit: filesystem support and repair utilities for a broken boot.";
   aspects.rescue.nixos = { pkgs, ... }: {
     boot.supportedFilesystems = [
       "ntfs"

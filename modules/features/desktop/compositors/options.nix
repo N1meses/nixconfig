@@ -1,4 +1,5 @@
 _: {
+  aspects.compositors.description = "Shared option surface every compositor implements: keybinds, monitors, autostart, terminal and launcher.";
   aspects.compositors.home =
     {
       lib,

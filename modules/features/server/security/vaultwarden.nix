@@ -1,4 +1,5 @@
 { config, ... }: {
+  aspects.vaultwarden.description = "Vaultwarden password manager.";
   aspects.vaultwarden.nixos =
     { config, ... }:
     let

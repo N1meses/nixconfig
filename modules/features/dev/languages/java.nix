@@ -1,4 +1,5 @@
 _: {
+  aspects.java.description = "Java toolchain and jdtls wiring.";
   aspects.java.home = { pkgs, ... }: {
     packages = with pkgs; [
       jdk

@@ -1,4 +1,5 @@
 { config, ... }: {
+  aspects.restic.description = "Nightly restic backups with retention pruning.";
   aspects.restic.nixos =
     {
       config,

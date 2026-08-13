@@ -4,6 +4,7 @@
   ...
 }:
 {
+  aspects.mango.description = "The mango Wayland compositor.";
   aspects.mango = {
     nixos = { ... }: {
       imports = [

@@ -17,6 +17,11 @@ in
       type = raws;
       default = { };
     };
+    resolved = lib.mkOption {
+      type = raws;
+      default = { };
+      description = "Per-host answer to 'what did this host's aspect list actually resolve to'.";
+    };
     diskoConfigurations = lib.mkOption {
       type = raws;
       default = { };

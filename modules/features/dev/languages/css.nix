@@ -1,4 +1,5 @@
 _: {
+  aspects.css.description = "CSS toolchain and language-server wiring.";
   aspects.css.home = { pkgs, ... }: {
     packages = with pkgs; [ nodePackages.vscode-langservers-extracted ];
     rum.programs.helix.languages = {

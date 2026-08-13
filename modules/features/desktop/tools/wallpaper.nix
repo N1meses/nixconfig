@@ -1,4 +1,5 @@
 { config, ... }: {
+  aspects.wallpaper.description = "Wallpaper daemon and the wallpaper source directory.";
   aspects.wallpaper.home =
     {
       lib,

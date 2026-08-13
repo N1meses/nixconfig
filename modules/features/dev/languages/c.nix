@@ -1,4 +1,5 @@
 _: {
+  aspects.c.description = "C/C++ toolchain and clangd wiring.";
   aspects.c.home = { pkgs, ... }: {
     packages = with pkgs; [
       clang-tools

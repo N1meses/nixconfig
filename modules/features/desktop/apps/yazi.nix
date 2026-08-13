@@ -1,4 +1,5 @@
 { config, ... }: {
+  aspects.yazi.description = "The yazi terminal file manager, wired as the portal file chooser.";
   aspects.yazi.home =
     {
       pkgs,

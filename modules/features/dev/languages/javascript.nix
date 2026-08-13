@@ -1,4 +1,5 @@
 _: {
+  aspects.javascript.description = "JavaScript/TypeScript toolchain and language-server wiring.";
   aspects.javascript.home = { pkgs, ... }: {
     packages = with pkgs; [
       nodePackages.typescript-language-server

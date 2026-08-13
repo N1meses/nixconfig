@@ -1,4 +1,5 @@
 _: {
+  aspects.html.description = "HTML toolchain and language-server wiring.";
   aspects.html.home = { pkgs, ... }: {
     packages = with pkgs; [ nodePackages.vscode-langservers-extracted ];
     rum.programs.helix.languages = {

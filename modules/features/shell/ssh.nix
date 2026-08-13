@@ -1,4 +1,5 @@
 _: {
+  aspects.ssh.description = "ssh client config and per-host match blocks.";
   aspects.ssh.home =
     {
       config,

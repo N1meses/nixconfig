@@ -1,4 +1,5 @@
 { config, ... }: {
+  aspects.mako.description = "mako notification daemon, themed.";
   aspects.mako.home =
     {
       config,

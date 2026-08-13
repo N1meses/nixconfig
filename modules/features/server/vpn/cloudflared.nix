@@ -1,4 +1,5 @@
 { config, ... }: {
+  aspects.cloudflared.description = "Cloudflare tunnel exposing declared nginx vhosts publicly.";
   aspects.cloudflared.nixos =
     {
       config,

@@ -1,4 +1,5 @@
 _: {
+  aspects.doas.description = "doas privilege escalation for the wheel group.";
   aspects.doas.finix =
     { modules, ... }:
     {

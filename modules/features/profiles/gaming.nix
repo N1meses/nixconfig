@@ -1,4 +1,5 @@
 _: {
+  aspects.gaming.description = "Gaming stack: Steam, gamemode and the kernel/sysctl tuning they want.";
   aspects.gaming.nixos =
     {
       pkgs,

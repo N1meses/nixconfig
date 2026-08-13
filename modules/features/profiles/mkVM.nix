@@ -1,4 +1,5 @@
 _: {
+  aspects.mkVM.description = "Turns a host into a bootable QEMU VM for testing.";
   aspects.mkVM = {
     nixos = { lib, ... }: {
       virtualisation.vmVariant = {

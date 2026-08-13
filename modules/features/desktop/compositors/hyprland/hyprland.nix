@@ -4,6 +4,7 @@
   ...
 }:
 {
+  aspects.hyprland.description = "The Hyprland Wayland compositor.";
   aspects.hyprland = {
     nixos = { pkgs, ... }: {
       programs.hyprland = {

@@ -1,4 +1,5 @@
 { config, ... }: {
+  aspects.matrix.description = "Matrix homeserver.";
   aspects.matrix.nixos =
     { config, ... }:
     let

@@ -1,4 +1,5 @@
 _: {
+  aspects.python.description = "Python toolchain and pyright wiring.";
   aspects.python.home = { pkgs, ... }: {
     packages = with pkgs; [
       pyright

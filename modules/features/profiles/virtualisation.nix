@@ -1,4 +1,5 @@
 _: {
+  aspects.virtualisation.description = "Virtualisation host support (libvirt/qemu on nixos, incus on finix).";
   aspects.virtualisation = {
     nixos =
       {

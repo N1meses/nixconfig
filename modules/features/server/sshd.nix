@@ -1,4 +1,5 @@
 _: {
+  aspects.sshd.description = "OpenSSH server, key-only and restricted to declared users.";
   aspects.sshd = {
     nixos =
       {

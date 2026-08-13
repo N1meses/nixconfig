@@ -1,4 +1,5 @@
 { config, ... }: {
+  aspects.navidrome.description = "Navidrome music streaming server.";
   aspects.navidrome.nixos =
     { config, ... }:
     let

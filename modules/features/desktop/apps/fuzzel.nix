@@ -1,4 +1,5 @@
 { config, ... }: {
+  aspects.fuzzel.description = "The fuzzel application launcher, themed.";
   aspects.fuzzel.home =
     {
       lib,

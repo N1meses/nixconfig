@@ -10,6 +10,15 @@ in
       type = t.attrsOf (
         t.submodule {
           options = {
+            description = lib.mkOption {
+              type = t.nullOr t.str;
+              default = null;
+              description = ''
+                One line saying what selecting this aspect gets you. Consumed by the
+                generated module reference, so prose lives next to the code it
+                describes and cannot drift away from it.
+              '';
+            };
             includes = lib.mkOption {
               type = t.listOf t.str;
               default = [ ];
@@ -45,6 +54,12 @@ in
       nixosModules = layerSet "nixos";
       homeModules = layerSet "home";
       finixModules = layerSet "finix";
+      layers = [
+        "nixos"
+        "finix"
+        "home"
+      ];
+      layersOf = n: lib.filter (l: config.aspects.${n}.${l} != null) config.aspectLib.layers;
       aspectsFor = layerModules: ns: map (n: layerModules.${n}) (lib.filter (n: layerModules ? ${n}) ns);
       resolveAspects =
         roots:

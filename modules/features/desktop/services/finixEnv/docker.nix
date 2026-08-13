@@ -1,4 +1,5 @@
 _: {
+  aspects.docker.description = "Docker daemon with syslog wiring.";
   aspects.docker.finix = { modules, ... }: {
     imports = [
       modules.docker

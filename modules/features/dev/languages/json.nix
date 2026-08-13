@@ -1,4 +1,5 @@
 _: {
+  aspects.json.description = "JSON toolchain and language-server wiring.";
   aspects.json.home = { pkgs, ... }: {
     packages = with pkgs; [ nodePackages.vscode-langservers-extracted ];
     rum.programs.helix.languages = {

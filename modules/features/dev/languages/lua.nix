@@ -1,4 +1,5 @@
 _: {
+  aspects.lua.description = "Lua toolchain and lua-language-server wiring.";
   aspects.lua.home = { pkgs, ... }: {
     packages = with pkgs; [
       lua-language-server

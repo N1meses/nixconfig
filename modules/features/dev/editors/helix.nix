@@ -1,4 +1,5 @@
 { inputs, ... }: {
+  aspects.helix.description = "The Helix editor, with theme and language-server registry.";
   aspects.helix.home = { lib, ... }: {
     environment.sessionVariables = {
       EDITOR = "hx";

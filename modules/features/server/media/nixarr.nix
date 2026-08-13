@@ -4,6 +4,7 @@
   ...
 }:
 {
+  aspects.nixarr.description = "The *arr media automation stack.";
   aspects.nixarr.nixos =
     {
       config,

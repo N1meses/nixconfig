@@ -1,4 +1,5 @@
 _: {
+  aspects.technitium.description = "Technitium DNS server.";
   aspects.technitium.nixos = {
     services.technitium-dns-server = {
       enable = true;

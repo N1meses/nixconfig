@@ -1,4 +1,5 @@
 _: {
+  aspects.croc.description = "croc file-transfer relay on the tailnet.";
   aspects.croc.nixos = { pkgs, ... }: {
     systemd.services.croc-relay = {
       description = "Croc relay server";

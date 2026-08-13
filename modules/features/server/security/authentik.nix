@@ -4,6 +4,7 @@
   ...
 }:
 {
+  aspects.authentik.description = "Authentik identity provider.";
   aspects.authentik.nixos =
     { config, ... }:
     let

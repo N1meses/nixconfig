@@ -1,4 +1,5 @@
 _: {
+  aspects.rust.description = "Rust toolchain and rust-analyzer wiring.";
   aspects.rust.home = { pkgs, ... }: {
     packages = with pkgs; [
       rust-analyzer

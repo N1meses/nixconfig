@@ -1,4 +1,5 @@
 { config, ... }: {
+  aspects.binaryCache.description = "nix-serve binary cache, published on the tailnet.";
   aspects.binaryCache.nixos =
     { config, pkgs, ... }:
     {

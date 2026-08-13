@@ -1,4 +1,5 @@
 _: {
+  aspects.nginx.description = "nginx reverse proxy with ACME-backed TLS.";
   aspects.nginx.nixos =
     {
       lib,

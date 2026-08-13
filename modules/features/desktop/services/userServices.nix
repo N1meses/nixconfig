@@ -1,4 +1,5 @@
 _: {
+  aspects.userServices.description = "Per-user session services: automounting and notifications.";
   aspects.userServices.home =
     {
       config,

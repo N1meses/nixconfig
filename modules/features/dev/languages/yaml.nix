@@ -1,4 +1,5 @@
 _: {
+  aspects.yaml.description = "YAML toolchain and language-server wiring.";
   aspects.yaml.home = { pkgs, ... }: {
     packages = with pkgs; [
       yaml-language-server

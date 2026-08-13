@@ -1,4 +1,5 @@
 { config, ... }: {
+  aspects.airvpn.description = "AirVPN wireguard tunnel with a sops-held config.";
   aspects.airvpn.nixos = { config, ... }: {
     sops.secrets.airvpn-wg-conf-system = { };
 

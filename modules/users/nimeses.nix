@@ -30,7 +30,6 @@
       rust
       markdown
       direnv
-      music
     ];
     homeModule = { pkgs, ... }: {
       packages = with pkgs; [

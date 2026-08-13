@@ -13,6 +13,7 @@ let
   };
 in
 {
+  aspects.local.description = "Locale, timezone, console keymap and i18n settings.";
   aspects.local = {
     nixos =
       {

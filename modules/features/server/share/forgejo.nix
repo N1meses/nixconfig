@@ -1,4 +1,5 @@
 { config, ... }: {
+  aspects.forgejo.description = "Forgejo git forge with LFS and Actions.";
   aspects.forgejo.nixos =
     { config, ... }:
     let

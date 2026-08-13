@@ -1,4 +1,5 @@
 _: {
+  aspects.persistence.description = "Declarative /persist bind-mount handling for impermanent finix roots.";
   aspects.persistence.finix =
     {
       config,

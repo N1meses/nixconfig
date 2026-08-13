@@ -1,4 +1,5 @@
 _: {
+  aspects.browser.description = "Web browser with declarative policy and default-application wiring.";
   aspects.browser.home =
     {
       pkgs,

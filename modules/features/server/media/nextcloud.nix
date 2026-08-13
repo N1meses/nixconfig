@@ -1,4 +1,5 @@
 { config, ... }: {
+  aspects.nextcloud.description = "Nextcloud with a local database.";
   aspects.nextcloud.nixos =
     {
       config,

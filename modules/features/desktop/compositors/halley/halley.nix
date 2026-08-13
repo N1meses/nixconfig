@@ -3,6 +3,7 @@
   ...
 }:
 {
+  aspects.halley.description = "The halley Wayland compositor.";
   aspects.halley = {
     finix =
       {

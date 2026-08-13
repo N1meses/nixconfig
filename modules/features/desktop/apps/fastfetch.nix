@@ -20,6 +20,7 @@ let
   colorFlags = p: lib.concatStringsSep " " (lib.mapAttrsToList (n: c: "--logo-color-${n} '${c}'") p);
 in
 {
+  aspects.fastfetch.description = "fastfetch system summary, configured for this fleet.";
   aspects.fastfetch.home =
     { config, lib, ... }:
     let

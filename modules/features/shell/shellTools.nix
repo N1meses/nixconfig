@@ -1,4 +1,5 @@
 _: {
+  aspects.shellTools.description = "fzf and zoxide, integrated into zsh.";
   aspects.shellTools.home = { pkgs, ... }: {
     rum.programs.zoxide = {
       enable = true;

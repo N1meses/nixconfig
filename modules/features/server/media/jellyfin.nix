@@ -1,4 +1,5 @@
 { config, ... }: {
+  aspects.jellyfin.description = "Jellyfin media server, proxied and backed up.";
   aspects.jellyfin.nixos =
     { config, ... }:
     let

@@ -1,4 +1,5 @@
 { inputs, ... }: {
+  aspects.tailscale.description = "Tailscale mesh VPN, trusted in the firewall.";
   aspects.tailscale = {
     nixos = _: {
       services.tailscale.enable = true;

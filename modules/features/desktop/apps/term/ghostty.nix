@@ -1,4 +1,5 @@
 { config, ... }: {
+  aspects.ghostty.description = "The ghostty terminal emulator.";
   aspects.ghostty.home = { lib, ... }: {
     features.compositors.terminal = lib.mkDefault {
       command = "ghostty";

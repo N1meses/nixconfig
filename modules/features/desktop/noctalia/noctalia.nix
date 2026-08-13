@@ -24,6 +24,8 @@ in
   # Halley keybind action = a bare spawn command string.
   aspectLib.mkNoctaliaHalley = cmd: "noctalia msg ${cmd}";
 
+  aspects.noctalia.description = "The noctalia desktop shell (bar, launcher, control centre).";
+
   aspects.noctalia.includes = with config.aspectLib.names; [ compositors ];
 
   aspects.noctalia.home = { pkgs, ... }: {

@@ -1,4 +1,5 @@
 _: {
+  aspects.audio.description = "PipeWire audio with ALSA and 32-bit support.";
   aspects.audio = {
     nixos = _: {
       services.pipewire = {

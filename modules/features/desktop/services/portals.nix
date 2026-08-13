@@ -1,4 +1,5 @@
 _: {
+  aspects.portals.description = "xdg-desktop-portal backends and per-compositor backend routing.";
   aspects.portals = {
     nixos = { lib, ... }: {
       services.dbus.enable = lib.mkDefault true;

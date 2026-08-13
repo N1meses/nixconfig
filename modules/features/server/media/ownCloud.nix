@@ -1,4 +1,5 @@
 { config, ... }: {
+  aspects.ocis.description = "ownCloud Infinite Scale.";
   aspects.ocis.nixos =
     { config, ... }:
     let

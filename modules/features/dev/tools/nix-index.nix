@@ -1,4 +1,5 @@
 { inputs, ... }: {
+  aspects.nixIndex.description = "nix-index and command-not-found lookup.";
   aspects.nixIndex.nixos = {
     imports = [ inputs.nix-index-database.nixosModules.nix-index ];
     programs.nix-index.enable = true;

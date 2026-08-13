@@ -1,4 +1,5 @@
 _: {
+  aspects.gtk.description = "GTK theme, cursor and icon settings.";
   aspects.gtk.home =
     {
       config,

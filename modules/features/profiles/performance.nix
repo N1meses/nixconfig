@@ -1,4 +1,5 @@
 _: {
+  aspects.performance.description = "Performance tuning: zram, sysctls and nix daemon scheduling.";
   aspects.performance.nixos = { lib, ... }: {
     boot.kernel.sysctl = {
       "net.core.netdev_max_backlog" = lib.mkDefault 16384;

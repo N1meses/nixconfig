@@ -1,4 +1,5 @@
 _: {
+  aspects.go.description = "Go toolchain and gopls wiring.";
   aspects.go.home = { pkgs, ... }: {
     packages = with pkgs; [
       gopls

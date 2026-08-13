@@ -1,4 +1,5 @@
 _: {
+  aspects.bluetooth.description = "Bluetooth stack, powered on at boot.";
   aspects.bluetooth = {
     nixos = _: {
       hardware.bluetooth = {

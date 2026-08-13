@@ -1,4 +1,5 @@
 _: {
+  aspects.session.description = "finix session wiring: dbus, XDG icon caches, runlevel and PATH linking.";
   aspects.session.finix =
     {
       pkgs,

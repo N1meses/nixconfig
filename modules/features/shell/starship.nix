@@ -1,4 +1,5 @@
 _: {
+  aspects.starship.description = "The starship prompt, themed.";
   aspects.starship.home = { lib, ... }: {
     rum.programs.starship = {
       enable = lib.mkDefault true;

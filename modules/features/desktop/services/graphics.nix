@@ -1,4 +1,5 @@
 _: {
+  aspects.graphics.description = "GPU drivers and the X server fallback.";
   aspects.graphics.nixos = { lib, ... }: {
     hardware.graphics.enable = true;
 

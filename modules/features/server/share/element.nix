@@ -1,4 +1,5 @@
 { config, ... }: {
+  aspects.element.description = "Element web client.";
   aspects.element.nixos =
     {
       config,

@@ -1,4 +1,5 @@
 _: {
+  aspects.serverCore.description = "Server baseline: fail2ban, trimmed documentation and headless defaults.";
   aspects.serverCore.nixos =
     {
       lib,

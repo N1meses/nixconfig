@@ -3,6 +3,7 @@ let
   flakeConfig = config;
 in
 {
+  aspects.users.description = "Materialises registry.users into real accounts on whichever layer the host builds in.";
   aspects.users = {
     nixos =
       {

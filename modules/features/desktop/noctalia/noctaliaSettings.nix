@@ -12,6 +12,7 @@ let
       lib.mkDefault val;
 in
 {
+  aspects.noctaliaSettings.description = "Declarative noctalia settings, generated per host.";
   aspects.noctaliaSettings.home =
     {
       config,

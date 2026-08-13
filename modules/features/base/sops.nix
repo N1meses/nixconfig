@@ -1,4 +1,5 @@
 { inputs, ... }: {
+  aspects.sops.description = "sops-nix secret decryption, keyed on an age keyfile at /root/.config/sops/age/keys.txt.";
   aspects.sops.nixos =
     {
       hostName,

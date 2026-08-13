@@ -1,4 +1,5 @@
 { config, ... }: {
+  aspects.foot.description = "The foot terminal emulator.";
   aspects.foot.home = { lib, ... }: {
     features.compositors.terminal = lib.mkDefault {
       command = "foot";

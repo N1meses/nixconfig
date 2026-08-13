@@ -3,6 +3,7 @@ let
   parentDest = "100.75.163.80:19999";
 in
 { config, ... }: {
+  aspects.monitoring.description = "netdata metrics, streaming to the parent collector over tailscale.";
   aspects.monitoring.nixos =
     {
       pkgs,

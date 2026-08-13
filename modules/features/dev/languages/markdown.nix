@@ -1,4 +1,5 @@
 _: {
+  aspects.markdown.description = "Markdown toolchain and marksman wiring.";
   aspects.markdown.home = { pkgs, ... }: {
     packages = with pkgs; [ marksman ];
     rum.programs.helix.languages = {

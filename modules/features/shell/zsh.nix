@@ -1,4 +1,5 @@
 _: {
+  aspects.zsh.description = "zsh as the login shell, with autosuggestions and completion.";
   aspects.zsh = {
     nixos = _: {
       programs.zsh.enable = true;

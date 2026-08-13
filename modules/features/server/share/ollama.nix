@@ -1,4 +1,5 @@
 _: {
+  aspects.ollama.description = "Ollama local LLM server.";
   aspects.ollama.nixos =
     {
       config,

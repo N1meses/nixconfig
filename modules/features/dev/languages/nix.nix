@@ -1,4 +1,5 @@
 _: {
+  aspects.nix.description = "Nix toolchain, nixd language server and nixfmt formatting.";
   aspects.nix.home = { pkgs, ... }: {
     packages = with pkgs; [
       nixd

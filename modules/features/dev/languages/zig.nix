@@ -1,4 +1,5 @@
 _: {
+  aspects.zig.description = "Zig toolchain and zls wiring.";
   aspects.zig.home = { pkgs, ... }: {
     packages = with pkgs; [
       zls

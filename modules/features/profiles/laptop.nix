@@ -1,4 +1,5 @@
 _: {
+  aspects.laptop.description = "Laptop power management, lid handling and backlight control.";
   aspects.laptop = {
     nixos = { lib, ... }: {
       services = {

@@ -1,4 +1,5 @@
 _: {
+  aspects.fonts.description = "System font packages and fontconfig.";
   aspects.fonts = {
     nixos = { pkgs, ... }: {
       fonts.packages = with pkgs; [

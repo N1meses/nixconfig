@@ -1,4 +1,5 @@
 { config, ... }: {
+  aspects.forgejoRunner.description = "Forgejo Actions runner registered against atlas.";
   aspects.forgejoRunner.nixos =
     { config, pkgs, ... }:
     {

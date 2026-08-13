@@ -1,4 +1,5 @@
 { config, ... }: {
+  aspects.kitty.description = "The kitty terminal emulator.";
   aspects.kitty.home = { lib, ... }: {
     features.compositors.autoStart = [ "kitty --single-instance" ];
 

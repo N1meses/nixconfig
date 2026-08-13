@@ -1,4 +1,5 @@
 {
+  aspects.finitV5.description = "Pins finit to v5 with a matching libconfuse build.";
   aspects.finitV5.finix =
     { pkgs, ... }:
     {
