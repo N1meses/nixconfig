@@ -1,6 +1,5 @@
 _: {
-  aspects.fonts.description = "System font packages and fontconfig.";
-  aspects.fonts = {
+  aspects.desktop.services.fonts = {
     nixos = { pkgs, ... }: {
       fonts.packages = with pkgs; [
         ibm-plex
@@ -25,5 +24,6 @@ _: {
         ];
       };
     };
+    description = "System font packages and fontconfig.";
   };
 }

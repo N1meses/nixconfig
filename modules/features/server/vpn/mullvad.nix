@@ -1,6 +1,8 @@
 _: {
-  aspects.mullvad.description = "Mullvad VPN client.";
-  aspects.mullvad.nixos = _: {
-    services.mullvad-vpn.enable = true;
+  aspects.server.vpn.mullvad = {
+    description = "Mullvad VPN client.";
+    nixos = _: {
+      services.mullvad-vpn.enable = true;
+    };
   };
 }

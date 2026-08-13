@@ -1,6 +1,8 @@
 _: {
-  aspects.puml.description = "PlantUML tooling.";
-  aspects.puml.home = { pkgs, ... }: {
-    packages = with pkgs; [ plantuml ];
+  aspects.dev.languages.puml = {
+    description = "PlantUML tooling.";
+    home = { pkgs, ... }: {
+      packages = with pkgs; [ plantuml ];
+    };
   };
 }

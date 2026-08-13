@@ -1,6 +1,5 @@
 _: {
-  aspects.bluetooth.description = "Bluetooth stack, powered on at boot.";
-  aspects.bluetooth = {
+  aspects.desktop.services.bluetooth = {
     nixos = _: {
       hardware.bluetooth = {
         enable = true;
@@ -24,5 +23,6 @@ _: {
           settings.Policy.AutoEnable = lib.mkDefault true;
         };
       };
+    description = "Bluetooth stack, powered on at boot.";
   };
 }

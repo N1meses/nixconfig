@@ -4,13 +4,13 @@
     extraGroups = [ ];
     keys = map builtins.readFile (lib.filesystem.listFilesRecursive ../features/base/super/keys);
     aspects = with config.aspectLib.names; [
-      cliEnv
-      services
-      niri
-      noctalia
-      foot
-      yazi
-      browser
+      bundle.cliEnv
+      bundle.services
+      desktop.compositors.niri
+      desktop.noctalia
+      desktop.apps.term.foot
+      desktop.apps.yazi
+      desktop.apps.browser
     ];
     homeModule = { pkgs, ... }: {
       packages = with pkgs; [

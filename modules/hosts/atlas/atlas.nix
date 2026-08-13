@@ -16,22 +16,22 @@
     hostId = "32947ba6";
     domain = "nimeses.com";
     aspects = with config.aspectLib.names; [
-      base
-      git
-      serverCore
-      sshd
-      nh
-      monitoring
-      forgejo
-      binaryCache
-      forgejoRunner
-      jellyfin
-      authentik
-      cloudflared
-      matrix
-      element
-      nixarr
-      ocis
+      bundle.base
+      dev.tools.git
+      server.serverCore
+      server.sshd
+      desktop.apps.nh
+      server.monitoring
+      server.share.forgejo
+      server.binaryCache
+      server.forgejoRunner
+      server.media.jellyfin
+      server.security.authentik
+      server.vpn.cloudflared
+      server.share.matrix
+      server.share.element
+      server.media.nixarr
+      server.media.ocis
     ];
 
     nixosModule =

@@ -18,18 +18,18 @@
     ];
     keys = map builtins.readFile (lib.filesystem.listFilesRecursive ../features/base/super/keys);
     aspects = with config.aspectLib.names; [
-      cliEnv
-      desktop
-      niri
-      halley
-      nix
-      zed
-      kitty
-      python
-      c
-      rust
-      markdown
-      direnv
+      bundle.cliEnv
+      bundle.desktop
+      desktop.compositors.niri
+      desktop.compositors.halley
+      dev.languages.nix
+      dev.editors.zed
+      desktop.apps.term.kitty
+      dev.languages.python
+      dev.languages.c
+      dev.languages.rust
+      dev.languages.markdown
+      dev.tools.direnv
     ];
     homeModule = { pkgs, ... }: {
       packages = with pkgs; [

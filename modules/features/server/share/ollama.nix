@@ -1,45 +1,47 @@
 _: {
-  aspects.ollama.description = "Ollama local LLM server.";
-  aspects.ollama.nixos =
-    {
-      config,
-      lib,
-      ...
-    }:
-    let
-      cfg = config.features.server.ollama;
-    in
-    {
-      options.features.server.ollama = {
-        host = lib.mkOption {
-          type = lib.types.str;
-          default = "127.0.0.1";
-          description = "Host address to bind Ollama to.";
+  aspects.server.share.ollama = {
+    description = "Ollama local LLM server.";
+    nixos =
+      {
+        config,
+        lib,
+        ...
+      }:
+      let
+        cfg = config.features.server.ollama;
+      in
+      {
+        options.features.server.ollama = {
+          host = lib.mkOption {
+            type = lib.types.str;
+            default = "127.0.0.1";
+            description = "Host address to bind Ollama to.";
+          };
+
+          port = lib.mkOption {
+            type = lib.types.port;
+            default = 11434;
+            description = "Port to bind Ollama to.";
+          };
+
+          acceleration = lib.mkOption {
+            type = lib.types.nullOr (
+              lib.types.enum [
+                "rocm"
+                "cuda"
+              ]
+            );
+            default = null;
+            description = "Hardware acceleration backend.";
+          };
         };
 
-        port = lib.mkOption {
-          type = lib.types.port;
-          default = 11434;
-          description = "Port to bind Ollama to.";
-        };
-
-        acceleration = lib.mkOption {
-          type = lib.types.nullOr (
-            lib.types.enum [
-              "rocm"
-              "cuda"
-            ]
-          );
-          default = null;
-          description = "Hardware acceleration backend.";
+        config.services.ollama = {
+          enable = true;
+          inherit (cfg) host;
+          inherit (cfg) port;
+          inherit (cfg) acceleration;
         };
       };
-
-      config.services.ollama = {
-        enable = true;
-        inherit (cfg) host;
-        inherit (cfg) port;
-        inherit (cfg) acceleration;
-      };
-    };
+  };
 }

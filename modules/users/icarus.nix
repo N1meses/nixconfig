@@ -12,13 +12,13 @@
     ];
     keys = map builtins.readFile (lib.filesystem.listFilesRecursive ../features/base/super/keys);
     aspects = with config.aspectLib.names; [
-      cliEnv
-      niri
-      desktop
-      nix
-      ssh
-      foot
-      zed
+      bundle.cliEnv
+      desktop.compositors.niri
+      bundle.desktop
+      dev.languages.nix
+      shell.ssh
+      desktop.apps.term.foot
+      dev.editors.zed
     ];
     homeModule = { pkgs, ... }: {
       packages = with pkgs; [

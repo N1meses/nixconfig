@@ -3,8 +3,7 @@
   ...
 }:
 {
-  aspects.halley.description = "The halley Wayland compositor.";
-  aspects.halley = {
+  aspects.desktop.compositors.halley = {
     finix =
       {
         lib,
@@ -204,10 +203,11 @@
           };
         };
       };
+    description = "The halley Wayland compositor.";
+    includes = with config.aspectLib.names; [
+      desktop.compositors.compositors
+      desktop.services.portals
+    ];
   };
 
-  aspects.halley.includes = with config.aspectLib.names; [
-    compositors
-    portals
-  ];
 }

@@ -6,10 +6,10 @@
     extraGroups = [ "docker" ];
     keys = map builtins.readFile (lib.filesystem.listFilesRecursive ../features/base/super/keys);
     aspects = with config.aspectLib.names; [
-      cliEnv
-      network
-      nix
-      fastfetch
+      bundle.cliEnv
+      dev.tools.network
+      dev.languages.nix
+      desktop.apps.fastfetch
     ];
     homeModule = { pkgs, ... }: {
       packages = with pkgs; [

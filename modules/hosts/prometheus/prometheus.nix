@@ -14,14 +14,14 @@ in
     homeDirectory = "/home/prometheus";
     extraGroups = [ ];
     aspects = with config.aspectLib.names; [
-      base
-      git
-      ly
-      nixIndex
-      cachyosKernel
-      gaming
-      performance
-      virtualisation
+      bundle.base
+      dev.tools.git
+      desktop.services.ly
+      dev.tools.nixIndex
+      core.cachyosKernel
+      profile.gaming
+      profile.performance
+      profile.virtualisation
     ];
 
     nixosModule = { pkgs, ... }: {

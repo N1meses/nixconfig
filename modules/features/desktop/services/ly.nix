@@ -1,6 +1,5 @@
 _: {
-  aspects.ly.description = "ly display manager.";
-  aspects.ly = {
+  aspects.desktop.services.ly = {
     nixos = _: {
       services.displayManager.ly = {
         enable = true;
@@ -22,5 +21,6 @@ _: {
         };
       };
     };
+    description = "ly display manager.";
   };
 }

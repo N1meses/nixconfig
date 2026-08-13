@@ -12,17 +12,17 @@ in
     system = "x86_64-linux";
     stateVersion = "25.11";
     aspects = with config.aspectLib.names; [
-      base
-      desktop
-      niri
-      ly
-      laptop
-      sshd
+      bundle.base
+      bundle.desktop
+      desktop.compositors.niri
+      desktop.services.ly
+      profile.laptop
+      server.sshd
 
-      devMdevd
-      netIwd
-      seatSeatd
-      coreutilsBusybox
+      finix.devMdevd
+      finix.netIwd
+      finix.seatSeatd
+      finix.coreutilsBusybox
     ];
 
     finixModule = { ... }: {

@@ -10,15 +10,15 @@
     hostId = "2e95e7c9";
     domain = "athena.tail4109e2.ts.net";
     aspects = with config.aspectLib.names; [
-      base
-      git
-      serverCore
-      sshd
-      nh
-      monitoring
-      vaultwarden
-      croc
-      technitium
+      bundle.base
+      dev.tools.git
+      server.serverCore
+      server.sshd
+      desktop.apps.nh
+      server.monitoring
+      server.security.vaultwarden
+      server.share.croc
+      server.technitium
     ];
 
     nixosModule =

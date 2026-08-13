@@ -4,8 +4,7 @@
   ...
 }:
 {
-  aspects.hyprland.description = "The Hyprland Wayland compositor.";
-  aspects.hyprland = {
+  aspects.desktop.compositors.hyprland = {
     nixos = { pkgs, ... }: {
       programs.hyprland = {
         enable = true;
@@ -131,9 +130,10 @@
           };
         };
       };
+    description = "The Hyprland Wayland compositor.";
+    includes = with config.aspectLib.names; [
+      desktop.compositors.compositors
+      desktop.services.portals
+    ];
   };
-  aspects.hyprland.includes = with config.aspectLib.names; [
-    compositors
-    portals
-  ];
 }

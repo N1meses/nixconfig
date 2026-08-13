@@ -11,21 +11,21 @@ in
     machineModules = [
       ./_hardware.nix
       ./_disko.nix
-      ../../features/desktop/services/finixEnv/_impermanence.nix
+      ../../features/finix/_impermanence.nix
     ];
     users = with config.registry.userNames; [ icarus ];
     system = "x86_64-linux";
     stateVersion = "25.11";
     aspects = with config.aspectLib.names; [
-      base
-      desktop
-      niri
-      ly
-      laptop
-      sshd
-      devUdev
-      netNM
-      seatElogind
+      bundle.base
+      bundle.desktop
+      desktop.compositors.niri
+      desktop.services.ly
+      profile.laptop
+      server.sshd
+      finix.devUdev
+      finix.netNM
+      finix.seatElogind
     ];
 
     finixModule = { pkgs, ... }: {

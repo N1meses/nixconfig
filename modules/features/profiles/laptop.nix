@@ -1,6 +1,5 @@
 _: {
-  aspects.laptop.description = "Laptop power management, lid handling and backlight control.";
-  aspects.laptop = {
+  aspects.profile.laptop = {
     nixos = { lib, ... }: {
       services = {
         upower.enable = lib.mkDefault true;
@@ -67,5 +66,6 @@ _: {
         programs.brightnessctl.enable = lib.mkDefault true;
         programs.zzz.enable = lib.mkDefault true;
       };
+    description = "Laptop power management, lid handling and backlight control.";
   };
 }

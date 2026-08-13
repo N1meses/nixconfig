@@ -13,8 +13,7 @@ let
   };
 in
 {
-  aspects.local.description = "Locale, timezone, console keymap and i18n settings.";
-  aspects.local = {
+  aspects.core.local = {
     nixos =
       {
         lib,
@@ -43,5 +42,6 @@ in
         i18n.defaultLocale = lib.mkDefault "en_US.UTF-8";
         i18n.extraLocaleSettings = lib.mkDefault localSettings;
       };
+    description = "Locale, timezone, console keymap and i18n settings.";
   };
 }

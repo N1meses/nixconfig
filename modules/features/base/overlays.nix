@@ -1,8 +1,10 @@
 { inputs, ... }: {
-  aspects.overlays.description = "Fleet-wide nixpkgs overlays (pinned CachyOS kernel).";
-  aspects.overlays.nixos = {
-    nixpkgs.overlays = [
-      inputs.nix-cachyos-kernel.overlays.pinned
-    ];
+  aspects.core.overlays = {
+    description = "Fleet-wide nixpkgs overlays (pinned CachyOS kernel).";
+    nixos = {
+      nixpkgs.overlays = [
+        inputs.nix-cachyos-kernel.overlays.pinned
+      ];
+    };
   };
 }

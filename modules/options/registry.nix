@@ -5,7 +5,7 @@
 }:
 let
   t = lib.types;
-  aspectNames = builtins.attrNames config.aspects;
+  aspectNames = config.aspectLib.flatNames;
   userNames = builtins.attrNames config.registry.users;
 in
 {

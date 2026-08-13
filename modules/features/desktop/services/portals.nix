@@ -1,6 +1,5 @@
 _: {
-  aspects.portals.description = "xdg-desktop-portal backends and per-compositor backend routing.";
-  aspects.portals = {
+  aspects.desktop.services.portals = {
     nixos = { lib, ... }: {
       services.dbus.enable = lib.mkDefault true;
       services.udisks2.enable = lib.mkDefault true;
@@ -74,5 +73,6 @@ _: {
           ) cfg.desktops;
         };
       };
+    description = "xdg-desktop-portal backends and per-compositor backend routing.";
   };
 }

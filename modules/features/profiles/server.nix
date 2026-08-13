@@ -1,19 +1,19 @@
 { config, ... }: {
 
-  aspects.server.description = "Headless server role: base plus CLI environment, hardened sshd, networking tools and nh.";
-
-  aspects.server = {
+  aspects.bundle.server = {
     home = {
       features.apps.yazi.terminalFilechooser = false;
     };
 
     includes = with config.aspectLib.names; [
-      base
-      cliEnv
-      serverCore
-      sshd
-      network
-      nh
+      bundle.base
+      bundle.cliEnv
+      server.serverCore
+      server.sshd
+      dev.tools.network
+      desktop.apps.nh
     ];
+    description = "Headless server role: base plus CLI environment, hardened sshd, networking tools and nh.";
   };
+
 }

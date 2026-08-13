@@ -1,8 +1,10 @@
 _: {
-  aspects.music.description = "MPD music daemon.";
-  aspects.music.nixos = _: {
-    services.mpd = {
-      enable = true;
+  aspects.desktop.services.music = {
+    description = "MPD music daemon.";
+    nixos = _: {
+      services.mpd = {
+        enable = true;
+      };
     };
   };
 }

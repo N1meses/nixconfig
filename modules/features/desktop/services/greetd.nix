@@ -1,6 +1,5 @@
 _: {
-  aspects.greetd.description = "greetd display manager with the tuigreet frontend.";
-  aspects.greetd = {
+  aspects.desktop.services.greetd = {
     nixos =
       {
         pkgs,
@@ -24,5 +23,6 @@ _: {
       programs.tuigreet.enable = true;
       services.greetd.settings.terminal.vt = 1;
     };
+    description = "greetd display manager with the tuigreet frontend.";
   };
 }

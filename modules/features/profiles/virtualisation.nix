@@ -1,6 +1,5 @@
 _: {
-  aspects.virtualisation.description = "Virtualisation host support (libvirt/qemu on nixos, incus on finix).";
-  aspects.virtualisation = {
+  aspects.profile.virtualisation = {
     nixos =
       {
         config,
@@ -67,5 +66,6 @@ _: {
         services.sysklogd.enable = true;
         services.incus.enable = true;
       };
+    description = "Virtualisation host support (libvirt/qemu on nixos, incus on finix).";
   };
 }

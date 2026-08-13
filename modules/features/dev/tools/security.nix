@@ -1,13 +1,15 @@
 _: {
-  aspects.security.description = "Security and secret-handling tooling.";
-  aspects.security.home = { pkgs, ... }: {
-    packages = with pkgs; [
-      nmap
-      netcat
-      mtr
-      tcpdump
-      traceroute
-      autopsy
-    ];
+  aspects.dev.tools.security = {
+    description = "Security and secret-handling tooling.";
+    home = { pkgs, ... }: {
+      packages = with pkgs; [
+        nmap
+        netcat
+        mtr
+        tcpdump
+        traceroute
+        autopsy
+      ];
+    };
   };
 }

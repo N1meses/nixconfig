@@ -155,8 +155,7 @@ let
   };
 in
 {
-  aspects.niri.description = "The niri scrolling Wayland compositor, with keybinds and portal wiring.";
-  aspects.niri = {
+  aspects.desktop.compositors.niri = {
     nixos = { pkgs, ... }: {
       imports = [ inputs.niri-nix.nixosModules.default ];
       programs.niri = {
@@ -400,9 +399,10 @@ in
             + lib.concatStringsSep "\n" config.features.compositors.niri.extraConfig;
         };
       };
+    description = "The niri scrolling Wayland compositor, with keybinds and portal wiring.";
+    includes = with config.aspectLib.names; [
+      desktop.compositors.compositors
+      desktop.services.portals
+    ];
   };
-  aspects.niri.includes = with config.aspectLib.names; [
-    compositors
-    portals
-  ];
 }

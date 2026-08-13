@@ -7,7 +7,7 @@
 let
   inherit (config.aspectLib) layersOf;
 
-  aspectNames = lib.sort lib.lessThan (builtins.attrNames config.aspects);
+  aspectNames = lib.sort lib.lessThan config.aspectLib.flatNames;
   hostNames = lib.sort lib.lessThan (builtins.attrNames config.registry.hosts);
 
   code = s: "`" + s + "`";
@@ -25,7 +25,7 @@ let
   aspectRow =
     n:
     let
-      a = config.aspects.${n};
+      a = config.aspectLib.all.${n};
       ls = layersOf n;
     in
     "| ${code n} | ${if ls == [ ] then "*aggregator*" else lib.concatStringsSep "+" ls} | "
@@ -40,7 +40,7 @@ let
     map (x: "| ${code n} | ${code x} | ${lib.concatStringsSep "+" (layersOf x)} |") real
   ) hostNames;
 
-  undocumented = lib.filter (n: config.aspects.${n}.description == null) aspectNames;
+  undocumented = lib.filter (n: config.aspectLib.all.${n}.description == null) aspectNames;
 
   modulesMd = ''
     <!-- GENERATED FILE — DO NOT EDIT.

@@ -1,6 +1,5 @@
 _: {
-  aspects.mkVM.description = "Turns a host into a bootable QEMU VM for testing.";
-  aspects.mkVM = {
+  aspects.profile.mkVM = {
     nixos = { lib, ... }: {
       virtualisation.vmVariant = {
         virtualisation = {
@@ -56,5 +55,6 @@ _: {
         };
         testing.graphics.enable = true;
       };
+    description = "Turns a host into a bootable QEMU VM for testing.";
   };
 }

@@ -1,6 +1,5 @@
 { inputs, ... }: {
-  aspects.tailscale.description = "Tailscale mesh VPN, trusted in the firewall.";
-  aspects.tailscale = {
+  aspects.server.vpn.tailscale = {
     nixos = _: {
       services.tailscale.enable = true;
       services.tailscale.permitCertUid = "root";
@@ -13,5 +12,6 @@
       services.tailscale.enable = true;
       finit.services.tailscaled.conditions = lib.mkForce [ "service/syslogd/ready" ];
     };
+    description = "Tailscale mesh VPN, trusted in the firewall.";
   };
 }

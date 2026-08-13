@@ -22,12 +22,12 @@ in
     ];
     hostId = "50fb8101";
     aspects = with config.aspectLib.names; [
-      base
-      git
-      cachyosKernel
-      rescue
-      ly
-      nh
+      bundle.base
+      dev.tools.git
+      core.cachyosKernel
+      profile.rescue
+      desktop.services.ly
+      desktop.apps.nh
     ];
 
     nixosModule = { lib, ... }: {

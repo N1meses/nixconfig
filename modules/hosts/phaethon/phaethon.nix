@@ -10,14 +10,14 @@
     stateVersion = "25.11";
     hostId = "0762b962";
     aspects = with config.aspectLib.names; [
-      base
-      sshd
-      zfs
-      docker
+      bundle.base
+      server.sshd
+      finix.zfs
+      finix.docker
 
-      devGardendevd
-      netDhcpcd
-      coreutilsGnu
+      finix.devGardendevd
+      finix.netDhcpcd
+      finix.coreutilsGnu
     ];
 
     finixModule =

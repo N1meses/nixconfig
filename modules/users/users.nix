@@ -3,8 +3,7 @@ let
   flakeConfig = config;
 in
 {
-  aspects.users.description = "Materialises registry.users into real accounts on whichever layer the host builds in.";
-  aspects.users = {
+  aspects.core.users = {
     nixos =
       {
         config,
@@ -80,5 +79,6 @@ in
           in
           lib.genAttrs host.users mkUser;
       };
+    description = "Materialises registry.users into real accounts on whichever layer the host builds in.";
   };
 }

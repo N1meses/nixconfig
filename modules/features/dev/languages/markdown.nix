@@ -1,19 +1,21 @@
 _: {
-  aspects.markdown.description = "Markdown toolchain and marksman wiring.";
-  aspects.markdown.home = { pkgs, ... }: {
-    packages = with pkgs; [ marksman ];
-    rum.programs.helix.languages = {
-      language-server.marksman = {
-        command = "${pkgs.marksman}/bin/marksman";
-        args = [ "server" ];
+  aspects.dev.languages.markdown = {
+    description = "Markdown toolchain and marksman wiring.";
+    home = { pkgs, ... }: {
+      packages = with pkgs; [ marksman ];
+      rum.programs.helix.languages = {
+        language-server.marksman = {
+          command = "${pkgs.marksman}/bin/marksman";
+          args = [ "server" ];
+        };
+        language = [
+          {
+            name = "markdown";
+            auto-format = true;
+            language-servers = [ "marksman" ];
+          }
+        ];
       };
-      language = [
-        {
-          name = "markdown";
-          auto-format = true;
-          language-servers = [ "marksman" ];
-        }
-      ];
     };
   };
 }

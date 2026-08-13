@@ -4,8 +4,7 @@
   ...
 }:
 {
-  aspects.mango.description = "The mango Wayland compositor.";
-  aspects.mango = {
+  aspects.desktop.compositors.mango = {
     nixos = { ... }: {
       imports = [
         inputs.mango.nixosModules.mango
@@ -231,9 +230,10 @@
               pkgs.writeShellScript "mango-autostart" autostartText;
           };
       };
+    description = "The mango Wayland compositor.";
+    includes = with config.aspectLib.names; [
+      desktop.compositors.compositors
+      desktop.services.portals
+    ];
   };
-  aspects.mango.includes = with config.aspectLib.names; [
-    compositors
-    portals
-  ];
 }

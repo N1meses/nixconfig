@@ -1,6 +1,5 @@
 _: {
-  aspects.zsh.description = "zsh as the login shell, with autosuggestions and completion.";
-  aspects.zsh = {
+  aspects.shell.zsh = {
     nixos = _: {
       programs.zsh.enable = true;
     };
@@ -74,5 +73,6 @@ _: {
         '';
       };
     };
+    description = "zsh as the login shell, with autosuggestions and completion.";
   };
 }

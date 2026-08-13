@@ -38,8 +38,7 @@ let
   };
 in
 {
-  aspects.core.description = "Core system settings: nix daemon config, boot defaults and the baseline package set.";
-  aspects.core = {
+  aspects.core.core = {
     nixos =
       {
         pkgs,
@@ -198,5 +197,6 @@ in
           '')
         ];
       };
+    description = "Core system settings: nix daemon config, boot defaults and the baseline package set.";
   };
 }
