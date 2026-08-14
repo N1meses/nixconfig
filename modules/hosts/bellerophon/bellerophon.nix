@@ -19,6 +19,8 @@ in
       profile.laptop
       server.sshd
 
+      finix.doas
+      finix.session
       finix.devMdevd
       finix.netIwd
       finix.seatSeatd
@@ -81,7 +83,7 @@ in
   };
 
   fleet.bellerophon.home.ssh.matchBlocks.bellerophon = {
-    hostname = "TODO-tailscale-ip";
+    hostname = "100.78.140.15";
     user = "icarus";
   };
 

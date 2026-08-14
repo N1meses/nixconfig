@@ -7,12 +7,11 @@ in
   registry.hosts.prometheus = {
     machineModules = [
       ./_hardware.nix
-      ./_boot.nix
+      ../_uefi-systemd-boot.nix
     ];
     users = with config.registry.userNames; [ prometheus ];
     system = "x86_64-linux";
     stateVersion = "25.05";
-    homeDirectory = "/home/prometheus";
     extraGroups = [ ];
     aspects = with config.aspectLib.names; [
       bundle.base

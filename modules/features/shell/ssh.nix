@@ -6,6 +6,7 @@ _: {
         config,
         lib,
         pkgs,
+        userEntry,
         ...
       }:
       let
@@ -71,6 +72,12 @@ _: {
             render (filterAttrs (h: _: !isPattern h) blocks)
             + render (filterAttrs (h: _: isPattern h && h != "*") blocks)
             + render (filterAttrs (h: _: h == "*") blocks);
+
+          files.".ssh/authorized_keys" = lib.mkIf (userEntry.keys != [ ]) {
+            type = "copy";
+            permissions = "0444";
+            text = lib.concatLines (map (lib.removeSuffix "\n") userEntry.keys);
+          };
         };
       };
   };

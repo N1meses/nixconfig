@@ -24,6 +24,8 @@ in
       desktop.services.ly
       profile.laptop
 
+      finix.doas
+      finix.session
       finix.devUdev
       finix.netNM
       finix.seatElogind
@@ -128,6 +130,11 @@ in
         };
       };
     };
+  };
+
+  fleet.nimeses.home.ssh.matchBlocks.nimeses = {
+    hostname = "100.76.77.79";
+    user = "nimeses";
   };
 
   diskoConfigurations.nimeses.disko.devices = import ./_devices.nix;

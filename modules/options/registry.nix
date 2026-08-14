@@ -32,7 +32,7 @@ in
             keys = lib.mkOption {
               type = t.listOf t.str;
               default = [ ];
-              description = "Authorized ssh public keys for this account (nixos hosts only — finix has no per-user openssh.authorizedKeys).";
+              description = "Authorized ssh public keys for this account. Delivered by users.nix on nixos, and by shell.ssh writing ~/.ssh/authorized_keys on every host that selects it (which is how finix gets them at all - it has no per-user openssh.authorizedKeys).";
             };
             uid = lib.mkOption {
               type = t.nullOr t.int;
@@ -91,18 +91,19 @@ in
               extraGroups = lib.mkOption {
                 type = lib.types.listOf lib.types.str;
                 default = [ ];
-                description = "Additional groups for this user";
+                description = "Groups added to every user on this host, on top of each user's own extraGroups.";
               };
 
               aspects = lib.mkOption {
                 type = t.listOf (t.enum aspectNames);
                 default = [ ];
                 description = ''
-                  Module names enabled on this host, resolved against
-                  aspectLib.{nixos,home}.<name>. Each aspect routes to
-                  whichever layer(s) define it: nixos-only names apply to the system,
-                  home-only names apply to home, names in both apply to both.
-                  Names defined in neither layer fail the build.
+                  Aspect names enabled on this host. A host selection reaches the
+                  *system* layers only - the `nixos` slot on a nixos host, the
+                  `finix` slot on a finix one. It does NOT reach the home layer:
+                  `mkHomeModules` resolves `registry.users.<u>.aspects` alone, so a
+                  home-only name listed here is silently inert. Put it on the user.
+                  Names matching no aspect fail the build with the full list.
                 '';
               };
 
@@ -110,8 +111,6 @@ in
                 type = t.enum [
                   "x86_64-linux"
                   "aarch64-linux"
-                  "x86_64-darwin"
-                  "aarch64-darwin"
                 ];
                 default = "x86_64-linux";
                 description = "system architecture";
@@ -119,13 +118,7 @@ in
 
               stateVersion = lib.mkOption {
                 type = t.str;
-                description = "NixOS/Home Manager state version";
-              };
-
-              homeDirectory = lib.mkOption {
-                type = t.str;
-                default = "/home/${name}";
-                description = "path to home directory";
+                description = "NixOS state version. Home is hjem, which has no state version of its own.";
               };
 
               hostId = lib.mkOption {
@@ -139,7 +132,7 @@ in
                 description = ''
                   Primary FQDN for this host's services (public or tailnet). Service
                   modules build their vhosts from it (e.g. "matrix.''${domain}").
-                  athena uses a public domain; hephaistos uses its tailnet FQDN.
+                  atlas uses a public domain; athena uses its tailnet FQDN.
                 '';
               };
 

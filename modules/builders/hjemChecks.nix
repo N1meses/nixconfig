@@ -46,6 +46,11 @@ let
       run = f: "ssh -G -F ${f} example.invalid >/dev/null";
     }
     {
+      deps = [ pkgs.openssh ];
+      match = t: hasSuffix "/.ssh/authorized_keys" t;
+      run = f: "ssh-keygen -l -f ${f} >/dev/null";
+    }
+    {
       deps = [ pkgs.git ];
       match = t: hasSuffix "/git/config" t || hasSuffix "/.gitconfig" t;
       run = f: "git config --file ${f} --list >/dev/null";

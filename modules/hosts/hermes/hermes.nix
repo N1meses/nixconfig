@@ -55,10 +55,10 @@ in
       in
       {
         noctalia.settings.wallpaper = {
-          directory = lib.mkForce "${flakeRoot}/assets/icons";
-          default.path = lib.mkForce "${flakeRoot}/assets/icons/wallpaper.jpg";
-          last.path = lib.mkForce "${flakeRoot}/assets/icons/wallpaper.jpg";
-          monitors = lib.mkForce { };
+          directory = "${flakeRoot}/assets/icons";
+          default.path = "${flakeRoot}/assets/icons/wallpaper.jpg";
+          last.path = "${flakeRoot}/assets/icons/wallpaper.jpg";
+          monitors = [ ];
         };
 
         features.compositors.niri.extraBinds = {

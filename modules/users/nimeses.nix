@@ -22,6 +22,7 @@
       bundle.desktop
       desktop.compositors.niri
       desktop.compositors.halley
+      desktop.services.music
       dev.languages.nix
       dev.editors.zed
       desktop.apps.term.kitty

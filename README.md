@@ -23,6 +23,7 @@ nixconfig/
 │   │   ├── server/        # media/, security/, share/, vpn/ + monitoring, nginx, sshd, serverCore
 │   │   └── shell/         # zsh, starship, ssh, shell tools, cliEnv + shell bundles
 │   ├── hosts/             # Per-host registry entries + `_`-prefixed machine modules
+│   ├── users/             # Per-user registry entries (their own aspects list)
 │   ├── options/           # schema - registry, aspects, fleet, shared compositor options
 │   └── builders/          # generation (system eval), deploy nodes, checks, docs, nixpkgs
 └── modules/MODULES.md     # Full module reference - GENERATED, see below
@@ -54,7 +55,7 @@ git clone https://github.com/N1meses/nixconfig
 ### 2. Generate hardware configuration
 
 ```bash
-nixos-generate-config --root /mnt --show-hardware-config > modules/hosts/<hostname>/hardware<Hostname>.nix
+nixos-generate-config --root /mnt --show-hardware-config > modules/hosts/<hostname>/_hardware.nix
 ```
 
 ### 3. Create host file
@@ -64,20 +65,21 @@ Create `modules/hosts/<hostname>/<hostname>.nix` - use an existing host as refer
 ```nix
 {config, ...}: {
   registry.hosts.<hostname> = {
-    username = "<username>";
+    users = with config.registry.userNames; [ <username> ];
     system = "x86_64-linux";
     stateVersion = "<current-nixos-version>";
+    machineModules = [ ./_hardware.nix ];   # what this machine physically is
     # domain = "example.com";     # primary FQDN (public or tailnet) if it serves anything
     # hostId = "deadbeef";        # required for ZFS
     # extraGroups = ["plugdev"];
 
-    # One list of aspect names, each routed to whichever layer it defines:
-    # aspects.<name>.nixos -> system, .home -> hjem, .finix -> finix (any subset).
-    # Start from a role bundle (base / workstation / server), then add extras.
-    # Validated against an enum of known names - a typo fails at eval with the full list.
+    # Aspect names for the *system*: .nixos on a nixos host, .finix on a finix one.
+    # Home slots are NOT reached from here - list those on the user instead.
+    # Start from a role bundle (bundle.base / bundle.workstation / bundle.server),
+    # then add extras. Validated against an enum of known names - a typo fails at
+    # eval with the full list.
     aspects = with config.aspectLib.names; [
-      workstation            # or: server / base
-      hardware<Hostname>
+      bundle.workstation     # or: bundle.server / bundle.base
       # add feature module names here
     ];
 
@@ -245,20 +247,27 @@ nix eval --json --file . resolved.nimeses | jq        # layers hit, aggregators,
 ## Module System
 
 Each aspect is declared as `aspects.<name>.{nixos,home,finix}` (any subset of the
-three layer slots) plus an optional `aspects.<name>.includes`. A host selects them
-through a **single `aspects` list** in its `registry.hosts.<host>` entry:
+three layer slots) plus an optional `aspects.<name>.includes`. They are selected
+through a **single `aspects` list**, which exists on both `registry.hosts.<host>`
+and `registry.users.<user>`:
 
 ```nix
-aspects = with config.aspectLib.names; [ workstation niri git ];
+aspects = with config.aspectLib.names; [ bundle.workstation desktop.compositors.niri dev.tools.git ];
 ```
+
+**The two selection sites are asymmetric.** A *host* selection reaches the system
+layers only; the home layer is resolved from **user aspects alone**
+(`modules/builders/homeModules.nix`). So a home-only aspect named on a host is
+silently inert - list it on the user instead. The system sees the union of both.
 
 **Role bundles & aggregators.** Names in `aspects` can also be *aggregators* -
 aspects that carry only an `includes` list, expanding to other aspects via transitive
-closure. The role bundles `base`, `workstation`, and `server` are the top-level ones
-(e.g. `workstation` pulls in `base`, `desktop`, `niri`, …), so most hosts list a bundle
-plus a few extras. An aggregator needs no layer slot - it contributes only its members.
-Aggregators live next to what they aggregate (`base` in `features/base/`, `workstation`
-in `features/profiles/`), not in a directory of their own.
+closure. The role bundles `bundle.base`, `bundle.workstation` and `bundle.server` are
+the top-level ones (e.g. `bundle.workstation` pulls in `bundle.base`,
+`bundle.desktop`, …), so most hosts list a bundle plus a few extras. An aggregator
+needs no layer slot - it contributes only its members. Aggregators live next to what
+they aggregate (`bundle.base` in `features/base/`, `bundle.workstation` in
+`features/profiles/`), not in a directory of their own.
 
 `includes` is layer-blind on purpose: a name is resolved once, then each layer takes
 only the slots that exist. `services` includes `graphics` (nixos-only) and

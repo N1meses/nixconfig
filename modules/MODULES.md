@@ -11,14 +11,14 @@
 
 | Host | Class | Users | Aspects | Domain |
 |------|-------|-------|--------:|--------|
-| `athena` | nixos | `athena` | 28 | athena.tail4109e2.ts.net |
-| `atlas` | nixos | `atlas` | 35 | nimeses.com |
+| `athena` | nixos | `athena` | 27 | athena.tail4109e2.ts.net |
+| `atlas` | nixos | `atlas` | 34 | nimeses.com |
 | `bellerophon` | finix | `icarus` | 44 | - |
-| `hermes` | nixos | `hermes` | 33 | - |
+| `hermes` | nixos | `hermes` | 32 | - |
 | `icarus` | finix | `icarus` | 43 | - |
-| `nimeses` | finix | `nimeses` | 51 | - |
+| `nimeses` | finix | `nimeses` | 52 | - |
 | `phaethon` | finix | `phaethon` | 25 | - |
-| `prometheus` | nixos | `prometheus` | 50 | - |
+| `prometheus` | nixos | `prometheus` | 48 | - |
 
 ## Aspects
 
@@ -30,9 +30,9 @@ to pull in the names it includes.
 | Aspect | Layers | Description | Includes |
 |--------|--------|-------------|----------|
 | `bundle.apps` | *aggregator* | Everyday graphical apps: file manager, browser, GTK theming, nh and fastfetch. | `desktop.apps.yazi` `desktop.apps.browser` `desktop.apps.gtk` `desktop.apps.nh` `desktop.apps.fastfetch` |
-| `bundle.base` | *aggregator* | Baseline every host gets: nix settings, locale, user accounts, tailscale and privilege escalation. | `core.core` `core.local` `core.users` `server.vpn.tailscale` `finix.doas` |
+| `bundle.base` | *aggregator* | Baseline every host gets: nix settings, locale, user accounts and tailscale. | `core.core` `core.local` `core.users` `server.vpn.tailscale` |
 | `bundle.cliEnv` | *aggregator* | Interactive shell environment: shell, file manager, editor, CLI tools and git. | `core.core` `bundle.shell` `desktop.apps.yazi` `dev.editors.helix` `dev.tools.cli` `dev.tools.git` |
-| `bundle.desktop` | *aggregator* | Graphical desktop bundle: session services, apps, the noctalia shell and session wiring. | `bundle.services` `bundle.apps` `desktop.apps.yaziFilechooser` `desktop.noctalia` `finix.session` |
+| `bundle.desktop` | *aggregator* | Graphical desktop bundle: session services, apps and the noctalia shell. | `bundle.services` `bundle.apps` `desktop.apps.yaziFilechooser` `desktop.noctalia` |
 | `bundle.server` | *aggregator* | Headless server role: base plus CLI environment, hardened sshd, networking tools and nh. | `bundle.base` `bundle.cliEnv` `server.serverCore` `server.sshd` `dev.tools.network` `desktop.apps.nh` |
 | `bundle.services` | *aggregator* | Desktop plumbing every graphical session needs: graphics, fonts, portals, audio, bluetooth and user services. | `desktop.services.graphics` `desktop.services.fonts` `desktop.services.portals` `desktop.services.audio` `desktop.services.bluetooth` `desktop.services.userServices` |
 | `bundle.shell` | *aggregator* | Shell stack: zsh, fzf/zoxide tooling, the starship prompt and ssh client config. | `shell.zsh` `shell.shellTools` `shell.starship` `shell.ssh` |
@@ -69,7 +69,7 @@ to pull in the names it includes.
 | `desktop.services.greetd` | nixos+finix | greetd display manager with the tuigreet frontend. | - |
 | `desktop.services.ly` | nixos+finix | ly display manager. | - |
 | `desktop.services.mako` | home | mako notification daemon, themed. | `desktop.compositors.compositors` |
-| `desktop.services.music` | nixos | MPD music daemon. | - |
+| `desktop.services.music` | home | MPD music daemon, in the user session, playing through PipeWire. | `desktop.compositors.compositors` |
 | `desktop.services.portals` | nixos+finix+home | xdg-desktop-portal backends and per-compositor backend routing. | - |
 | `desktop.services.userServices` | home | Per-user session services: automounting and notifications. | - |
 | `desktop.tools.screenshot` | home | Screenshot and screen-recording tools. | - |

@@ -11,6 +11,8 @@ in
       user,
     }:
     {
+      _module.args.userEntry = user;
+
       imports =
         lib.optional (user.homeModule != null) user.homeModule
         ++ lib.optional (host.homeModule != null) host.homeModule

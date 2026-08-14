@@ -4,12 +4,12 @@
   ...
 }:
 let
-  mkDefaults =
+  mkOptionDefaults =
     val:
     if lib.isAttrs val && !lib.isDerivation val then
-      lib.mapAttrs (_: mkDefaults) val
+      lib.mapAttrs (_: mkOptionDefaults) val
     else
-      lib.mkDefault val;
+      lib.mkOptionDefault val;
 in
 {
   aspects.desktop.noctaliaSettings = {
@@ -33,12 +33,12 @@ in
 
         config = {
           noctalia.settings = lib.mkMerge [
-            (mkDefaults tomlSettings)
+            (mkOptionDefaults tomlSettings)
             {
-              shell.avatar_path = "${inputs.self}/assets/icons/hunter.jpeg";
-              shell.screenshot.directory = "${config.directory}/Pictures/Screenshots";
-              wallpaper.directory = "${config.directory}/Pictures/Wallpapers";
-              widget.control-center.custom_image = "${inputs.self}/assets/icons/nixos.png";
+              shell.avatar_path = lib.mkDefault "${inputs.self}/assets/icons/hunter.jpeg";
+              shell.screenshot.directory = lib.mkDefault "${config.directory}/Pictures/Screenshots";
+              wallpaper.directory = lib.mkDefault "${config.directory}/Pictures/Wallpapers";
+              widget.control-center.custom_image = lib.mkDefault "${inputs.self}/assets/icons/nixos.png";
             }
           ];
 
