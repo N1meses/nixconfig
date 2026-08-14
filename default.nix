@@ -1,3 +1,6 @@
+{
+  rev ? null,
+}:
 let
   tack = import ./override.nix;
   inherit (tack) nixpkgs;
@@ -7,20 +10,21 @@ let
 
   importTree = path: toList (fileFilter (file: file.hasExt "nix" && !(hasPrefix "_" file.name)) path);
 
+  readRev =
+    path: default:
+    if builtins.pathExists path then builtins.substring 0 40 (builtins.readFile path) else default;
+
   gitRev =
-    let
-      e = builtins.tryEval (
-        let
-          head = builtins.readFile ./.git/HEAD;
-          m = builtins.match "ref: (.*[^\n])\n?" head;
-        in
-        if m != null then
-          builtins.substring 0 40 (builtins.readFile (./.git + "/${builtins.head m}"))
-        else
-          builtins.substring 0 40 head
-      );
-    in
-    if e.success then e.value else "dirty";
+    if rev != null then
+      rev
+    else if builtins.pathExists ./.git/HEAD then
+      let
+        head = builtins.readFile ./.git/HEAD;
+        m = builtins.match "ref: (.*[^\n])\n?" head;
+      in
+      if m == null then builtins.substring 0 40 head else readRev (./.git + "/${builtins.head m}") "dirty"
+    else
+      "dirty";
 
   inputs = tack // {
     self = {

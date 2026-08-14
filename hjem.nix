@@ -1,5 +1,5 @@
 let
-  self = import ./.;
+  self = import ./. { };
 
   hostname = builtins.replaceStrings [ "\n" ] [ "" ] (builtins.readFile /etc/hostname);
 

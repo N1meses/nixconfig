@@ -1,6 +1,6 @@
 # nixconfig
 
-Personal NixOS (+ finix) configuration — flakeless: `evalModules` over `modules/`,
+Personal NixOS (+ finix) configuration - flakeless: `evalModules` over `modules/`,
 inputs pinned by [tack](.tack/), built with `nixos-rebuild --file . --attr`. Home
 is managed by [hjem](https://github.com/feel-co/hjem) + hjem-rum (not home-manager).
 
@@ -8,11 +8,13 @@ is managed by [hjem](https://github.com/feel-co/hjem) + hjem-rum (not home-manag
 
 ```
 nixconfig/
-├── default.nix            # Entry point — evalModules over modules/ (tack-pinned inputs)
-├── flake.nix              # util-only: exposes the formatter (nixfmt); NOT the build
+├── default.nix            # Entry point - evalModules over modules/ (tack-pinned inputs)
+├── flake.nix              # thin wrapper re-exporting default.nix; NOT a second source of truth
+├── shell.nix              # `nix-shell` → the same devShell the flake exposes
+├── scripts/drvdiff.sh     # what moved since <ref>, by drvPath
 ├── .tack/                 # input pins (pins.toml + pins.lock.json) + resolver
 ├── modules/
-│   ├── features/          # Feature modules — aggregators live beside what they aggregate
+│   ├── features/          # Feature modules - aggregators live beside what they aggregate
 │   │   ├── base/          # core (nixos + hjem), local, sops, overlays, base bundle
 │   │   ├── desktop/       # compositors, apps, services, noctalia, tools
 │   │   ├── dev/           # editors, tools, languages
@@ -21,15 +23,22 @@ nixconfig/
 │   │   ├── server/        # media/, security/, share/, vpn/ + monitoring, nginx, sshd, serverCore
 │   │   └── shell/         # zsh, starship, ssh, shell tools, cliEnv + shell bundles
 │   ├── hosts/             # Per-host registry entries + `_`-prefixed machine modules
-│   ├── options/           # schema — registry, aspects, fleet, shared compositor options
+│   ├── options/           # schema - registry, aspects, fleet, shared compositor options
 │   └── builders/          # generation (system eval), deploy nodes, checks, docs, nixpkgs
-└── modules/MODULES.md     # Full module reference — GENERATED, see below
+└── modules/MODULES.md     # Full module reference - GENERATED, see below
 ```
 
-`default.nix` collects every `.nix` under `modules/` automatically — no manual imports
+`default.nix` collects every `.nix` under `modules/` automatically - no manual imports
 needed when adding new modules. Files whose name starts with `_` are skipped: that is
 how per-host machine modules (`_hardware.nix`, `_disko.nix`, `_devices.nix`) stay out of
 the top-level eval and get referenced explicitly from `machineModules` instead.
+
+`default.nix` takes one optional argument, `rev`, which every `--file .` entry point
+auto-calls with its default. Only `flake.nix` passes it: a flake source tree has no
+readable `.git`, and `core` bakes the revision into `nixos-revision`, so passing it is
+what keeps a flake build and a `--file .` build of the same commit byte-identical.
+The one place the auto-call does *not* happen is `nix eval --apply` without an attribute
+path - there, import it yourself: `nix eval --impure --expr '(import ./. { })' --apply f`.
 
 ---
 
@@ -50,7 +59,7 @@ nixos-generate-config --root /mnt --show-hardware-config > modules/hosts/<hostna
 
 ### 3. Create host file
 
-Create `modules/hosts/<hostname>/<hostname>.nix` — use an existing host as reference (e.g. `nimeses.nix`). A host is a single `registry.hosts.<hostname>` entry; host-specific inline config lives on the entry itself as `nixosModule`/`homeModule` (there is no separate `configurations.*` block anymore — that was collapsed into the registry):
+Create `modules/hosts/<hostname>/<hostname>.nix` - use an existing host as reference (e.g. `nimeses.nix`). A host is a single `registry.hosts.<hostname>` entry; host-specific inline config lives on the entry itself as `nixosModule`/`homeModule` (there is no separate `configurations.*` block anymore - that was collapsed into the registry):
 
 ```nix
 {config, ...}: {
@@ -65,7 +74,7 @@ Create `modules/hosts/<hostname>/<hostname>.nix` — use an existing host as ref
     # One list of aspect names, each routed to whichever layer it defines:
     # aspects.<name>.nixos -> system, .home -> hjem, .finix -> finix (any subset).
     # Start from a role bundle (base / workstation / server), then add extras.
-    # Validated against an enum of known names — a typo fails at eval with the full list.
+    # Validated against an enum of known names - a typo fails at eval with the full list.
     aspects = with config.aspectLib.names; [
       workstation            # or: server / base
       hardware<Hostname>
@@ -79,7 +88,7 @@ Create `modules/hosts/<hostname>/<hostname>.nix` — use an existing host as ref
     };
 
     homeModule = {pkgs, ...}: {
-      # hjem home slot — e.g. packages, rum.programs.*, features.compositors.*, ...
+      # hjem home slot - e.g. packages, rum.programs.*, features.compositors.*, ...
     };
   };
 }
@@ -99,7 +108,7 @@ or when rebuilding the first time after a graphical install
 sudo nixos-rebuild switch --file . --attr <system>.<hostname> --option "extra-experimental-features" "nix-command"
 ```
 
-> After the first build, experimental features are enabled permanently via the `core` module — subsequent rebuilds don't need the flag.
+> After the first build, experimental features are enabled permanently via the `core` module - subsequent rebuilds don't need the flag.
 
 ---
 
@@ -107,14 +116,14 @@ sudo nixos-rebuild switch --file . --attr <system>.<hostname> --option "extra-ex
 
 1. Create `modules/hosts/<hostname>/` directory
 2. Add `_hardware.nix` (from `nixos-generate-config`) and, if the host partitions its
-   own disks, `_disko.nix` — the `_` prefix keeps them out of the top-level eval
+   own disks, `_disko.nix` - the `_` prefix keeps them out of the top-level eval
 3. Add `<hostname>.nix` with `registry.hosts.<hostname>`: `machineModules` pointing at
    those files, the `aspects` list, and any host-specific `nixosModule`/`finixModule`
    inline config
 4. Rebuild: `nh os switch -f default.nix -a <system>.<hostname>`
 
 Machine modules are listed explicitly rather than hidden behind a single import so a
-host's physical makeup is readable without opening another file — and so builds that
+host's physical makeup is readable without opening another file - and so builds that
 are *not* this machine (VMs, images) can omit them wholesale.
 
 ---
@@ -146,24 +155,79 @@ socket (otherwise a broken sshd/firewall could falsely confirm).
 ### Maintenance
 
 ```bash
+nix-shell                 # or `nix develop` - tack, sops, deploy-rs, disko, nvd, nixfmt
 tack update               # update all pins (.tack/pins.lock.json)
 tack update <input>       # update a specific pin
-nix-build --file . --attr checks.host-<host> --no-out-link   # eval/build a host
+nix-build . --attr checks.nixos-<host> --no-out-link   # eval/build a host
 nh clean all              # remove old generations
 ```
+
+### What did my change actually move?
+
+Most edits here are meant to be refactors, and a refactor that moves a closure is a
+bug. `scripts/drvdiff.sh` compares every `checks`, `packages` and `containers` output
+against another revision, by `.drv` path — a transitive fingerprint, so an unchanged
+one means nothing anywhere in that derivation's build-time closure changed:
+
+```bash
+./scripts/drvdiff.sh              # working tree vs HEAD
+./scripts/drvdiff.sh main         # working tree vs main
+./scripts/drvdiff.sh --help       # verdicts, exit codes, why the rev is forced
+```
+
+```
+drvdiff: HEAD -> working tree
+  removed  checks.aarch64-linux
+  removed  checks.x86_64-linux
+  fixed    packages.vm-bellerophon
+  fixed    packages.vm-icarus
+  fixed    packages.vm-nimeses
+  fixed    packages.vm-phaethon
+
+18 unchanged, 0 moved, 0 added, 2 removed, 4 fixed, 0 broken
+```
+
+Both sides are evaluated with the *same* forced revision, because `core` bakes the git
+rev into a `nixos-revision` script — without that, every host moves on every commit and
+the diff says nothing. Exit codes: `0` nothing moved, `1` something moved, `2` bad ref,
+`3` an output stopped evaluating. CI gates on `3` only, since a real change is *supposed*
+to move closures.
+
+It reports *that* something moved, not what inside it did. For that, build both and use
+`nvd diff-closures` (in the devShell).
 
 ### Inspection
 
 ```bash
 nix eval --file . nixosConfigurations --apply builtins.attrNames   # list hosts
+nix eval --json --file . resolved.<host>   # what this host's aspects resolved to
 nix repl --file .         # open repl with default.nix loaded
 ```
+
+### Flake wrapper
+
+`flake.nix` re-exports `default.nix` and adds nothing of its own - the build stays on
+`--file .`. It exists so the config is consumable as an input and reachable by the flake
+CLI, and it splits `checks` and `packages` by the system each derivation builds for,
+which a flake requires and `--file .` has no use for:
+
+```bash
+nix flake show
+nix build .#packages.x86_64-linux.vm-icarus
+nix develop
+```
+
+Same commit, same closure: `nix build .#checks.x86_64-linux.nixos-athena` and
+`nix-build . --attr checks.nixos-athena` produce the identical derivation.
+
+`TACK_OVERRIDES` is the exception - it reads the environment, which pure evaluation
+forbids, so it only works through `--file .`.
 
 ---
 
 ## Hosts
 
-The host table is **generated** — see [`modules/MODULES.md`](modules/MODULES.md), which
+The host table is **generated** - see [`modules/MODULES.md`](modules/MODULES.md), which
 lists every host with its class, users, resolved aspect count and domain. It is built
 from `config.registry` itself, so it cannot drift.
 
@@ -188,11 +252,11 @@ through a **single `aspects` list** in its `registry.hosts.<host>` entry:
 aspects = with config.aspectLib.names; [ workstation niri git ];
 ```
 
-**Role bundles & aggregators.** Names in `aspects` can also be *aggregators* —
+**Role bundles & aggregators.** Names in `aspects` can also be *aggregators* -
 aspects that carry only an `includes` list, expanding to other aspects via transitive
 closure. The role bundles `base`, `workstation`, and `server` are the top-level ones
 (e.g. `workstation` pulls in `base`, `desktop`, `niri`, …), so most hosts list a bundle
-plus a few extras. An aggregator needs no layer slot — it contributes only its members.
+plus a few extras. An aggregator needs no layer slot - it contributes only its members.
 Aggregators live next to what they aggregate (`base` in `features/base/`, `workstation`
 in `features/profiles/`), not in a directory of their own.
 
@@ -212,7 +276,7 @@ whichever layer slot it defines (home slots are spliced into that host's hjem us
 
 This means a compositor (nixos session + hjem config) can't be half-wired. `aspects` is enum-typed against the set of known aspect names, so a typo fails at eval and the error lists every valid name. The `with config.aspectLib.names;` scope lets names be written bare instead of quoted.
 
-**Listed = enabled** — naming a module in `aspects` is sufficient to enable it. No extra `.enable = true` needed except for:
+**Listed = enabled** - naming a module in `aspects` is sufficient to enable it. No extra `.enable = true` needed except for:
 - Compositor selection (`features.compositors.niri.enable`)
 - Server domain (`features.server.domain`)
 - Per-monitor config (`features.compositors.monitors.<name>`)

@@ -7,6 +7,20 @@ jobs:
     runs-on: nix # matches the runner label `nix:host`
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: What this push moved
+        run: |
+          set -uo pipefail
+          before='${{ github.event.before }}'
+          git rev-parse --verify --quiet "$before^{commit}" >/dev/null 2>&1 || before=HEAD^
+          ./scripts/drvdiff.sh "$before"
+          # 0 = nothing moved, 1 = something moved (the normal case for a real
+          # change), anything else = an output stopped evaluating, which is a bug.
+          status=$?
+          [ "$status" -le 1 ] || exit "$status"
+
       - name: Build every host closure and root it (survives daily gc -d 7d)
         run: |
           set -euo pipefail

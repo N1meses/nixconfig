@@ -56,7 +56,7 @@ let
     ++ [
       inputs.hjem.finixModules.default
       (homeModule name host)
-      finixModules.mkVM
+      finixModules."profile.mkVM"
     ]
     ++ fleetFor "finix" name;
   };

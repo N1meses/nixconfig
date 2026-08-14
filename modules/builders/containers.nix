@@ -1,17 +1,10 @@
 {
-  inputs,
+  pkgsFor,
   lib,
   config,
   ...
 }:
 let
-  pkgsFor =
-    system:
-    import inputs.nixpkgs {
-      inherit system;
-      config.allowUnfree = true;
-    };
-
   mkContainer =
     _: c:
     let
