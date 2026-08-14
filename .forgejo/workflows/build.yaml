@@ -15,11 +15,22 @@ jobs:
           set -uo pipefail
           before='${{ github.event.before }}'
           git rev-parse --verify --quiet "$before^{commit}" >/dev/null 2>&1 || before=HEAD^
-          ./scripts/drvdiff.sh "$before"
+          # invoked through bash, not execve: the runner refuses to exec files
+          # from the checkout (126) even though they are 100755 in the tree.
+          status=0
+          bash ./scripts/drvdiff.sh "$before" || status=$?
           # 0 = nothing moved, 1 = something moved (the normal case for a real
           # change), anything else = an output stopped evaluating, which is a bug.
-          status=$?
           [ "$status" -le 1 ] || exit "$status"
+
+      - name: Scaffold a throwaway host and prove it evaluates
+        timeout-minutes: 15
+        run: |
+          set -uo pipefail
+          cleanup() { rm -rf modules/hosts/citest modules/users/citest.nix; }
+          trap cleanup EXIT
+          bash ./modules/hosts/new-host.sh citest nixos >/dev/null
+          nix eval --file . --raw checks.nixos-citest.drvPath >/dev/null
 
       - name: Build every host closure and root it (survives daily gc -d 7d)
         run: |

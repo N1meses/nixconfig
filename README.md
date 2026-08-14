@@ -14,18 +14,11 @@ nixconfig/
 ├── scripts/drvdiff.sh     # what moved since <ref>, by drvPath
 ├── .tack/                 # input pins (pins.toml + pins.lock.json) + resolver
 ├── modules/
-│   ├── features/          # Feature modules - aggregators live beside what they aggregate
-│   │   ├── base/          # core (nixos + hjem), local, sops, overlays, base bundle
-│   │   ├── desktop/       # compositors, apps, services, noctalia, tools
-│   │   ├── dev/           # editors, tools, languages
-│   │   ├── profiles/      # gaming, laptop, performance, virtualisation, mkVM, workstation, server
-│   │   ├── rescue/        # minimal rescue shell
-│   │   ├── server/        # media/, security/, share/, vpn/ + monitoring, nginx, sshd, serverCore
-│   │   └── shell/         # zsh, starship, ssh, shell tools, cliEnv + shell bundles
+│   ├── features/          # every aspect, mirroring the dotted names - MODULES.md lists them
 │   ├── hosts/             # Per-host registry entries + `_`-prefixed machine modules
 │   ├── users/             # Per-user registry entries (their own aspects list)
-│   ├── options/           # schema - registry, aspects, fleet, shared compositor options
-│   └── builders/          # generation (system eval), deploy nodes, checks, docs, nixpkgs
+│   ├── options/           # schema - registry, aspects, fleet, outputs, compositor options
+│   └── builders/          # one file per output in the table below
 └── modules/MODULES.md     # Full module reference - GENERATED, see below
 ```
 
@@ -35,68 +28,100 @@ how per-host machine modules (`_hardware.nix`, `_disko.nix`, `_devices.nix`) sta
 the top-level eval and get referenced explicitly from `machineModules` instead.
 
 `default.nix` takes one optional argument, `rev`, which every `--file .` entry point
-auto-calls with its default. Only `flake.nix` passes it: a flake source tree has no
-readable `.git`, and `core` bakes the revision into `nixos-revision`, so passing it is
-what keeps a flake build and a `--file .` build of the same commit byte-identical.
-The one place the auto-call does *not* happen is `nix eval --apply` without an attribute
-path - there, import it yourself: `nix eval --impure --expr '(import ./. { })' --apply f`.
+auto-calls with its default; only `flake.nix` passes it, for the reason under
+[Flake wrapper](#flake-wrapper). The one place the auto-call does *not* happen is
+`nix eval --apply` without an attribute path - there, import it yourself:
+`nix eval --impure --expr '(import ./. { })' --apply f`.
+
+## Outputs
+
+Everything the config produces, from either entry point. Each is built by one file
+in `modules/builders/`, and every one is declared with a description in
+`modules/options/outputs.nix`.
+
+| Output | What it is |
+|---|---|
+| `nixosConfigurations.<host>` | a NixOS system |
+| `finixConfigurations.<host>` | a finix system (finit as pid 1) |
+| `homeConfigurations.<host>.<user>` | standalone hjem manifest + packages |
+| `checks.<name>` | `nixos-*` / `finix-*` closures, `hjem-*` dotfile validation, `docs` drift |
+| `packages.<name>` | `docs`, and `vm-<host>` finix test VMs |
+| `images.<host>.<format>` | 26 disk/container image formats per NixOS host |
+| `containers.<name>` | application container images (`podman load`) |
+| `deploy.nodes.<host>` | deploy-rs targets, rollback-safe |
+| `devShells.<system>.default` | the maintenance shell (`nix-shell` / `nix develop`) |
+| `diskoConfigurations.<host>` | disk layout for the disko CLI |
+| `resolved.<host>` | introspection: what this host's aspects resolved to |
+
+`aspects`, `registry`, `fleet` and `aspectLib` are also top-level, but they are the
+schema and its helpers rather than things you build.
+
+**Image-only hosts.** A host with `machineModules = [ ]` declares no machine, so it
+has no root filesystem and no bootloader and `system.build.toplevel` cannot evaluate
+by design. Those hosts are excluded from `checks` and from `deploy.nodes`
+automatically, and exist only as `images.<host>.<format>` where the format supplies
+both. They are marked *(image-only)* in the generated host table.
 
 ---
 
 ## First-time Installation
 
-
-### 1. Clone the repo
-
-```bash
-git clone https://github.com/N1meses/nixconfig 
-```
-
-### 2. Generate hardware configuration
+### 1. Clone and scaffold the host
 
 ```bash
-nixos-generate-config --root /mnt --show-hardware-config > modules/hosts/<hostname>/_hardware.nix
+git clone https://github.com/N1meses/nixconfig && cd nixconfig
+./modules/hosts/new-host.sh <hostname> [nixos|finix]
 ```
 
-### 3. Create host file
+Writes `modules/hosts/<hostname>/{_hardware.nix,<hostname>.nix}` and
+`modules/users/<hostname>.nix`. Run on the target machine and the hardware config is
+generated from it; run anywhere else and you get a placeholder to fill in. CI runs
+this script on every push and fails if the host it produces stops evaluating, so it
+cannot drift away from the schema.
 
-Create `modules/hosts/<hostname>/<hostname>.nix` - use an existing host as reference (e.g. `nimeses.nix`). A host is a single `registry.hosts.<hostname>` entry; host-specific inline config lives on the entry itself as `nixosModule`/`homeModule` (there is no separate `configurations.*` block anymore - that was collapsed into the registry):
+Then edit the generated `<hostname>.nix`. It is a single `registry.hosts.<hostname>`
+entry; only `users`, `system` and `stateVersion` are required:
 
 ```nix
-{config, ...}: {
+{ config, ... }:
+{
   registry.hosts.<hostname> = {
     users = with config.registry.userNames; [ <username> ];
     system = "x86_64-linux";
     stateVersion = "<current-nixos-version>";
-    machineModules = [ ./_hardware.nix ];   # what this machine physically is
-    # domain = "example.com";     # primary FQDN (public or tailnet) if it serves anything
-    # hostId = "deadbeef";        # required for ZFS
-    # extraGroups = ["plugdev"];
 
-    # Aspect names for the *system*: .nixos on a nixos host, .finix on a finix one.
-    # Home slots are NOT reached from here - list those on the user instead.
-    # Start from a role bundle (bundle.base / bundle.workstation / bundle.server),
-    # then add extras. Validated against an enum of known names - a typo fails at
-    # eval with the full list.
-    aspects = with config.aspectLib.names; [
-      bundle.workstation     # or: bundle.server / bundle.base
-      # add feature module names here
+    machineModules = [          # what this machine physically is - see Outputs above
+      ./_hardware.nix
+      ../_uefi-systemd-boot.nix
+      # ./_disko.nix            # if this host partitions its own disks
     ];
 
-    # Host-specific inline config (boot, hardware tweaks, extra packages, sops).
-    # networking.hostName is set by the generator from the registry key.
-    nixosModule = {pkgs, ...}: {
-      users.users.<username>.initialPassword = "changeme";
-    };
+    # domain = "example.com";   # primary FQDN if it serves anything
+    # hostId = "deadbeef";      # required for ZFS
+    # extraGroups = [ "plugdev" ];
 
-    homeModule = {pkgs, ...}: {
-      # hjem home slot - e.g. packages, rum.programs.*, features.compositors.*, ...
+    aspects = with config.aspectLib.names; [
+      bundle.workstation        # or: bundle.server / bundle.base
+    ];
+
+    nixosModule = { pkgs, ... }: {     # or finixModule on a finix host
+      users.users.<username>.initialPassword = "changeme";
     };
   };
 }
 ```
 
-### 4. Install
+Aspects here reach the **system** layer only - home slots come from
+`modules/users/<user>.nix`; see [Module System](#module-system).
+
+### 2. Check it resolved
+
+```bash
+nix eval --json --file . resolved.<hostname> | jq   # layers hit, aggregators, inert names
+nix-build . --attr checks.<system>-<hostname> --no-out-link
+```
+
+### 3. Install
 
 <system> refers to finixConfigurations or nixosConfigurations
 
@@ -111,22 +136,6 @@ sudo nixos-rebuild switch --file . --attr <system>.<hostname> --option "extra-ex
 ```
 
 > After the first build, experimental features are enabled permanently via the `core` module - subsequent rebuilds don't need the flag.
-
----
-
-## Adding a New Host
-
-1. Create `modules/hosts/<hostname>/` directory
-2. Add `_hardware.nix` (from `nixos-generate-config`) and, if the host partitions its
-   own disks, `_disko.nix` - the `_` prefix keeps them out of the top-level eval
-3. Add `<hostname>.nix` with `registry.hosts.<hostname>`: `machineModules` pointing at
-   those files, the `aspects` list, and any host-specific `nixosModule`/`finixModule`
-   inline config
-4. Rebuild: `nh os switch -f default.nix -a <system>.<hostname>`
-
-Machine modules are listed explicitly rather than hidden behind a single import so a
-host's physical makeup is readable without opening another file - and so builds that
-are *not* this machine (VMs, images) can omit them wholesale.
 
 ---
 
@@ -157,90 +166,91 @@ socket (otherwise a broken sshd/firewall could falsely confirm).
 ### Maintenance
 
 ```bash
-nix-shell                 # or `nix develop` - tack, sops, deploy-rs, disko, nvd, nixfmt
+nix-shell                 # or `nix develop` - tack, nixfmt-tree, sops, age, ssh-to-age,
+                          #   deploy-rs, disko, nvd, nix-output-monitor, jq
 tack update               # update all pins (.tack/pins.lock.json)
 tack update <input>       # update a specific pin
 nix-build . --attr checks.nixos-<host> --no-out-link   # eval/build a host
 nh clean all              # remove old generations
 ```
 
+### Images, VMs and containers
+
+Nothing builds these automatically - they are lazy, and CI only builds `checks`. Ask
+for one by name:
+
+```bash
+nix eval --file . images.<host> --apply builtins.attrNames   # list the 26 formats
+nix build --file . images.<host>.raw-efi                     # a bootable disk image
+nix build --file . images.<host>.proxmox-lxc                 # an LXC container tarball
+nix-build . --attr packages.vm-<host> --no-out-link          # a finix test VM
+nix-build . --attr containers.<name> --no-out-link           # then: podman load < result
+```
+
+Images are built **without** `machineModules` - a VM or an image is not this machine,
+so its hardware, disks and bootloader are omitted by design. Anything a machine-less
+build still needs is therefore not a machine fact and belongs on an aspect or on the
+host's `nixosModule` instead.
+
+Not every host × format pair is meaningful. Desktop hosts fail the container and
+installer formats: nixpkgs' `profiles/minimal.nix` (pulled in by `lxc`, `kexec`)
+disables things a desktop aspect enables, like `services.udisks2`. Left unforced on
+purpose - a desktop laptop as an LXC container is not worth building.
+
 ### What did my change actually move?
 
 Most edits here are meant to be refactors, and a refactor that moves a closure is a
-bug. `scripts/drvdiff.sh` compares every `checks`, `packages` and `containers` output
-against another revision, by `.drv` path — a transitive fingerprint, so an unchanged
-one means nothing anywhere in that derivation's build-time closure changed:
-
-```bash
-./scripts/drvdiff.sh              # working tree vs HEAD
-./scripts/drvdiff.sh main         # working tree vs main
-./scripts/drvdiff.sh --help       # verdicts, exit codes, why the rev is forced
-```
-
-```
-drvdiff: HEAD -> working tree
-  removed  checks.aarch64-linux
-  removed  checks.x86_64-linux
-  fixed    packages.vm-bellerophon
-  fixed    packages.vm-icarus
-  fixed    packages.vm-nimeses
-  fixed    packages.vm-phaethon
-
-18 unchanged, 0 moved, 0 added, 2 removed, 4 fixed, 0 broken
-```
-
-Both sides are evaluated with the *same* forced revision, because `core` bakes the git
-rev into a `nixos-revision` script — without that, every host moves on every commit and
-the diff says nothing. Exit codes: `0` nothing moved, `1` something moved, `2` bad ref,
-`3` an output stopped evaluating. CI gates on `3` only, since a real change is *supposed*
-to move closures.
-
-It reports *that* something moved, not what inside it did. For that, build both and use
-`nvd diff-closures` (in the devShell).
+bug. `scripts/drvdiff.sh [REF]` compares every `checks`, `packages` and `containers`
+output against another revision by `.drv` path - a transitive fingerprint, so an
+unchanged one proves nothing in that derivation's build-time closure changed. CI runs
+it on every push; `--help` covers the verdicts, the exit codes and why both sides are
+pinned to one revision. It reports *that* something moved, not what inside it did -
+for that, `nvd diff-closures` in the devShell.
 
 ### Inspection
 
 ```bash
 nix eval --file . nixosConfigurations --apply builtins.attrNames   # list hosts
-nix eval --json --file . resolved.<host>   # what this host's aspects resolved to
 nix repl --file .         # open repl with default.nix loaded
 ```
 
 ### Flake wrapper
 
-`flake.nix` re-exports `default.nix` and adds nothing of its own - the build stays on
-`--file .`. It exists so the config is consumable as an input and reachable by the flake
-CLI, and it splits `checks` and `packages` by the system each derivation builds for,
-which a flake requires and `--file .` has no use for:
+`flake.nix` re-exports `default.nix`. It is **not** a second source of truth: it
+defines no configuration of its own, and rebuilds stay on `--file .`. What it does do
+is make every output above reachable from the flake CLI and consumable as an input.
+
+It passes every output in the table above through unchanged, and adds two things a
+flake needs and `--file .` has no use for:
+
+- **`checks` and `packages` keyed by system**, which a flake requires.
+- **`formatter.<system>`**, so `nix fmt` works from the flake CLI too.
 
 ```bash
 nix flake show
+nix build .#checks.x86_64-linux.nixos-athena
 nix build .#packages.x86_64-linux.vm-icarus
 nix develop
+nix fmt
 ```
 
-Same commit, same closure: `nix build .#checks.x86_64-linux.nixos-athena` and
-`nix-build . --attr checks.nixos-athena` produce the identical derivation.
+**Same commit, same closure.** `nix build .#checks.x86_64-linux.nixos-athena` and
+`nix-build . --attr checks.nixos-athena` produce the identical derivation. That
+holds only because the flake passes `rev` down: `core` bakes the revision into a
+`nixos-revision` script, and a flake source tree has no readable `.git`, so without
+threading it the two entry points would disagree and rebuild each other's work.
 
-`TACK_OVERRIDES` is the exception - it reads the environment, which pure evaluation
-forbids, so it only works through `--file .`.
+`TACK_OVERRIDES` is the one thing that does not work through the flake - it reads the
+environment, which pure evaluation forbids, so it needs `--file .`.
 
 ---
 
 ## Hosts
 
-The host table is **generated** - see [`modules/MODULES.md`](modules/MODULES.md), which
-lists every host with its class, users, resolved aspect count and domain. It is built
-from `config.registry` itself, so it cannot drift.
-
-NixOS hosts are also deploy-rs targets (`deploy --file . <host>`); finix hosts are
-built with `nixos-rebuild --file . --attr finixConfigurations.<host>`, not deployed.
-
-To ask what a single host actually resolved to:
-
-```bash
-nix eval --json --file . resolved.nimeses | jq        # layers hit, aggregators, inert names
-```
+Every host, with its class, users, resolved aspect count and domain, is generated into
+[`modules/MODULES.md`](modules/MODULES.md) from `config.registry` itself, so it cannot
+drift. NixOS hosts are also deploy-rs targets (`deploy --file . <host>`); finix hosts
+are built with `nixos-rebuild --file . --attr finixConfigurations.<host>`, not deployed.
 
 ---
 

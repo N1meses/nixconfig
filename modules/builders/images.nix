@@ -12,6 +12,13 @@ let
       image.modules.proxmox = {
         proxmox.qemuConf.bios = lib.mkDefault "ovmf";
       };
+
+      image.modules.kexec.services.openssh.settings.PermitRootLogin = lib.mkForce "no";
+      image.modules.iso-installer.services.openssh.settings.PermitRootLogin = lib.mkForce "no";
+      image.modules.google-compute = {
+        services.openssh.settings.PermitRootLogin = lib.mkForce "no";
+        networking.firewall.enable = lib.mkForce true;
+      };
     };
 
   imagesFor =

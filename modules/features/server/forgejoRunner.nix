@@ -20,6 +20,7 @@
               git
               bash
               coreutils
+              gawk # scripts/drvdiff.sh; PATH here is exactly this list, nothing else
               gnutar
               gzip
               gnused

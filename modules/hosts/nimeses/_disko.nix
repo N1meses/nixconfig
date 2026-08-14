@@ -4,14 +4,7 @@ let
 
   devices = import ./_devices.nix;
 
-  diskoConfig =
-    (inputs.nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        inputs.disko.nixosModules.disko
-        { disko.devices = devices; }
-      ];
-    }).config.disko.devices._config;
+  diskoConfig = inputs.disko.lib.config { disko.devices = devices; };
 in
 {
   boot.initrd.supportedFilesystems.luks.enable = true;

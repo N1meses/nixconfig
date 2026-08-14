@@ -2,14 +2,7 @@
 let
   devices = import ./_devices.nix;
 
-  fileSystems =
-    (inputs.nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        inputs.disko.nixosModules.disko
-        { disko.devices = devices; }
-      ];
-    }).config.disko.devices._config.fileSystems;
+  fileSystems = (inputs.disko.lib.config { disko.devices = devices; }).fileSystems;
 in
 {
   fileSystems = lib.mkMerge [

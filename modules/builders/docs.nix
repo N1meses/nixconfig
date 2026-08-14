@@ -20,7 +20,8 @@ let
       h = config.registry.hosts.${n};
       r = config.resolved.${n};
     in
-    "| ${code n} | ${r.class} | ${joinCode h.users} | ${toString r.aspectCount} | ${cell h.domain} |";
+    "| ${code n} | ${r.class}${lib.optionalString (h.machineModules == [ ]) " *(image-only)*"} | "
+    + "${joinCode h.users} | ${toString r.aspectCount} | ${cell h.domain} |";
 
   aspectRow =
     n:
