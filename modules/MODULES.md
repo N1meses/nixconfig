@@ -119,7 +119,7 @@ to pull in the names it includes.
 | `profile.mkVM` | nixos+finix | Turns a host into a bootable QEMU VM for testing. | - |
 | `profile.performance` | nixos | Performance tuning: zram, sysctls and nix daemon scheduling. | - |
 | `profile.rescue` | nixos | Recovery toolkit: filesystem support and repair utilities for a broken boot. | - |
-| `profile.virtualisation` | nixos+finix | Virtualisation host support (libvirt/qemu on nixos, incus on finix). | - |
+| `profile.virtualisation` | nixos+finix | Virtualisation host support: libvirtd + virt-manager on nixos; incus plus per-user session libvirt (qemu:///session, no daemon) on finix. | - |
 | `server.binaryCache` | nixos | nix-serve binary cache, published on the tailnet. | `core.sops` |
 | `server.forgejoRunner` | nixos | Forgejo Actions runner registered against atlas. | `core.sops` |
 | `server.media.jellyfin` | nixos | Jellyfin media server, proxied and backed up. | `server.nginx` `server.security.restic` |

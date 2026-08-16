@@ -56,7 +56,7 @@ _: {
       };
 
     finix =
-      { modules, ... }:
+      { modules, pkgs, ... }:
       {
         imports = [
           modules.incus
@@ -65,7 +65,29 @@ _: {
 
         services.sysklogd.enable = true;
         services.incus.enable = true;
+
+        # libvirt is built with sysconfdir=/var/lib, so /var/lib/qemu/firmware is
+        # where it looks for QEMU's firmware descriptors. Without them the qemu
+        # driver offers no `efi` firmware at all and only BIOS guests can boot.
+        # qemu's own JSONs already carry absolute store paths, so linking the
+        # directory is enough - nothing needs rewriting.
+        finit.tmpfiles.rules = [
+          "L+ /var/lib/qemu/firmware - - - - ${pkgs.qemu}/share/qemu/firmware"
+        ];
+
+        environment.systemPackages = with pkgs; [
+          qemu
+          # No daemon: the client library spawns `virtqemud --timeout` under the
+          # calling user, so virt-manager talks to qemu:///session and VM state
+          # lives in ~/.config/libvirt. Nothing to wire into finit.
+          libvirt
+          virt-manager
+          virt-viewer
+          passt # interface backend='passt' - user-mode networking without slirp
+          swtpm # TPM emulation; without it libvirt only offers tpm passthrough
+          virtiofsd # host<->guest shared directories
+        ];
       };
-    description = "Virtualisation host support (libvirt/qemu on nixos, incus on finix).";
+    description = "Virtualisation host support: libvirtd + virt-manager on nixos; incus plus per-user session libvirt (qemu:///session, no daemon) on finix.";
   };
 }

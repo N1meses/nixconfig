@@ -19,6 +19,7 @@ in
       profile.laptop
       server.sshd
 
+      core.finitV5
       finix.doas
       finix.session
       finix.devMdevd

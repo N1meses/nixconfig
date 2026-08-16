@@ -16,6 +16,7 @@
       finix.zfs
       finix.docker
 
+      core.finitV5
       finix.doas
       finix.devGardendevd
       finix.netDhcpcd

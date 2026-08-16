@@ -24,6 +24,7 @@ in
       profile.laptop
       server.sshd
       finix.doas
+      core.finitV5
       finix.session
       finix.devUdev
       finix.netNM

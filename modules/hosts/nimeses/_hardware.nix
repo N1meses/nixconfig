@@ -8,6 +8,7 @@
     "sd_mod"
     "btrfs"
   ];
+
   boot.kernelModules = [ "kvm-amd" ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;

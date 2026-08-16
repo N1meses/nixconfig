@@ -45,7 +45,7 @@ in
       ];
     };
 
-    homeModule = { pkgs, ... }: {
+    homeModule = { ... }: {
       features = {
         compositors = {
           monitors."eDP-1" = {
