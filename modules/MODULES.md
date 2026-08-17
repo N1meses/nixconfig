@@ -13,11 +13,11 @@
 |------|-------|-------|--------:|--------|
 | `athena` | nixos | `athena` | 27 | athena.tail4109e2.ts.net |
 | `atlas` | nixos | `atlas` | 34 | nimeses.com |
-| `bellerophon` | finix | `icarus` | 44 | - |
+| `bellerophon` | finix | `icarus` | 45 | - |
 | `hermes` | nixos | `hermes` | 32 | - |
-| `icarus` | finix | `icarus` | 43 | - |
+| `icarus` | finix | `icarus` | 44 | - |
 | `nimeses` | finix | `nimeses` | 52 | - |
-| `phaethon` | finix | `phaethon` | 25 | - |
+| `phaethon` | finix | `phaethon` | 26 | - |
 | `prometheus` | nixos | `prometheus` | 48 | - |
 
 ## Aspects
