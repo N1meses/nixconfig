@@ -21,7 +21,7 @@
 
           environment = {
             OCIS_URL = ocisUrl;
-            OCIS_LOG_LEVEL = "error";
+            OCIS_LOG_LEVEL = "debug";
             OCIS_INSECURE = "false";
             PROXY_TLS = "false";
 
@@ -34,17 +34,30 @@
             PROXY_USER_OIDC_CLAIM = "preferred_username";
             PROXY_USER_CS3_CLAIM = "username";
             PROXY_ROLE_ASSIGNMENT_DRIVER = "oidc";
+
+            THUMBNAILS_MAX_CONCURRENT_REQUESTS = "50";
+            THUMBNAILS_RESOLUTION_LIMIT = "50000000";
           };
         };
+
+        services.nginx.appendHttpConfig = ''
+          map $request_uri $limit_image_req {
+            default "";
+            "~*\.(jpg|jpeg|png|gif|heic|webp|bmp|tiff)(\?|$)" $binary_remote_addr;
+          }
+          limit_req_zone $limit_image_req zone=ocis_images:10m rate=30r/s;
+        '';
 
         services.nginx.virtualHosts."cloud.${cfg.domain}".locations."/" = {
           proxyPass = "http://127.0.0.1:9200";
           proxyWebsockets = true;
           extraConfig = ''
             client_max_body_size 0;
+            proxy_buffering off;
             proxy_request_buffering off;
-            proxy_read_timeout 3600s;
+            proxy_read_timeout 120s;
             proxy_set_header X-Forwarded-Proto https;
+            limit_req zone=ocis_images burst=500;
           '';
         };
 
