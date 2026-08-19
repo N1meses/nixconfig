@@ -41,7 +41,7 @@ url = "gh:finix-community/finix"
 url = "gh:feel-co/hjem"
 
 [inputs.hjem-rum]
-url = "gh:N1meses/hjem-rum/fix/gammastep"
+url = "gh:snugnug/hjem-rum"
 
 [inputs.deploy-rs]
 url = "gh:serokell/deploy-rs"
