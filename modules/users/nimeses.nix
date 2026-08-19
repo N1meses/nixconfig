@@ -48,7 +48,6 @@
         nh
         steam
         inputs.deploy-rs.packages.${pkgs.stdenv.hostPlatform.system}.default
-        inputs.kopuz.packages.${pkgs.stdenv.hostPlatform.system}.default
         ffmpeg
         ytmdesktop
       ];
