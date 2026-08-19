@@ -25,6 +25,12 @@
               SSH_PORT = 2222;
               START_SSH_SERVER = true;
             };
+            "git.timeout" = {
+              DEFAULT = 3600;
+              MIGRATE = 7200;
+              MIRROR = 7200;
+              CLONE = 7200;
+            };
             service.ALLOW_ONLY_EXTERNAL_REGISTRATION = true;
             log.LEVEL = "Warn";
             picture.AVATAR_MAX_FILE_SIZE = 5242880;

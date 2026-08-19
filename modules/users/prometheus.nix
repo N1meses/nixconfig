@@ -15,6 +15,7 @@
       dev.languages.nix
       dev.editors.zed
       desktop.apps.term.kitty
+      desktop.apps.browser.glide
       dev.languages.c
       dev.languages.python
       dev.languages.rust

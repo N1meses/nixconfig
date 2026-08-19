@@ -5,7 +5,7 @@
 
 # Module Library
 
-119 aspects, 8 hosts.
+120 aspects, 8 hosts.
 
 ## Hosts
 
@@ -29,7 +29,7 @@ to pull in the names it includes.
 
 | Aspect | Layers | Description | Includes |
 |--------|--------|-------------|----------|
-| `bundle.apps` | *aggregator* | Everyday graphical apps: file manager, browser, GTK theming, nh and fastfetch. | `desktop.apps.yazi` `desktop.apps.browser` `desktop.apps.gtk` `desktop.apps.nh` `desktop.apps.fastfetch` |
+| `bundle.apps` | *aggregator* | Everyday graphical apps: file manager, browser, GTK theming, nh and fastfetch. | `desktop.apps.yazi` `desktop.apps.browser.glide` `desktop.apps.gtk` `desktop.apps.nh` `desktop.apps.fastfetch` |
 | `bundle.base` | *aggregator* | Baseline every host gets: nix settings, locale, user accounts and tailscale. | `core.core` `core.local` `core.users` `server.vpn.tailscale` |
 | `bundle.cliEnv` | *aggregator* | Interactive shell environment: shell, file manager, editor, CLI tools and git. | `core.core` `bundle.shell` `desktop.apps.yazi` `dev.editors.helix` `dev.tools.cli` `dev.tools.git` |
 | `bundle.desktop` | *aggregator* | Graphical desktop bundle: session services, apps and the noctalia shell. | `bundle.services` `bundle.apps` `desktop.apps.yaziFilechooser` `desktop.noctalia` |
@@ -45,7 +45,8 @@ to pull in the names it includes.
 | `core.persistence` | finix | Declarative /persist bind-mount handling for impermanent finix roots. | - |
 | `core.sops` | nixos | sops-nix secret decryption, keyed on an age keyfile at /root/.config/sops/age/keys.txt. | - |
 | `core.users` | nixos+finix | Materialises registry.users into real accounts on whichever layer the host builds in. | - |
-| `desktop.apps.browser` | home | Web browser with declarative policy and default-application wiring. | - |
+| `desktop.apps.browser.brave` | home | The Brave browser. | `desktop.compositors.compositors` |
+| `desktop.apps.browser.glide` | home | The Glide browser: Firefox-based, keyboard-driven, configured from a single glide.ts. | `desktop.compositors.compositors` |
 | `desktop.apps.fastfetch` | home | fastfetch system summary, configured for this fleet. | - |
 | `desktop.apps.fuzzel` | home | The fuzzel application launcher, themed. | `desktop.compositors.compositors` |
 | `desktop.apps.gtk` | home | GTK theme, cursor and icon settings. | - |

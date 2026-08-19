@@ -98,3 +98,6 @@ url = "gh:N1meses/halley/feat/flake"
 
 [inputs.kopuz]
 url = "gh:Kopuz-org/kopuz"
+
+[inputs.glide]
+url = "gh:glide-browser/glide.nix"

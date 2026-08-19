@@ -39,6 +39,14 @@
     "narHash": "sha256-AcviKbH6Uu0iWrSmRC5mgb0QLUCpl15CvOaPck+vd2c=",
     "lastModified": 1786589507
   },
+  "glide": {
+    "type": "github",
+    "owner": "glide-browser",
+    "repo": "glide.nix",
+    "rev": "bba480c72761ded14314811c440c106360da5572",
+    "narHash": "sha256-7OxxwIdXZRagnvsnVVp4Ju3Qhmht8hljiS8b7SfGOe4=",
+    "lastModified": 1782680989
+  },
   "halley": {
     "type": "github",
     "owner": "N1meses",

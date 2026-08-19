@@ -113,8 +113,7 @@
               scratchpad_height_ratio = 0.8;
 
               windowrule = [
-                "focused_opacity:1.0,unfocused_opacity:1.0,appid:com.brave.Browser"
-                "focused_opacity:1.0,unfocused_opacity:1.0,appid:brave-browser"
+                "focused_opacity:1.0,unfocused_opacity:1.0,appid:${c.browser.appId}"
                 "isfloating:1,title:Picture-in-Picture"
                 "isglobal:1,title:Picture-in-Picture"
                 "width:640,height:360,title:Picture-in-Picture"

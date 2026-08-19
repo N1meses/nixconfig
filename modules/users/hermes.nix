@@ -10,7 +10,7 @@
       desktop.noctalia
       desktop.apps.term.foot
       desktop.apps.yaziFilechooser
-      desktop.apps.browser
+      desktop.apps.browser.glide
     ];
     homeModule = { pkgs, ... }: {
       packages = with pkgs; [

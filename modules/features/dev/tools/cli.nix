@@ -3,6 +3,7 @@ _: {
     description = "General CLI utilities.";
     home = { pkgs, ... }: {
       packages = with pkgs; [
+        jujutsu
         jq
         yq
         sd

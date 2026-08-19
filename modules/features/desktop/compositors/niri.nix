@@ -292,10 +292,7 @@ in
               default-window-height.fixed = 768;
             }
             {
-              match = [
-                { _props.app-id = "^com.brave.Browser$"; }
-                { _props.app-id = "^brave-browser$"; }
-              ];
+              match._props.app-id = "^${c.browser.appId}$";
               opacity = 1.0;
             }
           ];

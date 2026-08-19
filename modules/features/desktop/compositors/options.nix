@@ -92,6 +92,28 @@ _: {
             };
           };
 
+          browser = {
+            command = lib.mkOption {
+              type = lib.types.str;
+              default = "glide";
+            };
+            appId = lib.mkOption {
+              type = lib.types.str;
+              default = "glide";
+              description = "Window class / app-id used in compositor window rules.";
+            };
+            desktopFile = lib.mkOption {
+              type = lib.types.str;
+              default = "glide.desktop";
+              description = "Desktop entry id used for the mimeapps default handler.";
+            };
+            args = lib.mkOption {
+              type = lib.types.listOf lib.types.str;
+              default = [ ];
+              description = "Extra arguments passed to the browser on every invocation.";
+            };
+          };
+
           colors = {
             active = lib.mkOption {
               type = lib.types.str;
