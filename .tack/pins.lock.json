@@ -73,11 +73,11 @@
   },
   "hjem-rum": {
     "type": "github",
-    "owner": "snugnug",
+    "owner": "N1meses",
     "repo": "hjem-rum",
-    "rev": "2f22748be8014c8b0ab55ceeeb84d052fe7ee32f",
-    "narHash": "sha256-+YCT1sVGOYAloZhQePmE0QWaALQAz8DDDn3i1ZG0p+0=",
-    "lastModified": 1787114349
+    "rev": "859a16fd2d131e3b6401d6af5b4ec64f2c305a90",
+    "narHash": "sha256-C0IALh3p95nXQZ5GKToNJQShhsSqycPJj4s38hQIfzE=",
+    "lastModified": 1787139679
   },
   "hyprland": {
     "type": "git",
