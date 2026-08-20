@@ -55,7 +55,7 @@
         };
 
         networking.nameservers = [
-          "192.168.68.1"
+          "192.168.68.53"
           "1.1.1.1"
         ];
         networking.networkmanager.ensureProfiles.profiles.enp3s0 = {
@@ -66,7 +66,7 @@
           };
           ipv4 = {
             method = "manual";
-            address1 = "192.168.68.10/22,192.168.68.1";
+            address1 = "192.168.68.50/22,192.168.68.1";
           };
           ipv6.method = "auto";
         };
@@ -113,7 +113,7 @@
         port = 2222;
       };
       "atlas-unlock" = {
-        hostname = "192.168.68.10";
+        hostname = "192.168.68.50";
         port = 2222;
         user = "root";
         proxyJump = "athena";
