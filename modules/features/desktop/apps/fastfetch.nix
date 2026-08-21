@@ -92,12 +92,12 @@ in
                   type = "disk";
                   key = "Disk";
                   folders = "/";
-                  format = "{size-used} / {size-total} ({size-percentage}%)";
+                  format = "{size-used} / {size-total} ({size-percentage})";
                 }
                 {
                   type = "battery";
                   key = "Battery";
-                  format = "{capacity}% ({time-hours}h{time-minutes}m)";
+                  format = "{capacity} ({time-hours}h{time-minutes}m)";
                 }
                 "break"
                 "colors"
