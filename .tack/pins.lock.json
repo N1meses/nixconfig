@@ -51,9 +51,9 @@
     "type": "github",
     "owner": "N1meses",
     "repo": "halley",
-    "rev": "ec0970a5eaefdc9908a1251ee1efb038a6313ccd",
-    "narHash": "sha256-+AAE9JvmmuDSdJWaniP6sD91VHegbrLMp4VKi2opl2Q=",
-    "lastModified": 1785325636
+    "rev": "d0fe3beef889f9c6715cc64669863b5a3c110768",
+    "narHash": "sha256-P4TUDGUt+s4rtHksaX4ABtAJeML5Hf2H14Ok6mP7HoQ=",
+    "lastModified": 1787820463
   },
   "hardware": {
     "type": "github",

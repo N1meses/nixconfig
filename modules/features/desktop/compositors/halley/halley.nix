@@ -35,18 +35,18 @@
         termExec = "${term}${lib.optionalString (c.terminal.execFlag != "") " ${c.terminal.execFlag}"}";
 
         monitorsBlock = lib.optionalString (c.monitors != null && c.monitors != { }) ''
-          viewport:
+          view:
           ${lib.concatStrings (
             lib.mapAttrsToList (name: m: ''
-              ${name}:
-                enabled true
+              output:
+                name "${name}"
                 width ${toString m.resolution.width}
                 height ${toString m.resolution.height}
+                offset-x ${toString m.position.x}
+                offset-y ${toString m.position.y}
                 rate ${toString m.refreshRate}
                 transform ${m.transform}
                 vrr "${if m.vrr.enable then "on" else "off"}"
-                offset-x ${toString m.position.x}
-                offset-y ${toString m.position.y}
               end
             '') c.monitors
           )}
@@ -157,6 +157,7 @@
           xdg.config.files."halley/default.rune".source = ./default.rune;
 
           xdg.config.files."halley/halley.rune".text = ''
+            # halley-config-version: 2
             gather "default.rune"
 
             input:
@@ -171,11 +172,10 @@
 
             clusters:
               default-layout "tiling"
-            end
-
-            tile:
-              gaps-inner ${toString c.gaps.inner}
-              gaps-outer ${toString c.gaps.outer}
+              tiling:
+                gaps-inner ${toString c.gaps.inner}
+                gaps-outer ${toString c.gaps.outer}
+              end
             end
 
             ${monitorsBlock}
