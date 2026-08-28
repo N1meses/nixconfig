@@ -1,7 +1,7 @@
 { config, ... }:
 let
   mkNoctaliaNiri = config.aspectLib.mkNoctaliaNiri;
-  mkNoctaliaHypr = config.aspectLib.mkNoctaliaHypr;
+  mkNoctaliaUmbriel = config.aspectLib.mkNoctaliaUmbriel;
 in
 {
   registry.hosts.prometheus = {
@@ -71,6 +71,7 @@ in
             scale = 1.2;
             transform = "0";
             vrr.enable = false;
+            tearing = true;
             position = {
               x = 0;
               y = 0;
@@ -115,22 +116,21 @@ in
             };
           };
 
-          hyprland.extraBinds = [
-            (mkNoctaliaHypr "F10" "volume-up")
-            (mkNoctaliaHypr "F9" "volume-down")
-            (mkNoctaliaHypr "F5" "volume-mute")
+          umbriel.extraBinds = {
+            "F10" = mkNoctaliaUmbriel "volume-up";
+            "F9" = mkNoctaliaUmbriel "volume-down";
+            "F5" = mkNoctaliaUmbriel "volume-mute";
 
-            (mkNoctaliaHypr "F7" "media toggle")
-            (mkNoctaliaHypr "F8" "media next")
-            (mkNoctaliaHypr "F6" "media previous")
+            "F7" = mkNoctaliaUmbriel "media toggle";
+            "F8" = mkNoctaliaUmbriel "media next";
+            "F6" = mkNoctaliaUmbriel "media previous";
 
-            (mkNoctaliaHypr "SUPER + SHIFT + Q" "session lock")
-            (mkNoctaliaHypr "SUPER + N" "panel-toggle launcher")
-            (mkNoctaliaHypr "SUPER + B" "bar-toggle")
-
-            (mkNoctaliaHypr "F12" "screenshot-fullscreen")
-            (mkNoctaliaHypr "SUPER + F12" "screenshot-region")
-          ];
+            "Mod+Shift+q" = mkNoctaliaUmbriel "session lock";
+            "Mod+n" = mkNoctaliaUmbriel "panel-toggle launcher";
+            "Mod+b" = mkNoctaliaUmbriel "bar-toggle";
+            "F12" = mkNoctaliaUmbriel "screenshot-fullscreen";
+            "Mod+F12" = mkNoctaliaUmbriel "screenshot-region";
+          };
         };
       };
 

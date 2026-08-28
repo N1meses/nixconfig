@@ -23,6 +23,8 @@ in
 
   aspectLib.mkNoctaliaHalley = cmd: "noctalia msg ${cmd}";
 
+  aspectLib.mkNoctaliaUmbriel = cmd: "spawn:noctalia msg ${cmd}";
+
   aspects.desktop.noctalia = {
     description = "The noctalia desktop shell (bar, launcher, control centre).";
     includes = with config.aspectLib.names; [ desktop.compositors.compositors ];

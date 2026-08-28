@@ -11,7 +11,7 @@
       bundle.cliEnv
       bundle.desktop
       desktop.compositors.niri
-      desktop.compositors.hyprland
+      desktop.compositors.umbriel
       dev.languages.nix
       dev.editors.zed
       desktop.apps.term.kitty

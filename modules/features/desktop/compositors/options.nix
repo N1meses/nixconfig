@@ -57,6 +57,36 @@ _: {
                       default = "0";
                     };
                     vrr.enable = lib.mkEnableOption "variable refresh rate";
+                    hdr = lib.mkOption {
+                      type = lib.types.enum [
+                        "off"
+                        "on"
+                        "auto"
+                        "fullscreen"
+                      ];
+                      default = "off";
+                      description = ''
+                        HDR policy. `auto` engages only for a fullscreen surface
+                        carrying HDR metadata, `fullscreen` for any fullscreen
+                        surface, `on` keeps the output in PQ/BT.2020 always.
+                      '';
+                    };
+                    sdrWhite = lib.mkOption {
+                      type = lib.types.float;
+                      default = 203.0;
+                      description = "SDR reference white in cd/m², 80-1000. Only applies while hdr is active.";
+                    };
+                    tearing = lib.mkEnableOption ''
+                      asynchronous page flips on this monitor. A safety gate only:
+                      the compositor still tears just for a fullscreen window that
+                      requests it through the tearing-control protocol, or that a
+                      window rule opts in
+                    '';
+                    directScanout = lib.mkOption {
+                      type = lib.types.bool;
+                      default = true;
+                      description = "Let eligible fullscreen buffers bypass composition. Turn off to work around scanout artifacts.";
+                    };
                     primary = lib.mkEnableOption "this monitor as primary";
                   };
                 }

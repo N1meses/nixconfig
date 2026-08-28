@@ -4,7 +4,7 @@
 }:
 let
   mkNoctaliaNiri = config.aspectLib.mkNoctaliaNiri;
-  mkNoctaliaHalley = config.aspectLib.mkNoctaliaHalley;
+  mkNoctaliaUmbriel = config.aspectLib.mkNoctaliaUmbriel;
 in
 {
   registry.hosts.nimeses = {
@@ -20,7 +20,7 @@ in
       bundle.base
       bundle.desktop
       desktop.compositors.niri
-      desktop.compositors.halley
+      desktop.compositors.umbriel
       desktop.services.ly
       profile.laptop
 
@@ -106,20 +106,22 @@ in
               spawn = mkNoctaliaNiri "screenshot-region";
             };
           };
-          halley.extraBinds = {
-            "$var.mod+n" = mkNoctaliaHalley "panel-toggle launcher";
-            "$var.mod+b" = mkNoctaliaHalley "bar-toggle";
-            "$var.mod+shift+q" = mkNoctaliaHalley "session lock";
-            "XF86AudioRaiseVolume" = mkNoctaliaHalley "volume-up";
-            "XF86AudioLowerVolume" = mkNoctaliaHalley "volume-down";
-            "XF86AudioMute" = mkNoctaliaHalley "volume-mute";
-            "XF86MonBrightnessUp" = mkNoctaliaHalley "brightness-up";
-            "XF86MonBrightnessDown" = mkNoctaliaHalley "brightness-down";
-            "XF86AudioPlay" = mkNoctaliaHalley "media toggle";
-            "XF86AudioNext" = mkNoctaliaHalley "media next";
-            "XF86AudioPrev" = mkNoctaliaHalley "media previous";
-            "print" = mkNoctaliaHalley "screenshot-fullscreen";
-            "$var.mod+print" = mkNoctaliaHalley "screenshot-region";
+          umbriel.extraBinds = {
+            "XF86AudioRaiseVolume" = mkNoctaliaUmbriel "volume-up";
+            "XF86AudioLowerVolume" = mkNoctaliaUmbriel "volume-down";
+            "XF86AudioMute" = mkNoctaliaUmbriel "volume-mute";
+            "XF86MonBrightnessUp" = mkNoctaliaUmbriel "brightness-up";
+            "XF86MonBrightnessDown" = mkNoctaliaUmbriel "brightness-down";
+
+            "XF86AudioPlay" = mkNoctaliaUmbriel "media toggle";
+            "XF86AudioNext" = mkNoctaliaUmbriel "media next";
+            "XF86AudioPrev" = mkNoctaliaUmbriel "media previous";
+
+            "Mod+Shift+q" = mkNoctaliaUmbriel "session lock";
+            "Mod+n" = mkNoctaliaUmbriel "panel-toggle launcher";
+            "Mod+b" = mkNoctaliaUmbriel "bar-toggle";
+            "Print" = mkNoctaliaUmbriel "screenshot-fullscreen";
+            "Mod+Print" = mkNoctaliaUmbriel "screenshot-region";
           };
 
           autoStart = [

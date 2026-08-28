@@ -98,3 +98,8 @@ url = "gh:N1meses/halley/feat/flake"
 
 [inputs.glide]
 url = "gh:glide-browser/glide.nix"
+
+[inputs.umbriel]
+# tarball fetcher cannot get the scenefx submodule; nix/package.nix throws on it
+url = "git+https://github.com/noctalia-dev/umbriel"
+submodules = true

@@ -5,7 +5,7 @@
 
 # Module Library
 
-120 aspects, 8 hosts.
+121 aspects, 8 hosts.
 
 ## Hosts
 
@@ -61,6 +61,7 @@ to pull in the names it includes.
 | `desktop.compositors.hyprland` | nixos+home | The Hyprland Wayland compositor. | `desktop.compositors.compositors` `desktop.services.portals` |
 | `desktop.compositors.mango` | nixos+home | The mango Wayland compositor. | `desktop.compositors.compositors` `desktop.services.portals` |
 | `desktop.compositors.niri` | nixos+finix+home | The niri scrolling Wayland compositor, with keybinds and portal wiring. | `desktop.compositors.compositors` `desktop.services.portals` |
+| `desktop.compositors.umbriel` | nixos+finix+home | The umbriel scrolling Wayland compositor (wlroots + SceneFX), with keybinds and portal wiring. | `desktop.compositors.compositors` `desktop.services.portals` |
 | `desktop.noctalia` | home | The noctalia desktop shell (bar, launcher, control centre). | `desktop.compositors.compositors` |
 | `desktop.noctaliaSettings` | home | Declarative noctalia settings, generated per host. | - |
 | `desktop.services.audio` | nixos+finix | PipeWire audio with ALSA and 32-bit support. | - |

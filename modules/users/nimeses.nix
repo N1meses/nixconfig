@@ -21,6 +21,7 @@
       bundle.cliEnv
       bundle.desktop
       desktop.compositors.niri
+      desktop.compositors.umbriel
       desktop.services.music
       dev.languages.nix
       dev.editors.zed

@@ -19,6 +19,10 @@ let
 
   commonOverlays = [
     inputs.halley.overlays.default
+
+    # replaces nixpkgs' umbriel with the pinned flake's build; both the finix
+    # module and the hjem module resolve `pkgs.umbriel` through this
+    inputs.umbriel.overlays.default
   ];
 
   commonModule =

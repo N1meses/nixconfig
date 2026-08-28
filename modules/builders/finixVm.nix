@@ -14,7 +14,9 @@ let
 
   testLib = import "${inputs.finix}/tests/lib" {
     inherit (pkgs) lib;
-    pkgs = pkgs.extend inputs.halley.overlays.default;
+    pkgs = pkgs.extend (
+      lib.composeExtensions inputs.halley.overlays.default inputs.umbriel.overlays.default
+    );
   };
 
   fleetFor =
