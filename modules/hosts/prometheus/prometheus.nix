@@ -70,7 +70,7 @@ in
             refreshRate = 119.880;
             scale = 1.4;
             transform = "0";
-            vrr.enable = true;
+            vrr.enable = false;
             position = {
               x = 0;
               y = 0;
