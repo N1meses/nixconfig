@@ -68,10 +68,9 @@ in
               height = 2160;
             };
             refreshRate = 119.880;
-            scale = 1.2;
+            scale = 1.4;
             transform = "0";
-            vrr.enable = false;
-            tearing = true;
+            vrr.enable = true;
             position = {
               x = 0;
               y = 0;
