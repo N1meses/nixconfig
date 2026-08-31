@@ -16,7 +16,7 @@
 | `bellerophon` | finix | `icarus` | 45 | - |
 | `hermes` | nixos | `hermes` | 32 | - |
 | `icarus` | finix | `icarus` | 44 | - |
-| `nimeses` | finix | `nimeses` | 52 | - |
+| `nimeses` | finix | `nimeses` | 50 | - |
 | `phaethon` | finix | `phaethon` | 26 | - |
 | `prometheus` | nixos | `prometheus` | 48 | - |
 
