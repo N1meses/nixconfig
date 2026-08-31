@@ -20,7 +20,6 @@
     aspects = with config.aspectLib.names; [
       bundle.cliEnv
       bundle.desktop
-      desktop.compositors.niri
       desktop.compositors.umbriel
       desktop.services.music
       dev.languages.nix
@@ -28,7 +27,6 @@
       desktop.apps.term.kitty
       desktop.apps.browser.glide
       dev.languages.python
-      dev.languages.c
       dev.languages.rust
       dev.languages.markdown
       dev.tools.direnv

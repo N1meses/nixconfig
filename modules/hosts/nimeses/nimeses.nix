@@ -19,8 +19,6 @@ in
     aspects = with config.aspectLib.names; [
       bundle.base
       bundle.desktop
-      desktop.compositors.niri
-      desktop.compositors.umbriel
       desktop.services.ly
       profile.laptop
 

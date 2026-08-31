@@ -1,1 +1,14 @@
+# nix build outputs
 result*
+
+# VM disk images left in the working tree by the vm runners
+# (`nix run .#…-vm` writes <hostname>.qcow2 into cwd)
+*.qcow2
+*.qcow2.*
+
+# image builder artifacts, if ever copied out of the store
+*.img
+*.raw
+*.iso
+*.vmdk
+*.vdi

@@ -43,6 +43,7 @@ let
     "Mod+l" = "window-focus-right";
     "Mod+j" = "window-focus-down";
     "Mod+k" = "window-focus-up";
+    "Alt+Tab" = "window-focus-last";
 
     "Mod+Shift+h" = "window-move-or-output-left";
     "Mod+Shift+l" = "window-move-or-output-right";
@@ -50,14 +51,15 @@ let
     "Mod+Shift+k" = "window-move-up";
 
     "Mod+Comma" = "window-consume-left";
-    "Mod+Period" = "window-expel-right";
+    "Mod+Period" = "window-consume-or-expel-right";
 
     "Mod+Ctrl+l" = "window-modify-width:0.1";
     "Mod+Ctrl+h" = "window-modify-width:-0.1";
+    "Mod+Ctrl+j" = "window-modify-height:0.1";
+    "Mod+Ctrl+k" = "window-modify-height:-0.1";
 
     "Mod+f" = "window-toggle-maximize";
     "Mod+Shift+f" = "window-toggle-fullscreen";
-    "Mod+m" = "window-toggle-maximize-to-edges";
     "Mod+c" = "column-center";
     "Mod+Escape" = "session-quit";
 

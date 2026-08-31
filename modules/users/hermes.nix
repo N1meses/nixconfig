@@ -6,7 +6,7 @@
     aspects = with config.aspectLib.names; [
       bundle.cliEnv
       bundle.services
-      desktop.compositors.niri
+      desktop.compositors.umbriel
       desktop.noctalia
       desktop.apps.term.foot
       desktop.apps.yaziFilechooser

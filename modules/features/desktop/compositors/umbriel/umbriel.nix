@@ -89,13 +89,33 @@ in
           programs.umbriel = {
             enable = true;
             package = pkgs.umbriel;
-            settings = config.umbriel.settings;
+            settings = null;
           };
+
+          xdg.config.files."umbriel/config.toml".source =
+            let
+              raw = (pkgs.formats.toml { }).generate "umbriel-config.toml" config.umbriel.settings;
+            in
+            pkgs.runCommand "umbriel-config" { } ''
+              if ! ${lib.getExe pkgs.umbriel} validate -c ${raw} >log 2>&1; then
+                cat log >&2
+                exit 1
+              fi
+              cat log
+              if grep -q 'warning:' log; then
+                echo "umbriel: config validated with warnings; refusing to install." >&2
+                echo "an action or key was most likely renamed or removed upstream." >&2
+                exit 1
+              fi
+              cp ${raw} $out
+            '';
 
           umbriel.settings = {
             general.autostart = c.autoStart;
 
             workspaces.back_and_forth = true;
+
+            overview.zoom = 0.25;
 
             environment = {
               _JAVA_AWT_WM_NONREPARENTING = "1";
@@ -134,6 +154,11 @@ in
 
             layout = {
               gap = c.gaps.inner;
+              width_presets = [
+                0.5
+                0.75
+                1.0
+              ];
 
               scrolling.default_width_fraction = 1.0;
             };
