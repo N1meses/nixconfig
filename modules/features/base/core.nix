@@ -125,6 +125,8 @@ in
 
         programs.limine.enable = true;
 
+        services.getty.enable = lib.mkDefault true;
+
         services.chrony.enable = true;
 
         services.polkit.enable = true;

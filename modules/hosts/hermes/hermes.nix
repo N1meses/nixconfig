@@ -4,7 +4,7 @@
   ...
 }:
 let
-  mkNoctaliaNiri = config.aspectLib.mkNoctaliaNiri;
+  mkNoctaliaUmbriel = config.aspectLib.mkNoctaliaUmbriel;
 in
 {
   registry.hosts.hermes = {
@@ -61,16 +61,10 @@ in
           monitors = [ ];
         };
 
-        features.compositors.niri.extraBinds = {
-          "Mod+Shift+q" = {
-            spawn = mkNoctaliaNiri "session lock";
-          };
-          "Mod+n" = {
-            spawn = mkNoctaliaNiri "panel-toggle launcher";
-          };
-          "Mod+b" = {
-            spawn = mkNoctaliaNiri "bar-toggle";
-          };
+        features.compositors.umbriel.extraBinds = {
+          "Mod+Shift+q" = mkNoctaliaUmbriel "session lock";
+          "Mod+n" = mkNoctaliaUmbriel "panel-toggle launcher";
+          "Mod+b" = mkNoctaliaUmbriel "bar-toggle";
         };
       };
   };
