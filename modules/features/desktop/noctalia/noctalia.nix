@@ -40,15 +40,6 @@ in
       rum.programs.foot.settings.main.include = "~/.config/foot/themes/noctalia";
 
       features.compositors.autoStart = [ "noctalia" ];
-
-      features.compositors.niri.extraConfig = [
-        ''
-          layer-rule {
-            match namespace=r#"^noctalia-wallpaper.*"#
-            place-within-backdrop true
-          }
-        ''
-      ];
     };
   };
 

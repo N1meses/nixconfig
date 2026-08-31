@@ -365,6 +365,15 @@ in
         };
 
         config = {
+          features.compositors.niri.extraConfig = [
+            ''
+              layer-rule {
+                match namespace=r#"^noctalia-wallpaper.*"#
+                place-within-backdrop true
+              }
+            ''
+          ];
+
           features.portals.desktops.niri = {
             extraPortals = with pkgs; [
               xdg-desktop-portal-gnome

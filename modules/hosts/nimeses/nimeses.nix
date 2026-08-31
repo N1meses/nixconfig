@@ -3,7 +3,6 @@
   ...
 }:
 let
-  mkNoctaliaNiri = config.aspectLib.mkNoctaliaNiri;
   mkNoctaliaUmbriel = config.aspectLib.mkNoctaliaUmbriel;
 in
 {
@@ -61,49 +60,6 @@ in
             };
           };
 
-          niri.extraBinds = {
-            "XF86AudioRaiseVolume" = {
-              spawn = mkNoctaliaNiri "volume-up";
-            };
-            "XF86AudioLowerVolume" = {
-              spawn = mkNoctaliaNiri "volume-down";
-            };
-            "XF86AudioMute" = {
-              spawn = mkNoctaliaNiri "volume-mute";
-            };
-            "XF86MonBrightnessUp" = {
-              spawn = mkNoctaliaNiri "brightness-up";
-            };
-            "XF86MonBrightnessDown" = {
-              spawn = mkNoctaliaNiri "brightness-down";
-            };
-
-            "XF86AudioPlay" = {
-              spawn = mkNoctaliaNiri "media toggle";
-            };
-            "XF86AudioNext" = {
-              spawn = mkNoctaliaNiri "media next";
-            };
-            "XF86AudioPrev" = {
-              spawn = mkNoctaliaNiri "media previous";
-            };
-
-            "Mod+Shift+q" = {
-              spawn = mkNoctaliaNiri "session lock";
-            };
-            "Mod+n" = {
-              spawn = mkNoctaliaNiri "panel-toggle launcher";
-            };
-            "Mod+b" = {
-              spawn = mkNoctaliaNiri "bar-toggle";
-            };
-            "Print" = {
-              spawn = mkNoctaliaNiri "screenshot-fullscreen";
-            };
-            "Mod+Print" = {
-              spawn = mkNoctaliaNiri "screenshot-region";
-            };
-          };
           umbriel.extraBinds = {
             "XF86AudioRaiseVolume" = mkNoctaliaUmbriel "volume-up";
             "XF86AudioLowerVolume" = mkNoctaliaUmbriel "volume-down";
