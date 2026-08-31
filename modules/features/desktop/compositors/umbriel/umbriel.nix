@@ -115,7 +115,7 @@ in
 
             workspaces.back_and_forth = true;
 
-            overview.zoom = 0.25;
+            overview.zoom = 0.3;
 
             environment = {
               _JAVA_AWT_WM_NONREPARENTING = "1";
@@ -147,6 +147,7 @@ in
               };
 
               touchpad = {
+                scroll_factor = 0.75;
                 natural_scroll = true;
                 disable_while_typing = true;
               };

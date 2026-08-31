@@ -173,11 +173,11 @@ _: {
           opacity = {
             focused = lib.mkOption {
               type = lib.types.float;
-              default = 0.9;
+              default = 0.75;
             };
             unfocused = lib.mkOption {
               type = lib.types.float;
-              default = 0.9;
+              default = 0.75;
             };
           };
 
