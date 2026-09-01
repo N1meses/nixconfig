@@ -149,4 +149,4 @@ to pull in the names it includes.
 | `shell.shellTools` | home | fzf and zoxide, integrated into zsh. | - |
 | `shell.ssh` | home | ssh client config and per-host match blocks. | - |
 | `shell.starship` | home | The starship prompt, themed. | - |
-| `shell.zsh` | nixos+finix+home | zsh as the login shell, with autosuggestions and completion. | - |
+| `shell.zsh` | nixos+finix+home | zsh as the login shell, with completions, fzf-tab and atuin history. | - |

@@ -17,6 +17,7 @@ _: {
         xdg.icons.enable = true;
         environment.pathsToLink = [
           "/share/applications"
+          "/share/zsh"
           "/share/mime"
           "/share/xdg-desktop-portal"
           "/share/glib-2.0/schemas"

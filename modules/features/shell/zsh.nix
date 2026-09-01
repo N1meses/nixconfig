@@ -11,30 +11,83 @@ _: {
       environment.etc."zshenv".text = "";
     };
 
-    home = { pkgs, ... }: {
-      packages = [ pkgs.eza ];
+    home = { pkgs, lib, ... }: {
+      packages = [
+        pkgs.eza
+        pkgs.atuin
+      ];
+
+      xdg.config.files."atuin/config.toml".text = ''
+        update_check = false
+      '';
 
       rum.programs.zsh = {
         enable = true;
 
         plugins = {
-          autosuggestions.source = "${pkgs.zsh-autosuggestions}/share/zsh-autosuggestions/zsh-autosuggestions.zsh";
-          forgit.source = "${pkgs.zsh-forgit}/share/zsh/zsh-forgit/forgit.plugin.zsh";
-          fzf-tab.source = "${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh";
-          history-substring-search.source = "${pkgs.zsh-history-substring-search}/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh";
-          nix-shell.source = "${pkgs.zsh-nix-shell}/share/zsh/plugins/zsh-nix-shell/nix-shell.plugin.zsh";
-          syntax-highlighting.source = "${pkgs.zsh-syntax-highlighting}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh";
+          "00-compinit".config = ''
+            # package-shipped completions (_jj, _nix, _gh, _eza, …). finix has
+            # no /etc/zshrc to do this and zsh's built-in fpath is just its own
+            # functions dir, so without these two lines every completion a
+            # package ships is invisible. Appended, not prepended, so zsh's own
+            # curated completions still win on conflict.
+            fpath+=(
+              /run/current-system/sw/share/zsh/site-functions
+              /etc/profiles/per-user/$USERNAME/share/zsh/site-functions
+            )
+
+            # completions — regenerate the compdump at most once a day
+            autoload -Uz compinit
+            if [[ -n ~/.zcompdump(#qNmh+24) ]]; then
+              compinit
+            else
+              compinit -C
+            fi
+          '';
+
+          "10-fzf".config = ''
+            source <(${lib.getExe pkgs.fzf} --zsh)
+          '';
+
+          "20-fzf-tab" = {
+            source = "${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh";
+            config = ''
+              # fzf-tab drives the menu itself
+              zstyle ':completion:*' menu no
+              zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
+              zstyle ':fzf-tab:*' use-fzf-default-opts yes
+              zstyle ':fzf-tab:*' fzf-flags --height=50% --layout=reverse --border
+              zstyle ':fzf-tab:complete:(cd|z|__zoxide_z):*' fzf-preview \
+                'eza -1 --icons=auto --color=always $realpath'
+            '';
+          };
+
+          "30-forgit".source = "${pkgs.zsh-forgit}/share/zsh/zsh-forgit/forgit.plugin.zsh";
+          "30-nix-shell".source =
+            "${pkgs.zsh-nix-shell}/share/zsh/plugins/zsh-nix-shell/nix-shell.plugin.zsh";
+          "40-autosuggestions".source =
+            "${pkgs.zsh-autosuggestions}/share/zsh-autosuggestions/zsh-autosuggestions.zsh";
+          "50-atuin".config = ''
+            source <(${pkgs.atuin}/bin/atuin init zsh --disable-up-arrow --disable-ai)
+          '';
+
+          "90-syntax-highlighting".source =
+            "${pkgs.zsh-syntax-highlighting}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh";
+
+          "99-history-substring-search" = {
+            source = "${pkgs.zsh-history-substring-search}/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh";
+            config = ''
+              bindkey '^[[A' history-substring-search-up
+              bindkey '^[[B' history-substring-search-down
+              bindkey '^[OA' history-substring-search-up
+              bindkey '^[OB' history-substring-search-down
+              bindkey -M vicmd 'k' history-substring-search-up
+              bindkey -M vicmd 'j' history-substring-search-down
+            '';
+          };
         };
 
         initConfig = "\n" + ''
-          # completions — regenerate the compdump at most once a day
-          autoload -Uz compinit
-          if [[ -n ~/.zcompdump(#qNmh+24) ]]; then
-            compinit
-          else
-            compinit -C
-          fi
-
           # aliases
           alias rm='rm -i'
           alias cp='cp -i'
@@ -73,6 +126,6 @@ _: {
         '';
       };
     };
-    description = "zsh as the login shell, with autosuggestions and completion.";
+    description = "zsh as the login shell, with completions, fzf-tab and atuin history.";
   };
 }

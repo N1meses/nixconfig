@@ -402,8 +402,8 @@ widget_order = [
     cy = 1703.0
     enabled = true
     output = "winit"
-    placement_height = 0.0
-    placement_width = 0.0
+    placement_height = 1883.0
+    placement_width = 2763.0
     rotation = 0.0
     type = "login_box"
 
@@ -672,7 +672,7 @@ time_format = "{:%H:%M}"
         variant = "destructive"
 
     [shell.shadow]
-    alpha = 0.89999997615814209
+    alpha = 0.69999998807907104
     direction = "down"
 
 [storage]

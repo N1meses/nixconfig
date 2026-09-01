@@ -147,7 +147,7 @@ in
               };
 
               touchpad = {
-                scroll_factor = 0.75;
+                scroll_factor = 0.55;
                 natural_scroll = true;
                 disable_while_typing = true;
               };

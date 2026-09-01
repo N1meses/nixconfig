@@ -8,7 +8,7 @@ _: {
       };
       rum.programs.fzf = {
         enable = true;
-        integrations.zsh.enable = true;
+        integrations.zsh.enable = false;
       };
       packages = with pkgs; [
         ripgrep
