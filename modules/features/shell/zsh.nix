@@ -26,17 +26,11 @@ _: {
 
         plugins = {
           "00-compinit".config = ''
-            # package-shipped completions (_jj, _nix, _gh, _eza, …). finix has
-            # no /etc/zshrc to do this and zsh's built-in fpath is just its own
-            # functions dir, so without these two lines every completion a
-            # package ships is invisible. Appended, not prepended, so zsh's own
-            # curated completions still win on conflict.
             fpath+=(
               /run/current-system/sw/share/zsh/site-functions
               /etc/profiles/per-user/$USERNAME/share/zsh/site-functions
             )
 
-            # completions — regenerate the compdump at most once a day
             autoload -Uz compinit
             if [[ -n ~/.zcompdump(#qNmh+24) ]]; then
               compinit

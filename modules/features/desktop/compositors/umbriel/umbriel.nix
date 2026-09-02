@@ -165,6 +165,7 @@ in
             };
 
             appearance = {
+              shadow.enabled = false;
               border_width = c.borders.width;
               corner_radius = builtins.floor c.borders.radius;
               border_focused = c.colors.active;

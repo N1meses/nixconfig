@@ -1,6 +1,5 @@
 {
   config,
-  inputs,
   ...
 }:
 {
@@ -32,7 +31,8 @@
       server.share.matrix
       server.share.element
       server.media.nixarr
-      server.media.ocis
+      server.media.openCloud
+      server.media.collabora
     ];
 
     nixosModule =
@@ -51,6 +51,7 @@
             "matrix"
             "element"
             "cloud"
+            "office"
           ];
         };
 

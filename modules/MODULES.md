@@ -5,7 +5,7 @@
 
 # Module Library
 
-121 aspects, 8 hosts.
+122 aspects, 8 hosts.
 
 ## Hosts
 
@@ -129,6 +129,7 @@ to pull in the names it includes.
 | `server.media.nextcloud` | nixos | Nextcloud with a local database. | `server.nginx` `server.security.restic` `core.sops` |
 | `server.media.nixarr` | nixos | The *arr media automation stack. | `server.security.restic` `core.sops` |
 | `server.media.ocis` | nixos | ownCloud Infinite Scale. | `server.nginx` `server.security.restic` |
+| `server.media.openCloud` | nixos | openCloud aspect with collabora integration | `server.nginx` `server.security.restic` |
 | `server.monitoring` | nixos | netdata metrics, streaming to the parent collector over tailscale. | `core.sops` |
 | `server.nginx` | nixos | nginx reverse proxy with ACME-backed TLS. | - |
 | `server.security.authentik` | nixos | Authentik identity provider. | `server.nginx` `server.security.restic` `core.sops` |
