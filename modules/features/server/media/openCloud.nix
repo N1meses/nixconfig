@@ -91,6 +91,8 @@
             COLLABORATION_APP_ADDR = "http://127.0.0.1:9980";
             COLLABORATION_APP_INSECURE = "false";
 
+            COLLABORATION_APP_PROOF_DISABLE = "true";
+
             COLLABORATION_WOPI_SRC = "http://127.0.0.1:9300";
           };
 
