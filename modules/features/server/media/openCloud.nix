@@ -8,11 +8,55 @@
     ];
 
     nixos =
-      { config, ... }:
+      { config, pkgs, ... }:
       let
         cfg = config.features.server;
         url = "https://cloud.${cfg.domain}";
         issuer = "https://auth.${cfg.domain}/application/o/opencloud/";
+
+        csp = (pkgs.formats.yaml { }).generate "opencloud-csp.yaml" {
+          directives = {
+            "child-src" = [ "'self'" ];
+            "connect-src" = [
+              "'self'"
+              "blob:"
+              "https://raw.githubusercontent.com/opencloud-eu/awesome-apps/"
+              "https://update.opencloud.eu/"
+              "https://auth.${cfg.domain}/"
+              "https://office.${cfg.domain}/"
+            ];
+            "default-src" = [ "'none'" ];
+            "font-src" = [ "'self'" ];
+            "frame-ancestors" = [ "'self'" ];
+            "frame-src" = [
+              "'self'"
+              "blob:"
+              "https://embed.diagrams.net/"
+              "https://office.${cfg.domain}/"
+            ];
+            "img-src" = [
+              "'self'"
+              "data:"
+              "blob:"
+              "https://raw.githubusercontent.com/opencloud-eu/awesome-apps/"
+            ];
+            "manifest-src" = [ "'self'" ];
+            "media-src" = [ "'self'" ];
+            "object-src" = [
+              "'self'"
+              "blob:"
+            ];
+            "script-src" = [
+              "'self'"
+              "'unsafe-inline'"
+            ];
+            "style-src" = [
+              "'self'"
+              "'unsafe-inline'"
+              "blob:"
+            ];
+          };
+        };
       in
       {
         services.opencloud = {
@@ -27,6 +71,7 @@
             OC_INSECURE = "false";
             PROXY_TLS = "false";
             OC_LOG_LEVEL = "debug";
+            PROXY_CSP_CONFIG_FILE_LOCATION = "${csp}";
             OC_OIDC_ISSUER = issuer;
             OC_OIDC_CLIENT_ID = "opencloud";
             OC_EXCLUDE_RUN_SERVICES = "idp";
