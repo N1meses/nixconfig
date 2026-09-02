@@ -8,11 +8,75 @@
     ];
 
     nixos =
-      { config, pkgs, ... }:
+      {
+        config,
+        lib,
+        pkgs,
+        ...
+      }:
       let
         cfg = config.features.server;
         url = "https://cloud.${cfg.domain}";
         issuer = "https://auth.${cfg.domain}/application/o/opencloud/";
+
+        webApps = [
+          {
+            name = "json-viewer";
+            path = pkgs.fetchzip {
+              url = "https://github.com/opencloud-eu/web-extensions/releases/download/json-viewer-v2.1.0/json-viewer-2.1.0.zip";
+              hash = "sha256-hLeyNYbcrv6mgmuupK3xCf606eEkUeOPeCa0fhL7lzo=";
+            };
+          }
+          {
+            name = "draw-io";
+            path = pkgs.fetchzip {
+              url = "https://github.com/opencloud-eu/web-extensions/releases/download/draw-io-v2.2.0/draw-io-2.2.0.zip";
+              hash = "sha256-CihgkGTN3DNgWfFZOQ/2Qah+4/CgjwTnw03gyxL2K4c=";
+            };
+          }
+          {
+            name = "importer";
+            path = pkgs.fetchzip {
+              url = "https://github.com/opencloud-eu/web-extensions/releases/download/importer-v2.0.0/importer-2.0.0.zip";
+              hash = "sha256-lT0rYs+qmWTWDXDuQMP8OZ0D6uSnmm58c3L9aypP9nQ=";
+            };
+          }
+          {
+            name = "bpmn";
+            path = pkgs.fetchzip {
+              url = "https://github.com/opencloud-eu/web-extensions/releases/download/bpmn-v1.1.0/bpmn-1.1.0.zip";
+              hash = "sha256-dPRuqh84p6/So00SQ2zfOY7Hn5JsAxWHHBeeyE45hKA=";
+            };
+          }
+          {
+            name = "unzip";
+            path = pkgs.fetchzip {
+              url = "https://github.com/opencloud-eu/web-extensions/releases/download/unzip-v2.1.0/unzip-2.1.0.zip";
+              hash = "sha256-9QlyazjiLv1kJIQFTS9zNDxI0wvS70wAlnH+zhy3dIE=";
+            };
+          }
+          {
+            name = "external-sites";
+            path = pkgs.fetchzip {
+              url = "https://github.com/opencloud-eu/web-extensions/releases/download/external-sites-v2.1.0/external-sites-2.1.0.zip";
+              hash = "sha256-dG8/0HKG/KUzSg1oQgtBel8XEt5RI4eTdYz5cthXG0k=";
+            };
+          }
+          {
+            name = "presentation-viewer";
+            path = pkgs.fetchzip {
+              url = "https://github.com/JankariTech/web-app-presentation-viewer/releases/download/3.0.0/mdpresentation-viewer-Opencloud-3.0.0.zip";
+              hash = "sha256-Nw9NWp3ks2yFxZCiTU+TJj3dt1T1Lg9b8+MN7JfmWRk=";
+            };
+          }
+          {
+            name = "epub";
+            path = pkgs.fetchzip {
+              url = "https://github.com/TubalQ/web-app-epub/releases/download/v1.0.0/epub-1.0.0.zip";
+              hash = "sha256-zXCIghUUMOsQxh37KcwSRfUm9lBrsWRllLXEivpgNZ4=";
+            };
+          }
+        ];
 
         csp = (pkgs.formats.yaml { }).generate "opencloud-csp.yaml" {
           directives = {
@@ -94,6 +158,9 @@
             COLLABORATION_APP_PROOF_DISABLE = "true";
 
             COLLABORATION_WOPI_SRC = "http://127.0.0.1:9300";
+          }
+          // lib.optionalAttrs (webApps != [ ]) {
+            WEB_ASSET_APPS_PATH = "${pkgs.linkFarm "opencloud-web-apps" webApps}";
           };
 
           settings.proxy.role_assignment = {
