@@ -50,6 +50,8 @@
 
             storage.wopi."@allow" = true;
 
+            net.content_security_policy = "frame-ancestors office.${cfg.domain}:* https://cloud.${cfg.domain}";
+
             admin_console.enable = false;
           };
         };
