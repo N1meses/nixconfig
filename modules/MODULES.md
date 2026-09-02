@@ -5,14 +5,14 @@
 
 # Module Library
 
-122 aspects, 8 hosts.
+123 aspects, 8 hosts.
 
 ## Hosts
 
 | Host | Class | Users | Aspects | Domain |
 |------|-------|-------|--------:|--------|
 | `athena` | nixos | `athena` | 27 | athena.tail4109e2.ts.net |
-| `atlas` | nixos | `atlas` | 34 | nimeses.com |
+| `atlas` | nixos | `atlas` | 35 | nimeses.com |
 | `bellerophon` | finix | `icarus` | 45 | - |
 | `hermes` | nixos | `hermes` | 32 | - |
 | `icarus` | finix | `icarus` | 44 | - |
@@ -124,12 +124,13 @@ to pull in the names it includes.
 | `profile.virtualisation` | nixos+finix | Virtualisation host support: libvirtd + virt-manager on nixos; incus plus per-user session libvirt (qemu:///session, no daemon) on finix. | - |
 | `server.binaryCache` | nixos | nix-serve binary cache, published on the tailnet. | `core.sops` |
 | `server.forgejoRunner` | nixos | Forgejo Actions runner registered against atlas. | `core.sops` |
+| `server.media.collabora` | nixos | Collabora Online, the WOPI document server OpenCloud edits through. | `server.nginx` |
 | `server.media.jellyfin` | nixos | Jellyfin media server, proxied and backed up. | `server.nginx` `server.security.restic` |
 | `server.media.navidrome` | nixos | Navidrome music streaming server. | `server.nginx` `server.security.restic` |
 | `server.media.nextcloud` | nixos | Nextcloud with a local database. | `server.nginx` `server.security.restic` `core.sops` |
 | `server.media.nixarr` | nixos | The *arr media automation stack. | `server.security.restic` `core.sops` |
 | `server.media.ocis` | nixos | ownCloud Infinite Scale. | `server.nginx` `server.security.restic` |
-| `server.media.openCloud` | nixos | openCloud aspect with collabora integration | `server.nginx` `server.security.restic` |
+| `server.media.openCloud` | nixos | openCloud aspect with collabora integration | `server.nginx` `server.security.restic` `core.sops` |
 | `server.monitoring` | nixos | netdata metrics, streaming to the parent collector over tailscale. | `core.sops` |
 | `server.nginx` | nixos | nginx reverse proxy with ACME-backed TLS. | - |
 | `server.security.authentik` | nixos | Authentik identity provider. | `server.nginx` `server.security.restic` `core.sops` |
