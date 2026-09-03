@@ -56,9 +56,13 @@
           };
         };
 
-        systemd.services.coolwsd-systemplate-setup.serviceConfig.ExecStartPost = [
-          "${installDictionaries}"
-        ];
+        systemd.services.coolwsd-systemplate-setup = {
+          path = [
+            pkgs.cpio
+            pkgs.glibc.bin
+          ];
+          serviceConfig.ExecStartPost = [ "${installDictionaries}" ];
+        };
 
         services.nginx.virtualHosts."office.${cfg.domain}".locations."/" = {
           proxyPass = "http://127.0.0.1:9980";
