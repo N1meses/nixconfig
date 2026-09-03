@@ -15,24 +15,16 @@
       let
         cfg = config.features.server;
 
-        dictionaries = [
-          pkgs.hunspellDicts.de_DE
-          pkgs.hunspellDicts.en_US
-          pkgs.hyphenDicts.de_DE
-          pkgs.hyphenDicts.en_US
-        ];
+        dictionaries = pkgs.runCommand "coolwsd-dictionaries" { } ''
+          mkdir -p $out
+          cp -L ${pkgs.hunspellDicts.de_DE}/share/hunspell/* $out/
+          cp -L ${pkgs.hunspellDicts.en_US}/share/hunspell/* $out/
+          cp -L ${pkgs.hyphenDicts.de_DE}/share/hyphen/* $out/
+          cp -L ${pkgs.hyphenDicts.en_US}/share/hyphen/* $out/
+        '';
 
-        installDictionaries = pkgs.writeShellScript "coolwsd-dictionaries" ''
+        reclaimStateDir = pkgs.writeShellScript "coolwsd-reclaim-statedir" ''
           set -eu
-          share=/var/lib/cool/systemplate/usr/share
-          ${pkgs.coreutils}/bin/install -d "$share/hunspell" "$share/hyphen"
-          for dict in ${lib.escapeShellArgs dictionaries}; do
-            for kind in hunspell hyphen; do
-              if [ -d "$dict/share/$kind" ]; then
-                ${pkgs.coreutils}/bin/cp -Lf "$dict/share/$kind/"* "$share/$kind/"
-              fi
-            done
-          done
           ${pkgs.coreutils}/bin/install -d /var/lib/cool/child-roots
           ${pkgs.coreutils}/bin/chown -R cool:cool /var/lib/cool
         '';
@@ -58,6 +50,8 @@
           };
         };
 
+        systemd.services.coolwsd.environment.DICPATH = "${dictionaries}";
+
         systemd.services.coolwsd-systemplate-setup = {
           path = [
             pkgs.cpio
@@ -65,7 +59,7 @@
           ];
           serviceConfig = {
             User = lib.mkForce "root";
-            ExecStartPost = [ "${installDictionaries}" ];
+            ExecStartPost = [ "${reclaimStateDir}" ];
           };
         };
 
