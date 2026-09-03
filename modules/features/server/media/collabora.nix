@@ -33,7 +33,8 @@
               fi
             done
           done
-          ${pkgs.coreutils}/bin/chown cool:cool /var/lib/cool
+          ${pkgs.coreutils}/bin/install -d /var/lib/cool/child-roots
+          ${pkgs.coreutils}/bin/chown -R cool:cool /var/lib/cool
         '';
       in
       {
