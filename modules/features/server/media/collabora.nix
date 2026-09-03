@@ -33,6 +33,7 @@
               fi
             done
           done
+          ${pkgs.coreutils}/bin/chown cool:cool /var/lib/cool
         '';
       in
       {
@@ -61,7 +62,10 @@
             pkgs.cpio
             pkgs.glibc.bin
           ];
-          serviceConfig.ExecStartPost = [ "${installDictionaries}" ];
+          serviceConfig = {
+            User = lib.mkForce "root";
+            ExecStartPost = [ "${installDictionaries}" ];
+          };
         };
 
         services.nginx.virtualHosts."office.${cfg.domain}".locations."/" = {
