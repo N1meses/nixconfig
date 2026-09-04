@@ -141,11 +141,12 @@
             OC_EXCLUDE_RUN_SERVICES = "idp";
             WEB_OIDC_SCOPE = "openid profile email groups offline_access";
             PROXY_OIDC_REWRITE_WELLKNOWN = "true";
-            PROXY_AUTOPROVISION_ACCOUNTS = "true";
-            PROXY_USER_OIDC_CLAIM = "preferred_username";
             PROXY_USER_CS3_CLAIM = "username";
             PROXY_ROLE_ASSIGNMENT_DRIVER = "oidc";
             PROXY_ROLE_ASSIGNMENT_OIDC_CLAIM = "opencloud-roles";
+            PROXY_AUTOPROVISION_ACCOUNTS = "true";
+            PROXY_AUTOPROVISION_CLAIM_DISPLAYNAME = "preferred_username";
+            PROXY_USER_OIDC_CLAIM = "preferred_username";
 
             OC_ADD_RUN_SERVICES = "collaboration";
 
