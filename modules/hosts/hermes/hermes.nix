@@ -39,10 +39,10 @@ in
 
       programs.nix-ld.enable = lib.mkForce false;
 
-      services.journald.extraConfig = ''
-        SystemMaxUse=50M
-        RuntimeMaxUse=10M
-      '';
+      services.journald.settings.Journal = {
+        SystemMaxUse = "50M";
+        RuntimeMaxUse = "10M";
+      };
     };
 
     homeModule =
