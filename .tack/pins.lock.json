@@ -140,9 +140,9 @@
     "type": "github",
     "owner": "NixOS",
     "repo": "nixpkgs",
-    "rev": "c1436b4a550167b9de5bde9e98028d32779244f6",
-    "narHash": "sha256-w04eBCuH+eIp3S4rfgRjRVAup9TRjL+QRA7+/uLXN3c=",
-    "lastModified": 1788502169
+    "rev": "074b06a122e9f3e245e17fdc1199c3481c8b70b5",
+    "narHash": "sha256-HRlfCPLSKAHOnbn+QxuEvWvug0yqU8oHZHLbO5snJQE=",
+    "lastModified": 1788523300
   },
   "noctalia": {
     "type": "github",
@@ -172,9 +172,9 @@
     "type": "git",
     "url": "https://github.com/noctalia-dev/umbriel",
     "ref": "HEAD",
-    "rev": "fd3bc638626574696ab522e44616d17f08cf4aca",
-    "narHash": "sha256-lMSTyMENIZQFz/bNltheKSDx8GEf0c7eb9z/a/eQenU=",
-    "lastModified": 1788491558,
+    "rev": "08150616d059ce0ba78326eb794cfee45cfd5528",
+    "narHash": "sha256-l/Pa0dh7UnyK3rqSQP+P4FFqyaYbHUsE3ogB5KTUA4o=",
+    "lastModified": 1788524800,
     "submodules": true
   }
 }
