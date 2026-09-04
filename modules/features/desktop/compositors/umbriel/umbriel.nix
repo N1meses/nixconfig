@@ -168,8 +168,11 @@ in
               shadow.enabled = false;
               border_width = c.borders.width;
               corner_radius = builtins.floor c.borders.radius;
-              border_focused = c.colors.active;
-              border_unfocused = c.colors.inactive;
+            };
+
+            colors.border = {
+              focused = c.colors.active;
+              unfocused = c.colors.inactive;
             };
           }
           // lib.optionalAttrs (c.monitors != null && c.monitors != { }) {
