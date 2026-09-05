@@ -59,6 +59,7 @@ let
     "Mod+Ctrl+k" = "window-modify-height:-0.1";
 
     "Mod+f" = "window-toggle-maximize";
+    "Mod+Ctrl+f" = "window-toggle-maximize-to-edges";
     "Mod+Shift+f" = "window-toggle-fullscreen";
     "Mod+c" = "column-center";
     "Mod+Escape" = "session-quit";
