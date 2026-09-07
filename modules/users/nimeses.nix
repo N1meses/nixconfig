@@ -20,6 +20,7 @@
     aspects = with config.aspectLib.names; [
       bundle.cliEnv
       bundle.desktop
+      profile.osint
       desktop.compositors.umbriel
       desktop.services.music
       dev.languages.nix
@@ -30,6 +31,7 @@
       dev.languages.rust
       dev.languages.markdown
       dev.tools.direnv
+      profile.osint
     ];
     homeModule = { pkgs, ... }: {
       packages = with pkgs; [

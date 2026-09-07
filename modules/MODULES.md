@@ -5,7 +5,7 @@
 
 # Module Library
 
-123 aspects, 8 hosts.
+124 aspects, 8 hosts.
 
 ## Hosts
 
@@ -16,7 +16,7 @@
 | `bellerophon` | finix | `icarus` | 45 | - |
 | `hermes` | nixos | `hermes` | 32 | - |
 | `icarus` | finix | `icarus` | 44 | - |
-| `nimeses` | finix | `nimeses` | 50 | - |
+| `nimeses` | finix | `nimeses` | 51 | - |
 | `phaethon` | finix | `phaethon` | 26 | - |
 | `prometheus` | nixos | `prometheus` | 48 | - |
 
@@ -119,6 +119,7 @@ to pull in the names it includes.
 | `profile.gaming` | nixos | Gaming stack: Steam, gamemode and the kernel/sysctl tuning they want. | - |
 | `profile.laptop` | nixos+finix | Laptop power management, lid handling and backlight control. | - |
 | `profile.mkVM` | nixos+finix | Turns a host into a bootable QEMU VM for testing. | - |
+| `profile.osint` | home | Self-audit OSINT toolkit: what a stranger can turn up about you from a name, handle or address. | - |
 | `profile.performance` | nixos | Performance tuning: zram, sysctls and nix daemon scheduling. | - |
 | `profile.rescue` | nixos | Recovery toolkit: filesystem support and repair utilities for a broken boot. | - |
 | `profile.virtualisation` | nixos+finix | Virtualisation host support: libvirtd + virt-manager on nixos; incus plus per-user session libvirt (qemu:///session, no daemon) on finix. | - |
