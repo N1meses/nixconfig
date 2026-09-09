@@ -15,7 +15,7 @@
       rum.programs.helix = {
         enable = true;
 
-        themes = import "${inputs.self}/assets/themes/nox-default.nix";
+        themes = import "${inputs.self}/assets/themes/nox/to-helix.nix";
 
         settings = {
           theme = lib.mkDefault "nox-default";

@@ -103,3 +103,6 @@ url = "gh:glide-browser/glide.nix"
 # tarball fetcher cannot get the scenefx submodule; nix/package.nix throws on it
 url = "git+https://github.com/noctalia-dev/umbriel"
 submodules = true
+
+[inputs.zed-extensions]
+url = "gh:SwornSystems/nix-zed-extensions"

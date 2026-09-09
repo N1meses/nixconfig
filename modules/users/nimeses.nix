@@ -25,6 +25,7 @@
       desktop.services.music
       dev.languages.nix
       dev.editors.zed
+      dev.editors.gram
       desktop.apps.term.kitty
       desktop.apps.browser.glide
       dev.languages.python

@@ -176,5 +176,13 @@
     "narHash": "sha256-Q3UmbHcGnwu1xKpiTpWpzP+bI/Qqmb7AeoWqflpYoP0=",
     "lastModified": 1788933402,
     "submodules": true
+  },
+  "zed-extensions": {
+    "type": "github",
+    "owner": "SwornSystems",
+    "repo": "nix-zed-extensions",
+    "rev": "2d0567be975fe0f2a0f717fbfd003164d13c7167",
+    "narHash": "sha256-W8lfHGR1lofic/3NqWEqm9Ew9ln6ydLTNjVO622W7YU=",
+    "lastModified": 1788854028
   }
 }
