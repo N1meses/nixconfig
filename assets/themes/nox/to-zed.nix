@@ -1,9 +1,6 @@
-# roles -> Zed v0.2.0 theme family. Consumed unchanged by both Zed and gram.
-# Imported with no arguments; use builtins only.
 let
   inherit (import ./roles.nix) palette roles;
 
-  # Zed requires #rrggbbaa. Palette entries are 7 chars (#rrggbb) or already 9.
   h =
     key:
     let
@@ -11,7 +8,6 @@ let
     in
     if builtins.stringLength v == 7 then v + "ff" else v;
 
-  # a role -> HighlightStyleContent
   syn =
     name:
     let
@@ -34,7 +30,6 @@ in
       name = "nox-default";
       appearance = "dark";
       style = {
-        # --- chrome ---
         background = h "background";
         "border" = h "window_border";
         "border.variant" = h "separator";
@@ -56,7 +51,6 @@ in
         "ghost_element.disabled" = "#00000000";
         "drop_target.background" = h "selection";
 
-        # --- text ---
         text = h "text";
         "text.muted" = h "text_gray";
         "text.placeholder" = h "hint_gray";
@@ -67,23 +61,21 @@ in
         "icon.disabled" = h "hint_gray";
         "icon.accent" = h "blue";
 
-        # --- panels and bars ---
-        "status_bar.background" = h "statusline_bg";
-        "title_bar.background" = h "statusline_bg";
+        "status_bar.background" = h "background";
+        "title_bar.background" = h "background";
         "title_bar.inactive_background" = h "background";
         "toolbar.background" = h "background";
-        "tab_bar.background" = h "bufferline_bg";
+        "tab_bar.background" = h "background";
         "tab.active_background" = h "background";
         "tab.inactive_background" = h "bufferline_bg";
-        "panel.background" = h "popup_bg";
+        "panel.background" = h "background";
         "panel.indent_guide" = h "virtual_text";
         "panel.indent_guide_active" = h "linenr";
         "pane.focused_border" = h "selection";
         "pane_group.border" = h "separator";
 
-        # --- editor ---
         "editor.background" = h "background";
-        "editor.foreground" = h "text";
+        "editor.foreground" = h "cyan";
         "editor.gutter.background" = h "background";
         "editor.line_number" = h "linenr";
         "editor.active_line_number" = h "linenr_selected";
@@ -104,7 +96,6 @@ in
         "scrollbar.track.border" = h "background";
         "search.match_background" = h "selection";
 
-        # --- status ---
         error = h "error";
         warning = h "warning";
         info = h "info";
@@ -120,7 +111,6 @@ in
         renamed = h "info";
         unreachable = h "hint_gray";
 
-        # --- terminal ANSI ---
         "terminal.background" = h "background";
         "terminal.foreground" = h "text";
         "terminal.ansi.background" = h "background";
@@ -149,7 +139,6 @@ in
           }
         ];
 
-        # --- syntax: Zed key names, not Helix's ---
         syntax = {
           "comment" = syn "comment";
           "comment.doc" = syn "docComment";
@@ -159,19 +148,30 @@ in
           "string.regex" = syn "escape";
           "string.special" = syn "escape";
           "string.special.symbol" = syn "constant";
+          "string.special.path" = syn "string";
+          "string.special.url" = syn "link";
 
           "number" = syn "number";
+          "number.float" = syn "number";
           "boolean" = syn "constant";
           "constant" = syn "constant";
+          "constant.builtin" = syn "constant";
 
           "keyword" = syn "keywordControl";
+          "keyword.import" = syn "keywordControl";
+          "keyword.conditional" = syn "keywordControl";
+          "keyword.exception" = syn "keywordControl";
+          "keyword.operator" = syn "operator";
           "preproc" = syn "preproc";
           "operator" = syn "operator";
 
           "function" = syn "function";
+          "function.call" = syn "function";
           "constructor" = syn "type";
 
           "variable" = syn "variable";
+          "variable.member" = syn "property";
+          "variable.parameter.builtin" = syn "selfRef";
           "variable.parameter" = syn "parameter";
           "variable.special" = syn "selfRef";
           "property" = syn "property";

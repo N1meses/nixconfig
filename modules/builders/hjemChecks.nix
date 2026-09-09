@@ -6,6 +6,7 @@ let
     concatMapStringsSep
     filter
     findFirst
+    hasInfix
     hasSuffix
     mapAttrs'
     nameValuePair
@@ -59,6 +60,46 @@ let
       deps = [ pkgs.niri ];
       match = t: hasSuffix "/niri/config.kdl" t;
       run = f: "niri validate -c ${f} >/dev/null";
+    }
+    {
+      deps = [ pkgs.python3 ];
+      match = t: hasInfix "/helix/themes/" t && hasSuffix ".toml" t;
+      run = f: ''
+        python3 - ${f} <<'EOF'
+        import re, sys, tomllib
+        theme = tomllib.load(open(sys.argv[1], "rb"))
+        palette = theme.get("palette", {})
+        hexre = re.compile(r"^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$")
+        bad = []
+        def check(scope, value):
+            if not isinstance(value, str):
+                return
+            if value in palette or hexre.match(value):
+                return
+            bad.append(f"{scope} -> {value!r}")
+        for scope, spec in theme.items():
+            if scope == "palette":
+                continue
+            if isinstance(spec, str):
+                check(scope, spec)
+            elif isinstance(spec, dict):
+                for key in ("fg", "bg"):
+                    if key in spec:
+                        check(f"{scope}.{key}", spec[key])
+                under = spec.get("underline")
+                if isinstance(under, dict) and "color" in under:
+                    check(f"{scope}.underline.color", under["color"])
+        for name, value in palette.items():
+            if not hexre.match(value):
+                bad.append(f"palette.{name} -> {value!r}")
+        if bad:
+            print("undefined palette references:", file=sys.stderr)
+            for b in bad:
+                print("  " + b, file=sys.stderr)
+            sys.exit(1)
+        print(f"theme ok: {len(theme)-1} scopes, {len(palette)} palette entries")
+        EOF
+      '';
     }
     {
       deps = [ pkgs.python3 ];

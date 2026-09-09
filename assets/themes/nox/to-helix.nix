@@ -1,4 +1,3 @@
-# roles -> Helix theme. Imported with no arguments; use builtins only.
 let
   inherit (import ./roles.nix) palette roles;
 
@@ -7,7 +6,6 @@ let
     (if r.bold or false then [ "bold" ] else [ ])
     ++ (if r.italic or false then [ "italic" ] else [ ]);
 
-  # a bare palette-key string when unmodified, an attrset when not
   s =
     name:
     let
@@ -20,13 +18,11 @@ let
 in
 {
   nox-default = {
-    # --- comments ---
     "comment" = s "comment";
     "comment.line" = s "comment";
     "comment.block" = s "comment";
     "comment.block.documentation" = s "docComment";
 
-    # --- literals ---
     "string" = s "string";
     "string.regexp" = s "escape";
     "string.special" = s "escape";
@@ -43,7 +39,6 @@ in
     "constant.numeric.integer" = s "number";
     "constant.numeric.float" = s "number";
 
-    # --- keywords ---
     "keyword" = s "keyword";
     "keyword.control" = s "keywordControl";
     "keyword.control.conditional" = s "keywordControl";
@@ -60,7 +55,6 @@ in
 
     "operator" = s "operator";
 
-    # --- callables ---
     "function" = s "function";
     "function.builtin" = s "function";
     "function.method" = s "function";
@@ -68,7 +62,6 @@ in
     "function.macro" = s "macro";
     "special" = s "special";
 
-    # --- values ---
     "variable" = s "variable";
     "variable.other" = s "variable";
     "variable.parameter" = s "parameter";
@@ -76,14 +69,12 @@ in
     "variable.other.member" = s "property";
     "property" = s "property";
 
-    # --- types ---
     "type" = s "type";
     "type.enum" = s "type";
     "type.builtin" = s "typeBuiltin";
     "type.enum.variant" = s "enumVariant";
     "constructor" = s "type";
 
-    # --- structure ---
     "namespace" = s "namespace";
     "module" = s "namespace";
     "label" = s "label";
@@ -96,7 +87,8 @@ in
     "punctuation.delimiter" = s "punctuation";
     "punctuation.special" = s "keyword";
 
-    # --- markup ---
+    "embedded" = "text";
+
     "markup.heading" = s "heading";
     "markup.heading.1" = s "heading";
     "markup.heading.2" = s "heading";
@@ -122,7 +114,6 @@ in
     "markup.list.numbered" = s "listMarker";
     "markup.list.unnumbered" = s "listMarker";
 
-    # --- diff ---
     "diff.plus" = "diff_green";
     "diff.minus" = "diff_red";
     "diff.delta" = "diff_yellow";
@@ -130,7 +121,6 @@ in
     "diff.minus.gutter" = "diff_red";
     "diff.delta.gutter" = "diff_yellow";
 
-    # --- ui ---
     "ui.background" = { bg = "background"; };
     "ui.background.separator" = { fg = "separator"; };
     "ui.text" = { fg = "text"; };
@@ -187,7 +177,6 @@ in
     "ui.menu.selected" = { fg = "white"; bg = "menu_selected"; };
     "ui.menu.scroll" = { fg = "scroll"; bg = "popup_bg"; };
 
-    # --- diagnostics ---
     "error" = "error";
     "warning" = "warning";
     "info" = "info";

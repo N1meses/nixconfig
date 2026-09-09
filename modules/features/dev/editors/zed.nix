@@ -13,6 +13,12 @@
         settings = {
           theme = lib.mkDefault "nox-default";
           telemetry.metrics = false;
+
+          cli_default_open_behavior = "existing_window";
+          helix_mode = true;
+          icon_theme = "Zed (Default)";
+          ui_font_size = 18.0;
+          buffer_font_size = 18.0;
         };
       };
     };

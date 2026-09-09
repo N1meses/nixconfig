@@ -13,29 +13,69 @@
       let
         helixServers = config.rum.programs.helix.languages.language-server or { };
 
-        # Helix's server attribute names vs gram's adapter names. Anything not
-        # listed here passes through unchanged. Verify against gram's own logs
-        # before trusting an entry - see Step 3.
         gramName = {
           vscode-css-languageserver = "vscode-css-language-server";
           vscode-html-languageserver = "vscode-html-language-server";
           vscode-json-languageserver = "json-language-server";
         };
 
+        serverLanguages = {
+          nixd = [ "Nix" ];
+          pyright = [ "Python" ];
+          rust-analyzer = [ "Rust" ];
+          marksman = [ "Markdown" ];
+          lua-language-server = [ "Lua" ];
+          zls = [ "Zig" ];
+          gopls = [ "Go" ];
+          clangd = [
+            "C"
+            "C++"
+          ];
+          bash-language-server = [ "bash" ];
+          yaml-language-server = [ "YAML" ];
+          json-language-server = [
+            "JSON"
+            "JSONC"
+          ];
+          vscode-html-language-server = [ "HTML" ];
+          vscode-css-language-server = [ "CSS" ];
+          typescript-language-server = [
+            "TypeScript"
+            "TSX"
+            "JavaScript"
+          ];
+        };
+
         derivedLsps = lib.mapAttrs' (
           name: srv:
-          lib.nameValuePair (gramName.${name} or name) {
-            binary = {
-              path = srv.command;
+          lib.nameValuePair (gramName.${name} or name) (
+            {
+              binary = {
+                path =
+                  srv.command
+                    or (throw "gram: helix language-server '${name}' has no 'command'; cannot derive a gram lsp entry");
+                allow_binary_download = false;
+              }
+              // lib.optionalAttrs (srv ? args && srv.args != [ ]) {
+                arguments = srv.args;
+              };
             }
-            // lib.optionalAttrs (srv ? args && srv.args != [ ]) {
-              arguments = srv.args;
-            };
-          }
+            // lib.optionalAttrs (srv ? config) {
+              initialization_options = srv.config;
+            }
+          )
         ) helixServers;
+
+        derivedLanguages = builtins.listToAttrs (
+          lib.concatMap (
+            server:
+            map (langName: lib.nameValuePair langName { language_servers = [ server ]; }) (
+              serverLanguages.${server} or [ ]
+            )
+          ) (builtins.attrNames derivedLsps)
+        );
       in
       {
-        # 1. Create the "variables" for other files to write to
         options.rum.programs.gram = {
           extensions = lib.mkOption {
             type = lib.types.listOf lib.types.package;
@@ -55,7 +95,9 @@
         };
 
         config = {
-          packages = [ pkgs.gram ];
+          packages = [
+            pkgs.gram
+          ];
 
           files = lib.mkMerge (
             map (ext: {
@@ -70,15 +112,12 @@
 
           xdg.config.files."gram/settings.jsonc".text = builtins.toJSON (
             {
-              lsp = derivedLsps // config.rum.programs.gram.lsps;
-              languages = {
-                HTML.language_servers = [ "vscode-html-language-server" ];
-                Markdown.language_servers = [ "marksman" ];
-              };
+              lsp = lib.recursiveUpdate derivedLsps config.rum.programs.gram.lsps;
+              languages = derivedLanguages;
               cli_default_open_behavior = "existing_window";
               helix_mode = true;
               theme = "nox-default";
-              icon_theme = "Zed (Default)";
+              icon_theme = "Gram (Default)";
               ui_font_size = 18.0;
               buffer_font_size = 18.0;
               node = {

@@ -16,7 +16,7 @@
 | `bellerophon` | finix | `icarus` | 45 | - |
 | `hermes` | nixos | `hermes` | 32 | - |
 | `icarus` | finix | `icarus` | 44 | - |
-| `nimeses` | finix | `nimeses` | 52 | - |
+| `nimeses` | finix | `nimeses` | 51 | - |
 | `phaethon` | finix | `phaethon` | 26 | - |
 | `prometheus` | nixos | `prometheus` | 48 | - |
 
@@ -78,7 +78,7 @@ to pull in the names it includes.
 | `desktop.tools.wallpaper` | home | Wallpaper daemon and the wallpaper source directory. | `desktop.compositors.compositors` |
 | `dev.editors.gram` | home | gram editor a llm free zed fork | - |
 | `dev.editors.helix` | home | The Helix editor, with theme and language-server registry. | - |
-| `dev.editors.zed` | home | The Zed editor, set as $VISUAL. | - |
+| `dev.editors.zed` | home | The Zed editor, set as $VISUAL, themed with nox-default. | - |
 | `dev.languages.bash` | home | Bash toolchain and Helix language-server wiring. | - |
 | `dev.languages.c` | home | C/C++ toolchain and clangd wiring. | - |
 | `dev.languages.css` | home | CSS toolchain and language-server wiring. | - |
