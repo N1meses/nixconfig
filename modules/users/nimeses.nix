@@ -31,7 +31,6 @@
       dev.languages.rust
       dev.languages.markdown
       dev.tools.direnv
-      profile.osint
     ];
     homeModule = { pkgs, ... }: {
       packages = with pkgs; [
