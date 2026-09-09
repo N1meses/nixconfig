@@ -119,6 +119,8 @@ sync_all_monitors = false
 
 [calendar]
 enabled = false
+event_date_format = "%A %e %B"
+event_time_format = "%H:%M"
 refresh_minutes = 15
 
 [control_center]
@@ -130,8 +132,6 @@ sidebar_section = "compact"
 width = 700
 
     [control_center.calendar]
-    event_date_format = "%A %e %B"
-    event_time_format = "%H:%M"
     show_events_card = true
     show_week_numbers = false
 
@@ -305,6 +305,7 @@ wallpaper = ""
 enabled = true
 schema_version = 1
 widget_order = [
+    "lockscreen-login-box@DP-3",
     "lockscreen-login-box@WL-1",
     "lockscreen-login-box@DP-2",
     "lockscreen-login-box@winit",
@@ -329,6 +330,34 @@ widget_order = [
     type = "login_box"
 
         [lockscreen_widgets.widget."lockscreen-login-box@DP-2".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@DP-3"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 1920.0
+    cy = 1978.0
+    enabled = true
+    output = "DP-3"
+    placement_height = 2160.0
+    placement_width = 3840.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@DP-3".settings]
         background_color = "surface_variant"
         background_opacity = 0.88
         background_radius = 12.0
@@ -375,8 +404,8 @@ widget_order = [
     [lockscreen_widgets.widget."lockscreen-login-box@eDP-1"]
     box_height = 196.0
     box_width = 810.0
-    cx = 800.0
-    cy = 871.0
+    cx = 800.0001220703125
+    cy = 870.9998779296875
     enabled = true
     output = "eDP-1"
     placement_height = 1066.0
@@ -435,6 +464,7 @@ border = true
 collapse_on_dismiss = true
 enable_daemon = true
 history_retention_hours = 0
+keep_dismissed_in_history = true
 layer = "top"
 max_visible = 0
 monitors = []
@@ -509,7 +539,7 @@ enabled = [
 
 [shell]
 app_icon_colorize = false
-avatar_path = "/nix/store/x9cyrmbgn5yjldk7rs2b5vfjvqnsnxkp-source/assets/icons/hunter.jpeg"
+avatar_path = "/nix/store/s4dqm1yy1xvl4jbh0m1amsihqc86099q-source/assets/icons/hunter.jpeg"
 button_borders = true
 card_borders = true
 clipboard_auto_paste = "auto"
@@ -603,6 +633,8 @@ time_format = "{:%H:%M}"
     size = 32
 
     [shell.screenshot]
+    annotate = false
+    close_on_copy = true
     confirm_region = false
     copy_to_clipboard = true
     directory = "/home/nimeses/Pictures/Screenshots"
@@ -675,6 +707,9 @@ time_format = "{:%H:%M}"
     alpha = 0.69999998807907104
     direction = "down"
 
+    [shell.window_switcher]
+    mru = false
+
 [storage]
 key_file = ""
 key_source = "secret-service"
@@ -722,12 +757,13 @@ community_palette = ""
 custom_palette = ""
 mode = "dark"
 pure_black_dark = false
+shell_mode = "follow"
 source = "wallpaper"
-wallpaper_scheme = "m3-content"
+wallpaper_scheme = "m3-rainbow"
 
     [theme.templates]
     builtin_ids = [ "btop", "foot", "gtk3", "gtk4", "ghostty", "kitty", "qt" ]
-    community_ids = [ "discord", "obsidian", "steam", "vicinae" ]
+    community_ids = [ "claude-code", "discord", "obsidian", "steam", "vicinae", "zellij" ]
     enable_builtin_templates = true
     enable_community_templates = true
 
@@ -776,7 +812,7 @@ type = "battery"
 type = "clock"
 
 [widget.control-center]
-custom_image = "/nix/store/x9cyrmbgn5yjldk7rs2b5vfjvqnsnxkp-source/assets/icons/nixos.png"
+custom_image = "/nix/store/s4dqm1yy1xvl4jbh0m1amsihqc86099q-source/assets/icons/nixos.png"
 scale = 1.5
 type = "control-center"
 
