@@ -49,9 +49,6 @@ url = "gh:serokell/deploy-rs"
 [inputs.hardware]
 url = "gh:NixOS/nixos-hardware"
 
-[inputs.nixarr]
-url = "gh:rasmus-kirk/nixarr"
-
 [inputs.impermanence]
 url = "gh:nix-community/impermanence"
 exclude_follow = ["nixpkgs"]
@@ -106,3 +103,6 @@ submodules = true
 
 [inputs.zed-extensions]
 url = "gh:SwornSystems/nix-zed-extensions"
+
+[inputs.nixarr]
+url = "git+https://forgejo.nimeses.com/NixOS/nixarr.git"

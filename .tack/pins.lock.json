@@ -129,12 +129,12 @@
     "lastModified": 1788680125
   },
   "nixarr": {
-    "type": "github",
-    "owner": "rasmus-kirk",
-    "repo": "nixarr",
-    "rev": "282ce99b31d52d72cca281e3d26d3dd267946800",
-    "narHash": "sha256-oTMag4I9MW3bstuOKqzc0F1OqxO49lLa9jkSkRe3EqA=",
-    "lastModified": 1784997863
+    "type": "git",
+    "url": "https://forgejo.nimeses.com/NixOS/nixarr.git",
+    "ref": "HEAD",
+    "rev": "5ad382cff68a2b6866cfb4900e04445080d0d327",
+    "narHash": "sha256-cFEWVux+agE4Ixoj8ybcBDY64urEh8eOOkXoOSXIaP8=",
+    "lastModified": 1789056635
   },
   "nixpkgs": {
     "type": "github",
