@@ -8,7 +8,7 @@
         rev = self.rev or (if self ? dirtyRev then builtins.substring 0 40 self.dirtyRev else "dirty");
       };
 
-      sources = import ./.tack/default.nix;
+      sources = import ./.pnix/default.nix;
       lib = import (sources.nixpkgs + "/lib");
 
       systems = builtins.attrNames cfg.devShells;
