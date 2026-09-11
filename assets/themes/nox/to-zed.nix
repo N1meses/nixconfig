@@ -161,7 +161,7 @@ in
           "keyword.import" = syn "keywordControl";
           "keyword.conditional" = syn "keywordControl";
           "keyword.exception" = syn "keywordControl";
-          "keyword.operator" = syn "operator";
+          "keyword.operator" = syn "keyword";
           "preproc" = syn "preproc";
           "operator" = syn "operator";
 
@@ -176,7 +176,15 @@ in
           "variable.special" = syn "selfRef";
           "property" = syn "property";
 
-          "type" = syn "type";
+          # Zed has no `type.builtin`: `(type (identifier) @type)` tags EVERYTHING in
+          # an annotation position, primitives included, so bold there marks `int`
+          # and `str` as emphatically as a user class. Helix does distinguish them
+          # (its python query carries an explicit builtin list) and keeps bold for
+          # complex types - that behaviour is unchanged.
+          # Here: plain `type` takes the italic style, while the captures that are
+          # unambiguously complex keep bold.
+          "type" = syn "typeBuiltin";
+          "type.class" = syn "type";
           "enum" = syn "type";
           "variant" = syn "enumVariant";
 

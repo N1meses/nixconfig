@@ -2,8 +2,13 @@
   rev ? null,
 }:
 let
-  tack = import ./override.nix;
-  inherit (tack) nixpkgs;
+  sources = import ./.pnix {
+    allFollow = {
+      nixpkgs = "nixpkgs";
+      hjem = "hjem";
+    };
+  };
+  inherit (sources) nixpkgs;
   inherit (nixpkgs) lib;
   inherit (lib) hasPrefix;
   inherit (lib.fileset) toList fileFilter;
@@ -26,7 +31,7 @@ let
     else
       "dirty";
 
-  inputs = tack // {
+  inputs = sources // {
     self = {
       outPath = lib.fileset.toSource {
         root = ./.;

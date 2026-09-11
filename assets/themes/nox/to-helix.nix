@@ -51,7 +51,9 @@ in
     "keyword.storage.type" = s "keyword";
     "keyword.storage.modifier" = s "keywordModifier";
     "keyword.directive" = s "preproc";
-    "keyword.operator" = s "operator";
+    # `and` / `or` / `not` / `is` / `in` / `del`. These are words, so they read as
+    # keywords; white (the symbol-operator colour) makes them look unstyled.
+    "keyword.operator" = s "keyword";
 
     "operator" = s "operator";
 
