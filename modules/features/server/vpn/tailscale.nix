@@ -16,6 +16,6 @@
   };
 
   pins.community-modules = {
-      url = "https://github.com/finix-community/community-modules";
+    url = "https://github.com/finix-community/community-modules";
   };
 }

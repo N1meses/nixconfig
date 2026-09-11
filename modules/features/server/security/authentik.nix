@@ -52,7 +52,7 @@
   };
 
   pins.authentik-nix = {
-      url = "https://github.com/nix-community/authentik-nix";
-      excludeFollow = [ "nixpkgs" ];
+    url = "https://github.com/nix-community/authentik-nix";
+    excludeFollow = [ "nixpkgs" ];
   };
 }

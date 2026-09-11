@@ -9,7 +9,7 @@
   };
 
   pins.nix-cachyos-kernel = {
-      url = "https://github.com/xddxdd/nix-cachyos-kernel";
-      excludeFollow = [ "nixpkgs" ];
+    url = "https://github.com/xddxdd/nix-cachyos-kernel";
+    excludeFollow = [ "nixpkgs" ];
   };
 }

@@ -3,8 +3,7 @@ let
 
   mods =
     r:
-    (if r.bold or false then [ "bold" ] else [ ])
-    ++ (if r.italic or false then [ "italic" ] else [ ]);
+    (if r.bold or false then [ "bold" ] else [ ]) ++ (if r.italic or false then [ "italic" ] else [ ]);
 
   s =
     name:
@@ -12,9 +11,20 @@ let
       r = roles.${name};
       m = mods r;
     in
-    if m == [ ] then r.fg else { inherit (r) fg; modifiers = m; };
+    if m == [ ] then
+      r.fg
+    else
+      {
+        inherit (r) fg;
+        modifiers = m;
+      };
 
-  curl = colour: { underline = { style = "curl"; color = colour; }; };
+  curl = colour: {
+    underline = {
+      style = "curl";
+      color = colour;
+    };
+  };
 in
 {
   nox-default = {
@@ -99,9 +109,16 @@ in
     "markup.heading.5" = s "heading";
     "markup.heading.6" = s "heading";
     "markup.heading.marker" = s "punctuation";
-    "markup.bold" = { fg = "blue"; modifiers = [ "bold" ]; };
-    "markup.italic" = { modifiers = [ "italic" ]; };
-    "markup.strikethrough" = { modifiers = [ "crossed_out" ]; };
+    "markup.bold" = {
+      fg = "blue";
+      modifiers = [ "bold" ];
+    };
+    "markup.italic" = {
+      modifiers = [ "italic" ];
+    };
+    "markup.strikethrough" = {
+      modifiers = [ "crossed_out" ];
+    };
     "markup.link.url" = {
       fg = "link_blue";
       underline.style = "line";
@@ -123,61 +140,156 @@ in
     "diff.minus.gutter" = "diff_red";
     "diff.delta.gutter" = "diff_yellow";
 
-    "ui.background" = { bg = "background"; };
-    "ui.background.separator" = { fg = "separator"; };
-    "ui.text" = { fg = "text"; };
-    "ui.text.focus" = { fg = "white"; };
-    "ui.text.info" = { fg = "text_gray"; };
-    "ui.text.inactive" = { fg = "hint_gray"; };
-    "ui.text.directory" = { fg = "steel"; };
+    "ui.background" = {
+      bg = "background";
+    };
+    "ui.background.separator" = {
+      fg = "separator";
+    };
+    "ui.text" = {
+      fg = "text";
+    };
+    "ui.text.focus" = {
+      fg = "white";
+    };
+    "ui.text.info" = {
+      fg = "text_gray";
+    };
+    "ui.text.inactive" = {
+      fg = "hint_gray";
+    };
+    "ui.text.directory" = {
+      fg = "steel";
+    };
 
-    "ui.virtual" = { fg = "virtual_text"; };
-    "ui.virtual.indent-guide" = { fg = "virtual_text"; };
-    "ui.virtual.whitespace" = { fg = "whitespace"; };
-    "ui.virtual.inlay-hint" = { fg = "hint_gray"; };
-    "ui.virtual.ruler" = { bg = "ruler"; };
-    "ui.virtual.wrap" = { fg = "virtual_text"; };
+    "ui.virtual" = {
+      fg = "virtual_text";
+    };
+    "ui.virtual.indent-guide" = {
+      fg = "virtual_text";
+    };
+    "ui.virtual.whitespace" = {
+      fg = "whitespace";
+    };
+    "ui.virtual.inlay-hint" = {
+      fg = "hint_gray";
+    };
+    "ui.virtual.ruler" = {
+      bg = "ruler";
+    };
+    "ui.virtual.wrap" = {
+      fg = "virtual_text";
+    };
     "ui.virtual.jump-label" = {
       fg = "jump_label";
       modifiers = [ "bold" ];
     };
 
-    "ui.cursor" = { bg = "cursor"; fg = "background"; };
-    "ui.cursor.primary" = { bg = "cursor"; fg = "background"; };
-    "ui.cursor.insert" = { bg = "statusline_insert"; fg = "white"; };
-    "ui.cursor.select" = { bg = "statusline_select"; fg = "white"; };
-    "ui.cursor.match" = { bg = "cursor_match"; fg = "cursor_match_fg"; };
+    "ui.cursor" = {
+      bg = "cursor";
+      fg = "background";
+    };
+    "ui.cursor.primary" = {
+      bg = "cursor";
+      fg = "background";
+    };
+    "ui.cursor.insert" = {
+      bg = "statusline_insert";
+      fg = "white";
+    };
+    "ui.cursor.select" = {
+      bg = "statusline_select";
+      fg = "white";
+    };
+    "ui.cursor.match" = {
+      bg = "cursor_match";
+      fg = "cursor_match_fg";
+    };
 
-    "ui.cursorline" = { bg = "cursorline"; };
-    "ui.cursorline.primary" = { bg = "cursorline"; };
+    "ui.cursorline" = {
+      bg = "cursorline";
+    };
+    "ui.cursorline.primary" = {
+      bg = "cursorline";
+    };
 
-    "ui.selection" = { bg = "selection"; };
-    "ui.selection.primary" = { bg = "selection"; };
-    "ui.highlight" = { bg = "highlight"; };
+    "ui.selection" = {
+      bg = "selection";
+    };
+    "ui.selection.primary" = {
+      bg = "selection";
+    };
+    "ui.highlight" = {
+      bg = "highlight";
+    };
 
-    "ui.gutter" = { bg = "background"; };
-    "ui.linenr" = { fg = "linenr"; };
-    "ui.linenr.selected" = { fg = "linenr_selected"; };
+    "ui.gutter" = {
+      bg = "background";
+    };
+    "ui.linenr" = {
+      fg = "linenr";
+    };
+    "ui.linenr.selected" = {
+      fg = "linenr_selected";
+    };
 
-    "ui.bufferline" = { fg = "text_gray"; bg = "bufferline_bg"; };
-    "ui.bufferline.active" = { fg = "white"; bg = "background"; };
+    "ui.bufferline" = {
+      fg = "text_gray";
+      bg = "bufferline_bg";
+    };
+    "ui.bufferline.active" = {
+      fg = "white";
+      bg = "background";
+    };
 
-    "ui.statusline" = { fg = "white"; bg = "statusline_bg"; };
+    "ui.statusline" = {
+      fg = "white";
+      bg = "statusline_bg";
+    };
     "ui.statusline.inactive" = {
       fg = "statusline_inactive_fg";
       bg = "statusline_inactive_bg";
     };
-    "ui.statusline.normal" = { fg = "white"; bg = "statusline_bg"; };
-    "ui.statusline.insert" = { fg = "white"; bg = "statusline_insert"; };
-    "ui.statusline.select" = { fg = "white"; bg = "statusline_select"; };
+    "ui.statusline.normal" = {
+      fg = "white";
+      bg = "statusline_bg";
+    };
+    "ui.statusline.insert" = {
+      fg = "white";
+      bg = "statusline_insert";
+    };
+    "ui.statusline.select" = {
+      fg = "white";
+      bg = "statusline_select";
+    };
 
-    "ui.popup" = { fg = "text_gray"; bg = "popup_bg"; };
-    "ui.popup.info" = { fg = "text"; bg = "popup_bg"; };
-    "ui.window" = { fg = "window_border"; };
-    "ui.help" = { fg = "text_gray"; bg = "popup_bg"; };
-    "ui.menu" = { fg = "text"; bg = "popup_bg"; };
-    "ui.menu.selected" = { fg = "white"; bg = "menu_selected"; };
-    "ui.menu.scroll" = { fg = "scroll"; bg = "popup_bg"; };
+    "ui.popup" = {
+      fg = "text_gray";
+      bg = "popup_bg";
+    };
+    "ui.popup.info" = {
+      fg = "text";
+      bg = "popup_bg";
+    };
+    "ui.window" = {
+      fg = "window_border";
+    };
+    "ui.help" = {
+      fg = "text_gray";
+      bg = "popup_bg";
+    };
+    "ui.menu" = {
+      fg = "text";
+      bg = "popup_bg";
+    };
+    "ui.menu.selected" = {
+      fg = "white";
+      bg = "menu_selected";
+    };
+    "ui.menu.scroll" = {
+      fg = "scroll";
+      bg = "popup_bg";
+    };
 
     "error" = "error";
     "warning" = "warning";
@@ -188,8 +300,15 @@ in
     "diagnostic.warning" = curl "warning";
     "diagnostic.info" = curl "info";
     "diagnostic.hint" = curl "hint_gray";
-    "diagnostic.unnecessary" = { modifiers = [ "dim" "italic" ]; };
-    "diagnostic.deprecated" = { modifiers = [ "crossed_out" ]; };
+    "diagnostic.unnecessary" = {
+      modifiers = [
+        "dim"
+        "italic"
+      ];
+    };
+    "diagnostic.deprecated" = {
+      modifiers = [ "crossed_out" ];
+    };
 
     inherit palette;
   };

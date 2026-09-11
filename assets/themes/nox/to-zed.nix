@@ -19,7 +19,11 @@ let
       font_weight = if r.bold or false then 700 else null;
     };
 
-  c = key: { color = h key; font_style = null; font_weight = null; };
+  c = key: {
+    color = h key;
+    font_style = null;
+    font_weight = null;
+  };
 in
 {
   "$schema" = "https://zed.dev/schema/themes/v0.2.0.json";

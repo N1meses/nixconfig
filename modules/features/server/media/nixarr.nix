@@ -98,9 +98,8 @@
       };
   };
 
-
   pins.nixarr = {
-      type = "git";
-      url = "https://forgejo.nimeses.com/NixOS/nixarr";
+    type = "git";
+    url = "https://forgejo.nimeses.com/NixOS/nixarr";
   };
 }

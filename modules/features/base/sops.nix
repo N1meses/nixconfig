@@ -26,7 +26,7 @@
   };
 
   pins.sops-nix = {
-      url = "https://github.com/Mic92/sops-nix";
-      excludeFollow = [ "nixpkgs" ];
+    url = "https://github.com/Mic92/sops-nix";
+    excludeFollow = [ "nixpkgs" ];
   };
 }

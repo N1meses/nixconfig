@@ -214,8 +214,8 @@ in
   };
 
   pins.umbriel = {
-      type = "git";
-      url = "https://github.com/noctalia-dev/umbriel";
-      submodules = true;
+    type = "git";
+    url = "https://github.com/noctalia-dev/umbriel";
+    submodules = true;
   };
 }

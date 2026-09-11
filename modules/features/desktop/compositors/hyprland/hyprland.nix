@@ -138,8 +138,8 @@
   };
 
   pins.hyprland = {
-      type = "git";
-      url = "https://github.com/hyprwm/Hyprland";
-      submodules = true;
+    type = "git";
+    url = "https://github.com/hyprwm/Hyprland";
+    submodules = true;
   };
 }

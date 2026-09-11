@@ -27,6 +27,6 @@
       );
 
   pins.deploy-rs = {
-      url = "https://github.com/serokell/deploy-rs";
+    url = "https://github.com/serokell/deploy-rs";
   };
 }

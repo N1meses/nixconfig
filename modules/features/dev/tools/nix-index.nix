@@ -10,7 +10,7 @@
   };
 
   pins.nix-index-database = {
-      url = "https://github.com/nix-community/nix-index-database";
-      excludeFollow = [ "nixpkgs" ];
+    url = "https://github.com/nix-community/nix-index-database";
+    excludeFollow = [ "nixpkgs" ];
   };
 }

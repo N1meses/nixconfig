@@ -28,6 +28,6 @@
   };
 
   pins.glide = {
-      url = "https://github.com/glide-browser/glide.nix";
+    url = "https://github.com/glide-browser/glide.nix";
   };
 }

@@ -237,7 +237,7 @@
   };
 
   pins.mango = {
-      url = "https://github.com/mangowm/mango";
-      excludeFollow = [ "nixpkgs" ];
+    url = "https://github.com/mangowm/mango";
+    excludeFollow = [ "nixpkgs" ];
   };
 }
