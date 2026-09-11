@@ -36,8 +36,6 @@
     flake = false;
   };
 
-  # No `inputs.<name>` consumer anywhere under modules/. Kept so the lock does
-  # not lose them silently -- resolve or drop them rather than leaving them here.
   pins.hardware = {
     url = "https://github.com/NixOS/nixos-hardware";
   };
