@@ -11,9 +11,6 @@
       {
         imports = [ ./_common.nix ];
 
-        # --name is not optional: launched bare, the wayland app-id comes from
-        # application.ini's RemotingName (glide-glide) rather than the `glide`
-        # the desktop entry produces, and the compositor rules stop matching.
         features.compositors.browser = lib.mkDefault {
           command = "glide";
           args = [
@@ -28,5 +25,9 @@
           inputs.glide.packages.${pkgs.stdenv.hostPlatform.system}.default
         ];
       };
+  };
+
+  pins.glide = {
+      url = "https://github.com/glide-browser/glide.nix";
   };
 }

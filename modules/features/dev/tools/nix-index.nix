@@ -8,4 +8,9 @@
       programs.command-not-found.enable = false;
     };
   };
+
+  pins.nix-index-database = {
+      url = "https://github.com/nix-community/nix-index-database";
+      excludeFollow = [ "nixpkgs" ];
+  };
 }

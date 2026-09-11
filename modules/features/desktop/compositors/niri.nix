@@ -411,4 +411,10 @@ in
       desktop.services.portals
     ];
   };
+
+  pins.niri-nix = {
+      type = "git";
+      url = "https://codeberg.org/BANanaD3V/niri-nix";
+      excludeFollow = [ "nixpkgs" ];
+  };
 }

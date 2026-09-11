@@ -14,4 +14,8 @@
     };
     description = "Tailscale mesh VPN, trusted in the firewall.";
   };
+
+  pins.community-modules = {
+      url = "https://github.com/finix-community/community-modules";
+  };
 }

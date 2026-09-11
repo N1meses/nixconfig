@@ -25,4 +25,8 @@
           name: host: config.nixosConfigurations ? ${name} && host.machineModules != [ ]
         ) config.registry.hosts
       );
+
+  pins.deploy-rs = {
+      url = "https://github.com/serokell/deploy-rs";
+  };
 }

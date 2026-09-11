@@ -50,4 +50,9 @@
         sops.secrets."authentik-env" = { };
       };
   };
+
+  pins.authentik-nix = {
+      url = "https://github.com/nix-community/authentik-nix";
+      excludeFollow = [ "nixpkgs" ];
+  };
 }

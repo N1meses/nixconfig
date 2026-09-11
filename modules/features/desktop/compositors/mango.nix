@@ -235,4 +235,9 @@
       desktop.services.portals
     ];
   };
+
+  pins.mango = {
+      url = "https://github.com/mangowm/mango";
+      excludeFollow = [ "nixpkgs" ];
+  };
 }

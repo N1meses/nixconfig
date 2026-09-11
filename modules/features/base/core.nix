@@ -78,7 +78,7 @@ in
           helix
           curl
           wget
-          tack
+          (pkgs.callPackage "${inputs.pnix}/package.nix" { })
           (pkgs.writeShellScriptBin "nixos-revision" ''
             echo "${inputs.self.rev or "dirty"}"
           '')
@@ -101,7 +101,7 @@ in
 
     home = { pkgs, ... }: {
       packages = [
-        pkgs.tack
+        (pkgs.callPackage "${inputs.pnix}/package.nix" { })
         (pkgs.callPackage "${inputs.hjem}/cli/package.nix" { })
       ];
     };
@@ -183,7 +183,7 @@ in
           helix
           curl
           wget
-          tack
+          (pkgs.callPackage "${inputs.pnix}/package.nix" { })
           (pkgs.writeShellScriptBin "finix-revision" ''
             echo "${inputs.self.rev or "dirty"}"
           '')

@@ -1,8 +1,8 @@
-{lib, ...}:
+{ lib, ... }:
 {
-  options.pnix = {
+  options.pins = lib.mkOption {
     type = lib.types.attrsOf lib.types.unspecified;
-    default = {};
+    default = { };
     internal = true;
     description = "Inputs which are read by pnix";
   };

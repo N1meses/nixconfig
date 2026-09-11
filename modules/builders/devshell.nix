@@ -17,7 +17,7 @@ let
       name = "nixconfig";
 
       packages = [
-        pkgs.tack
+        (pkgs.callPackage "${inputs.pnix}/package.nix" { })
 
         pkgs.nixfmt-tree
 
@@ -38,7 +38,7 @@ let
         echo "  nix-build . --attr checks.nixos-<host>     build a host"
         echo "  ./scripts/drvdiff.sh [ref]                 what moved since <ref>"
         echo "  deploy --file . <host>                     push to a remote"
-        echo "  tack update [input]                        update pins"
+        echo "  pnix update [pin]                          update pins"
       '';
     };
 in
