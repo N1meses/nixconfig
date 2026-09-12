@@ -5,7 +5,7 @@
 
 # Module Library
 
-125 aspects, 8 hosts.
+124 aspects, 8 hosts.
 
 ## Hosts
 
@@ -33,10 +33,8 @@ to pull in the names it includes.
 | `bundle.base` | *aggregator* | Baseline every host gets: nix settings, locale, user accounts and tailscale. | `core.core` `core.local` `core.users` `server.vpn.tailscale` |
 | `bundle.cliEnv` | *aggregator* | Interactive shell environment: shell, file manager, editor, CLI tools and git. | `core.core` `bundle.shell` `desktop.apps.yazi` `dev.editors.helix` `dev.tools.cli` `dev.tools.git` |
 | `bundle.desktop` | *aggregator* | Graphical desktop bundle: session services, apps and the noctalia shell. | `bundle.services` `bundle.apps` `desktop.apps.yaziFilechooser` `desktop.noctalia` |
-| `bundle.server` | *aggregator* | Headless server role: base plus CLI environment, hardened sshd, networking tools and nh. | `bundle.base` `bundle.cliEnv` `server.serverCore` `server.sshd` `dev.tools.network` `desktop.apps.nh` |
 | `bundle.services` | *aggregator* | Desktop plumbing every graphical session needs: graphics, fonts, portals, audio, bluetooth and user services. | `desktop.services.graphics` `desktop.services.fonts` `desktop.services.portals` `desktop.services.audio` `desktop.services.bluetooth` `desktop.services.userServices` |
 | `bundle.shell` | *aggregator* | Shell stack: zsh, fzf/zoxide tooling, the starship prompt and ssh client config. | `shell.zsh` `shell.shellTools` `shell.starship` `shell.ssh` |
-| `bundle.workstation` | *aggregator* | Full graphical workstation: base plus CLI environment, desktop, niri, display manager and editors. | `bundle.base` `bundle.cliEnv` `bundle.desktop` `desktop.compositors.niri` `desktop.services.ly` `dev.languages.nix` `dev.tools.nixIndex` `dev.editors.zed` `desktop.apps.term.kitty` |
 | `core.cachyosKernel` | nixos | CachyOS performance kernel, via the pinned overlay. | - |
 | `core.core` | nixos+finix+home | Core system settings: nix daemon config, boot defaults and the baseline package set. | - |
 | `core.finitV5` | finix | Pins finit to v5 with a matching libconfuse build. | - |
@@ -103,18 +101,19 @@ to pull in the names it includes.
 | `dev.tools.network` | home | Network diagnostic tooling. | - |
 | `dev.tools.nixIndex` | nixos | nix-index and command-not-found lookup. | - |
 | `dev.tools.security` | home | Security and secret-handling tooling. | - |
-| `finix.coreutilsBusybox` | finix | Selects busybox as the system coreutils provider. | - |
-| `finix.coreutilsGnu` | finix | Selects GNU coreutils as the system coreutils provider. | - |
-| `finix.devGardendevd` | finix | Selects gardendevd as the device manager. | - |
-| `finix.devMdevd` | finix | Selects mdevd as the device manager. | - |
-| `finix.devUdev` | finix | Selects udev as the device manager. | - |
+| `finix.coreutilsBusybox` | finix | Test Matrix: Selects busybox as the system coreutils provider. | - |
+| `finix.coreutilsGnu` | finix | Test Matrix: Selects GNU coreutils as the system coreutils provider. | - |
+| `finix.coreuutils` | finix | Test Matrix: Selects Rust Coreutils as the system corutils | - |
+| `finix.devGardendevd` | finix | Test Matrix: Selects gardendevd as the device manager. | - |
+| `finix.devMdevd` | finix | Test Matrix: Selects mdevd as the device manager. | - |
+| `finix.devUdev` | finix | Test Matrix: Selects udev as the device manager. | - |
 | `finix.doas` | finix | doas privilege escalation for the wheel group. | - |
 | `finix.docker` | finix | Docker daemon with syslog wiring. | - |
-| `finix.netDhcpcd` | finix | Selects dhcpcd as the network stack. | - |
-| `finix.netIwd` | finix | Selects iwd as the network stack. | - |
-| `finix.netNM` | finix | Selects NetworkManager as the network stack. | - |
-| `finix.seatElogind` | finix | Selects elogind as the seat/session manager. | - |
-| `finix.seatSeatd` | finix | Selects seatd as the seat/session manager. | - |
+| `finix.netDhcpcd` | finix | Test Matrix: Selects dhcpcd as the network stack. | - |
+| `finix.netIwd` | finix | Test Matrix: Selects iwd as the network stack. | - |
+| `finix.netNM` | finix | Test Matrix: Selects NetworkManager as the network stack. | - |
+| `finix.seatElogind` | finix | Test Matrix: Selects elogind as the seat/session manager. | - |
+| `finix.seatSeatd` | finix | Test Matrix: Selects seatd as the seat/session manager. | - |
 | `finix.session` | finix | finix session wiring: dbus, XDG icon caches, runlevel and PATH linking. | - |
 | `finix.zfs` | finix | ZFS filesystem support in initrd and the running system. | - |
 | `profile.gaming` | nixos | Gaming stack: Steam, gamemode and the kernel/sysctl tuning they want. | - |

@@ -1,10 +1,10 @@
 _: {
   aspects.finix.devUdev = {
-    description = "Selects udev as the device manager.";
+    description = "Test Matrix: Selects udev as the device manager.";
     finix = _: { services.udev.enable = true; };
   };
   aspects.finix.devMdevd = {
-    description = "Selects mdevd as the device manager.";
+    description = "Test Matrix: Selects mdevd as the device manager.";
     finix =
       { lib, pkgs, ... }:
       {
@@ -14,7 +14,7 @@ _: {
       };
   };
   aspects.finix.devGardendevd = {
-    description = "Selects gardendevd as the device manager.";
+    description = "Test Matrix: Selects gardendevd as the device manager.";
     finix = _: { services.gardendevd.enable = true; };
   };
 }

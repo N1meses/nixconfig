@@ -103,7 +103,7 @@ entry; only `users`, `system` and `stateVersion` are required:
     # extraGroups = [ "plugdev" ];
 
     aspects = with config.aspectLib.names; [
-      bundle.workstation        # or: bundle.server / bundle.base
+      bundle.base        # or: bundle.server / bundle.base
     ];
 
     nixosModule = { pkgs, ... }: {     # or finixModule on a finix host
@@ -310,7 +310,7 @@ through a **single `aspects` list**, which exists on both `registry.hosts.<host>
 and `registry.users.<user>`:
 
 ```nix
-aspects = with config.aspectLib.names; [ bundle.workstation desktop.compositors.niri dev.tools.git ];
+aspects = with config.aspectLib.names; [ desktop.compositors.niri dev.tools.git ];
 ```
 
 **The two selection sites are asymmetric.** A *host* selection reaches the system
