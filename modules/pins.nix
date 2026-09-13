@@ -1,10 +1,12 @@
 {
   pins.nixpkgs = {
     url = "https://github.com/NixOS/nixpkgs";
+    ref = "nixos-unstable";
   };
 
   pins.finix = {
     url = "https://github.com/finix-community/finix";
+    ref = "refs/pull/181/head";
   };
 
   pins.hjem = {

@@ -27,7 +27,6 @@ in
       finix.netNM
       finix.seatElogind
       finix.coreutilsGnu
-      profile.virtualisation
       core.finitV5
     ];
 
@@ -40,6 +39,8 @@ in
           KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1050", GROUP="yubikey", MODE="0660"
         '')
       ];
+
+      environment.systemPackages = [ pkgs.bash ];
     };
 
     homeModule = { ... }: {

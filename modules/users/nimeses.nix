@@ -20,9 +20,7 @@
     aspects = with config.aspectLib.names; [
       bundle.cliEnv
       bundle.desktop
-      profile.osint
       desktop.compositors.umbriel
-      desktop.services.music
       dev.languages.nix
       dev.editors.zed
       desktop.apps.term.kitty
@@ -38,17 +36,11 @@
         claude-code
         vesktop
         element-desktop
-        sops
-        obsidian
-        tor-browser
         mpv
-        nicotine-plus
-        rmpc
         nh
         steam
         inputs.deploy-rs.packages.${pkgs.stdenv.hostPlatform.system}.default
         ffmpeg
-        ytmdesktop
       ];
     };
   };
