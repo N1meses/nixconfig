@@ -37,11 +37,6 @@ let
         aspectsFor modulesFor.home (resolve [ userName ])
         ++ optional (host.home != null) host.home
         ++ fleetFor "home" hostName;
-
-      rum.programs.git = {
-        enable = true;
-        settings.user = { inherit (user.git) name email; };
-      };
     };
 
   commonModule = name: host: {
@@ -80,10 +75,87 @@ let
     ++ extra;
 
   hostsOfClass = class: lib.filterAttrs (_: host: builtins.elem class host.classes) config.hosts;
+
+  commonOverlays = [
+    inputs.halley.overlays.default
+    inputs.umbriel.overlays.default
+  ];
+
+  classes = {
+    nixos = {
+      layer = "nixos";
+      output = "nixosConfigurations";
+      moduleSet = modulesFor.nixos;
+      hmModule = inputs.hjem.nixosModules.default;
+      mkSystem =
+        {
+          host,
+          modules,
+        }:
+        inputs.nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          modules = modules ++ [
+            {
+              nixpkgs = {
+                hostPlatform = host.system;
+                config.allowUnfree = true;
+                config.permittedInsecurePackages = [
+                  "pnpm-10.29.2"
+                  "electron-40.10.5"
+                ];
+                overlays = commonOverlays;
+              };
+              system.stateVersion = host.stateVersion;
+            }
+          ];
+        };
+    };
+
+    finix = {
+      layer = "finix";
+      output = "finixConfigurations";
+      moduleSet = modulesFor.finix;
+      hmModule = inputs.hjem.finixModules.default;
+      mkSystem =
+        {
+          host,
+          modules,
+        }:
+        let
+          eval = inputs.nixpkgs.lib.evalModules {
+            class = "nixos";
+            specialArgs = {
+              inherit inputs;
+              modules = inputs.finix.nixosModules;
+            };
+            modules = [
+              inputs.finix.nixosModules.default
+            ]
+            ++ modules
+            ++ [
+              {
+                nixpkgs.pkgs = import inputs.nixpkgs {
+                  inherit (host) system;
+                  config.allowUnfree = true;
+                  config.permittedInsecurePackages = [
+                    "pnpm-10.29.2"
+                    "minio-2025-10-15T17-29-55Z"
+                  ];
+                  overlays = commonOverlays;
+                };
+              }
+            ];
+          };
+        in
+        eval // { inherit (eval._module.args) pkgs; };
+    };
+  };
 in
 {
   aspectLib = {
     inherit
+      classes
+      commonOverlays
       fleetFor
       mkHomeModules
       commonModule

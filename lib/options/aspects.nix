@@ -53,7 +53,6 @@ let
         type = t.listOf (t.enum [
           "nixos"
           "finix"
-          "home"
         ]);
         default = [ ];
         description = "What this host is built as. A list, so one host can produce both a finix and a NixOS system.";
@@ -122,25 +121,6 @@ let
         type = t.nullOr t.str;
         default = null;
         description = "Path to a file holding the hashed password.";
-      };
-
-      git = lib.mkOption {
-        type = t.submodule {
-          options = {
-            name = lib.mkOption {
-              type = t.str;
-              default = "N1meses";
-              description = "Git author name.";
-            };
-            email = lib.mkOption {
-              type = t.str;
-              default = "nilshasenthal@gmail.com";
-              description = "Git author email.";
-            };
-          };
-        };
-        default = { };
-        description = "Git identity for this account.";
       };
 
       extraGroups = extraGroups "Groups that follow this account onto every host.";
