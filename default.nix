@@ -51,6 +51,7 @@ let
       ./lib/options/aspects.nix
       ./lib/options/outputs.nix
       ./lib/options/pins.nix
+      ./lib/options/containers.nix
       ./lib/aspects.nix
       ./lib/systems.nix
       ./lib/outputs.nix
@@ -61,6 +62,8 @@ let
       ./lib/vm.nix
       ./lib/deploy.nix
       ./lib/devshell.nix
+      ./lib/containers.nix
+      ./lib/portable.nix
       ./pins.nix
     ]
     ++ listNix ./aspects;
