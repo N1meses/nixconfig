@@ -2,6 +2,11 @@
 let
   t = lib.types;
 
+  supportedSystems = [
+    "x86_64-linux"
+    "aarch64-linux"
+  ];
+
   layerOptions = {
     nixos = lib.mkOption {
       type = t.nullOr t.deferredModule;
@@ -59,10 +64,7 @@ let
       };
 
       system = lib.mkOption {
-        type = t.enum [
-          "x86_64-linux"
-          "aarch64-linux"
-        ];
+        type = t.enum supportedSystems;
         default = "x86_64-linux";
         description = "CPU architecture.";
       };
@@ -147,4 +149,6 @@ in
       description = "Accounts, keyed by username.";
     };
   };
+
+  config.aspectLib.systems = supportedSystems;
 }
