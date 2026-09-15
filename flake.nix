@@ -14,10 +14,10 @@
           hjem = "hjem";
         };
       };
-      lib = import (sources.nixpkgs + "/lib");
 
-      systems = builtins.attrNames cfg.devShells;
-      forAll = lib.genAttrs systems;
+      inherit (sources.nixpkgs) lib;
+
+      forAll = lib.genAttrs cfg.aspectLib.systems;
 
       pkgsFor = system: import sources.nixpkgs { inherit system; };
 
@@ -29,15 +29,19 @@
         finixConfigurations
         homeConfigurations
         diskoConfigurations
-        deploy
         devShells
-        images
-        containers
-        resolved
+        deploy
         ;
 
       checks = forAll (bySystem cfg.checks);
       packages = forAll (bySystem cfg.packages);
+
+      nixosModules = cfg.aspectLib.modulesFor.nixos;
+      finixModules = cfg.aspectLib.modulesFor.finix;
+      homeModules = cfg.aspectLib.modulesFor.home;
+
+      lib = cfg.aspectLib;
+
       formatter = forAll (system: (pkgsFor system).nixfmt-tree);
     };
 }

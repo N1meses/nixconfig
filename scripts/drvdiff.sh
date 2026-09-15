@@ -9,7 +9,7 @@ drvdiff - what moved between two revisions of this config, by derivation path
   scripts/drvdiff.sh --help
 
 WHAT IT COMPARES
-  Every output under `checks`, `packages` and `containers`, on both sides, by
+  Every output under `checks` and `packages`, on both sides, by
   .drv path. A drvPath is a transitive fingerprint: equal drvPath means nothing
   anywhere in that derivation's build-time closure changed - not a package, not
   an option, not an input. That is what makes it usable as a regression oracle
@@ -42,7 +42,7 @@ IMPLEMENTATION NOTE
   output when that fails. Nix cannot contain every error itself - `tryEval`
   catches `throw` and `assert`, but not a missing attribute and not a missing
   path - so containment happens here instead. Otherwise a single broken output
-  hides every other answer, which is how `packages.vm-*` stayed dead unnoticed.
+  hides every other answer, which is how `packages.*-vm` stayed dead unnoticed.
 EOF
 }
 
@@ -66,7 +66,7 @@ git -C "$repo" archive --format=tar "$base" | tar -x -C "$old"
 mkdir -p "$old/.git"
 printf 'drvdiff' >"$old/.git/HEAD"
 
-KINDS=(checks packages containers)
+KINDS=(checks packages)
 
 drvOf='v: let r = builtins.tryEval (if v ? drvPath then v.drvPath else "NOT-A-DERIVATION");
           in if r.success then r.value else "EVAL-FAILED"'

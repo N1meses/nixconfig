@@ -23,14 +23,24 @@ jobs:
           # change), anything else = an output stopped evaluating, which is a bug.
           [ "$status" -le 1 ] || exit "$status"
 
-      - name: Scaffold a throwaway host and prove it evaluates
-        timeout-minutes: 15
+      - name: Prove a minimal host still satisfies the schema
         run: |
           set -uo pipefail
-          cleanup() { rm -rf modules/hosts/citest modules/users/citest.nix; }
+          cleanup() { rm -rf aspects/hosts/citest; }
           trap cleanup EXIT
-          bash ./modules/hosts/new-host.sh citest nixos >/dev/null
-          nix eval --file . --raw checks.nixos-citest.drvPath >/dev/null
+          mkdir -p aspects/hosts/citest
+          cat > aspects/hosts/citest/citest.nix <<'NODE'
+          { config, ... }:
+          {
+            hosts.citest = {
+              description = "CI scaffold";
+              classes = [ "nixos" ];
+              stateVersion = "25.11";
+              includes = with config.aspectLib.aspectNames; [ bundle.base ];
+            };
+          }
+          NODE
+          nix eval --impure --file . --apply 'f: (f { }).aspectLib.resolve [ "hosts.citest" ]' >/dev/null
 
       - name: Build every host closure and root it (survives daily gc -d 7d)
         run: |

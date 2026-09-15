@@ -8,12 +8,10 @@ let
       hjem = "hjem";
     };
   };
-  inherit (sources) nixpkgs;
-  inherit (nixpkgs) lib;
-  inherit (lib) hasPrefix;
-  inherit (lib.fileset) toList fileFilter;
 
-  importTree = path: toList (fileFilter (file: file.hasExt "nix" && !(hasPrefix "_" file.name)) path);
+  inherit (sources.nixpkgs) lib;
+
+  inherit (import ./lib/importTree.nix { inherit lib; }) listNix;
 
   readRev =
     path: default:
@@ -44,12 +42,31 @@ let
     };
   };
 
-  eval = nixpkgs.lib.evalModules {
+  eval = lib.evalModules {
     specialArgs = {
       inherit inputs;
       self = eval.config;
     };
-    modules = importTree ./modules;
+    modules = [
+      ./lib/options/aspects.nix
+      ./lib/options/outputs.nix
+      ./lib/options/pins.nix
+      ./lib/options/containers.nix
+      ./lib/aspects.nix
+      ./lib/systems.nix
+      ./lib/outputs.nix
+      ./lib/pkgs.nix
+      ./lib/docs.nix
+      ./lib/checks.nix
+      ./lib/images.nix
+      ./lib/vm.nix
+      ./lib/deploy.nix
+      ./lib/devshell.nix
+      ./lib/containers.nix
+      ./lib/wrapper.nix
+      ./pins.nix
+    ]
+    ++ listNix ./aspects;
   };
 in
 eval.config
