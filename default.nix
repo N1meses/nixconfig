@@ -57,6 +57,10 @@ let
       ./lib/pkgs.nix
       ./lib/docs.nix
       ./lib/checks.nix
+      ./lib/images.nix
+      ./lib/vm.nix
+      ./lib/deploy.nix
+      ./lib/devshell.nix
       ./pins.nix
     ]
     ++ listNix ./aspects;

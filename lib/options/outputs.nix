@@ -25,5 +25,13 @@ in
     checks = raws // {
       description = "Things nix flake check runs.";
     };
+    devShells = raws // {
+      description = "Development shells, keyed by system.";
+    };
+    deploy = lib.mkOption {
+      type = lib.types.raw;
+      default = { };
+      description = "deploy-rs node definitions.";
+    };
   };
 }

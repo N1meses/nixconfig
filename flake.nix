@@ -20,6 +20,8 @@
       forAll = lib.genAttrs cfg.aspectLib.systems;
 
       pkgsFor = system: import sources.nixpkgs { inherit system; };
+
+      bySystem = set: system: lib.filterAttrs (_: drv: drv.system or null == system) set;
     in
     {
       inherit (cfg)
@@ -27,7 +29,12 @@
         finixConfigurations
         homeConfigurations
         diskoConfigurations
+        devShells
+        deploy
         ;
+
+      checks = forAll (bySystem cfg.checks);
+      packages = forAll (bySystem cfg.packages);
 
       nixosModules = cfg.aspectLib.modulesFor.nixos;
       finixModules = cfg.aspectLib.modulesFor.finix;
