@@ -8,6 +8,7 @@ let
 in
 {
   hosts.hermes = {
+    hostId = "50fb8101";
     description = "Rescue and installer stick; persists its own passwords and doubles as recovery.";
     classes = [ "nixos" ];
     machineModules = [
@@ -15,9 +16,6 @@ in
       ./_boot.nix
       ./_disko.nix
       ./_impermanence.nix
-      {
-        networking.hostId = "50fb8101";
-      }
     ];
     system = "x86_64-linux";
     stateVersion = "25.11";

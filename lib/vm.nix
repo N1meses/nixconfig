@@ -32,7 +32,10 @@ let
           inherit name host;
           cls = classes.finix;
           machine = false;
-          extra = optional (modulesFor.finix ? "profile.mkVM") modulesFor.finix."profile.mkVM";
+          extra = [
+            { networking.hostName = lib.mkForce name; }
+          ]
+          ++ optional (modulesFor.finix ? "profile.mkVM") modulesFor.finix."profile.mkVM";
         };
       };
       testScript = "start_all()";

@@ -109,9 +109,9 @@ let
       user = ev.config;
       specs = candidates ev;
     in
-    map (progName: nameValuePair "${userName}-${progName}" (wrap user userName progName specs.${progName})) (
-      builtins.filter (progName: filesFor user specs.${progName} != { }) (attrNames specs)
-    );
+    map (
+      progName: nameValuePair "${userName}-${progName}" (wrap user userName progName specs.${progName})
+    ) (builtins.filter (progName: filesFor user specs.${progName} != { }) (attrNames specs));
 in
 {
   packages = builtins.listToAttrs (concatMap wrappersFor userNames);

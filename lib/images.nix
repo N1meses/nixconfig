@@ -14,14 +14,6 @@ let
 
   inherit (config.aspectLib) classes hostModules;
 
-  formats = [
-    "proxmox"
-    "proxmox-lxc"
-    "kexec"
-    "iso-installer"
-    "google-compute"
-  ];
-
   formatDefaults =
     { lib, ... }:
     {
@@ -49,13 +41,13 @@ let
       };
     }).config.system.build.images;
 
-  imageable = filterAttrs (_: host: elem "nixos" host.classes) config.hosts;
+  imageable = filterAttrs (_: host: elem "nixos" host.classes && host.images != [ ]) config.hosts;
 in
 {
   packages = concatMapAttrs (
     name: host:
     mapAttrs' (format: drv: nameValuePair "${name}-${format}" drv) (
-      lib.filterAttrs (format: _: elem format formats) (imagesFor name host)
+      lib.filterAttrs (format: _: elem format host.images) (imagesFor name host)
     )
   ) imageable;
 }

@@ -4,6 +4,8 @@
 }:
 {
   hosts.atlas = {
+    hostId = "32947ba6";
+    domain = "nimeses.com";
     description = "Public-facing server: forgejo, binary cache, media, identity and matrix.";
     fleet = {
       nixos.nix.settings = {
@@ -37,10 +39,6 @@
       ./_hardware.nix
       ./_boot.nix
       ./_disko.nix
-      {
-        networking.hostId = "32947ba6";
-        features.server.domain = "nimeses.com";
-      }
     ];
     system = "x86_64-linux";
     stateVersion = "25.05";

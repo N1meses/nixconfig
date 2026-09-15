@@ -65,7 +65,7 @@ nix build --file . checks.nixos-<host>       # the closure
 
 nix eval --file . packages --apply builtins.attrNames
 nix build --file . packages.<host>-vm            # finix test VM
-nix build --file . packages.<host>-proxmox       # disk image
+nix build --file . packages.<host>-proxmox       # disk image, if the host asks for one
 nix build --file . packages.<user>-<program>     # portable wrapper
 
 pnix update [pin]                            # update pins
@@ -74,6 +74,10 @@ scripts/drvdiff.sh [ref]                     # what moved since <ref>, by drvPat
 
 Images and VMs build **without** `machineModules` — a VM is not this machine, so its
 hardware, disks and bootloader are omitted by design.
+
+```nix
+hosts.atlas.images = [ "proxmox" ];   # → packages.atlas-proxmox
+```
 
 ## Notes
 

@@ -1,5 +1,7 @@
 { config, ... }: {
   hosts.athena = {
+    hostId = "2e95e7c9";
+    domain = "athena.tail4109e2.ts.net";
     description = "Tailnet server: DNS, password vault, monitoring and file drop.";
     fleet.home.ssh.matchBlocks.athena = {
       hostname = "100.75.163.80";
@@ -9,10 +11,6 @@
     machineModules = [
       ./_hardware.nix
       ../_uefi-systemd-boot.nix
-      {
-        networking.hostId = "2e95e7c9";
-        features.server.domain = "athena.tail4109e2.ts.net";
-      }
     ];
     system = "x86_64-linux";
     stateVersion = "25.05";

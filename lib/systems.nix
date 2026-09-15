@@ -39,24 +39,31 @@ let
         ++ fleetFor "home" hostName;
     };
 
-  commonModule = name: host: {
-    networking.hostName = name;
-    _module.args.hostName = name;
-    _module.args.hostEntry = host;
-    _module.args.hostUsers = map (lib.removePrefix "users.") (usersOf "hosts.${name}");
+  commonModule =
+    name: host:
+    {
+      networking.hostName = name;
+      networking.hostId = lib.mkIf (host.hostId != "") host.hostId;
 
-    hjem.extraModules = [ inputs.hjem-rum.hjemModules.default ];
-    hjem.clobberByDefault = true;
-    hjem.users = builtins.listToAttrs (
-      map (u: {
-        name = lib.removePrefix "users." u;
-        value = {
-          enable = true;
-          imports = [ (mkHomeModules name host u) ];
-        };
-      }) (usersOf "hosts.${name}")
-    );
-  };
+      _module.args.hostName = name;
+      _module.args.hostEntry = host;
+      _module.args.hostUsers = map (lib.removePrefix "users.") (usersOf "hosts.${name}");
+
+      hjem.extraModules = [ inputs.hjem-rum.hjemModules.default ];
+      hjem.clobberByDefault = true;
+      hjem.users = builtins.listToAttrs (
+        map (u: {
+          name = lib.removePrefix "users." u;
+          value = {
+            enable = true;
+            imports = [ (mkHomeModules name host u) ];
+          };
+        }) (usersOf "hosts.${name}")
+      );
+    }
+    // lib.optionalAttrs (host.domain != "") {
+      features.server.domain = host.domain;
+    };
 
   hostModules =
     {

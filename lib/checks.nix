@@ -204,10 +204,7 @@ let
     let
       dead = inertOn name config.hosts.${name};
     in
-    if dead == [ ] then
-      "  ${name}: ok"
-    else
-      "  ${name}: ${concatStringsSep " " dead}"
+    if dead == [ ] then "  ${name}: ok" else "  ${name}: ${concatStringsSep " " dead}"
   ) (builtins.attrNames config.hosts);
 
   anyInert = any (name: inertOn name config.hosts.${name} != [ ]) (builtins.attrNames config.hosts);
@@ -217,13 +214,13 @@ let
 in
 {
   checks =
-    mapAttrs' (
-      name: sys: nameValuePair "nixos-${name}" sys.config.system.build.toplevel
-    ) (buildable config.nixosConfigurations)
+    mapAttrs' (name: sys: nameValuePair "nixos-${name}" sys.config.system.build.toplevel) (
+      buildable config.nixosConfigurations
+    )
 
-    // mapAttrs' (
-      name: sys: nameValuePair "finix-${name}" sys.config.system.build.toplevel
-    ) (buildable config.finixConfigurations)
+    // mapAttrs' (name: sys: nameValuePair "finix-${name}" sys.config.system.build.toplevel) (
+      buildable config.finixConfigurations
+    )
 
     // mapAttrs' (
       name: host:
@@ -234,27 +231,25 @@ in
     ) config.hosts
 
     // {
-      aspects =
-        pkgs.runCommand "check-aspects-live" { }
-          (
-            if anyInert then
-              ''
-                echo "aspects selected but contributing nothing:"
-                cat <<'REPORT'
-                ${inertReport}
-                REPORT
-                echo
-                echo "each listed aspect declares slots, but none for that host's classes,"
-                echo "and it is not reachable from any of its users."
-                exit 1
-              ''
-            else
-              ''
-                cat <<'REPORT'
-                ${inertReport}
-                REPORT
-                touch $out
-              ''
-          );
+      aspects = pkgs.runCommand "check-aspects-live" { } (
+        if anyInert then
+          ''
+            echo "aspects selected but contributing nothing:"
+            cat <<'REPORT'
+            ${inertReport}
+            REPORT
+            echo
+            echo "each listed aspect declares slots, but none for that host's classes,"
+            echo "and it is not reachable from any of its users."
+            exit 1
+          ''
+        else
+          ''
+            cat <<'REPORT'
+            ${inertReport}
+            REPORT
+            touch $out
+          ''
+      );
     };
 }

@@ -60,7 +60,8 @@ let
     inherit (user) packages;
   };
 
-  mkStandaloneHost = c: mapAttrs (_: mkStandaloneUser) (filterAttrs (_: u: u.enable) c.config.hjem.users);
+  mkStandaloneHost =
+    c: mapAttrs (_: mkStandaloneUser) (filterAttrs (_: u: u.enable) c.config.hjem.users);
 
   primaryClass = host: builtins.head host.classes;
 

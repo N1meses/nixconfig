@@ -31,7 +31,9 @@ let
       h = all.${n};
     in
     "| ${code (lib.removePrefix "hosts." n)} "
-    + "| ${lib.concatStringsSep "+" h.classes}${lib.optionalString (h.machineModules == [ ]) " *(image-only)*"} "
+    + "| ${lib.concatStringsSep "+" h.classes}${
+      lib.optionalString (h.machineModules == [ ]) " *(image-only)*"
+    } "
     + "| ${joinCode (map (lib.removePrefix "users.") (usersOf n))} "
     + "| ${toString (builtins.length (resolve [ n ]))} "
     + "| ${cell h.description} |";
@@ -52,7 +54,15 @@ let
     "| ${code n} | ${if ls == [ ] then "*aggregator*" else lib.concatStringsSep "+" ls} "
     + "| ${cell a.description} | ${joinCode a.includes} |";
 
-  table = header: sep: rows: lib.concatStringsSep "\n" ([ header sep ] ++ rows);
+  table =
+    header: sep: rows:
+    lib.concatStringsSep "\n" (
+      [
+        header
+        sep
+      ]
+      ++ rows
+    );
 
   modulesMd = ''
     <!-- GENERATED FILE - DO NOT EDIT.
@@ -69,7 +79,10 @@ let
     slots it defines. An aspect with no slots at all is an aggregator - it exists only
     to pull in the names it includes.
 
-    ${table "| Aspect | Layers | Description | Includes |" "|--------|--------|-------------|----------|" (map featureRow features)}
+    ${table "| Aspect | Layers | Description | Includes |"
+      "|--------|--------|-------------|----------|"
+      (map featureRow features)
+    }
   '';
 
   fleetMd = ''
@@ -87,7 +100,10 @@ let
 
     ## Hosts
 
-    ${table "| Host | Classes | Users | Aspects | Description |" "|------|---------|-------|--------:|-------------|" (map hostRow hosts)}
+    ${table "| Host | Classes | Users | Aspects | Description |"
+      "|------|---------|-------|--------:|-------------|"
+      (map hostRow hosts)
+    }
 
     ## Users
 

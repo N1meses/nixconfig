@@ -1,6 +1,7 @@
 { config, ... }:
 {
   hosts.phaethon = {
+    hostId = "0762b962";
     description = "finix server: ZFS storage and docker workloads, no desktop.";
     classes = [ "finix" ];
     disko.devices = import ./_devices.nix;
@@ -8,9 +9,6 @@
       ./_hardware.nix
       ./_boot.nix
       ./_disko.nix
-      {
-        networking.hostId = "0762b962";
-      }
     ];
     system = "x86_64-linux";
     includes = with config.aspectLib.aspectNames; [

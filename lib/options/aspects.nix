@@ -41,11 +41,13 @@ let
     };
   };
 
-  extraGroups = meaning: lib.mkOption {
-    type = t.listOf t.str;
-    default = [ ];
-    description = meaning;
-  };
+  extraGroups =
+    meaning:
+    lib.mkOption {
+      type = t.listOf t.str;
+      default = [ ];
+      description = meaning;
+    };
 
   aspectType = t.submodule {
     freeformType = t.lazyAttrsOf aspectType;
@@ -55,10 +57,12 @@ let
   hostType = t.submodule {
     options = common // {
       classes = lib.mkOption {
-        type = t.listOf (t.enum [
-          "nixos"
-          "finix"
-        ]);
+        type = t.listOf (
+          t.enum [
+            "nixos"
+            "finix"
+          ]
+        );
         default = [ ];
         description = "What this host is built as. A list, so one host can produce both a finix and a NixOS system.";
       };
@@ -87,6 +91,32 @@ let
         };
         default = { };
         description = "What this host publishes to every other host. For facts only this machine knows, such as its own address.";
+      };
+
+      images = lib.mkOption {
+        type = t.listOf (
+          t.enum [
+            "proxmox"
+            "proxmox-lxc"
+            "kexec"
+            "iso-installer"
+            "google-compute"
+          ]
+        );
+        default = [ ];
+        description = "Image formats to build for this host, as packages.<host>-<format>.";
+      };
+
+      hostId = lib.mkOption {
+        type = t.str;
+        default = "";
+        description = "Machine identifier, required for ZFS. Applied on the real machine and in images alike.";
+      };
+
+      domain = lib.mkOption {
+        type = t.str;
+        default = "";
+        description = "Primary FQDN, if this host serves anything.";
       };
 
       disko = lib.mkOption {

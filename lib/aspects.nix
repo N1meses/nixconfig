@@ -88,16 +88,11 @@ let
     host = 2;
   };
 
-  aspectNames = foldl' (
-    acc: n: recursiveUpdate acc (setAttrByPath (splitString "." n) n)
-  ) { } (attrNames all);
+  aspectNames = foldl' (acc: n: recursiveUpdate acc (setAttrByPath (splitString "." n) n)) { } (
+    attrNames all
+  );
 
-  nodeAt =
-    n: from:
-    if all ? ${n} then
-      all.${n}
-    else
-      throw "unknown aspect \"${n}\"${from}";
+  nodeAt = n: from: if all ? ${n} then all.${n} else throw "unknown aspect \"${n}\"${from}";
 
   includesOf =
     n:
