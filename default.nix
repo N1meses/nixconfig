@@ -63,7 +63,7 @@ let
       ./lib/deploy.nix
       ./lib/devshell.nix
       ./lib/containers.nix
-      ./lib/portable.nix
+      ./lib/wrapper.nix
       ./pins.nix
     ]
     ++ listNix ./aspects;

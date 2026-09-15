@@ -1,0 +1,105 @@
+{
+  config,
+  inputs,
+  ...
+}:
+{
+  aspects.server.media.nixarr = {
+    description = "The *arr media automation stack.";
+    includes = with config.aspectLib.aspectNames; [
+      server.security.restic
+      core.sops
+    ];
+    nixos =
+      {
+        config,
+        lib,
+        options,
+        ...
+      }:
+      {
+        imports = [
+          inputs.nixarr.nixosModules.default
+        ];
+
+        sops.secrets.airvpn-wg-conf = { };
+
+        systemd.services.wg = {
+          after = lib.mkAfter [ "nss-lookup.target" ];
+          wants = [ "nss-lookup.target" ];
+        };
+
+        services.restic.backups.system.paths = [ "/var/lib/nixarr" ];
+
+        nixarr = {
+          enable = true;
+          mediaDir = "/media";
+          stateDir = "/var/lib/nixarr";
+
+          nixarr-py.package = options.nixarr.nixarr-py.package.default.overrideAttrs (_: {
+            pname = "nixarr-py";
+          });
+
+          vpn = {
+            enable = true;
+            wgConf = config.sops.secrets.airvpn-wg-conf.path;
+            openUdpPorts = [ 56599 ];
+            openTcpPorts = [ 56599 ];
+          };
+
+          qbittorrent = {
+            enable = true;
+            vpn.enable = true;
+            peerPort = 56599;
+            webuiPort = 5252;
+            extraConfig = {
+              BitTorrent = {
+                "Session\\GlobalMaxRatio" = 0;
+                "Session\\GlobalMaxRatioLimited" = true;
+                "Session\\ShareLimitAction" = "Stop";
+                "Session\\GlobalUploadSpeedLimit" = 102400;
+                "Session\\GlobalUTPRateLimited" = true;
+                "Session\\MaxConnections" = 3000;
+                "Session\\MaxConnectionsPerTorrent" = 100;
+              };
+            };
+          };
+
+          sonarr.enable = true;
+          radarr.enable = true;
+          prowlarr = {
+            enable = true;
+            vpn.enable = true;
+          };
+          lidarr.enable = true;
+          bazarr.enable = true;
+          autobrr.enable = false;
+          seerr.enable = true;
+        };
+
+        networking.firewall.interfaces."wg-br".allowedTCPPorts = [
+          8989
+          7878
+          8686
+          5055
+          6767
+        ];
+
+        users.users.lidarr.extraGroups = [ "media" ];
+        users.users.readarr.extraGroups = [ "media" ];
+        users.users.sonarr.extraGroups = [ "media" ];
+        users.users.qbittorrent.extraGroups = [ "media" ];
+        systemd.services.qbittorrent.serviceConfig.UMask = "0002";
+        users.users.readarr = {
+          isSystemUser = true;
+          group = "readarr";
+        };
+        users.groups.readarr = { };
+      };
+  };
+
+  pins.nixarr = {
+    type = "git";
+    url = "https://forgejo.nimeses.com/NixOS/nixarr";
+  };
+}

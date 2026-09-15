@@ -43,6 +43,7 @@ let
     networking.hostName = name;
     _module.args.hostName = name;
     _module.args.hostEntry = host;
+    _module.args.hostUsers = map (lib.removePrefix "users.") (usersOf "hosts.${name}");
 
     hjem.extraModules = [ inputs.hjem-rum.hjemModules.default ];
     hjem.clobberByDefault = true;

@@ -36,6 +36,7 @@ let
       modules = [
         "${inputs.hjem}/modules/common/user.nix"
         inputs.hjem-rum.hjemModules.default
+        { directory = "/home/${removePrefix "users." userName}"; }
       ]
       ++ aspectsFor modulesFor.home (resolve [ userName ]);
     };
