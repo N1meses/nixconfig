@@ -33,7 +33,7 @@ let
     "home"
   ];
 
-  isAspect = node: node.includes != [ ] || any (l: node.${l} != null) layers;
+  isAspect = node: node.description != null || any (l: node.${l} != null) layers;
 
   flattenFrom =
     prefix: node:

@@ -19,5 +19,11 @@ in
     diskoConfigurations = raws // {
       description = "Disk layouts for one-shot partitioning at install time.";
     };
+    packages = raws // {
+      description = "Buildable artifacts: docs, portable wrappers, VMs.";
+    };
+    checks = raws // {
+      description = "Things nix flake check runs.";
+    };
   };
 }
