@@ -56,6 +56,7 @@ let
       ./lib/outputs.nix
       ./lib/pkgs.nix
       ./lib/docs.nix
+      ./lib/checks.nix
       ./pins.nix
     ]
     ++ listNix ./aspects;
