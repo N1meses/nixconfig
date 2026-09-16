@@ -4,7 +4,7 @@ let
 in
 {
   hosts.bellerophon = {
-    description = "finix test laptop, exercising the busybox/iwd/mdevd/seatd branch of the matrix.";
+    description = "finix laptop with busybox/iwd/mdevd/seatd, part of the finix test matrix.";
     fleet.home.ssh.matchBlocks.bellerophon = {
       hostname = "100.78.140.15";
       user = "icarus";

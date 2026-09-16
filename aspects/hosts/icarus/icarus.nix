@@ -8,7 +8,7 @@ let
 in
 {
   hosts.icarus = {
-    description = "finix laptop on niri, second daily driver.";
+    description = "finix laptop on niri part of the test matrix for finix";
     fleet.home.ssh.matchBlocks.icarus = {
       hostname = "100.73.123.19";
       user = "icarus";

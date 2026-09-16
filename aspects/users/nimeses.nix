@@ -6,11 +6,10 @@
 }:
 {
   users.nimeses = {
-    description = "Primary account: full desktop and the nix/rust/python toolchains.";
+    description = "user for daily";
     uid = 1000;
     hashedPasswordFile = "/var/lib/nimeses/user.passwd";
     extraGroups = [
-      "incus-admin"
       "kvm"
       "video"
       "input"

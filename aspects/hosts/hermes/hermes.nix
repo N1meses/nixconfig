@@ -9,7 +9,7 @@ in
 {
   hosts.hermes = {
     hostId = "50fb8101";
-    description = "Rescue and installer stick; persists its own passwords and doubles as recovery.";
+    description = "impermanent host and installer for quick access";
     classes = [ "nixos" ];
     machineModules = [
       ./_hardware.nix
@@ -26,7 +26,6 @@ in
     includes = with config.aspectLib.aspectNames; [
       bundle.base
       dev.tools.git
-      core.cachyosKernel
       profile.rescue
       desktop.services.ly
       desktop.apps.nh

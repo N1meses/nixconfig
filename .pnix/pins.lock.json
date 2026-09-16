@@ -234,25 +234,6 @@
         "ref": "HEAD"
       }
     },
-    "nix-cachyos-kernel": {
-      "type": "github",
-      "host": "github.com",
-      "owner": "xddxdd",
-      "repo": "nix-cachyos-kernel",
-      "url": "https://github.com/xddxdd/nix-cachyos-kernel",
-      "rev": "d722a934d795f6c4d9930a0b252483bcdd3e541d",
-      "ref": "HEAD",
-      "hash": "sha256-MkQGWdUuGOHllsxqyDU9r1sHHQNl5Z8v+k79qQy7BlQ=",
-      "lastModified": 1789328715,
-      "excludeFollow": [
-        "nixpkgs"
-      ],
-      "fetch": {
-        "kind": "tarball",
-        "url": "https://github.com/xddxdd/nix-cachyos-kernel/archive/d722a934d795f6c4d9930a0b252483bcdd3e541d.tar.gz",
-        "hash": "sha256-MkQGWdUuGOHllsxqyDU9r1sHHQNl5Z8v+k79qQy7BlQ="
-      }
-    },
     "nix-index-database": {
       "type": "github",
       "host": "github.com",

@@ -1,7 +1,7 @@
 { config, lib, ... }:
 {
   users.hermes = {
-    description = "Recovery account; carries a graphical session so the stick is usable by hand.";
+    description = "acc for hermes";
     extraGroups = [ ];
     keys = map builtins.readFile (lib.filesystem.listFilesRecursive ../features/core/super/keys);
     includes = with config.aspectLib.aspectNames; [

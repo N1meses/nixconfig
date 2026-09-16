@@ -5,7 +5,7 @@ let
 in
 {
   hosts.prometheus = {
-    description = "NixOS desktop workstation: gaming, virtualisation and heavy builds.";
+    description = "NixOS desktop workstation and gaming";
     fleet.home.ssh.matchBlocks.prometheus = {
       hostname = "100.93.27.90";
       user = "prometheus";
@@ -22,7 +22,6 @@ in
       dev.tools.git
       desktop.services.ly
       dev.tools.nixIndex
-      core.cachyosKernel
       profile.gaming
       profile.performance
       profile.virtualisation

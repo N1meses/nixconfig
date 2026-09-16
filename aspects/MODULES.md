@@ -5,7 +5,7 @@
 
 # Module Library
 
-124 aspects.
+123 aspects.
 
 An aspect declares any subset of the layer slots `nixos`, `finix`, `home`, plus an
 optional `includes` list. A host names it once; the builder routes it to whichever
@@ -20,11 +20,10 @@ to pull in the names it includes.
 | `bundle.desktop` | *aggregator* | Graphical desktop bundle: session services, apps and the noctalia shell. | `bundle.services` `bundle.apps` `desktop.apps.yaziFilechooser` `desktop.noctalia` |
 | `bundle.services` | *aggregator* | Desktop plumbing every graphical session needs: graphics, fonts, portals, audio, bluetooth and user services. | `desktop.services.graphics` `desktop.services.fonts` `desktop.services.portals` `desktop.services.audio` `desktop.services.bluetooth` `desktop.services.userServices` |
 | `bundle.shell` | *aggregator* | Shell stack: zsh, fzf/zoxide tooling, the starship prompt and ssh client config. | `shell.zsh` `shell.shellTools` `shell.starship` `shell.ssh` |
-| `core.cachyosKernel` | nixos | CachyOS performance kernel, via the pinned overlay. | - |
 | `core.core` | nixos+finix+home | Core system settings: nix daemon config, boot defaults and the baseline package set. | - |
 | `core.finitV5` | finix | Pins finit to v5 with a matching libconfuse build. | - |
 | `core.local` | nixos+finix | Locale, timezone, console keymap and i18n settings. | - |
-| `core.overlays` | nixos | Fleet-wide nixpkgs overlays (pinned CachyOS kernel). | - |
+| `core.overlays` | *aggregator* | Fleet-wide nixpkgs overlays (pinned CachyOS kernel). | - |
 | `core.persistence` | finix | Declarative /persist bind-mount handling for impermanent finix roots. | - |
 | `core.sops` | nixos | sops-nix secret decryption, keyed on an age keyfile at /root/.config/sops/age/keys.txt. | - |
 | `core.users` | nixos+finix | Materialises user nodes into real accounts on whichever layer the host builds in. | - |

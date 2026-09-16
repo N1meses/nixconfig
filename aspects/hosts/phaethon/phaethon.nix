@@ -2,7 +2,7 @@
 {
   hosts.phaethon = {
     hostId = "0762b962";
-    description = "finix server: ZFS storage and docker workloads, no desktop.";
+    description = "finix server with ZFS storage and docker, part of the finix test matrix";
     classes = [ "finix" ];
     disko.devices = import ./_devices.nix;
     machineModules = [

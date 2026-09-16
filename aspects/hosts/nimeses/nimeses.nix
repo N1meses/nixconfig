@@ -7,7 +7,7 @@ let
 in
 {
   hosts.nimeses = {
-    description = "finix laptop on umbriel, the primary daily driver.";
+    description = "finix laptop on umbriel also my daily driver";
     fleet.home.ssh.matchBlocks.nimeses = {
       hostname = "100.76.77.79";
       user = "nimeses";

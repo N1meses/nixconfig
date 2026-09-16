@@ -1,7 +1,7 @@
 { config, lib, ... }:
 {
   users.prometheus = {
-    description = "Workstation account: full desktop, every language toolchain and build tooling.";
+    description = "user for prometheus";
     extraGroups = [
       "gamemode"
       "libvirtd"
@@ -41,7 +41,6 @@
         ckb-next
         element-desktop
         jellyfin-mpv-shim
-        gparted
       ];
     };
   };
