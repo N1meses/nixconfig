@@ -37,17 +37,4 @@
     url = "https://forgejo.nimeses.com/nimeses/pnix";
     flake = false;
   };
-
-  pins.hardware = {
-    url = "https://github.com/NixOS/nixos-hardware";
-  };
-
-  pins.systems = {
-    url = "https://github.com/nix-systems/default-linux";
-  };
-
-  pins.zed-extensions = {
-    url = "https://github.com/SwornSystems/nix-zed-extensions";
-  };
-
 }
