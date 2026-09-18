@@ -25,24 +25,16 @@ in
       }
       {
         match.app_id = "^${c.terminal.appId}$";
-        default_width = 0.5;
+        default_scrolling_extent = 0.5;
       }
       {
         match.app_id = "^${c.terminal.appId}$";
         match.title = "^termfilechooser$";
         default_floating = true;
-        default_size = [
-          1024
-          768
-        ];
       }
       {
         match.title = "Bitwarden";
         default_floating = true;
-        default_size = [
-          1024
-          768
-        ];
       }
       {
         match.app_id = "^${c.browser.appId}$";
@@ -51,18 +43,10 @@ in
       {
         match.app_id = "^dev.noctalia.Noctalia$";
         default_floating = true;
-        default_size = [
-          1020
-          900
-        ];
       }
       {
         match.app_id = "^dev.noctalia.UmbrielSharePicker$";
         default_floating = true;
-        default_size = [
-          800
-          600
-        ];
       }
     ]
     ++ cfg.extraWindowRules;

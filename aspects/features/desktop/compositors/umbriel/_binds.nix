@@ -53,10 +53,10 @@ let
     "Mod+Comma" = "window-consume-left";
     "Mod+Period" = "window-consume-or-expel-right";
 
-    "Mod+Ctrl+l" = "window-modify-width:0.1";
-    "Mod+Ctrl+h" = "window-modify-width:-0.1";
-    "Mod+Ctrl+j" = "window-modify-height:0.1";
-    "Mod+Ctrl+k" = "window-modify-height:-0.1";
+    "Mod+Ctrl+l" = "window-modify-width-right:0.1";
+    "Mod+Ctrl+h" = "window-modify-width-right:-0.1";
+    "Mod+Ctrl+j" = "window-modify-height-down:0.1";
+    "Mod+Ctrl+k" = "window-modify-height-down:-0.1";
 
     "Mod+f" = "window-toggle-maximize";
     "Mod+Ctrl+f" = "window-toggle-maximize-to-edges";
@@ -72,8 +72,8 @@ let
     "Mod+Tab" = "scratchpad-focus-next";
     "Mod+Shift+c" = "cheatsheet-toggle";
 
-    "Mod+r" = "window-cycle-width";
-    "Mod+Shift+r" = "window-cycle-width-back";
+    "Mod+r" = "window-cycle-primary-extent";
+    "Mod+Shift+r" = "window-cycle-primary-extent-back";
     "Mod+Ctrl+r" = "config-reload";
   }
   // workspaceBinds;
