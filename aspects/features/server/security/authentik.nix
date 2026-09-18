@@ -25,6 +25,7 @@
           settings = {
             disable_startup_analytics = true;
             avatars = "initials";
+            listen.metrics = [ "[::1]:9300" ];
           };
           nginx = {
             enable = true;
