@@ -7,17 +7,17 @@
       "owner": "nix-community",
       "repo": "authentik-nix",
       "url": "https://github.com/nix-community/authentik-nix",
-      "rev": "fd34a5238314351ed92dd79d00f518b8a03e19cb",
+      "rev": "9a176c0a1889921f3ed19d29a047bafaf20b9a24",
       "ref": "HEAD",
-      "hash": "sha256-NIqHasKysUniYrJozavASUF4MqpsyBg7lZZNtM+WrwI=",
-      "lastModified": 1788820723,
+      "hash": "sha256-CveW/4U/zNIRfLpH6vMv8qisfotft8XJC47KqAhViZ0=",
+      "lastModified": 1789662015,
       "excludeFollow": [
         "nixpkgs"
       ],
       "fetch": {
         "kind": "tarball",
-        "url": "https://github.com/nix-community/authentik-nix/archive/fd34a5238314351ed92dd79d00f518b8a03e19cb.tar.gz",
-        "hash": "sha256-NIqHasKysUniYrJozavASUF4MqpsyBg7lZZNtM+WrwI="
+        "url": "https://github.com/nix-community/authentik-nix/archive/9a176c0a1889921f3ed19d29a047bafaf20b9a24.tar.gz",
+        "hash": "sha256-CveW/4U/zNIRfLpH6vMv8qisfotft8XJC47KqAhViZ0="
       }
     },
     "community-modules": {
@@ -154,13 +154,13 @@
     "hyprland": {
       "type": "git",
       "url": "https://github.com/hyprwm/Hyprland",
-      "rev": "92b82c0c1e4168d93903ec42a2276843bbd84821",
+      "rev": "d50ca8950ac8753c54e50b6d44f4461df14bfabb",
       "ref": "HEAD",
       "submodules": true,
       "fetch": {
         "kind": "git",
         "url": "https://github.com/hyprwm/Hyprland",
-        "rev": "92b82c0c1e4168d93903ec42a2276843bbd84821",
+        "rev": "d50ca8950ac8753c54e50b6d44f4461df14bfabb",
         "ref": "HEAD",
         "submodules": true
       }
@@ -190,23 +190,23 @@
       "owner": "mangowm",
       "repo": "mango",
       "url": "https://github.com/mangowm/mango",
-      "rev": "b62d3968e711f510d021c86d5fa0599f8b28bf5a",
+      "rev": "51fab2ac912607ec503939b5273a308adf7a3c9c",
       "ref": "HEAD",
-      "hash": "sha256-Cl20oZFgIEwj/SDy+wPKwHtThvJUN9Ci+9SvfXj+TWs=",
-      "lastModified": 1789644607,
+      "hash": "sha256-b4RrEEgCdVXyxQGMgtJzgNjgmNl2GRiMt6Gj/CsO6uQ=",
+      "lastModified": 1789715214,
       "excludeFollow": [
         "nixpkgs"
       ],
       "fetch": {
         "kind": "tarball",
-        "url": "https://github.com/mangowm/mango/archive/b62d3968e711f510d021c86d5fa0599f8b28bf5a.tar.gz",
-        "hash": "sha256-Cl20oZFgIEwj/SDy+wPKwHtThvJUN9Ci+9SvfXj+TWs="
+        "url": "https://github.com/mangowm/mango/archive/51fab2ac912607ec503939b5273a308adf7a3c9c.tar.gz",
+        "hash": "sha256-b4RrEEgCdVXyxQGMgtJzgNjgmNl2GRiMt6Gj/CsO6uQ="
       }
     },
     "niri-nix": {
       "type": "git",
       "url": "https://codeberg.org/BANanaD3V/niri-nix",
-      "rev": "d62b823f49d861a133616702ab055a074b5e66b8",
+      "rev": "cc07aa2c81b784aa4078ed19e4b963663f5172ba",
       "ref": "HEAD",
       "excludeFollow": [
         "nixpkgs"
@@ -214,7 +214,7 @@
       "fetch": {
         "kind": "git",
         "url": "https://codeberg.org/BANanaD3V/niri-nix",
-        "rev": "d62b823f49d861a133616702ab055a074b5e66b8",
+        "rev": "cc07aa2c81b784aa4078ed19e4b963663f5172ba",
         "ref": "HEAD"
       }
     },
@@ -323,13 +323,13 @@
     "umbriel": {
       "type": "git",
       "url": "https://github.com/noctalia-dev/umbriel",
-      "rev": "f0b3830afd997e04f25ab0c80f3d09a9e8814704",
+      "rev": "aa9d523cf91d239d68d13fca413ac39a9547c9f1",
       "ref": "HEAD",
       "submodules": true,
       "fetch": {
         "kind": "git",
         "url": "https://github.com/noctalia-dev/umbriel",
-        "rev": "f0b3830afd997e04f25ab0c80f3d09a9e8814704",
+        "rev": "aa9d523cf91d239d68d13fca413ac39a9547c9f1",
         "ref": "HEAD",
         "submodules": true
       }
