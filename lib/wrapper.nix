@@ -99,6 +99,11 @@ let
       postBuild = ''
         wrapProgram $out/bin/${spec.bin} ${spec.flags root}
       '';
+
+      meta = {
+        mainProgram = spec.bin;
+        description = "${spec.package.meta.description or progName}, wrapped with ${userName}'s config";
+      };
     };
 
   wrappersFor =
