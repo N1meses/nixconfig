@@ -16,9 +16,14 @@ in
       desktop.services.portals
     ];
 
-    nixos = _: {
+    nixos = { pkgs, ... }: {
       imports = [ inputs.umbriel.nixosModules.default ];
-      programs.umbriel.enable = true;
+      programs.umbriel = {
+        enable = true;
+        package = inputs.umbriel.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
+          xwayland-satellite = pkgs.xwayland-satellite;
+        };
+      };
     };
 
     finix =
@@ -35,7 +40,12 @@ in
           enable32Bit = lib.mkDefault true;
         };
 
-        programs.umbriel.enable = true;
+        programs.umbriel = {
+          enable = true;
+          package = inputs.umbriel.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
+            xwayland-satellite = pkgs.xwayland-satellite;
+          };
+        };
 
         environment.systemPackages = [ (portalFor pkgs) ];
       };
@@ -88,7 +98,9 @@ in
         config = {
           programs.umbriel = {
             enable = true;
-            package = pkgs.umbriel;
+            package = inputs.umbriel.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
+              xwayland-satellite = pkgs.xwayland-satellite;
+            };
             settings = null;
           };
 

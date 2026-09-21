@@ -25,6 +25,8 @@ let
   packageOverride = lib.optionalAttrs (udevApi != null) {
     inherit libinput;
 
+    xwayland-satellite = pkgs.xwayland-satellite;
+
     wlroots_0_20 = pkgs.wlroots_0_20.override {
       inherit libinput;
 
