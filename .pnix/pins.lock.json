@@ -239,14 +239,14 @@
     },
     "nixarr": {
       "type": "git",
-      "url": "https://forgejo.nimeses.com/NixOS/nixarr",
-      "rev": "5ad382cff68a2b6866cfb4900e04445080d0d327",
-      "ref": "HEAD",
+      "url": "https://github.com/nix-media-server/nixarr",
+      "rev": "6a53532d9f00ae0b111d9cea4cbbd0df85ca34fb",
+      "ref": "refs/pull/184/head",
       "fetch": {
         "kind": "git",
-        "url": "https://forgejo.nimeses.com/NixOS/nixarr",
-        "rev": "5ad382cff68a2b6866cfb4900e04445080d0d327",
-        "ref": "HEAD"
+        "url": "https://github.com/nix-media-server/nixarr",
+        "rev": "6a53532d9f00ae0b111d9cea4cbbd0df85ca34fb",
+        "ref": "refs/pull/184/head"
       }
     },
     "nixpkgs": {
