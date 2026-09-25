@@ -3,7 +3,7 @@
     url = "https://github.com/NixOS/nixpkgs";
     ref = "nixos-unstable";
     patches = [
-      { pr = 564273; }
+      { pr = 566386; }
     ];
     importable = true;
   };
@@ -36,8 +36,8 @@
   };
 
   pins.pnix = {
-    type = "forgejo";
-    url = "https://forgejo.nimeses.com/nimeses/pnix";
+    type = "git";
+    url = "https://github.com/bunny-systems/pnix";
     flake = false;
   };
 }

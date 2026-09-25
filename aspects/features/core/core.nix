@@ -35,6 +35,8 @@ let
     max-substitution-jobs = 32;
     inherit substituters;
     trusted-public-keys = substitutersKeys;
+    connect-timeout = 5;
+    fallback = true;
   };
 in
 {
