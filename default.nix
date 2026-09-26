@@ -1,8 +1,16 @@
 {
   rev ? null,
+
+  # Which system builds a patched pin: applying a patch is a derivation, and
+  # pure evaluation (any `nix build .#...`) has no `builtins.currentSystem` to
+  # take one from. A literal rather than `currentSystem or ...` on purpose --
+  # the two entry points have to name the same system or they disagree on the
+  # patched store path and every derivation below it.
+  patchSystem ? "x86_64-linux",
 }:
 let
   sources = import ./.pnix {
+    system = patchSystem;
     allFollow = {
       nixpkgs = "nixpkgs";
       hjem = "hjem";

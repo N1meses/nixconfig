@@ -11,10 +11,6 @@
     hashedPasswordFile = "/var/lib/nimeses/user.passwd";
     extraGroups = [
       "kvm"
-      "video"
-      "input"
-      "audio"
-      "yubikey"
     ];
     keys = map builtins.readFile (lib.filesystem.listFilesRecursive ../features/core/super/keys);
     includes = with config.aspectLib.aspectNames; [
@@ -26,8 +22,6 @@
       desktop.apps.term.kitty
       desktop.apps.browser.glide
       dev.languages.python
-      dev.languages.rust
-      dev.languages.markdown
       dev.tools.direnv
     ];
     home = { pkgs, ... }: {
@@ -40,7 +34,6 @@
         nh
         steam
         inputs.deploy-rs.packages.${pkgs.stdenv.hostPlatform.system}.default
-        ffmpeg
       ];
     };
   };

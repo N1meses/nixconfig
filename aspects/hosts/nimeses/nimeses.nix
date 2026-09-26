@@ -27,23 +27,19 @@ in
 
       finix.doas
       finix.session
-      finix.deviceManagers.udev
+      finix.deviceManagers.gardendevd
       finix.network.networkmanager
-      finix.seat.elogind
+      finix.seat.sessiond
       finix.coreutils.gnu
-      core.finitV5
       users.nimeses
+    ];
+    extraGroups = [
+      "seat"
+      "video"
     ];
 
     finix = { pkgs, ... }: {
       users.users.root.passwordFile = "/var/lib/nimeses/root.passwd";
-
-      users.groups.yubikey = { };
-      services.udev.packages = [
-        (pkgs.writeTextDir "etc/udev/rules.d/70-fido2.rules" ''
-          KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1050", GROUP="yubikey", MODE="0660"
-        '')
-      ];
 
       environment.systemPackages = [ pkgs.bash ];
     };
