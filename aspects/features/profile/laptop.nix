@@ -1,4 +1,8 @@
-_: {
+{ inputs, ... }:
+let
+  modules = inputs.finix.nixosModules;
+in
+{
   aspects.profile.laptop = {
     nixos = { lib, ... }: {
       services = {
@@ -31,7 +35,6 @@ _: {
       {
         config,
         lib,
-        modules,
         ...
       }:
       {

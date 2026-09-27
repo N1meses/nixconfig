@@ -1,4 +1,8 @@
-_: {
+{ inputs, ... }:
+let
+  modules = inputs.finix.nixosModules;
+in
+{
   aspects.desktop.services.bluetooth = {
     nixos = _: {
       hardware.bluetooth = {
@@ -10,7 +14,6 @@ _: {
 
     finix =
       {
-        modules,
         lib,
         ...
       }:

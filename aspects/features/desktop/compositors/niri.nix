@@ -4,6 +4,7 @@
   ...
 }:
 let
+  modules = inputs.finix.nixosModules;
   mouseBinds = {
     "Mod+WheelScrollDown" = {
       focus-column-right = [ ];
@@ -166,7 +167,6 @@ in
 
     finix =
       {
-        modules,
         lib,
         ...
       }:

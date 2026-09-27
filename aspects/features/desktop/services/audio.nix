@@ -1,4 +1,8 @@
-_: {
+{ inputs, ... }:
+let
+  modules = inputs.finix.nixosModules;
+in
+{
   aspects.desktop.services.audio = {
     nixos = _: {
       services.pipewire = {
@@ -15,7 +19,6 @@ _: {
       {
         lib,
         config,
-        modules,
         ...
       }:
       {

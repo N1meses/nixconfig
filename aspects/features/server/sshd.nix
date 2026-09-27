@@ -1,4 +1,8 @@
-_: {
+{ inputs, ... }:
+let
+  modules = inputs.finix.nixosModules;
+in
+{
   aspects.server.sshd = {
     nixos =
       {
@@ -51,7 +55,6 @@ _: {
       };
     finix =
       {
-        modules,
         lib,
         ...
       }:

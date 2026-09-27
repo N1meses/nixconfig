@@ -1,4 +1,8 @@
-_: {
+{ inputs, ... }:
+let
+  modules = inputs.finix.nixosModules;
+in
+{
   aspects.profile.virtualisation = {
     nixos =
       {
@@ -56,7 +60,7 @@ _: {
       };
 
     finix =
-      { modules, pkgs, ... }:
+      { pkgs, ... }:
       {
         imports = [
           modules.incus

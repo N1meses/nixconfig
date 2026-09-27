@@ -1,7 +1,11 @@
-_: {
+{ inputs, ... }:
+let
+  modules = inputs.finix.nixosModules;
+in
+{
   aspects.finix.docker = {
     description = "Docker daemon with syslog wiring.";
-    finix = { modules, ... }: {
+    finix = _: {
       imports = [
         modules.docker
         modules.sysklogd

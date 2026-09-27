@@ -1,4 +1,8 @@
-_: {
+{ inputs, ... }:
+let
+  modules = inputs.finix.nixosModules;
+in
+{
   aspects.desktop.services.greetd = {
     nixos =
       {
@@ -17,7 +21,7 @@ _: {
         security.pam.services.greetd.enableGnomeKeyring = true;
       };
 
-    finix = { modules, ... }: {
+    finix = _: {
       imports = [ modules.tuigreet ];
 
       programs.tuigreet.enable = true;

@@ -1,6 +1,10 @@
+{ inputs, ... }:
+let
+  modules = inputs.finix.nixosModules;
+in
 {
   aspects.finix.seat.sessiond = {
-    finix = { modules, ... }: {
+    finix = _: {
       imports = [
         modules.sessiond-uaccess
       ];

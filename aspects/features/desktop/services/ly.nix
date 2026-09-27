@@ -1,4 +1,8 @@
-_: {
+{ inputs, ... }:
+let
+  modules = inputs.finix.nixosModules;
+in
+{
   aspects.desktop.services.ly = {
     nixos = _: {
       services.displayManager.ly = {
@@ -11,7 +15,7 @@ _: {
       security.pam.services.ly.enableGnomeKeyring = true;
     };
 
-    finix = { modules, ... }: {
+    finix = _: {
       imports = [ modules.ly ];
 
       services.ly = {

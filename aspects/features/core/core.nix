@@ -1,5 +1,6 @@
 { inputs, ... }:
 let
+  modules = inputs.finix.nixosModules;
   substituters = [
     "https://cache.nixos.org"
     "https://nix-community.cachix.org"
@@ -112,7 +113,6 @@ in
       {
         pkgs,
         lib,
-        modules,
         ...
       }:
       {
