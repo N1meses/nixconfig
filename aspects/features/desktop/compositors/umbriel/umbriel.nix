@@ -109,7 +109,7 @@ in
               raw = (pkgs.formats.toml { }).generate "umbriel-config.toml" config.umbriel.settings;
             in
             pkgs.runCommand "umbriel-config" { } ''
-              if ! ${lib.getExe pkgs.umbriel} validate -c ${raw} >log 2>&1; then
+              if ! ${lib.getExe pkgs.umbriel} config validate -c ${raw} >log 2>&1; then
                 cat log >&2
                 exit 1
               fi
