@@ -2,10 +2,6 @@
   pins.nixpkgs = {
     url = "https://github.com/NixOS/nixpkgs";
     ref = "nixos-unstable";
-    patches = [
-      { pr = 566386; }
-    ];
-    importable = true;
   };
 
   pins.finix = {
