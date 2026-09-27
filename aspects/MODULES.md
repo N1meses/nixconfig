@@ -5,7 +5,7 @@
 
 # Module Library
 
-123 aspects.
+124 aspects.
 
 An aspect declares any subset of the layer slots `nixos`, `finix`, `home`, plus an
 optional `includes` list. A host names it once; the builder routes it to whichever
@@ -98,6 +98,7 @@ to pull in the names it includes.
 | `finix.network.networkmanager` | finix | Test Matrix: Selects NetworkManager as the network stack. | - |
 | `finix.seat.elogind` | finix | Test Matrix: Selects elogind as the seat/session manager. | - |
 | `finix.seat.seatd` | finix | Test Matrix: Selects seatd as the seat/session manager. | - |
+| `finix.seat.sessiond` | finix+home | - | - |
 | `finix.session` | finix | finix session wiring: dbus, XDG icon caches, runlevel and PATH linking. | - |
 | `finix.zfs` | finix | ZFS filesystem support in initrd and the running system. | - |
 | `profile.gaming` | nixos | Gaming stack: Steam, gamemode and the kernel/sysctl tuning they want. | - |

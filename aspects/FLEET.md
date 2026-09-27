@@ -19,7 +19,7 @@ may inherit another host the same way. Both are selectable by name.
 | `bellerophon` | finix | `icarus` | 47 | finix laptop with busybox/iwd/mdevd/seatd, part of the finix test matrix. |
 | `hermes` | nixos | `hermes` | 33 | impermanent host and installer for quick access |
 | `icarus` | finix | `icarus` | 46 | finix laptop on niri part of the test matrix for finix |
-| `nimeses` | finix | `nimeses` | 50 | finix laptop on umbriel also my daily driver |
+| `nimeses` | finix | `nimeses` | 47 | finix laptop on umbriel also my daily driver |
 | `phaethon` | finix | `phaethon` | 28 | finix server with ZFS storage and docker, part of the finix test matrix |
 | `prometheus` | nixos | `prometheus` | 49 | NixOS desktop workstation and gaming |
 
@@ -31,6 +31,6 @@ may inherit another host the same way. Both are selectable by name.
 | `atlas` | Admin account on atlas. | `bundle.cliEnv` `dev.tools.network` `desktop.apps.fastfetch` |
 | `hermes` | acc for hermes | `bundle.cliEnv` `bundle.services` `desktop.compositors.umbriel` `desktop.noctalia` `desktop.apps.term.foot` `desktop.apps.yaziFilechooser` `desktop.apps.browser.glide` |
 | `icarus` | Daily account on icarus and bellerophon. | `bundle.cliEnv` `desktop.compositors.niri` `bundle.desktop` `dev.languages.nix` `shell.ssh` `desktop.apps.term.foot` `dev.editors.zed` |
-| `nimeses` | user for daily | `bundle.cliEnv` `bundle.desktop` `desktop.compositors.umbriel` `dev.languages.nix` `dev.editors.zed` `desktop.apps.term.kitty` `desktop.apps.browser.glide` `dev.languages.python` `dev.languages.rust` `dev.languages.markdown` `dev.tools.direnv` |
+| `nimeses` | user for daily | `bundle.cliEnv` `bundle.desktop` `desktop.compositors.umbriel` `dev.languages.nix` `dev.editors.zed` `desktop.apps.term.kitty` `desktop.apps.browser.glide` `dev.languages.python` `dev.tools.direnv` |
 | `phaethon` | Admin account on phaethon. | `bundle.cliEnv` `dev.tools.network` `dev.languages.nix` `desktop.apps.fastfetch` |
 | `prometheus` | user for prometheus | `bundle.cliEnv` `bundle.desktop` `desktop.compositors.niri` `desktop.compositors.umbriel` `dev.languages.nix` `dev.editors.zed` `desktop.apps.term.kitty` `desktop.apps.browser.glide` `dev.languages.c` `dev.languages.python` `dev.languages.rust` `dev.languages.markdown` `dev.tools.build` `dev.tools.direnv` |
