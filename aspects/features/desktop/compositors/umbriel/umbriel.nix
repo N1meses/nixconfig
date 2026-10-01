@@ -30,10 +30,11 @@ in
       {
         lib,
         pkgs,
+        modules,
         ...
       }:
       {
-        imports = [ ./_module.nix ];
+        imports = [ modules.umbriel ];
 
         hardware.graphics = {
           enable = lib.mkDefault true;
@@ -42,9 +43,6 @@ in
 
         programs.umbriel = {
           enable = true;
-          package = inputs.umbriel.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
-            xwayland-satellite = pkgs.xwayland-satellite;
-          };
         };
 
         environment.systemPackages = [ (portalFor pkgs) ];
@@ -98,9 +96,6 @@ in
         config = {
           programs.umbriel = {
             enable = true;
-            package = inputs.umbriel.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
-              xwayland-satellite = pkgs.xwayland-satellite;
-            };
             settings = null;
           };
 
