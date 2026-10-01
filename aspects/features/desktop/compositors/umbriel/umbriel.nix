@@ -20,9 +20,7 @@ in
       imports = [ inputs.umbriel.nixosModules.default ];
       programs.umbriel = {
         enable = true;
-        package = inputs.umbriel.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
-          xwayland-satellite = pkgs.xwayland-satellite;
-        };
+        package = inputs.umbriel.packages.${pkgs.stdenv.hostPlatform.system}.default;
       };
     };
 
