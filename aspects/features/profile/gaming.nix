@@ -81,7 +81,7 @@ _: {
 
         environment.systemPackages = with pkgs; [
           mangohud
-          goverlay
+          #goverlay
           wineWow64Packages.staging
           nvtopPackages.full
           #lutris
