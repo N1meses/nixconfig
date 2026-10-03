@@ -11,7 +11,6 @@ in
   pins.noctalia = {
     url = "https://github.com/noctalia-dev/noctalia";
     ref = "cachix";
-    excludeFollow = [ "nixpkgs" ];
   };
 
   aspectLib.mkNoctaliaNiri =

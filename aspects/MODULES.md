@@ -5,7 +5,7 @@
 
 # Module Library
 
-124 aspects.
+125 aspects.
 
 An aspect declares any subset of the layer slots `nixos`, `finix`, `home`, plus an
 optional `includes` list. A host names it once; the builder routes it to whichever
@@ -19,7 +19,7 @@ to pull in the names it includes.
 | `bundle.cliEnv` | *aggregator* | Interactive shell environment: shell, file manager, editor, CLI tools and git. | `core.core` `bundle.shell` `desktop.apps.yazi` `dev.editors.helix` `dev.tools.cli` `dev.tools.git` |
 | `bundle.desktop` | *aggregator* | Graphical desktop bundle: session services, apps and the noctalia shell. | `bundle.services` `bundle.apps` `desktop.apps.yaziFilechooser` `desktop.noctalia` |
 | `bundle.services` | *aggregator* | Desktop plumbing every graphical session needs: graphics, fonts, portals, audio, bluetooth and user services. | `desktop.services.graphics` `desktop.services.fonts` `desktop.services.portals` `desktop.services.audio` `desktop.services.bluetooth` `desktop.services.userServices` |
-| `bundle.shell` | *aggregator* | Shell stack: zsh, fzf/zoxide tooling, the starship prompt and ssh client config. | `shell.zsh` `shell.shellTools` `shell.starship` `shell.ssh` |
+| `bundle.shell` | *aggregator* | Shell stack: zsh, fzf/zoxide tooling, the starship prompt and ssh client config. | `shell.shellTools` `shell.starship` `shell.ssh` |
 | `core.core` | nixos+finix+home | Core system settings: nix daemon config, boot defaults and the baseline package set. | - |
 | `core.finitV5` | finix | Pins finit to v5 with a matching libconfuse build. | - |
 | `core.local` | nixos+finix | Locale, timezone, console keymap and i18n settings. | - |
@@ -134,6 +134,7 @@ to pull in the names it includes.
 | `server.vpn.cloudflared` | nixos | Cloudflare tunnel exposing declared nginx vhosts publicly. | `server.nginx` `core.sops` |
 | `server.vpn.mullvad` | nixos | Mullvad VPN client. | - |
 | `server.vpn.tailscale` | nixos+finix | Tailscale mesh VPN, trusted in the firewall. | - |
+| `shell.nushell` | nixos+finix+home | Nushell as the interactive shell behind a bash login (or alongside zsh), with inshellah completions. | - |
 | `shell.shellTools` | home | fzf and zoxide, integrated into zsh. | - |
 | `shell.ssh` | home | ssh client config and per-host match blocks. | - |
 | `shell.starship` | home | The starship prompt, themed. | - |

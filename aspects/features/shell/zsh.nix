@@ -1,7 +1,8 @@
 _: {
   aspects.shell.zsh = {
-    nixos = _: {
+    nixos = { pkgs, ... }: {
       programs.zsh.enable = true;
+      users.defaultUserShell = pkgs.zsh;
     };
 
     finix = { pkgs, ... }: {

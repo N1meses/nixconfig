@@ -23,6 +23,7 @@
       desktop.apps.browser.glide
       dev.languages.python
       dev.tools.direnv
+      shell.nushell
     ];
     home = { pkgs, ... }: {
       packages = with pkgs; [

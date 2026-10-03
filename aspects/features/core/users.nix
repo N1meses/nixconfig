@@ -27,7 +27,6 @@ let
             in
             {
               isNormalUser = true;
-              shell = pkgs.zsh;
               extraGroups = ifTheyExist (
                 [
                   "wheel"

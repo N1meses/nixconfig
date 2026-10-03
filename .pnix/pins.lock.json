@@ -185,6 +185,23 @@
         "hash": "sha256-03+JxvzmfwRu+5JafM0DLbxgHttOQZkUtDWBmeUkN8Y="
       }
     },
+    "inshellah": {
+      "type": "github",
+      "host": "github.com",
+      "owner": "manic-systems",
+      "repo": "inshellah",
+      "url": "https://github.com/manic-systems/inshellah",
+      "rev": "02e88836b0ae57966f3f8554d6eccea95584fa2c",
+      "ref": "HEAD",
+      "hash": "sha256-AqqI4wRnAm0zCiUa0/JEl6gb0wxBipWK4HmvqKPITgU=",
+      "lastModified": 1790836701,
+      "flake": false,
+      "fetch": {
+        "kind": "tarball",
+        "url": "https://github.com/manic-systems/inshellah/archive/02e88836b0ae57966f3f8554d6eccea95584fa2c.tar.gz",
+        "hash": "sha256-AqqI4wRnAm0zCiUa0/JEl6gb0wxBipWK4HmvqKPITgU="
+      }
+    },
     "mango": {
       "type": "github",
       "host": "github.com",
@@ -272,17 +289,14 @@
       "owner": "noctalia-dev",
       "repo": "noctalia",
       "url": "https://github.com/noctalia-dev/noctalia",
-      "rev": "30415127e6c864212c61804a531a018980718b1f",
+      "rev": "6ef43e2bf2f3d5b4205ec72a72e34a2ab76ce3b4",
       "ref": "cachix",
-      "hash": "sha256-EalyF5nWDS6xui58LC131oez7gZWcaO6P5bClDCVD6U=",
-      "lastModified": 1790857470,
-      "excludeFollow": [
-        "nixpkgs"
-      ],
+      "hash": "sha256-ukT5U54WQSpq6sktl5QJOZ8S4ZF3LLmP8CAFel1XJf0=",
+      "lastModified": 1790905070,
       "fetch": {
         "kind": "tarball",
-        "url": "https://github.com/noctalia-dev/noctalia/archive/30415127e6c864212c61804a531a018980718b1f.tar.gz",
-        "hash": "sha256-EalyF5nWDS6xui58LC131oez7gZWcaO6P5bClDCVD6U="
+        "url": "https://github.com/noctalia-dev/noctalia/archive/6ef43e2bf2f3d5b4205ec72a72e34a2ab76ce3b4.tar.gz",
+        "hash": "sha256-ukT5U54WQSpq6sktl5QJOZ8S4ZF3LLmP8CAFel1XJf0="
       }
     },
     "pnix": {
