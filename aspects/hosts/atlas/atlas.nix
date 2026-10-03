@@ -56,6 +56,7 @@
       server.media.jellyfin
       server.security.authentik
       server.vpn.cloudflared
+      server.lanAccess
       server.share.matrix
       server.share.element
       server.media.nixarr
@@ -82,6 +83,10 @@
             "cloud"
             "office"
           ];
+          lanAccess = {
+            hosts = config.features.server.cloudflared.publicHosts;
+            interface = "enp3s0";
+          };
         };
 
         networking.nameservers = [
