@@ -6,6 +6,7 @@
     keys = map builtins.readFile (lib.filesystem.listFilesRecursive ../features/core/super/keys);
     includes = with config.aspectLib.aspectNames; [
       bundle.cliEnv
+      shell.nushell
       bundle.services
       desktop.compositors.umbriel
       desktop.noctalia
