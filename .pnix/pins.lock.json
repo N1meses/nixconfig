@@ -289,14 +289,17 @@
       "owner": "noctalia-dev",
       "repo": "noctalia",
       "url": "https://github.com/noctalia-dev/noctalia",
-      "rev": "6ef43e2bf2f3d5b4205ec72a72e34a2ab76ce3b4",
+      "rev": "064476d48818896ef0dd93f42ccb632dd8f52c55",
       "ref": "cachix",
-      "hash": "sha256-ukT5U54WQSpq6sktl5QJOZ8S4ZF3LLmP8CAFel1XJf0=",
-      "lastModified": 1790905070,
+      "hash": "sha256-2jUi2RuZ1rsEjGUA33V5hNWkThKiPg+v7RPKE2N0nkI=",
+      "lastModified": 1791026167,
+      "excludeFollow": [
+        "nixpkgs"
+      ],
       "fetch": {
         "kind": "tarball",
-        "url": "https://github.com/noctalia-dev/noctalia/archive/6ef43e2bf2f3d5b4205ec72a72e34a2ab76ce3b4.tar.gz",
-        "hash": "sha256-ukT5U54WQSpq6sktl5QJOZ8S4ZF3LLmP8CAFel1XJf0="
+        "url": "https://github.com/noctalia-dev/noctalia/archive/064476d48818896ef0dd93f42ccb632dd8f52c55.tar.gz",
+        "hash": "sha256-2jUi2RuZ1rsEjGUA33V5hNWkThKiPg+v7RPKE2N0nkI="
       }
     },
     "pnix": {

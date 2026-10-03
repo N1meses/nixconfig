@@ -42,6 +42,7 @@
         ckb-next
         element-desktop
         jellyfin-mpv-shim
+        vesktop
       ];
     };
   };
