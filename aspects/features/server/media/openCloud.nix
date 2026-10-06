@@ -187,17 +187,14 @@
             };
             web.web.config = {
               apps = [
+                "files"
+                "text-editor"
                 "pdf-viewer"
-                "collaboration"
-                "json-viewer"
-                "draw-io"
-                "importer"
-                "bpmn"
-                "unzip"
-                "external-sites"
-                "presentation-viewer"
-                "epub"
+                "search"
                 "preview"
+                "external"
+                "collaboration"
+                "admin-settings"
               ];
             };
           };
