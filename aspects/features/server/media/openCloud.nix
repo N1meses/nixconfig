@@ -164,23 +164,40 @@
             WEB_ASSET_APPS_PATH = "${pkgs.linkFarm "opencloud-web-apps" webApps}";
           };
 
-          settings.proxy.role_assignment = {
-            driver = "oidc";
-            oidc_role_mapper = {
-              role_claim = "opencloud-roles";
-              role_mapping = [
-                {
-                  role_name = "admin";
-                  claim_value = "app-opencloud-admin";
-                }
-                {
-                  role_name = "user";
-                  claim_value = "app-opencloud-user";
-                }
-                {
-                  role_name = "guest";
-                  claim_value = "app-opencloud-guest";
-                }
+          settings = {
+            proxy.role_assignment = {
+              driver = "oidc";
+              oidc_role_mapper = {
+                role_claim = "opencloud-roles";
+                role_mapping = [
+                  {
+                    role_name = "admin";
+                    claim_value = "app-opencloud-admin";
+                  }
+                  {
+                    role_name = "user";
+                    claim_value = "app-opencloud-user";
+                  }
+                  {
+                    role_name = "guest";
+                    claim_value = "app-opencloud-guest";
+                  }
+                ];
+              };
+            };
+            web.web.config = {
+              apps = [
+                "pdf-viewer"
+                "collaboration"
+                "json-viewer"
+                "draw-io"
+                "importer"
+                "bpmn"
+                "unzip"
+                "external-sites"
+                "presentation-viewer"
+                "epub"
+                "preview"
               ];
             };
           };
