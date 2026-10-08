@@ -25,6 +25,7 @@ let
     "nixos"
     "finix"
     "home"
+    "wrapper"
   ];
 
   layers = [

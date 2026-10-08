@@ -1,6 +1,43 @@
 { inputs, ... }: {
   aspects.dev.editors.helix = {
     description = "The Helix editor, with theme and language-server registry.";
+
+    wrapper =
+      {
+        config,
+        pkgs,
+        lib,
+        ...
+      }:
+      let
+        files = config.xdg.config.files;
+        themes = lib.filterAttrs (n: _: lib.hasPrefix "helix/themes/" n) files;
+        runtime = pkgs.linkFarm "helix-runtime" (
+          [
+            {
+              name = "grammars";
+              path = "${pkgs.helix.runtime}/grammars";
+            }
+            {
+              name = "queries";
+              path = "${pkgs.helix.runtime}/queries";
+            }
+          ]
+          ++ lib.mapAttrsToList (n: f: {
+            name = lib.removePrefix "helix/" n;
+            path = f.source;
+          }) themes
+        );
+      in
+      {
+        package = pkgs.helix-unwrapped;
+        flags = [
+          "-c"
+          "${files."helix/config.toml".source}"
+        ];
+        env.HELIX_RUNTIME = "${runtime}";
+      };
+
     home = { lib, ... }: {
       environment.sessionVariables = {
         EDITOR = "hx";
@@ -14,6 +51,7 @@
 
       rum.programs.helix = {
         enable = true;
+        package = null;
 
         themes = import "${inputs.self}/assets/themes/nox/to-helix.nix";
 

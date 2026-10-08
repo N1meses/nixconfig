@@ -49,7 +49,8 @@
           ELECTRON_OZONE_PLATFORM_HINT = "auto";
           XCURSOR_SIZE = toString c.cursor.size;
           HYPRCURSOR_SIZE = toString c.cursor.size;
-        };
+        }
+        // c.environment;
         envBlock = lib.concatStrings (lib.mapAttrsToList (k: v: ''hl.env("${k}", "${v}")'' + "\n") env);
 
         monitorsBlock =

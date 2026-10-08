@@ -6,118 +6,72 @@
   ...
 }:
 let
-  inherit (lib)
-    attrNames
-    concatMap
-    filterAttrs
-    hasPrefix
-    mapAttrsToList
-    nameValuePair
-    removePrefix
-    ;
-
   inherit (config.aspectLib)
+    all
+    commonOverlays
     aspectsFor
     modulesFor
     resolve
-    userNames
+    wrapperKey
+    wrapperModule
     ;
 
-  hjem-lib = import "${inputs.hjem}/lib.nix" { inherit lib pkgs; };
+  hostPkgs = pkgs.appendOverlays commonOverlays;
 
-  standaloneUser =
-    userName:
-    lib.evalModules {
-      specialArgs = {
-        inherit hjem-lib pkgs;
-        name = removePrefix "users." userName;
-        userEntry = config.aspectLib.all.${userName};
-      };
-      modules = [
-        "${inputs.hjem}/modules/common/user.nix"
-        inputs.hjem-rum.hjemModules.default
-        { directory = "/home/${removePrefix "users." userName}"; }
-      ]
-      ++ aspectsFor modulesFor.home (resolve [ userName ]);
-    };
-
-  overrides = {
-    starship = {
-      match = n: n == "starship.toml";
-      flags = root: "--set STARSHIP_CONFIG ${root}/starship.toml";
-    };
+  hjem-lib = import "${inputs.hjem}/lib.nix" {
+    inherit lib;
+    pkgs = hostPkgs;
   };
 
-  specFor =
-    name: prog:
+  portable =
+    aspectName:
     let
-      o = overrides.${name} or { };
-    in
-    {
-      inherit (prog) package;
-      bin = prog.package.meta.mainProgram or name;
-      match = o.match or (hasPrefix "${name}/");
-      flags = o.flags or (root: "--set XDG_CONFIG_HOME ${root}");
-    };
-
-  declared = set: opts: builtins.filter (n: (opts.${n}.enable or null) != null) (attrNames set);
-
-  enabled =
-    set: opts:
-    builtins.filter (n: set.${n}.enable && (set.${n}.package or null) != null) (declared set opts);
-
-  candidates =
-    ev:
-    let
-      pick =
-        group:
-        let
-          set = ev.config.rum.${group} or { };
-          opts = ev.options.rum.${group} or { };
-        in
-        lib.genAttrs (enabled set opts) (n: specFor n set.${n});
-    in
-    pick "programs" // pick "desktops";
-
-  filesFor =
-    user: spec: filterAttrs (n: f: f.enable && f.source != null && spec.match n) user.xdg.config.files;
-
-  wrap =
-    user: userName: progName: spec:
-    let
-      root = pkgs.linkFarm "${userName}-${progName}-config" (
-        mapAttrsToList (name: f: {
-          inherit name;
-          path = f.source;
-        }) (filesFor user spec)
-      );
-    in
-    pkgs.symlinkJoin {
-      name = "${userName}-${progName}";
-      paths = [ spec.package ];
-      nativeBuildInputs = [ pkgs.makeWrapper ];
-      postBuild = ''
-        wrapProgram $out/bin/${spec.bin} ${spec.flags root}
-      '';
-
-      meta = {
-        mainProgram = spec.bin;
-        description = "${spec.package.meta.description or progName}, wrapped with ${userName}'s config";
+      names = resolve [ aspectName ];
+      ev = lib.evalModules {
+        specialArgs = {
+          inherit hjem-lib;
+          pkgs = hostPkgs;
+          name = "portable";
+          osConfig = null;
+          userEntry = null;
+        };
+        modules = [
+          "${inputs.hjem}/modules/common/user.nix"
+          inputs.hjem-rum.hjemModules.default
+          { directory = "/var/empty"; }
+          (wrapperModule names)
+        ]
+        ++ aspectsFor modulesFor.home names;
       };
-    };
-
-  wrappersFor =
-    fullName:
-    let
-      userName = removePrefix "users." fullName;
-      ev = standaloneUser fullName;
-      user = ev.config;
-      specs = candidates ev;
     in
-    map (
-      progName: nameValuePair "${userName}-${progName}" (wrap user userName progName specs.${progName})
-    ) (builtins.filter (progName: filesFor user specs.${progName} != { }) (attrNames specs));
+    ev.config.wrapped.${wrapperKey aspectName};
+
+  withWrapper = builtins.filter (n: all.${n}.wrapper or null != null) (builtins.attrNames all);
+  byKey = lib.groupBy wrapperKey withWrapper;
+
+  wrappers = lib.mapAttrs (
+    key: owners:
+    if builtins.length owners > 1 then
+      throw "wrapper: aspects ${toString owners} all export packages.${key}"
+    else
+      portable (builtins.head owners)
+  ) byKey;
 in
 {
-  packages = builtins.listToAttrs (concatMap wrappersFor userNames);
+  packages = wrappers;
+
+  checks.wrappers = pkgs.runCommand "check-wrappers" { } ''
+    export HOME=/var/empty
+    ${lib.concatMapStringsSep "\n" (
+      name:
+      let
+        p = wrappers.${name};
+      in
+      ''
+        echo "${name}: ${lib.getExe p} --version"
+        ${lib.getExe p} --version >/dev/null
+      ''
+    ) (builtins.attrNames wrappers)}
+    touch $out
+  '';
 }

@@ -21,8 +21,9 @@ WHY THE REVISION IS FORCED
   host as moved on every commit, and tells you nothing.
 
   So both sides are pinned to the same revision: REF is extracted with
-  `git archive` (which yields no .git) and handed a fake HEAD, and the working
-  tree is passed `--arg rev`. What survives that is real change.
+  `git checkout-index` into a scratch dir (no .git, and no tar needed) and
+  handed a fake HEAD, and the working tree is passed `--arg rev`. What
+  survives that is real change.
 
 VERDICTS
   MOVED     same output, different .drv - its closure changed
@@ -61,7 +62,10 @@ git -C "$repo" rev-parse --verify --quiet "$base^{commit}" >/dev/null || {
   exit 2
 }
 
-git -C "$repo" archive --format=tar "$base" | tar -x -C "$old"
+# a throwaway index, so the real one is never touched
+GIT_INDEX_FILE="$old/.index" git -C "$repo" read-tree "$base"
+GIT_INDEX_FILE="$old/.index" git -C "$repo" checkout-index --all --prefix="$old/"
+rm -f "$old/.index"
 
 mkdir -p "$old/.git"
 printf 'drvdiff' >"$old/.git/HEAD"

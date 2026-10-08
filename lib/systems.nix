@@ -25,16 +25,91 @@ let
       map (h: h.fleet.${layer}) (builtins.attrValues (removeAttrs config.hosts [ self ]))
     );
 
+  wrapperKey = n: lib.last (lib.splitString "." n);
+
+  wrapperModule =
+    names:
+    {
+      config,
+      lib,
+      pkgs,
+      osConfig,
+      userEntry,
+      ...
+    }@args:
+    let
+      withWrapper = filter (n: all.${n}.wrapper or null != null) names;
+      byKey = lib.groupBy wrapperKey withWrapper;
+
+      mkWrapped =
+        name:
+        {
+          package,
+          flags ? [ ],
+          env ? { },
+        }:
+        pkgs.symlinkJoin {
+          name = "${package.name}-wrapped";
+          paths = [ package ];
+          nativeBuildInputs = [ pkgs.makeBinaryWrapper ];
+          postBuild = ''
+            wrapProgram $out/bin/${package.meta.mainProgram or name} ${
+              lib.escapeShellArgs (
+                lib.concatMap (f: [
+                  "--add-flag"
+                  f
+                ]) flags
+                ++ lib.concatLists (
+                  lib.mapAttrsToList (k: v: [
+                    "--set"
+                    k
+                    v
+                  ]) env
+                )
+              )
+            }
+          '';
+          meta = package.meta or { };
+        };
+
+      build =
+        n:
+        let
+          r = all.${n}.wrapper args;
+        in
+        lib.hiPrio (if lib.isDerivation r then r else mkWrapped (wrapperKey n) r);
+    in
+    {
+      options.wrapped = lib.mkOption {
+        type = lib.types.lazyAttrsOf lib.types.package;
+        readOnly = true;
+        description = "Wrapped packages built from the selected aspects' `wrapper`, keyed by the aspect's last path segment.";
+      };
+
+      config = {
+        wrapped = lib.mapAttrs (
+          key: owners:
+          if builtins.length owners > 1 then
+            throw "wrapper: aspects ${toString owners} all export wrapped.${key}"
+          else
+            build (builtins.head owners)
+        ) byKey;
+        packages = lib.attrValues config.wrapped;
+      };
+    };
+
   mkHomeModules =
     hostName: host: userName:
     let
       user = all.${userName};
+      names = resolve [ userName ];
     in
     {
       _module.args.userEntry = user;
 
       imports =
-        aspectsFor modulesFor.home (resolve [ userName ])
+        aspectsFor modulesFor.home names
+        ++ [ (wrapperModule names) ]
         ++ optional (host.home != null) host.home
         ++ fleetFor "home" hostName;
     };
@@ -165,6 +240,8 @@ in
       classes
       commonOverlays
       fleetFor
+      wrapperKey
+      wrapperModule
       mkHomeModules
       commonModule
       hostModules

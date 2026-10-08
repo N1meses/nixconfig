@@ -44,11 +44,15 @@
         config =
           let
             mangoLib = import "${inputs.mango}/nix/lib.nix" lib;
-            autostartText = ''
-              ${pkgs.xwayland-satellite}/bin/xwayland-satellite &
-              dbus-update-activation-environment --all
-            ''
-            + lib.concatMapStrings (cmd: "${cmd} &\n") c.autoStart;
+            autostartText =
+              lib.concatMapStrings (k: "unset ${k}\n") (
+                lib.attrNames (lib.filterAttrs (_: v: v == "") c.environment)
+              )
+              + ''
+                ${pkgs.xwayland-satellite}/bin/xwayland-satellite &
+                dbus-update-activation-environment --all
+              ''
+              + lib.concatMapStrings (cmd: "${cmd} &\n") c.autoStart;
             settings = {
               monitorrule = lib.optionals (c.monitors != null) (
                 lib.mapAttrsToList (
@@ -196,7 +200,8 @@
                 "_JAVA_AWT_WM_NONREPARENTING,1"
                 "AWT_TOOLKIT,MToolkit"
                 "DISPLAY,:0"
-              ];
+              ]
+              ++ lib.mapAttrsToList (k: v: "${k},${v}") (lib.filterAttrs (_: v: v != "") c.environment);
             };
           in
           {

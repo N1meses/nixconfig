@@ -89,7 +89,8 @@ each file with arguments that throw.
 system, `formatter`, and `nixosModules`/`finixModules`/`homeModules` so another config
 can import a single aspect.
 
-**Wrappers** are derived. Every rum program a user enables that renders
-config files becomes `packages.<user>-<program>`, wrapped to read that user's generated
-config from the store. Only programs that ignore `XDG_CONFIG_HOME` need an entry in
-`lib/wrapper.nix`; there is currently one.
+**Wrappers** are opt-in per feature aspect: `wrapper = { config, osConfig, pkgs, ... }:`
+returns `{ package; flags; env; }` or a finished derivation, pointing the program at
+store config. Every user that selects the aspect gets it installed (`wrapped.<name>`,
+`lib/systems.nix`); `packages.<name>` is the same wrapper built from the aspect alone,
+with `osConfig` and `userEntry` null (`lib/wrapper.nix`).

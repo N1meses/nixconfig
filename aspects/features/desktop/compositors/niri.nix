@@ -157,6 +157,18 @@ let
 in
 {
   aspects.desktop.compositors.niri = {
+    wrapper =
+      {
+        config,
+        osConfig,
+        pkgs,
+        ...
+      }:
+      {
+        package = if osConfig == null then pkgs.niri else osConfig.programs.niri.package;
+        env.NIRI_CONFIG = "${config.xdg.config.files."niri/config.kdl".source}";
+      };
+
     nixos = { pkgs, ... }: {
       imports = [ inputs.niri-nix.nixosModules.default ];
       programs.niri = {
@@ -213,7 +225,8 @@ in
             QT_QPA_PLATFORMTHEME = "gtk3";
             ELECTRON_OZONE_PLATFORM_HINT = "auto";
             NVD_BACKEND = "direct";
-          };
+          }
+          // c.environment;
 
           prefer-no-csd = [ ];
 

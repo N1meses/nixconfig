@@ -17,13 +17,121 @@ let
     };
   };
   logoFile = distro: if distro == "nixos" then "nixowos.txt" else "finix.txt";
-  colorFlags = p: lib.concatStringsSep " " (lib.mapAttrsToList (n: c: "--logo-color-${n} '${c}'") p);
+  colorFlags =
+    p:
+    lib.concatLists (
+      lib.mapAttrsToList (n: c: [
+        "--logo-color-${n}"
+        c
+      ]) p
+    );
+  logos = {
+    nixos = ''
+      $1           ▗▄▄▄       $2▗▄▄▄▄    ▄▄▄▖
+      $1           ▜███▙       $2▜███▙  ▟███▛
+      $1            ▜███▙       $2▜███▙▟███▛       $1▗
+      $1     ▐▄      ▜███▙       $2▜██████▛    $1▄▄▞▀▛
+      $1      ▜▀▀▀▄▄  ▜█████████▙ $2▜████▛  $1▄█▛▀  ▗▘
+      $1       ▌   ▀█▄▟██████████▙ $2▜███▙$1▟█▛    ▗▞
+      $1       ▐  ▙▖▟$2▙▄▄▖           $2▜████$1▙▄▟▘  ▟▘
+      $1        ▜▖▝█$2███▛             $2▜██▛$1██▄▄▄▞▘
+      $1         ▝$2▟███▛ $4▀▚▄       ▄▞▀ $2▜▛ $1▟███▛
+      $2 ▟███████████▛ $4▗▄▄▞▘     ▝▚▄▄▖  $1▟██████████▙
+      $2 ▜██████████▛  $3/// $4▟▘ ▄ ▝▙ $3/// $1▟███████████▛
+      $2       ▟███▛ $1▟▙    $4▜▄▟▀▙▄▛    $1▟███▛
+      $2      ▟███▛ $1▟██▙             $1▟███▛      $5▄
+      $2     ▟███▛  $1▜███▙           $1▝▀▀▀▀  $5▗▄▛▀▀
+      $2     ▜██▛  ▗▌$1▜███▙ $2▜██████████████████▛
+      $2      ▜▛  ▗▛ $1▟████▙ $2▜████████████████▛
+      $2          ▝▌$1▟██████▙     $5▄▄$2▜███▙
+      $1           ▟███▛▜███▙$2▄▄▟$5▀▘  $2▜███▙
+      $1          ▟███▛$2▄▄$1▜███▙       $2▜███▙
+      $1          ▝▀▀▀    ▀▀▀▀▘       $2▀▀▀▘
+    '';
+    finix = ''
+      $1           ▗▄▄▄       $2▗▄▄▄▄    ▄▄▄▖
+      $1           ▜███▙       $2▜███▙  ▟███▛
+      $1            ▜███▙       $2▜███▙▟███▛    $1   ▗
+      $1     ▐▄      ▜███▙       $2▜██████▛   $1 ▄▄▞▀▛
+      $1      ▜▀▀▀▄▄  ▜█████████▙ $2▜████▛  $1▄█▛▀  ▗▘
+      $1       ▌   ▀█▄▟██████████▙ $2▜███▙$1▟█▛    ▗▞
+      $1       ▐  ▙▖▟$2▙▄▄▖           $2▜████$1▙▄▟▘  ▟▘
+      $1        ▜▖▝█$2███▛             $2▜██▛$1██▄▄▄▞▘
+      $1         ▝$2▟███▛$4▗▄▄▄       ▄▄▄▖$2▜▛ $1▟███▛
+      $2 ▟███████████▛     $4▀▘   ▝▀      $1▟██████████▙
+      $2 ▜██████████▛  $3/// $4▟▘ ▄ ▝▙ $3/// $1▟███████████▛
+      $2       ▟███▛ $1▟▙    $4▜▄▟▀▙▄▛    $1▟███▛
+      $2      ▟███▛ $1▟██▙             $1▟███▛      $5▄
+      $2     ▟███▛  $1▜███▙           $1▝▀▀▀▀  $5▗▄▛▀▀
+      $2     ▜██▛  ▗▌$1▜███▙ $2▜██████████████████▛
+      $2      ▜▛  ▗▛ $1▟████▙ $2▜████████████████▛
+      $2          ▝▌$1▟██████▙     $5▄▄$2▜███▙
+      $1           ▟███▛▜███▙$2▄▄▟$5▀▘  $2▜███▙
+      $1          ▟███▛$2▄▄$1▜███▙       $2▜███▙
+      $1          ▝▀▀▀    ▀▀▀▀▘       $2▀▀▀▘
+    '';
+  };
+  logoPath = pkgs: d: pkgs.writeText "fastfetch-${logoFile d}" logos.${d};
 in
 {
   aspects.desktop.apps.fastfetch = {
     description = "fastfetch system summary, configured for this fleet.";
+
+    wrapper =
+      { config, pkgs, ... }:
+      let
+        files = config.xdg.config.files;
+        args =
+          d:
+          lib.escapeShellArgs (
+            [
+              "--logo"
+              "${logoPath pkgs d}"
+            ]
+            ++ colorFlags palettes.${d}
+          );
+        script = pkgs.writeShellApplication {
+          name = "fastfetch";
+          text =
+            if config.art.logo == "auto" then
+              ''
+                id=
+                if [ -r /etc/os-release ]; then
+                  while IFS='=' read -r k v; do
+                    if [ "$k" = ID ]; then id=''${v//\"/}; fi
+                  done </etc/os-release
+                fi
+                if [ "$id" = finix ]; then
+                  set -- ${args "finix"} "$@"
+                else
+                  set -- ${args "nixos"} "$@"
+                fi
+                exec ${lib.getExe pkgs.fastfetch} --config ${files."fastfetch/config.jsonc".source} "$@"
+              ''
+            else
+              ''
+                exec ${lib.getExe pkgs.fastfetch} --config ${
+                  files."fastfetch/config.jsonc".source
+                } ${args config.art.logo} "$@"
+              '';
+        };
+      in
+      pkgs.symlinkJoin {
+        name = "fastfetch-wrapped";
+        paths = [
+          script
+          pkgs.fastfetch
+        ];
+        meta.mainProgram = "fastfetch";
+      };
+
     home =
-      { config, lib, ... }:
+      {
+        config,
+        lib,
+        pkgs,
+        ...
+      }:
       let
         sel = config.art.logo;
         fallback = if sel == "auto" then "finix" else sel;
@@ -39,20 +147,21 @@ in
           description = ''
             Which distro logo fastfetch displays.
             "auto" (default) detects the running distro from /etc/os-release at
-            launch, via a zsh fastfetch wrapper — no per-host wiring, and correct
-            wherever hjem is deployed. "finix"/"nixos" pin the choice at build time.
+            launch, in the wrapper — no per-host wiring, and correct wherever
+            the package runs. "finix"/"nixos" pin the choice at build time.
           '';
         };
 
         config = {
           rum.programs.fastfetch = {
             enable = true;
+            package = null;
             settings = {
               display = {
                 disableLinewrap = true;
               };
               logo = {
-                source = "${config.xdg.config.directory}/fastfetch/${logoFile fallback}";
+                source = "${logoPath pkgs fallback}";
                 type = "file";
                 width = 46;
                 height = 20;
@@ -104,69 +213,6 @@ in
               ];
             };
           };
-
-          rum.programs.zsh.initConfig = lib.mkIf (sel == "auto") (
-            lib.mkBefore (
-              "\n"
-              + ''
-                fastfetch() {
-                  emulate -L zsh
-                  local dir="''${XDG_CONFIG_HOME:-$HOME/.config}/fastfetch"
-                  if grep -q '^ID=finix' /etc/os-release 2>/dev/null; then
-                    command fastfetch --logo "$dir/finix.txt" ${colorFlags palettes.finix} "$@"
-                  else
-                    command fastfetch --logo "$dir/nixowos.txt" ${colorFlags palettes.nixos} "$@"
-                  fi
-                }
-              ''
-            )
-          );
-
-          xdg.config.files."fastfetch/nixowos.txt".text = ''
-            $1           ▗▄▄▄       $2▗▄▄▄▄    ▄▄▄▖
-            $1           ▜███▙       $2▜███▙  ▟███▛
-            $1            ▜███▙       $2▜███▙▟███▛       $1▗
-            $1     ▐▄      ▜███▙       $2▜██████▛    $1▄▄▞▀▛
-            $1      ▜▀▀▀▄▄  ▜█████████▙ $2▜████▛  $1▄█▛▀  ▗▘
-            $1       ▌   ▀█▄▟██████████▙ $2▜███▙$1▟█▛    ▗▞
-            $1       ▐  ▙▖▟$2▙▄▄▖           $2▜████$1▙▄▟▘  ▟▘
-            $1        ▜▖▝█$2███▛             $2▜██▛$1██▄▄▄▞▘
-            $1         ▝$2▟███▛ $4▀▚▄       ▄▞▀ $2▜▛ $1▟███▛
-            $2 ▟███████████▛ $4▗▄▄▞▘     ▝▚▄▄▖  $1▟██████████▙
-            $2 ▜██████████▛  $3/// $4▟▘ ▄ ▝▙ $3/// $1▟███████████▛
-            $2       ▟███▛ $1▟▙    $4▜▄▟▀▙▄▛    $1▟███▛
-            $2      ▟███▛ $1▟██▙             $1▟███▛      $5▄
-            $2     ▟███▛  $1▜███▙           $1▝▀▀▀▀  $5▗▄▛▀▀
-            $2     ▜██▛  ▗▌$1▜███▙ $2▜██████████████████▛
-            $2      ▜▛  ▗▛ $1▟████▙ $2▜████████████████▛
-            $2          ▝▌$1▟██████▙     $5▄▄$2▜███▙
-            $1           ▟███▛▜███▙$2▄▄▟$5▀▘  $2▜███▙
-            $1          ▟███▛$2▄▄$1▜███▙       $2▜███▙
-            $1          ▝▀▀▀    ▀▀▀▀▘       $2▀▀▀▘
-          '';
-
-          xdg.config.files."fastfetch/finix.txt".text = ''
-            $1           ▗▄▄▄       $2▗▄▄▄▄    ▄▄▄▖
-            $1           ▜███▙       $2▜███▙  ▟███▛
-            $1            ▜███▙       $2▜███▙▟███▛    $1   ▗
-            $1     ▐▄      ▜███▙       $2▜██████▛   $1 ▄▄▞▀▛
-            $1      ▜▀▀▀▄▄  ▜█████████▙ $2▜████▛  $1▄█▛▀  ▗▘
-            $1       ▌   ▀█▄▟██████████▙ $2▜███▙$1▟█▛    ▗▞
-            $1       ▐  ▙▖▟$2▙▄▄▖           $2▜████$1▙▄▟▘  ▟▘
-            $1        ▜▖▝█$2███▛             $2▜██▛$1██▄▄▄▞▘
-            $1         ▝$2▟███▛$4▗▄▄▄       ▄▄▄▖$2▜▛ $1▟███▛
-            $2 ▟███████████▛     $4▀▘   ▝▀      $1▟██████████▙
-            $2 ▜██████████▛  $3/// $4▟▘ ▄ ▝▙ $3/// $1▟███████████▛
-            $2       ▟███▛ $1▟▙    $4▜▄▟▀▙▄▛    $1▟███▛
-            $2      ▟███▛ $1▟██▙             $1▟███▛      $5▄
-            $2     ▟███▛  $1▜███▙           $1▝▀▀▀▀  $5▗▄▛▀▀
-            $2     ▜██▛  ▗▌$1▜███▙ $2▜██████████████████▛
-            $2      ▜▛  ▗▛ $1▟████▙ $2▜████████████████▛
-            $2          ▝▌$1▟██████▙     $5▄▄$2▜███▙
-            $1           ▟███▛▜███▙$2▄▄▟$5▀▘  $2▜███▙
-            $1          ▟███▛$2▄▄$1▜███▙       $2▜███▙
-            $1          ▝▀▀▀    ▀▀▀▀▘       $2▀▀▀▘
-          '';
         };
       };
   };

@@ -53,9 +53,19 @@
           end
         '';
 
+        cleared = lib.attrNames (lib.filterAttrs (_: v: v == "") c.environment);
+        kept = lib.filterAttrs (_: v: v != "") c.environment;
+        unsetPrefix = lib.concatMapStrings (k: "unset ${k}; ") cleared;
+
+        envBlock = lib.optionalString (kept != { }) ''
+          env:
+          ${lib.concatStringsSep "\n" (lib.mapAttrsToList (k: v: "  ${k} \"${v}\"") kept)}
+          end
+        '';
+
         autostartBlock = lib.optionalString (c.autoStart != [ ]) ''
           autostart:
-          ${lib.concatMapStringsSep "\n" (cmd: "  once \"${cmd}\"") c.autoStart}
+          ${lib.concatMapStringsSep "\n" (cmd: "  once \"${unsetPrefix}${cmd}\"") c.autoStart}
           end
         '';
 
@@ -179,6 +189,7 @@
             end
 
             ${monitorsBlock}
+            ${envBlock}
             ${autostartBlock}
             keybinds:
               mod "super"

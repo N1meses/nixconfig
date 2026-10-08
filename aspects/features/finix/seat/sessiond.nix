@@ -4,20 +4,29 @@ let
 in
 {
   aspects.finix.seat.sessiond = {
-    finix = _: {
-      imports = [
-        modules.sessiond-uaccess
-      ];
+    finix =
+      { lib, ... }:
+      {
+        imports = [
+          modules.sessiond-uaccess
+        ];
 
-      services = {
-        seatd.enable = true;
-        sessiond.enable = true;
-        sessiond-uaccess.enable = true;
+        services = {
+          seatd.enable = true;
+          sessiond.enable = true;
+          sessiond-uaccess.enable = true;
+        };
+
+        hjem.extraModules = [
+          (
+            { options, ... }:
+            {
+              config = lib.optionalAttrs (options ? features.compositors) {
+                features.compositors.environment.XDG_SESSION_ID = "";
+              };
+            }
+          )
+        ];
       };
-    };
-
-    home = _: {
-      features.compositors.autoStart = [ "unset XDG_SESSION_ID" ];
-    };
   };
 }

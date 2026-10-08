@@ -218,6 +218,12 @@ _: {
             default = [ ];
             description = "Commands to autostart with any active compositor.";
           };
+
+          environment = lib.mkOption {
+            type = lib.types.attrsOf lib.types.str;
+            default = { };
+            description = "Variables every compositor exports to everything it launches (autostart and binds). An empty value clears an inherited one.";
+          };
         };
 
         config = {

@@ -34,13 +34,22 @@ in
   aspects.desktop.noctalia = {
     description = "The noctalia desktop shell (bar, launcher, control centre).";
     includes = with config.aspectLib.aspectNames; [ desktop.compositors.compositors ];
-    home = { pkgs, ... }: {
+
+    wrapper =
+      { config, pkgs, ... }:
+      {
+        package = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
+        env.NOCTALIA_CONFIG_HOME = "${pkgs.linkFarm "noctalia-config" [
+          {
+            name = "noctalia/settings.toml";
+            path = config.xdg.config.files."noctalia/settings.toml".source;
+          }
+        ]}";
+      };
+
+    home = _: {
       imports = [
         flakeConfig.aspectLib.all."desktop.noctaliaSettings".home
-      ];
-
-      packages = [
-        inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
       ];
 
       rum.programs.foot.settings.main.include = "~/.config/foot/themes/noctalia";

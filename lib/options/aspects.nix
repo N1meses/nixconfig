@@ -51,7 +51,13 @@ let
 
   aspectType = t.submodule {
     freeformType = t.lazyAttrsOf aspectType;
-    options = common;
+    options = common // {
+      wrapper = lib.mkOption {
+        type = t.nullOr (t.functionTo t.raw);
+        default = null;
+        description = "Portable wrapper for this feature's program. Called with the home module args ({ config, osConfig, pkgs, lib, ... }); returns { package; flags ? [ ]; env ? { }; } or a finished derivation.";
+      };
+    };
   };
 
   hostType = t.submodule {

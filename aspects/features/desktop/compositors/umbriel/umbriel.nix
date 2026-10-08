@@ -16,6 +16,37 @@ in
       desktop.services.portals
     ];
 
+    wrapper =
+      {
+        config,
+        osConfig,
+        pkgs,
+        lib,
+        ...
+      }:
+      let
+        base = if osConfig == null then pkgs.umbriel else osConfig.programs.umbriel.package;
+        cfg = config.xdg.config.files."umbriel/config.toml".source;
+        script = pkgs.writeShellApplication {
+          name = "umbriel";
+          text = ''
+            case "''${1:-}" in
+              -h | --help | -v | -V | --version) exec ${lib.getExe base} "$@" ;;
+              "" | -*) exec ${lib.getExe base} -c ${cfg} "$@" ;;
+              *) exec ${lib.getExe base} "$@" ;;
+            esac
+          '';
+        };
+      in
+      pkgs.symlinkJoin {
+        name = "umbriel-wrapped";
+        paths = [
+          script
+          base
+        ];
+        meta.mainProgram = "umbriel";
+      };
+
     nixos = { pkgs, ... }: {
       imports = [ inputs.umbriel.nixosModules.default ];
       programs.umbriel = {
@@ -94,6 +125,7 @@ in
         config = {
           programs.umbriel = {
             enable = true;
+            package = null;
             settings = null;
           };
 
@@ -134,7 +166,8 @@ in
               QT_QPA_PLATFORMTHEME = "gtk3";
               ELECTRON_OZONE_PLATFORM_HINT = "auto";
               NVD_BACKEND = "direct";
-            };
+            }
+            // c.environment;
 
             input = {
               keyboard.layout = c.keyboard.layout;
