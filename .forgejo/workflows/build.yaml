@@ -4,7 +4,7 @@ on:
     branches: [main]
 jobs:
   build:
-    runs-on: nix # matches the runner label `nix:host`
+    runs-on: nix
     steps:
       - uses: actions/checkout@v4
         with:

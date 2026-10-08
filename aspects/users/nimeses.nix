@@ -35,6 +35,7 @@
         nh
         steam
         inputs.deploy-rs.packages.${pkgs.stdenv.hostPlatform.system}.default
+        libreoffice
       ];
     };
   };

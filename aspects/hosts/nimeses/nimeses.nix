@@ -24,6 +24,8 @@ in
       bundle.desktop
       desktop.services.ly
       profile.laptop
+      profile.virtualisation
+      finix.docker
 
       finix.doas
       finix.session
@@ -36,6 +38,8 @@ in
     extraGroups = [
       "seat"
       "video"
+      "incus-admin"
+      "docker"
     ];
 
     finix = { pkgs, ... }: {

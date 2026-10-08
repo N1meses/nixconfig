@@ -70,7 +70,7 @@ in
           enable = true;
 
           plugins = with pkgs.nushellPlugins; [
-            polars
+            #polars
             query
             skim
             gstat

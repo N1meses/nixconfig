@@ -60,7 +60,23 @@ in
       };
 
     finix =
-      { pkgs, ... }:
+      { config, pkgs, ... }:
+      let
+        ovmf = pkgs.linkFarm "incus-ovmf" [
+          {
+            name = "OVMF_CODE.4MB.fd";
+            path = "${pkgs.OVMFFull.fd}/FV/OVMF_CODE.fd";
+          }
+          {
+            name = "OVMF_VARS.4MB.fd";
+            path = "${pkgs.OVMFFull.fd}/FV/OVMF_VARS.fd";
+          }
+          {
+            name = "OVMF_VARS.4MB.ms.fd";
+            path = "${pkgs.OVMFFull.fd}/FV/OVMF_VARS.fd";
+          }
+        ];
+      in
       {
         imports = [
           modules.incus
@@ -69,6 +85,12 @@ in
 
         services.sysklogd.enable = true;
         services.incus.enable = true;
+
+        finit.services.incusd.environment = {
+          INCUS_EDK2_PATH = "${ovmf}";
+          INCUS_AGENT_PATH = "${config.services.incus.package}/share/agent";
+          INCUS_LXC_TEMPLATE_CONFIG = "${pkgs.lxcfs}/share/lxc/config";
+        };
 
         finit.tmpfiles.rules = [
           "L+ /var/lib/qemu/firmware - - - - ${pkgs.qemu}/share/qemu/firmware"

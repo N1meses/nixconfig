@@ -12,7 +12,6 @@ in
       ];
       services.sysklogd.enable = true;
       services.docker.enable = true;
-      services.docker.settings.storage-driver = "zfs";
     };
   };
 }
