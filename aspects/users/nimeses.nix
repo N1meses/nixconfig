@@ -19,6 +19,7 @@
       desktop.compositors.umbriel
       dev.languages.nix
       dev.editors.zed
+      dev.editors.emacs
       desktop.apps.term.kitty
       desktop.apps.browser.glide
       dev.languages.python

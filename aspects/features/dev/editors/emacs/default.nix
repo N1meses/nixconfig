@@ -1,0 +1,97 @@
+{ inputs, ... }:
+{
+  aspects.dev.editors.emacs = {
+    description = "GNU Emacs with packages and init baked into one wrapped package.";
+
+    wrapper =
+      { config, pkgs, ... }:
+      let
+        cfg = config.editors.emacs;
+        emacs = (pkgs.emacsPackagesFor (cfg.base pkgs)).withPackages cfg.packages;
+        initDir = pkgs.linkFarm "emacs-init" [
+          {
+            name = "early-init.el";
+            path = pkgs.writeText "early-init.el" cfg.earlyInit;
+          }
+          {
+            name = "init.el";
+            path = pkgs.writeText "init.el" cfg.init;
+          }
+        ];
+      in
+      {
+        package = emacs;
+        flags = [
+          "--init-directory"
+          "${initDir}"
+        ];
+      };
+
+    home =
+      { lib, pkgs, ... }:
+      let
+        noxTheme =
+          epkgs:
+          epkgs.trivialBuild {
+            pname = "nox-theme";
+            version = "0";
+            src = pkgs.linkFarm "nox-theme-src" [
+              {
+                name = "nox-default-theme.el";
+                path = pkgs.writeText "nox-default-theme.el" (
+                  import "${inputs.self}/assets/themes/nox/to-emacs.nix"
+                );
+              }
+              {
+                name = "nox-theme.el";
+                path = pkgs.writeText "nox-theme.el" ''
+                  ;;; nox-theme.el --- -*- lexical-binding: t -*-
+                  (add-to-list 'custom-theme-load-path
+                               (file-name-directory (or load-file-name buffer-file-name)))
+                  ;; Helix scopes Emacs has no face for; coloured by nox-default.
+                  (defface nox-type-builtin-face '((t :inherit font-lock-type-face))
+                    "Builtin/primitive types (helix `type.builtin').")
+                  (defface nox-namespace-face '((t :inherit font-lock-constant-face))
+                    "Modules and paths (helix `namespace').")
+                  (defface nox-variable-builtin-face '((t :inherit font-lock-builtin-face))
+                    "Builtin variables like `builtins', `self' (helix `variable.builtin').")
+                  (provide 'nox-theme)
+                '';
+              }
+            ];
+          };
+      in
+      {
+        options.editors.emacs = {
+          base = lib.mkOption {
+            type = lib.types.functionTo lib.types.package;
+            default = p: p.emacs-pgtk;
+            description = "Emacs build to wrap, picked from pkgs.";
+          };
+          packages = lib.mkOption {
+            type = lib.types.functionTo (lib.types.listOf lib.types.package);
+            default = _: [ ];
+            description = "Emacs packages, passed to withPackages.";
+          };
+          earlyInit = lib.mkOption {
+            type = lib.types.lines;
+            description = "Contents of early-init.el.";
+          };
+          init = lib.mkOption {
+            type = lib.types.lines;
+            description = "Contents of init.el.";
+          };
+        };
+
+        config.editors.emacs = {
+          packages = epkgs: [
+            (noxTheme epkgs)
+            epkgs.treesit-grammars.with-all-grammars
+            epkgs.nix-ts-mode
+          ];
+          earlyInit = lib.mkBefore (builtins.readFile ./early-init.el);
+          init = lib.mkBefore (builtins.readFile ./init.el);
+        };
+      };
+  };
+}
