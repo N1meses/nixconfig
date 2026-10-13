@@ -5,7 +5,7 @@
 
 # Module Library
 
-126 aspects.
+127 aspects.
 
 An aspect declares any subset of the layer slots `nixos`, `finix`, `home`, plus an
 optional `includes` list. A host names it once; the builder routes it to whichever
@@ -58,6 +58,7 @@ to pull in the names it includes.
 | `desktop.services.userServices` | home | Per-user session services: automounting and notifications. | - |
 | `desktop.tools.screenshot` | home | Screenshot and screen-recording tools. | - |
 | `desktop.tools.wallpaper` | home | Wallpaper daemon and the wallpaper source directory. | `desktop.compositors.compositors` |
+| `dev.editors.emacs` | home | GNU Emacs with packages and init baked into one wrapped package. | - |
 | `dev.editors.gram` | home | gram editor a llm free zed fork | - |
 | `dev.editors.helix` | home | The Helix editor, with theme and language-server registry. | - |
 | `dev.editors.zed` | home | The Zed editor, set as $VISUAL, themed with nox-default. | - |
