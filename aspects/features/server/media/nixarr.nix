@@ -101,6 +101,5 @@
   pins.nixarr = {
     type = "git";
     url = "https://github.com/nix-media-server/nixarr";
-    ref = "refs/pull/184/head";
   };
 }
