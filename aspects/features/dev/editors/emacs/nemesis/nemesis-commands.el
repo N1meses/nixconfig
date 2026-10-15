@@ -103,12 +103,40 @@ Without a selection, replace the character after point."
   (end-of-line)
   (newline-and-indent))
 
+(defconst nemesis--tty-esc-o-keys
+  '((?A . up) (?B . down) (?C . right) (?D . left) (?H . home) (?F . end)
+    (?P . f1) (?Q . f2) (?R . f3) (?S . f4))
+  "Keys a terminal sends as ESC O <char>, which Emacs reads as M-O <char>.")
+
+(defun nemesis--tty-esc-o-key ()
+  "Return the terminal key this M-O starts, or nil for a real M-O.
+The rest of an escape sequence is already waiting; a typed M-O is not."
+  (unless (display-graphic-p)
+    (let ((next (read-event nil nil 0.01)))
+      (or (alist-get next nemesis--tty-esc-o-keys)
+          (progn (when next (push next unread-command-events))
+                 nil)))))
+
+(defvar mc--executing-command-for-fake-cursor)
+
+(defvar nemesis--esc-o-key nil
+  "What the real cursor's last `nemesis-open-above' decoded, for fake cursors.")
+
 (defun nemesis-open-above ()
-  "Open a new indented line above the current one."
+  "Open a new indented line above the current one.
+In a terminal, an arrow, Home/End or F1-F4 key that arrives as ESC O
+<char> runs as that key instead."
   (interactive)
-  (beginning-of-line)
-  (open-line 1)
-  (indent-according-to-mode))
+  (let* ((fake (bound-and-true-p mc--executing-command-for-fake-cursor))
+         (key (if fake
+                  nemesis--esc-o-key
+                (setq nemesis--esc-o-key (nemesis--tty-esc-o-key)))))
+    (cond ((null key)
+           (beginning-of-line)
+           (open-line 1)
+           (indent-according-to-mode))
+          ((not fake)
+           (push key unread-command-events)))))
 
 ;;;; Goto
 
@@ -145,6 +173,14 @@ Without a selection, replace the character after point."
   (goto-char (point-min))
   (forward-line (1- (max line 1))))
 
+(defun nemesis--read-keys (prompt)
+  "Read one key sequence with PROMPT and return its events as a list.
+Terminals send Alt+key as ESC key, which comes back as one Alt event."
+  (let ((keys (read-key-sequence-vector prompt)))
+    (if (and (= (length keys) 2) (eq (aref keys 0) ?\e) (integerp (aref keys 1)))
+        (list (event-apply-modifier (aref keys 1) 'meta 27 "M-"))
+      (append keys nil))))
+
 (defun nemesis-goto-line-live ()
   "Go to a line by number, jumping on every digit typed.
 The number starts with the digit of the key that ran this command.
@@ -157,12 +193,13 @@ RET ends.  Any other key ends and then runs as usual."
       (push-mark nil t))
     (while (not done)
       (nemesis--goto-line line)
-      (let* ((key (read-key (format "Line: %d" line)))
-             (digit (nemesis--digit key)))
+      (let* ((keys (nemesis--read-keys (format "Line: %d" line)))
+             (key (and (null (cdr keys)) (car keys)))
+             (digit (and key (nemesis--digit key))))
         (cond (digit (setq line (+ (* line 10) digit)))
               ((memq key '(?\d backspace)) (setq line (/ line 10)))
               ((memq key '(?\r return)) (setq done t))
-              (t (push key unread-command-events)
+              (t (setq unread-command-events (append keys unread-command-events))
                  (setq done t)))))))
 
 ;;;; Search

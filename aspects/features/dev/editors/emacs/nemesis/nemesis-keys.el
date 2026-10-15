@@ -35,7 +35,8 @@
                      ("d" . xref-find-definitions)
                      ("r" . xref-find-references)
                      ("g" . find-file-at-point)
-                     ("i" . consult-imenu)))
+                     ("i" . consult-imenu)
+                     ("w" . avy-goto-word-0)))
       (keymap-set map key cmd)
       (keymap-set map (concat "M-" key) cmd))
     (dotimes (digit 10)
@@ -121,7 +122,7 @@
   "M-k" #'previous-line
   "M-l" #'forward-char
   "M-H" #'backward-word
-  "M-L" #'forward-to-word
+  "M-L" #'forward-word
   "M-J" #'forward-paragraph
   "M-K" #'backward-paragraph
   "M-b" #'pop-to-mark-command

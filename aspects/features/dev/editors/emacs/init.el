@@ -123,7 +123,23 @@ floating window rule."
 (global-auto-revert-mode 1)             ; reload files changed on disk
 (setq isearch-lazy-count t)             ; "3/12" while searching
 (vertico-mode 1)
+(marginalia-mode 1)                     ; details next to vertico candidates
 (setq completion-styles '(orderless basic))
+
+;; Completion popup while typing (fed by eglot).  In the popup M-j / M-k
+;; move (corfu remaps next-line / previous-line), RET inserts, C-g closes.
+(setq corfu-auto t)
+(global-corfu-mode 1)
+
+;; Indentation guides in code buffers.  nix-ts-mode counts as nix-mode, and
+;; indent-bars checks nix-mode (tab-width, 8) before nix-ts-mode, so give it
+;; the real offset (2).
+(defun my/indent-bars ()
+  "Turn on `indent-bars-mode' with the right spacing for this mode."
+  (when (derived-mode-p 'nix-ts-mode)
+    (setq-local indent-bars-spacing-override nix-ts-mode-indent-offset))
+  (indent-bars-mode 1))
+(add-hook 'prog-mode-hook #'my/indent-bars)
 
 ;; LSP: eglot (built in).  Python needs no entry: eglot's default list picks
 ;; pyright-langserver.  Rust prefers a rust-analyzer on exec-path (project

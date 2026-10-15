@@ -21,6 +21,8 @@
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
+;; GUI font: same as the terminals (kitty/foot/ghostty). -12 = 12 pt.
+(push '(font . "IBM Plex Mono-12") default-frame-alist)
 (setq menu-bar-mode nil
       tool-bar-mode nil
       scroll-bar-mode nil)

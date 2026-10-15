@@ -41,6 +41,7 @@
               expreg
               surround
               consult
+              avy
             ];
             turnCompilationWarningToError = true;
           };
@@ -98,26 +99,35 @@
           };
         };
 
-        config.editors.emacs = {
-          packages = epkgs: [
-            (noxTheme epkgs)
-            (nemesis epkgs)
-            epkgs.treesit-grammars.with-all-grammars
-            epkgs.nix-ts-mode
-            epkgs.vertico
-            epkgs.orderless
-            epkgs.envrc
-          ];
-          earlyInit = lib.mkBefore (builtins.readFile ./early-init.el);
-          init = lib.mkMerge [
-            (lib.mkBefore (builtins.readFile ./init.el))
-            # After init.el: its first line must stay the lexical-binding cookie.
-            (lib.mkAfter ''
-              (defconst my/rust-analyzer "${pkgs.rust-analyzer}/bin/rust-analyzer"
+        config = {
+	  rum.programs.nushell.aliases = {
+	    em = "emacs -nw";
+	  };
+
+	  editors.emacs = {
+            packages = epkgs: [
+              (noxTheme epkgs)
+              (nemesis epkgs)
+              epkgs.treesit-grammars.with-all-grammars
+              epkgs.nix-ts-mode
+              epkgs.vertico
+              epkgs.orderless
+              epkgs.envrc
+              epkgs.corfu
+              epkgs.marginalia
+              epkgs.indent-bars
+            ];
+            earlyInit = lib.mkBefore (builtins.readFile ./early-init.el);
+            init = lib.mkMerge [
+              (lib.mkBefore (builtins.readFile ./init.el))
+              # After init.el: its first line must stay the lexical-binding cookie.
+              (lib.mkAfter ''
+		(defconst my/rust-analyzer "${pkgs.rust-analyzer}/bin/rust-analyzer"
                 "rust-analyzer from nixpkgs, for when none is on `exec-path'.")
-            '')
-          ];
-        };
+              '')
+            ];
+          };  
+	};
       };
   };
 }

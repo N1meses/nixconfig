@@ -63,7 +63,8 @@ Searches the selection, or the whole buffer without one."
     nemesis-window-middle nemesis-window-bottom nemesis-close
     nemesis-split-dwindle nemesis-copy-file-path nemesis-delete-this-file
     mark-whole-buffer pop-to-mark-command scroll-up-command scroll-down-command
-    beginning-of-buffer end-of-buffer save-buffer save-some-buffers)
+    beginning-of-buffer end-of-buffer save-buffer save-some-buffers
+    avy-goto-word-0)
   "Commands only the real cursor runs.")
 
 (dolist (cmd nemesis--mc-run-for-all)
