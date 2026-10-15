@@ -116,6 +116,7 @@
               epkgs.corfu
               epkgs.marginalia
               epkgs.indent-bars
+              epkgs.eldoc-box
             ];
             earlyInit = lib.mkBefore (builtins.readFile ./early-init.el);
             init = lib.mkMerge [

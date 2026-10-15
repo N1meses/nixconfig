@@ -18,11 +18,10 @@
       bundle.desktop
       desktop.compositors.umbriel
       dev.languages.nix
-      dev.editors.zed
+      dev.languages.python
       dev.editors.emacs
       desktop.apps.term.kitty
       desktop.apps.browser.glide
-      dev.languages.python
       dev.tools.direnv
       shell.nushell
     ];

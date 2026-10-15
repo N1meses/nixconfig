@@ -154,6 +154,126 @@ floating window rule."
 (dolist (hook '(nix-ts-mode-hook python-ts-mode-hook rust-ts-mode-hook))
   (add-hook hook #'eglot-ensure))
 
+;; LSP hover docs (signature, parameters, docs) in a popup at the cursor.
+;; GUI only: the popup is a child frame; the terminal keeps the echo area.
+;; C-l h turns the always-on popup off / on, C-l k shows it once.
+(defvar my/eldoc-box-auto t
+  "Non-nil: the docs popup follows the cursor in eglot buffers.")
+
+(defun my/eldoc-box ()
+  "Follow eglot: docs popup at point while eglot manages the buffer."
+  (eldoc-box-hover-at-point-mode
+   (if (and my/eldoc-box-auto (display-graphic-p) (eglot-managed-p)) 1 -1)))
+(add-hook 'eglot-managed-mode-hook #'my/eldoc-box)
+
+(defun my/eldoc-box-toggle ()
+  "Turn the always-on docs popup off or on, in every eglot buffer."
+  (interactive)
+  (setq my/eldoc-box-auto (not my/eldoc-box-auto))
+  (dolist (buffer (buffer-list))
+    (with-current-buffer buffer
+      (when (eglot-managed-p)
+        (my/eldoc-box))))
+  (message "Docs popup %s" (if my/eldoc-box-auto "follows the cursor" "off")))
+
+(defun my/doc-at-point ()
+  "Show the docs at point once: popup in the GUI, echo area in a terminal."
+  (interactive)
+  (if (display-graphic-p)
+      (eldoc-box-help-at-point)
+    (eldoc)))
+
+(with-eval-after-load 'nemesis-keys
+  (keymap-set nemesis-lsp-map "k" #'my/doc-at-point)
+  (keymap-set nemesis-lsp-map "h" #'my/eldoc-box-toggle))
+
+;; Popup border: eldoc-box defaults to white; use the theme's dim grey.
+(with-eval-after-load 'eldoc-box
+  (set-face-attribute 'eldoc-box-border nil
+                      :background (face-foreground 'shadow nil t)))
+
+;; Semantic tokens: rust-analyzer marks std items (parse, unwrap_or) as
+;; defaultLibrary, which eglot paints as builtin (purple).  Empty that face so
+;; they keep the normal method / function colour.
+(with-eval-after-load 'eglot
+  (face-spec-set 'eglot-semantic-defaultLibrary '((t :inherit nil)))
+  ;; Hover docs are markdown; render them with the built-in tree-sitter
+  ;; markdown mode so code blocks get syntax colours (default: plain text).
+  (require 'markdown-ts-mode)
+  (defun my/doc-view-mode ()
+    "Render LSP docs: `markdown-ts-view-mode', prose as doc comments.
+Paragraphs get `font-lock-doc-face' (like Rust ///) appended, so code
+blocks keep their syntax colours and links / code spans their faces."
+    (markdown-ts-view-mode)
+    (setq-local treesit-font-lock-settings
+                (append treesit-font-lock-settings
+                        (treesit-font-lock-rules
+                         :language 'markdown :override 'append
+                         :feature 'doc-prose
+                         '((paragraph) @font-lock-doc-face))))
+    (setf (car treesit-font-lock-feature-list)
+          (append (car treesit-font-lock-feature-list) '(doc-prose)))
+    (treesit-font-lock-recompute-features))
+  (setq eglot-documentation-renderer #'my/doc-view-mode)
+
+  ;; The signature line (signatureHelp) is plain text with only the function
+  ;; name and the active parameter marked.  Colour it with the buffer's own
+  ;; major mode; the active parameter stays bold on top.
+  (defun my/eglot-colour-signature (orig &rest args)
+    "Around `eglot--sig-info': syntax-colour the signature's first line."
+    (let ((info (apply orig args))
+          (mode major-mode))
+      (if (not (and (stringp info) (provided-mode-derived-p mode 'prog-mode)))
+          info
+        (let* ((eol (or (string-search "\n" info) (length info)))
+               (label (with-temp-buffer
+                        (insert (substring-no-properties info 0 eol))
+                        (delay-mode-hooks (funcall mode))
+                        (font-lock-ensure)
+                        (buffer-string))))
+          (dotimes (i eol)
+            (let ((face (get-text-property i 'face info)))
+              (when (memq 'eldoc-highlight-function-argument (ensure-list face))
+                (add-face-text-property i (1+ i) 'eldoc-highlight-function-argument
+                                        nil label))))
+          (concat label (substring info eol))))))
+  (advice-add 'eglot--sig-info :around #'my/eglot-colour-signature)
+
+  ;; Inlay hints: eglot 31.1 fetches them once when text is displayed and
+  ;; has no handler for workspace/inlayHint/refresh.  A just-opened Rust file
+  ;; gets nothing while rust-analyzer still indexes, and hints only appear
+  ;; after an edit.  Tell servers we take refreshes, and refetch on one.
+  (cl-defmethod eglot-client-capabilities :around (_server)
+    (let ((caps (cl-call-next-method)))
+      (plist-put caps :workspace
+                 (plist-put (plist-get caps :workspace)
+                            :inlayHint '(:refreshSupport t)))))
+  (defun my/eglot-refetch-hints (server)
+    "Refetch inlay hints for the visible part of SERVER's buffers.
+Calls the fetch directly: going through jit-lock would be dropped,
+because eglot skips a region equal to the last one it fetched."
+    (dolist (buffer (eglot--managed-buffers server))
+      (with-current-buffer buffer
+        (when eglot-inlay-hints-mode
+          (dolist (window (get-buffer-window-list buffer nil t))
+            (eglot--update-hints-1 (window-start window)
+                                   (window-end window t)))))))
+  (cl-defmethod eglot-handle-request
+    (server (_method (eql workspace/inlayHint/refresh)))
+    "Refetch inlay hints when SERVER asks for it."
+    (my/eglot-refetch-hints server)
+    nil)
+  ;; rust-analyzer sends that refresh too early (hints still empty) and not
+  ;; again, so also refetch when a server progress report (indexing, build
+  ;; scripts) ends.  Debounced: several end at once.
+  (defvar my/eglot-hints-timer nil)
+  (cl-defmethod eglot-handle-notification :after
+    (server (_method (eql $/progress)) &key value &allow-other-keys)
+    (when (equal (plist-get value :kind) "end")
+      (when my/eglot-hints-timer (cancel-timer my/eglot-hints-timer))
+      (setq my/eglot-hints-timer
+            (run-at-time 0.5 nil #'my/eglot-refetch-hints server)))))
+
 ;; Per-buffer environment from the project's .envrc (direnv), so devshell
 ;; tools (cargo, rust-analyzer, ...) are found.  Enabled after init, as late
 ;; as possible, so it sets up each buffer before other modes start processes.
