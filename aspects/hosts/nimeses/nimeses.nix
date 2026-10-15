@@ -24,7 +24,6 @@ in
       bundle.desktop
       desktop.services.ly
       profile.laptop
-
       finix.doas
       finix.session
       finix.deviceManagers.gardendevd

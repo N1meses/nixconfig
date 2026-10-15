@@ -116,3 +116,37 @@ floating window rule."
                                   (split-string (buffer-string) "\n" t))))
                      (delete-file out)
                      (mapc #'find-file files)))))))
+
+;; Editing basics nemesis relies on.
+(delete-selection-mode 1)               ; typing / pasting replaces the selection
+(which-key-mode 1)                      ; show a prefix's keys after a pause
+(global-auto-revert-mode 1)             ; reload files changed on disk
+(setq isearch-lazy-count t)             ; "3/12" while searching
+(vertico-mode 1)
+(setq completion-styles '(orderless basic))
+
+;; LSP: eglot (built in).  Python needs no entry: eglot's default list picks
+;; pyright-langserver.  Rust prefers a rust-analyzer on exec-path (project
+;; devshell), else the nixpkgs one (`my/rust-analyzer', set in default.nix).
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs '(nix-ts-mode . ("nixd")))
+  (add-to-list 'eglot-server-programs
+               `((rust-ts-mode rust-mode)
+                 . ,(lambda (&optional _interactive _project)
+                      (list (or (executable-find "rust-analyzer")
+                                my/rust-analyzer))))))
+(dolist (hook '(nix-ts-mode-hook python-ts-mode-hook rust-ts-mode-hook))
+  (add-hook hook #'eglot-ensure))
+
+;; Per-buffer environment from the project's .envrc (direnv), so devshell
+;; tools (cargo, rust-analyzer, ...) are found.  Enabled after init, as late
+;; as possible, so it sets up each buffer before other modes start processes.
+(add-hook 'after-init-hook #'envrc-global-mode)
+
+(
+  when-let ((d (getenv "NEMESIS_DEV")))
+  (add-to-list 'load-path d)
+)
+(require 'nemesis)
+(nemesis-mode 1)
+(keymap-global-set "<f5>" #'nemesis-mode)

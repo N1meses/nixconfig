@@ -30,6 +30,21 @@
     home =
       { lib, pkgs, ... }:
       let
+        nemesis =
+          epkgs:
+          epkgs.trivialBuild {
+            pname = "nemesis";
+            version = "0";
+            src = ./nemesis;
+            packageRequires = with epkgs; [
+              multiple-cursors
+              expreg
+              surround
+              consult
+            ];
+            turnCompilationWarningToError = true;
+          };
+
         noxTheme =
           epkgs:
           epkgs.trivialBuild {
@@ -86,11 +101,22 @@
         config.editors.emacs = {
           packages = epkgs: [
             (noxTheme epkgs)
+            (nemesis epkgs)
             epkgs.treesit-grammars.with-all-grammars
             epkgs.nix-ts-mode
+            epkgs.vertico
+            epkgs.orderless
+            epkgs.envrc
           ];
           earlyInit = lib.mkBefore (builtins.readFile ./early-init.el);
-          init = lib.mkBefore (builtins.readFile ./init.el);
+          init = lib.mkMerge [
+            (lib.mkBefore (builtins.readFile ./init.el))
+            # After init.el: its first line must stay the lexical-binding cookie.
+            (lib.mkAfter ''
+              (defconst my/rust-analyzer "${pkgs.rust-analyzer}/bin/rust-analyzer"
+                "rust-analyzer from nixpkgs, for when none is on `exec-path'.")
+            '')
+          ];
         };
       };
   };
