@@ -98,6 +98,27 @@
 (dolist (hook '(org-mode-hook markdown-ts-mode-hook))
   (add-hook hook #'visual-line-mode))
 
+;; Markdown: TAB indents like in code (markdown-ts binds it to heading
+;; folding, which moves to C-c TAB); spaces, steps of 2 (list nesting), so
+;; <backtab> (nemesis dedent) goes back by the same step.
+(defun my/markdown-tab ()
+  "Indent the line or selection one step."
+  (interactive)
+  (if (use-region-p)
+      (progn
+        (indent-rigidly-right-to-tab-stop (region-beginning) (region-end))
+        (setq deactivate-mark nil))
+    (indent-rigidly-right-to-tab-stop (line-beginning-position)
+                                      (line-end-position))))
+(add-hook 'markdown-ts-mode-hook
+          (lambda ()
+            (setq-local indent-tabs-mode nil tab-width 2)
+            ;; outline-minor-mode would still take TAB on heading lines.
+            (setq-local outline-minor-mode-cycle nil)))
+(with-eval-after-load 'markdown-ts-mode
+  (keymap-set markdown-ts-mode-map "TAB" #'my/markdown-tab)
+  (keymap-set markdown-ts-mode-map "C-c TAB" #'markdown-ts-outline-cycle))
+
 ;; Never the GTK file dialog (pgtk can't use the yazi portal); file prompts
 ;; stay in the minibuffer. `M-x my/yazi' picks files with yazi instead.
 (setq use-file-dialog nil)
@@ -128,6 +149,35 @@ floating window rule."
 (which-key-mode 1)                      ; show a prefix's keys after a pause
 (global-auto-revert-mode 1)             ; reload files changed on disk
 (electric-pair-mode 1)                  ; ( [ { " insert their closing pair
+
+;; Clipboard in the terminal: a tty frame can't reach the Wayland clipboard
+;; (`gui-select-text' needs a window system), so copy / paste go through
+;; wl-copy / wl-paste there.  GUI frames keep the native path.
+(defvar my/wl-last nil "Text this Emacs last put on the clipboard.")
+
+(defun my/clipboard-cut (text)
+  "Put TEXT on the system clipboard."
+  (if (display-graphic-p)
+      (gui-select-text text)
+    (setq my/wl-last text)
+    (let ((proc (make-process :name "wl-copy" :command '("wl-copy")
+                              :connection-type 'pipe :noquery t)))
+      (process-send-string proc text)
+      (process-send-eof proc))))
+
+(defun my/clipboard-paste ()
+  "Return the clipboard text if another program put it there, else nil."
+  (if (display-graphic-p)
+      (gui-selection-value)
+    (with-temp-buffer
+      (when (zerop (call-process "wl-paste" nil '(t nil) nil "--no-newline" "--type" "text"))
+        (let ((text (buffer-string)))
+          (unless (or (string-empty-p text) (equal text my/wl-last))
+            text))))))
+
+(when (and (getenv "WAYLAND_DISPLAY") (executable-find "wl-copy"))
+  (setq interprogram-cut-function #'my/clipboard-cut
+        interprogram-paste-function #'my/clipboard-paste))
 (setq isearch-lazy-count t)             ; "3/12" while searching
 (vertico-mode 1)
 (marginalia-mode 1)                     ; details next to vertico candidates
