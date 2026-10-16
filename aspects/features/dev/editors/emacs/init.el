@@ -15,6 +15,9 @@
 (setopt treesit-enabled-modes t)
 (setq treesit-font-lock-level 4)        ; highlight everything, like helix
 (add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-ts-mode))
+;; Markdown: Emacs 31's built-in tree-sitter mode; not autoloaded by default.
+(autoload 'markdown-ts-mode "markdown-ts-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-ts-mode))
 
 ;; Where the Emacs ts-modes classify nodes differently from helix's
 ;; queries/<lang>/highlights.scm, override them to match helix.
@@ -91,6 +94,9 @@
 
 ;; Cut long lines off and scroll sideways, like helix (no soft-wrap).
 (setq-default truncate-lines t)
+;; Except prose: org and markdown wrap at word boundaries.
+(dolist (hook '(org-mode-hook markdown-ts-mode-hook))
+  (add-hook hook #'visual-line-mode))
 
 ;; Never the GTK file dialog (pgtk can't use the yazi portal); file prompts
 ;; stay in the minibuffer. `M-x my/yazi' picks files with yazi instead.
@@ -121,6 +127,7 @@ floating window rule."
 (delete-selection-mode 1)               ; typing / pasting replaces the selection
 (which-key-mode 1)                      ; show a prefix's keys after a pause
 (global-auto-revert-mode 1)             ; reload files changed on disk
+(electric-pair-mode 1)                  ; ( [ { " insert their closing pair
 (setq isearch-lazy-count t)             ; "3/12" while searching
 (vertico-mode 1)
 (marginalia-mode 1)                     ; details next to vertico candidates
