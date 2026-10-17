@@ -81,6 +81,8 @@
         ...
       }:
       {
+        services.openssh.authorizedKeysInHomedir = false;
+
         features.server = {
           allowedUsers = [ "atlas" ];
           cloudflared.publicHosts = map (h: "${h}.${config.features.server.domain}") [

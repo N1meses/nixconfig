@@ -100,6 +100,11 @@
         };
 
         config = {
+	  environment.sessionVariables = {
+            EDITOR = "emacs -nw";
+            VISUAL = lib.mkDefault "emacs";
+	  };
+	  
 	  rum.programs.nushell.aliases = {
 	    em = "emacs -nw";
 	  };
