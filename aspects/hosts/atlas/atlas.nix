@@ -26,6 +26,14 @@
           user = "forgejo";
           port = 2222;
         };
+        "atlas-sync" = {
+          hostname = "100.68.232.99";
+          user = "sync";
+          identityFile = [ "~/.ssh/id_ed25519_sync" ];
+          identitiesOnly = true;
+          batchMode = true;
+          controlMaster = "no";
+        };
         "atlas-unlock" = {
           hostname = "192.168.68.50";
           port = 2222;
@@ -62,6 +70,7 @@
       server.media.nixarr
       server.media.openCloud
       server.media.collabora
+      server.sync.host
       users.atlas
     ];
 

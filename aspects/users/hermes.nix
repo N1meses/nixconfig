@@ -8,6 +8,7 @@
       bundle.cliEnv
       shell.nushell
       bundle.services
+      server.sync.client
       desktop.compositors.umbriel
       desktop.noctalia
       desktop.apps.term.foot

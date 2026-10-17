@@ -12,6 +12,7 @@
       bundle.cliEnv
       shell.nushell
       bundle.desktop
+      server.sync.client
       desktop.compositors.niri
       desktop.compositors.umbriel
       dev.languages.nix

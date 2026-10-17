@@ -128,6 +128,10 @@ in
             type = "zfs_fs";
             options.mountpoint = "/backup";
           };
+          sync = {
+            type = "zfs_fs";
+            options.mountpoint = "/sync";
+          };
         };
       };
     };
@@ -160,6 +164,13 @@ in
     enable = true;
     datasets = {
       "tank/ocis" = {
+        hourly = 24;
+        daily = 30;
+        monthly = 6;
+        autosnap = true;
+        autoprune = true;
+      };
+      "tank/sync" = {
         hourly = 24;
         daily = 30;
         monthly = 6;

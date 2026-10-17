@@ -5,7 +5,6 @@
       core.core
       bundle.shell
       desktop.apps.yazi
-      dev.editors.helix
       dev.tools.cli
       dev.tools.git
     ];

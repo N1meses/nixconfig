@@ -17,6 +17,7 @@
       bundle.cliEnv
       bundle.desktop
       desktop.compositors.umbriel
+      server.sync.client
       dev.languages.nix
       dev.languages.python
       dev.editors.emacs

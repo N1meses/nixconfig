@@ -5,7 +5,7 @@
 
 # Module Library
 
-127 aspects.
+129 aspects.
 
 An aspect declares any subset of the layer slots `nixos`, `finix`, `home`, plus an
 optional `includes` list. A host names it once; the builder routes it to whichever
@@ -16,7 +16,7 @@ to pull in the names it includes.
 |--------|--------|-------------|----------|
 | `bundle.apps` | *aggregator* | Everyday graphical apps: file manager, browser, GTK theming, nh and fastfetch. | `desktop.apps.yazi` `desktop.apps.browser.glide` `desktop.apps.gtk` `desktop.apps.nh` `desktop.apps.fastfetch` |
 | `bundle.base` | *aggregator* | Baseline every host gets: nix settings, locale, user accounts and tailscale. | `core.core` `core.local` `core.users` `server.vpn.tailscale` |
-| `bundle.cliEnv` | *aggregator* | Interactive shell environment: shell, file manager, editor, CLI tools and git. | `core.core` `bundle.shell` `desktop.apps.yazi` `dev.editors.helix` `dev.tools.cli` `dev.tools.git` |
+| `bundle.cliEnv` | *aggregator* | Interactive shell environment: shell, file manager, editor, CLI tools and git. | `core.core` `bundle.shell` `desktop.apps.yazi` `dev.tools.cli` `dev.tools.git` |
 | `bundle.desktop` | *aggregator* | Graphical desktop bundle: session services, apps and the noctalia shell. | `bundle.services` `bundle.apps` `desktop.apps.yaziFilechooser` `desktop.noctalia` |
 | `bundle.services` | *aggregator* | Desktop plumbing every graphical session needs: graphics, fonts, portals, audio, bluetooth and user services. | `desktop.services.graphics` `desktop.services.fonts` `desktop.services.portals` `desktop.services.audio` `desktop.services.bluetooth` `desktop.services.userServices` |
 | `bundle.shell` | *aggregator* | Shell stack: zsh, fzf/zoxide tooling, the starship prompt and ssh client config. | `shell.shellTools` `shell.starship` `shell.ssh` |
@@ -131,6 +131,8 @@ to pull in the names it includes.
 | `server.share.matrix` | nixos | Matrix homeserver. | `server.nginx` `server.security.restic` `core.sops` |
 | `server.share.ollama` | nixos | Ollama local LLM server. | - |
 | `server.sshd` | nixos+finix | OpenSSH server, key-only and restricted to declared users. | - |
+| `server.sync.client` | home | Continuous two-way Unison sync of the working set with the atlas hub. | `desktop.compositors.compositors` `shell.ssh` |
+| `server.sync.host` | nixos | Unison sync hub: a forced-command `sync` user owning the shared working set. | `server.sshd` |
 | `server.technitium` | nixos | Technitium DNS server. | - |
 | `server.vpn.airvpn` | nixos | AirVPN wireguard tunnel with a sops-held config. | `core.sops` |
 | `server.vpn.cloudflared` | nixos | Cloudflare tunnel exposing declared nginx vhosts publicly. | `server.nginx` `core.sops` |
