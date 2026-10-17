@@ -13,6 +13,9 @@
 (setq auto-save-file-name-transforms
       `((".*" ,(expand-file-name "auto-save/" my/state-dir) t)))
 
+;; Backup files (file~) go to the state dir too.
+(setq backup-directory-alist `(("." . ,(expand-file-name "backup/" my/state-dir))))
+
 (setq custom-file (expand-file-name "custom.el" my/state-dir))
 
 ;; No GTK menu/tool/scroll bars: themed by GTK (noctalia), not by nox.
