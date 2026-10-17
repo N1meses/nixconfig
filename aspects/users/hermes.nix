@@ -9,6 +9,7 @@
       shell.nushell
       bundle.services
       server.sync.client
+      dev.editors.emacs
       desktop.compositors.umbriel
       desktop.noctalia
       desktop.apps.term.foot
