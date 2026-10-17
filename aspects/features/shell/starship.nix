@@ -1,7 +1,7 @@
 _: {
   aspects.shell.starship = {
     description = "The starship prompt, themed.";
-    home = { lib, ... }: {
+    home = { lib, pkgs, ... }: {
       rum.programs.starship = {
         enable = lib.mkDefault true;
         integrations.zsh.enable = true;
@@ -40,7 +40,32 @@ _: {
             ];
           };
 
+          custom.jj = {
+            when = "${lib.getExe pkgs.jj-starship} detect";
+            shell = [ (lib.getExe pkgs.jj-starship) ];
+            format = "$output ";
+          };
+
+          custom.jj_metrics =
+            let
+              jj = "${lib.getExe pkgs.jujutsu} --ignore-working-copy";
+              stat = "self.diff().stat()";
+            in
+            {
+              when = true;
+              command = "${jj} log -r @ --no-graph --color always -T '${
+                lib.concatStrings [
+                  "if(self.diff().files(), "
+                  ''label("diff added", "+" ++ ${stat}.total_added()) ++ ''
+                  ''label("diff removed", "-" ++ ${stat}.total_removed()) ++ ''
+                  ''label("diff modified", " 󰏫 " ++ self.diff().files().len()))''
+                ]
+              }'";
+              format = "($output )";
+            };
+
           git_branch = {
+            disabled = true;
             symbol = " ";
             truncation_length = 25;
             truncation_symbol = "…";
@@ -49,6 +74,7 @@ _: {
           };
 
           git_status = {
+            disabled = true;
             ahead = "⇡\${count} ";
             behind = "⇣\${count} ";
             diverged = "⇕⇡\${ahead_count}⇣\${behind_count} ";
@@ -64,6 +90,7 @@ _: {
           };
 
           git_commit = {
+            disabled = true;
             commit_hash_length = 7;
             format = "[$hash$tag]($style) ";
             only_detached = true;
@@ -83,7 +110,7 @@ _: {
           };
 
           git_metrics = {
-            disabled = false;
+            disabled = true;
             format = "([+$added]($added_style)[-$deleted]($deleted_style) )";
             only_nonzero_diffs = true;
           };

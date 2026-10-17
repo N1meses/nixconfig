@@ -41,6 +41,7 @@ in
             ])
             {
               ".bash_profile".text = ''
+                . ${config.environment.loadEnv}
                 [ -r ~/.bashrc ] && . ~/.bashrc
               '';
               ".bashrc".text = ''
