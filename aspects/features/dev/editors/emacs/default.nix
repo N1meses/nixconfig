@@ -100,20 +100,47 @@
         };
 
         config = {
-	  environment.sessionVariables = {
-            EDITOR = "emacs -nw";
+          environment.sessionVariables = {
+            EDITOR = lib.mkDefault "emacs -nw";
             VISUAL = lib.mkDefault "emacs";
-	  };
-	  
-	  rum.programs.nushell.aliases = {
-	    em = "emacs -nw";
-	  };
+          };
 
-	  editors.emacs = {
+          rum.programs.nushell.aliases = {
+            em = "emacs -nw";
+          };
+
+          editors.emacs = {
             packages = epkgs: [
               (noxTheme epkgs)
               (nemesis epkgs)
-              epkgs.treesit-grammars.with-all-grammars
+              # Only languages with a *-ts-mode (built in, or nix-ts-mode).  A
+              # grammar is a linkFarm entry: adding one rebuilds no package.
+              (epkgs.treesit-grammars.with-grammars (
+                g: with g; [
+                  tree-sitter-nix
+                  tree-sitter-rust
+                  tree-sitter-toml
+                  tree-sitter-python
+                  tree-sitter-bash
+                  tree-sitter-c
+                  tree-sitter-cpp
+                  tree-sitter-cmake
+                  tree-sitter-markdown
+                  tree-sitter-markdown-inline
+                  tree-sitter-yaml
+                  tree-sitter-json
+                  tree-sitter-html
+                  tree-sitter-css
+                  tree-sitter-javascript
+                  tree-sitter-typescript
+                  tree-sitter-tsx
+                  tree-sitter-lua
+                  tree-sitter-go
+                  tree-sitter-gomod
+                  tree-sitter-java
+                  tree-sitter-dockerfile
+                ]
+              ))
               epkgs.nix-ts-mode
               epkgs.vertico
               epkgs.orderless
@@ -122,18 +149,12 @@
               epkgs.marginalia
               epkgs.indent-bars
               epkgs.eldoc-box
+              epkgs.plantuml-mode
             ];
-            earlyInit = lib.mkBefore (builtins.readFile ./early-init.el);
-            init = lib.mkMerge [
-              (lib.mkBefore (builtins.readFile ./init.el))
-              # After init.el: its first line must stay the lexical-binding cookie.
-              (lib.mkAfter ''
-		(defconst my/rust-analyzer "${pkgs.rust-analyzer}/bin/rust-analyzer"
-                "rust-analyzer from nixpkgs, for when none is on `exec-path'.")
-              '')
-            ];
-          };  
-	};
+            earlyInit = builtins.readFile ./early-init.el;
+            init = builtins.readFile ./init.el;
+          };
+        };
       };
   };
 }

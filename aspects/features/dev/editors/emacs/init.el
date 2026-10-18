@@ -119,6 +119,17 @@
   (keymap-set markdown-ts-mode-map "TAB" #'my/markdown-tab)
   (keymap-set markdown-ts-mode-map "C-c TAB" #'markdown-ts-outline-cycle))
 
+;; PlantUML: plantuml-mode for .puml files, ob-plantuml for org src blocks.
+;; Both run the `plantuml' binary from exec-path (project devshell); the
+;; default 'server mode would send every diagram to plantuml.com.
+(setq plantuml-default-exec-mode 'executable
+      org-plantuml-exec-mode 'plantuml)
+;; plantuml-mode's autoload covers .pu/.uml/.plantuml, not .puml.
+(add-to-list 'auto-mode-alist '("\\.puml\\'" . plantuml-mode))
+(with-eval-after-load 'org
+  (org-babel-do-load-languages 'org-babel-load-languages
+                               '((emacs-lisp . t) (plantuml . t))))
+
 ;; Never the GTK file dialog (pgtk can't use the yazi portal); file prompts
 ;; stay in the minibuffer. `M-x my/yazi' picks files with yazi instead.
 (setq use-file-dialog nil)
@@ -198,16 +209,10 @@ floating window rule."
   (indent-bars-mode 1))
 (add-hook 'prog-mode-hook #'my/indent-bars)
 
-;; LSP: eglot (built in).  Python needs no entry: eglot's default list picks
-;; pyright-langserver.  Rust prefers a rust-analyzer on exec-path (project
-;; devshell), else the nixpkgs one (`my/rust-analyzer', set in default.nix).
+;; LSP: eglot (built in).  Python and Rust need no entry: eglot's default list
+;; picks pyright-langserver and rust-analyzer from exec-path (devshell/user).
 (with-eval-after-load 'eglot
-  (add-to-list 'eglot-server-programs '(nix-ts-mode . ("nixd")))
-  (add-to-list 'eglot-server-programs
-               `((rust-ts-mode rust-mode)
-                 . ,(lambda (&optional _interactive _project)
-                      (list (or (executable-find "rust-analyzer")
-                                my/rust-analyzer))))))
+  (add-to-list 'eglot-server-programs '(nix-ts-mode . ("nixd"))))
 (dolist (hook '(nix-ts-mode-hook python-ts-mode-hook rust-ts-mode-hook))
   (add-hook hook #'eglot-ensure))
 
