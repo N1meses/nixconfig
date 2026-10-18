@@ -43,6 +43,8 @@
           vpn = {
             enable = true;
             wgConf = config.sops.secrets.airvpn-wg-conf.path;
+            exposeOnLAN = false;
+            accessibleFrom = [ "192.168.68.0/22" ];
             openUdpPorts = [ 56599 ];
             openTcpPorts = [ 56599 ];
           };
@@ -90,6 +92,9 @@
         users.users.sonarr.extraGroups = [ "media" ];
         users.users.qbittorrent.extraGroups = [ "media" ];
         systemd.services.qbittorrent.serviceConfig.UMask = "0002";
+        systemd.services.qui = lib.mkIf config.nixarr.qbittorrent.qui.enable {
+          environment.QUI__TRACKER_ICONS_FETCH_ENABLED = "false";
+        };
         users.users.readarr = {
           isSystemUser = true;
           group = "readarr";
