@@ -67,6 +67,7 @@
       server.lanAccess
       server.share.matrix
       server.share.element
+      server.share.sable
       server.media.nixarr
       server.media.openCloud
       server.media.collabora
@@ -91,6 +92,7 @@
             "auth"
             "matrix"
             "element"
+            "sable"
             "cloud"
             "office"
           ];

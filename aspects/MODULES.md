@@ -5,7 +5,7 @@
 
 # Module Library
 
-129 aspects.
+130 aspects.
 
 An aspect declares any subset of the layer slots `nixos`, `finix`, `home`, plus an
 optional `includes` list. A host names it once; the builder routes it to whichever
@@ -130,6 +130,7 @@ to pull in the names it includes.
 | `server.share.forgejo` | nixos | Forgejo git forge with LFS and Actions. | `server.nginx` `server.security.restic` |
 | `server.share.matrix` | nixos | Matrix homeserver. | `server.nginx` `server.security.restic` `core.sops` |
 | `server.share.ollama` | nixos | Ollama local LLM server. | - |
+| `server.share.sable` | nixos | Sable web client. | `server.nginx` |
 | `server.sshd` | nixos+finix | OpenSSH server, key-only and restricted to declared users. | - |
 | `server.sync.client` | home | Continuous two-way Unison sync of the working set with the atlas hub. | `desktop.compositors.compositors` `shell.ssh` |
 | `server.sync.host` | nixos | Unison sync hub: a forced-command `sync` user owning the shared working set. | `server.sshd` |
