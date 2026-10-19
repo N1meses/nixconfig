@@ -128,6 +128,7 @@
           address = "127.0.0.1";
           port = 9200;
           inherit url;
+          package = pkgs.opencloud;
 
           environmentFile = config.sops.secrets."opencloud-env".path;
 
