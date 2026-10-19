@@ -18,8 +18,6 @@
       bundle.desktop
       desktop.compositors.umbriel
       server.sync.client
-      dev.languages.nix
-      dev.languages.python
       dev.editors.emacs
       desktop.apps.term.kitty
       desktop.apps.browser.glide
@@ -30,8 +28,7 @@
       packages = with pkgs; [
         antigravity-cli
         claude-code
-        vesktop
-        element-desktop
+	python3
         mpv
         nh
         steam

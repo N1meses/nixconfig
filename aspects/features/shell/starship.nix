@@ -10,6 +10,17 @@ _: {
           scan_timeout = 30;
           command_timeout = 500;
           add_newline = true;
+          # jj right after the directory, where the git modules used to sit;
+          # $all would otherwise put custom modules after the languages
+          format = lib.concatStrings [
+            "($username$hostname in )$localip$shlvl$singularity$kubernetes$nats$directory"
+            "\${custom.jj}\${custom.jj_metrics}"
+            "$all"
+          ];
+
+          # user@host in … over ssh; user alone when root or a different user
+          username.format = "[$user]($style)";
+          hostname.format = "[@$hostname]($style)";
 
           directory = {
             fish_style_pwd_dir_length = 3;
@@ -36,7 +47,7 @@ _: {
               "[$before_root_path]($before_repo_root_style)"
               "[$repo_root]($repo_root_style)"
               "[$path]($style)"
-              "[$read_only]($read_only_style)"
+              "[$read_only]($read_only_style) "
             ];
           };
 
@@ -165,7 +176,7 @@ _: {
 
           cmd_duration = {
             min_time = 2000;
-            format = "[ 󱎫 $duration]($style) ";
+            format = "[󱎫 $duration]($style) ";
             show_milliseconds = false;
           };
 

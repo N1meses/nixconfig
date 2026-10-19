@@ -16,8 +16,10 @@ let
 
       packages = [
         (pkgs.callPackage "${inputs.pnix}/package.nix" { })
+	(pkgs.callPackage "${inputs.hjem}/cli/package.nix" { })
 
         pkgs.nixfmt-tree
+	pkgs.nixdoc
 
         pkgs.sops
         pkgs.age

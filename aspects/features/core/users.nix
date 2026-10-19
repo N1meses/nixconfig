@@ -13,7 +13,6 @@ let
       hostEntry,
       hostUsers,
       lib,
-      pkgs,
       ...
     }:
     {

@@ -79,7 +79,6 @@ in
           helix
           curl
           wget
-          (pkgs.callPackage "${inputs.pnix}/package.nix" { })
           (pkgs.writeShellScriptBin "nixos-revision" ''
             echo "${inputs.self.rev or "dirty"}"
           '')
@@ -99,13 +98,6 @@ in
           ];
         };
       };
-
-    home = { pkgs, ... }: {
-      packages = [
-        (pkgs.callPackage "${inputs.pnix}/package.nix" { })
-        (pkgs.callPackage "${inputs.hjem}/cli/package.nix" { })
-      ];
-    };
 
     finix =
       {
@@ -183,7 +175,6 @@ in
           helix
           curl
           wget
-          (pkgs.callPackage "${inputs.pnix}/package.nix" { })
           (pkgs.writeShellScriptBin "finix-revision" ''
             echo "${inputs.self.rev or "dirty"}"
           '')

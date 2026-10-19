@@ -12,3 +12,6 @@ result*
 *.iso
 *.vmdk
 *.vdi
+
+direnv artefacts
+.direnv/
