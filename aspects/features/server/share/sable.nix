@@ -44,6 +44,7 @@
           '';
           locations."= /index.html".extraConfig = ''add_header Cache-Control "no-cache";'';
           locations."= /config.json".extraConfig = ''add_header Cache-Control "no-cache";'';
+          locations."= /service-worker.js".extraConfig = ''add_header Cache-Control "no-cache";'';
           locations."= /manifest.webmanifest".extraConfig = ''
             default_type application/manifest+json;
           '';
