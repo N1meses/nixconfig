@@ -45,7 +45,7 @@ jobs:
       - name: Build every host closure and root it (survives daily gc -d 7d)
         run: |
           set -euo pipefail
-          roots=/var/lib/gitea-runner/ci-roots   # runner StateDirectory subtree, writable by the runner uid
+          roots=/var/lib/forgejo-runner/atlas/ci-roots   # runner StateDirectory subtree, writable by the runner uid
           mkdir -p "$roots"
           for chk in $(nix eval --file . checks --apply builtins.attrNames --json | jq -r '.[]'); do
             echo "::group::$chk"
