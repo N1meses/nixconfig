@@ -224,7 +224,7 @@
     "niri-nix": {
       "type": "git",
       "url": "https://codeberg.org/BANanaD3V/niri-nix",
-      "rev": "a3cb7ffe78691c7666ce09de024235064e0ecdbb",
+      "rev": "327fac934cf1b26bc2f240dd72fc4b5ddf46a635",
       "ref": "HEAD",
       "excludeFollow": [
         "nixpkgs"
@@ -232,7 +232,7 @@
       "fetch": {
         "kind": "git",
         "url": "https://codeberg.org/BANanaD3V/niri-nix",
-        "rev": "a3cb7ffe78691c7666ce09de024235064e0ecdbb",
+        "rev": "327fac934cf1b26bc2f240dd72fc4b5ddf46a635",
         "ref": "HEAD"
       }
     },
