@@ -5,15 +5,18 @@
     nixos =
       { config, pkgs, ... }:
       {
-        services.gitea-actions-runner = {
+        services.forgejo-runner = {
           package = pkgs.forgejo-runner;
           instances.atlas = {
             enable = true;
-            name = "atlas-nix";
-            url = "http://localhost:3000";
-            tokenFile = config.sops.secrets."forgejo-runner-token".path;
-
-            labels = [ "nix:host" ];
+            settings = {
+              server.connections.default = {
+                url = "http://localhost:3000";
+                uuid = "cacd70fc-efff-44ce-b366-bae7a2ef53be.runner";
+              };
+              runner.labels = [ "nix:host" ];
+            };
+            secrets.server.connections.default.token_url = config.sops.secrets."forgejo-runner-token".path;
 
             hostPackages = with pkgs; [
               nix
