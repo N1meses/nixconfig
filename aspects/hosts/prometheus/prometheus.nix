@@ -66,7 +66,7 @@ in
 
       features = {
         compositors = {
-          monitors."HDMI-A-1" = {
+          monitors."LG Electronics LG TV SSCR2 0x01010101" = {
             resolution = {
               width = 3840;
               height = 2160;
