@@ -27,11 +27,11 @@
             opener = {
               edit = [
                 {
-		  run = "\${EDITOR:-vi} %s";
-		  block = true;
-		  for = "unix";
-		  desc = "System Editor";
-		}
+                  run = "\${EDITOR:-vi} %s";
+                  block = true;
+                  for = "unix";
+                  desc = "System Editor";
+                }
               ];
             };
           };

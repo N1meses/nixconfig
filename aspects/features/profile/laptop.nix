@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, config, ... }:
 let
   modules = inputs.finix.nixosModules;
 in
@@ -31,6 +31,10 @@ in
       services.acpid.enable = lib.mkDefault true;
     };
 
+    includes = with config.aspectLib.aspectNames; [
+      finix.watt
+    ];
+
     finix =
       {
         config,
@@ -39,21 +43,15 @@ in
       }:
       {
         imports = [
-          modules.power-profiles-daemon
           modules.upower
           modules.acpid
           modules.zzz
-          modules.thermald
           modules.brightnessctl
         ];
 
         services = {
-          power-profiles-daemon.enable = lib.mkDefault true;
-          power-profiles-daemon.extraGroups = lib.optionals (!config.services.elogind.enable) [
-            config.services.seatd.group
-          ];
+          watt.enable = lib.mkDefault true;
           upower.enable = lib.mkDefault true;
-          thermald.enable = lib.mkDefault true;
           acpid = {
             enable = lib.mkDefault true;
             handlers.lid = {

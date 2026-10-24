@@ -75,7 +75,12 @@
              '((primitive_type) @nox-type-builtin-face)
              '(use_list (identifier) @nox-namespace-face)
              '(use_list (scoped_identifier name: (identifier) @nox-namespace-face))
-             '(use_declaration argument: (scoped_identifier name: (identifier) @nox-namespace-face)))))
+             '(use_declaration argument: (scoped_identifier name: (identifier) @nox-namespace-face)))
+            ;; @constructor: PascalCase callee of a path call (`Strategy::Tag(x)').
+            (my/helix-rules
+             'rust
+             '((call_expression function: (scoped_identifier name: (identifier) @font-lock-type-face))
+               (:match "\\`[A-Z]" @font-lock-type-face)))))
 
 (add-hook 'python-ts-mode-hook
           (lambda ()
@@ -161,16 +166,18 @@ floating window rule."
 (global-auto-revert-mode 1)             ; reload files changed on disk
 (electric-pair-mode 1)                  ; ( [ { " insert their closing pair
 
-;; Clipboard in the terminal: a tty frame can't reach the Wayland clipboard
-;; (`gui-select-text' needs a window system), so copy / paste go through
-;; wl-copy / wl-paste there.  GUI frames keep the native path.
+;; Clipboard: a tty frame can't reach the Wayland clipboard (`gui-select-text'
+;; needs a window system), so copy goes through wl-copy there.  Paste always
+;; reads wl-paste: pgtk answers from its own record of what Emacs last copied
+;; until GTK reports that another app took the clipboard (pgtkselect.c), and
+;; when that report is lost, pasting from other apps yields nil.
 (defvar my/wl-last nil "Text this Emacs last put on the clipboard.")
 
 (defun my/clipboard-cut (text)
   "Put TEXT on the system clipboard."
+  (setq my/wl-last text)
   (if (display-graphic-p)
       (gui-select-text text)
-    (setq my/wl-last text)
     (let ((proc (make-process :name "wl-copy" :command '("wl-copy")
                               :connection-type 'pipe :noquery t)))
       (process-send-string proc text)
@@ -178,13 +185,11 @@ floating window rule."
 
 (defun my/clipboard-paste ()
   "Return the clipboard text if another program put it there, else nil."
-  (if (display-graphic-p)
-      (gui-selection-value)
-    (with-temp-buffer
-      (when (zerop (call-process "wl-paste" nil '(t nil) nil "--no-newline" "--type" "text"))
-        (let ((text (buffer-string)))
-          (unless (or (string-empty-p text) (equal text my/wl-last))
-            text))))))
+  (with-temp-buffer
+    (when (zerop (call-process "wl-paste" nil '(t nil) nil "--no-newline" "--type" "text"))
+      (let ((text (buffer-string)))
+        (unless (or (string-empty-p text) (equal text my/wl-last))
+          text)))))
 
 (when (and (getenv "WAYLAND_DISPLAY") (executable-find "wl-copy"))
   (setq interprogram-cut-function #'my/clipboard-cut
@@ -213,6 +218,9 @@ floating window rule."
 ;; picks pyright-langserver and rust-analyzer from exec-path (devshell/user).
 (with-eval-after-load 'eglot
   (add-to-list 'eglot-server-programs '(nix-ts-mode . ("nixd"))))
+;; Colours come from tree-sitter + the helix rules only.  Semantic tokens
+;; would paint over them (declarations and constructor calls turn function-yellow).
+(setq eglot-ignored-server-capabilities '(:semanticTokensProvider))
 (dolist (hook '(nix-ts-mode-hook python-ts-mode-hook rust-ts-mode-hook))
   (add-hook hook #'eglot-ensure))
 

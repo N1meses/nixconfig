@@ -28,7 +28,7 @@
       packages = with pkgs; [
         antigravity-cli
         claude-code
-	python3
+        python3
         mpv
         nh
         steam

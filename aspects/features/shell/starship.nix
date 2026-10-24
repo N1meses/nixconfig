@@ -52,9 +52,14 @@ _: {
           };
 
           custom.jj = {
-            when = "${lib.getExe pkgs.jj-starship} detect";
-            shell = [ (lib.getExe pkgs.jj-starship) ];
-            format = "$output ";
+            when = true;
+            shell = [
+              "${pkgs.writeShellScript "jj-prompt" ''
+                out=$(${lib.getExe pkgs.jj-starship} --no-jj-id --no-git-id --no-symbol) || exit 0
+                printf '%s' "''${out//[()]/}"
+              ''}"
+            ];
+            format = "($output )";
           };
 
           custom.jj_metrics =

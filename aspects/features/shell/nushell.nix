@@ -92,8 +92,8 @@ in
             lt3 = "eza --tree --level=3 --icons=auto";
             llm = "eza -l --sort=modified --icons=auto --git";
             lls = "eza -l --sort=size --icons=auto --git";
-	    
-	    em = "emacs -nw";
+
+            em = "emacs -nw";
           };
 
           extraConfig = ''
