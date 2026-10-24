@@ -51,11 +51,6 @@ in
           kernelPackages = lib.mkDefault pkgs.linuxPackages;
 
           plymouth.enable = lib.mkDefault true;
-
-          initrd = {
-            systemd.enable = lib.mkDefault true;
-            verbose = lib.mkDefault false;
-          };
         };
 
         nix = {
