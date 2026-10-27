@@ -82,13 +82,13 @@ in
           };
 
           niri.extraBinds = {
-            "F10" = {
+            "XF86AudioRaiseVolume" = {
               spawn = mkNoctaliaNiri "volume-up";
             };
-            "F9" = {
+            "XF86AudioLowerVolume" = {
               spawn = mkNoctaliaNiri "volume-down";
             };
-            "F5" = {
+            "XF86AudioMute" = {
               spawn = mkNoctaliaNiri "volume-mute";
             };
 
@@ -120,9 +120,9 @@ in
           };
 
           umbriel.extraBinds = {
-            "F10" = mkNoctaliaUmbriel "volume-up";
-            "F9" = mkNoctaliaUmbriel "volume-down";
-            "F5" = mkNoctaliaUmbriel "volume-mute";
+            "XF86AudioRaiseVolume" = mkNoctaliaUmbriel "volume-up";
+            "XF86AudioLowerVolume" = mkNoctaliaUmbriel "volume-down";
+            "XF86AudioMute" = mkNoctaliaUmbriel "volume-mute";
 
             "F7" = mkNoctaliaUmbriel "media toggle";
             "F8" = mkNoctaliaUmbriel "media next";

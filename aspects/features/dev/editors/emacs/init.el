@@ -271,16 +271,16 @@ floating window rule."
   ;; markdown mode so code blocks get syntax colours (default: plain text).
   (require 'markdown-ts-mode)
   (defun my/doc-view-mode ()
-    "Render LSP docs: `markdown-ts-view-mode', prose as doc comments.
-Paragraphs get `font-lock-doc-face' (like Rust ///) appended, so code
-blocks keep their syntax colours and links / code spans their faces."
+    "Render LSP docs: `markdown-ts-view-mode', prose in `nox-prose-face'.
+Paragraphs get the face appended, so code blocks keep their syntax
+colours and links / code spans their faces."
     (markdown-ts-view-mode)
     (setq-local treesit-font-lock-settings
                 (append treesit-font-lock-settings
                         (treesit-font-lock-rules
                          :language 'markdown :override 'append
                          :feature 'doc-prose
-                         '((paragraph) @font-lock-doc-face))))
+                         '((paragraph) @nox-prose-face))))
     (setf (car treesit-font-lock-feature-list)
           (append (car treesit-font-lock-feature-list) '(doc-prose)))
     (treesit-font-lock-recompute-features))

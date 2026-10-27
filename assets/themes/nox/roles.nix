@@ -3,10 +3,15 @@ let
 
   roles = {
     comment = {
-      fg = "green";
+      fg = "comment_dim";
       italic = true;
     };
     docComment = {
+      fg = "doc_dim";
+      italic = true;
+    };
+    # Prose meant to be read (markdown quotes, LSP hover docs) keeps full strength.
+    prose = {
       fg = "doc_green";
       italic = true;
     };

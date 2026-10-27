@@ -30,6 +30,8 @@ in
         programs.pipewire.enable = true;
         programs.pipewire.alsa.enable = true;
         programs.pipewire.alsa.support32Bit = true;
+        # x11-bell holds an Xlib connection; lazy Xwayland exiting kills pipewire via Xlib's IO-error exit.
+        programs.pipewire.settings."context.properties"."module.x11.bell" = false;
         programs.wireplumber.enable = true;
         services.rtkit.enable = true;
         services.rtkit.extraGroups = lib.optionals (!config.services.elogind.enable) [

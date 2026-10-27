@@ -71,6 +71,8 @@
                     "Modules and paths (helix `namespace').")
                   (defface nox-variable-builtin-face '((t :inherit font-lock-builtin-face))
                     "Builtin variables like `builtins', `self' (helix `variable.builtin').")
+                  (defface nox-prose-face '((t :inherit font-lock-doc-face))
+                    "Prose meant to be read, like LSP hover docs (nox `prose').")
                   (provide 'nox-theme)
                 '';
               }

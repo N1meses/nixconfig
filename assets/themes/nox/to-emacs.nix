@@ -49,6 +49,7 @@ let
     nox-type-builtin-face = role "typeBuiltin";
     nox-namespace-face = role "namespace";
     nox-variable-builtin-face = role "selfRef";
+    nox-prose-face = role "prose";
 
     font-lock-operator-face = role "operator";
     font-lock-negation-char-face = role "operator";

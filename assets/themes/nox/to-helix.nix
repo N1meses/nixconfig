@@ -125,7 +125,7 @@ in
     };
     "markup.link.text" = s "link";
     "markup.link.label" = s "link";
-    "markup.quote" = s "docComment";
+    "markup.quote" = s "prose";
     "markup.raw" = s "string";
     "markup.raw.block" = s "string";
     "markup.raw.inline" = s "string";

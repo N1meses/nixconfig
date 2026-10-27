@@ -10,6 +10,9 @@
   orange = "#D69D85";
   green = "#57A64A";
   doc_green = "#6A9955";
+  # green / doc_green at 65 % over background: comments recede behind code.
+  comment_dim = "#3D7035";
+  doc_dim = "#49683C";
   pale_green = "#B5CEA8";
   cyan = "#9CDCFE";
   purple = "#BD63C5";
