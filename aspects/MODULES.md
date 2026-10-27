@@ -5,7 +5,7 @@
 
 # Module Library
 
-130 aspects.
+131 aspects.
 
 An aspect declares any subset of the layer slots `nixos`, `finix`, `home`, plus an
 optional `includes` list. A host names it once; the builder routes it to whichever
@@ -101,9 +101,10 @@ to pull in the names it includes.
 | `finix.seat.seatd` | finix | Test Matrix: Selects seatd as the seat/session manager. | - |
 | `finix.seat.sessiond` | finix | - | - |
 | `finix.session` | finix | finix session wiring: dbus, XDG icon caches, runlevel and PATH linking. | - |
+| `finix.watt` | finix | - | - |
 | `finix.zfs` | finix | ZFS filesystem support in initrd and the running system. | - |
 | `profile.gaming` | nixos | Gaming stack: Steam, gamemode and the kernel/sysctl tuning they want. | - |
-| `profile.laptop` | nixos+finix | Laptop power management, lid handling and backlight control. | - |
+| `profile.laptop` | nixos+finix | Laptop power management, lid handling and backlight control. | `finix.watt` |
 | `profile.mkVM` | nixos+finix | Turns a host into a bootable QEMU VM for testing. | - |
 | `profile.osint` | home | Self-audit OSINT toolkit: what a stranger can turn up about you from a name, handle or address. | - |
 | `profile.performance` | nixos | Performance tuning: zram, sysctls and nix daemon scheduling. | - |

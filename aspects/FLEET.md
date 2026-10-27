@@ -16,10 +16,10 @@ may inherit another host the same way. Both are selectable by name.
 |------|---------|-------|--------:|-------------|
 | `athena` | nixos | `athena` | 28 | Tailnet server: DNS, password vault, monitoring and file drop. |
 | `atlas` | nixos | `atlas` | 38 | Public-facing server: forgejo, binary cache, media, identity and matrix. |
-| `bellerophon` | finix | `icarus` | 46 | finix laptop with busybox/iwd/mdevd/seatd, part of the finix test matrix. |
+| `bellerophon` | finix | `icarus` | 47 | finix laptop with busybox/iwd/mdevd/seatd, part of the finix test matrix. |
 | `hermes` | nixos | `hermes` | 34 | impermanent host and installer for quick access |
-| `icarus` | finix | `icarus` | 45 | finix laptop on niri part of the test matrix for finix |
-| `nimeses` | finix | `nimeses` | 45 | finix laptop on umbriel also my daily driver |
+| `icarus` | finix | `icarus` | 46 | finix laptop on niri part of the test matrix for finix |
+| `nimeses` | finix | `nimeses` | 46 | finix laptop on umbriel also my daily driver |
 | `phaethon` | finix | `phaethon` | 27 | finix server with ZFS storage and docker, part of the finix test matrix |
 | `prometheus` | nixos | `prometheus` | 50 | NixOS desktop workstation and gaming |
 
