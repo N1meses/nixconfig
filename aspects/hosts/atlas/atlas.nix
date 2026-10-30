@@ -26,6 +26,11 @@
           user = "forgejo";
           port = 2222;
         };
+        knot = {
+          hostname = "100.68.232.99";
+          user = "git";
+          port = 2223;
+        };
         "atlas-sync" = {
           hostname = "100.68.232.99";
           user = "sync";
@@ -67,6 +72,8 @@
       server.lanAccess
       server.share.matrix
       server.share.sable
+      server.share.tranquil
+      #server.share.tangled
       server.media.nixarr
       server.media.openCloud
       server.media.collabora
@@ -93,6 +100,8 @@
             "sable"
             "cloud"
             "office"
+            "pds"
+            #"knot"
           ];
           lanAccess = {
             hosts = config.features.server.cloudflared.publicHosts;

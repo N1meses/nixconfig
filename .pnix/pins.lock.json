@@ -334,6 +334,22 @@
         "hash": "sha256-Y/JIHTnMlOabDfyaSBubWGLDIVGihLEUuoMhFvQKaDo="
       }
     },
+    "tangled": {
+      "type": "git",
+      "url": "https://tangled.org/tangled.org/core",
+      "release": "*",
+      "tag": "v1.20.0",
+      "rev": "2096d06d938e680297adeadd71b8320c9f3491d4",
+      "excludeFollow": [
+        "nixpkgs"
+      ],
+      "fetch": {
+        "kind": "git",
+        "url": "https://tangled.org/tangled.org/core",
+        "rev": "2096d06d938e680297adeadd71b8320c9f3491d4",
+        "ref": "refs/tags/v1.20.0"
+      }
+    },
     "umbriel": {
       "type": "git",
       "url": "https://github.com/noctalia-dev/umbriel",

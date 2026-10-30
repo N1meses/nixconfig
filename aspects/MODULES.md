@@ -5,7 +5,7 @@
 
 # Module Library
 
-131 aspects.
+134 aspects.
 
 An aspect declares any subset of the layer slots `nixos`, `finix`, `home`, plus an
 optional `includes` list. A host names it once; the builder routes it to whichever
@@ -113,6 +113,7 @@ to pull in the names it includes.
 | `server.binaryCache` | nixos | nix-serve binary cache, published on the tailnet. | `core.sops` |
 | `server.forgejoRunner` | nixos | Forgejo Actions runner registered against atlas. | `core.sops` |
 | `server.lanAccess` | nixos | Direct LAN HTTPS to nginx vhosts via a wildcard ACME cert (DNS-01, Cloudflare); pair with split-horizon DNS. | `server.nginx` `core.sops` |
+| `server.mail.relay` | nixos | Send-only postfix on loopback, relaying to an authenticated smarthost. | `core.sops` |
 | `server.media.collabora` | nixos | Collabora Online, the WOPI document server OpenCloud edits through. | `server.nginx` |
 | `server.media.jellyfin` | nixos | Jellyfin media server, proxied and backed up. | `server.nginx` `server.security.restic` |
 | `server.media.navidrome` | nixos | Navidrome music streaming server. | `server.nginx` `server.security.restic` |
@@ -132,6 +133,8 @@ to pull in the names it includes.
 | `server.share.matrix` | nixos | Matrix homeserver. | `server.nginx` `server.security.restic` `core.sops` |
 | `server.share.ollama` | nixos | Ollama local LLM server. | - |
 | `server.share.sable` | nixos | Sable web client. | `server.nginx` |
+| `server.share.tangled` | nixos | Tangled knot (atproto git hosting). | `server.nginx` `server.security.restic` `core.sops` |
+| `server.share.tranquil` | nixos | Tranquil atproto PDS with authentik SSO. | `server.nginx` `server.security.restic` `server.mail.relay` `core.sops` |
 | `server.sshd` | nixos+finix | OpenSSH server, key-only and restricted to declared users. | - |
 | `server.sync.client` | home | Continuous two-way Unison sync of the working set with the atlas hub. | `desktop.compositors.compositors` `shell.ssh` |
 | `server.sync.host` | nixos | Unison sync hub: a forced-command `sync` user owning the shared working set. | `server.sshd` |
