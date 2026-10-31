@@ -85,6 +85,7 @@
       {
         pkgs,
         config,
+        lib,
         ...
       }:
       {
@@ -92,23 +93,37 @@
 
         features.server = {
           allowedUsers = [ "atlas" ];
-          cloudflared.publicHosts = map (h: "${h}.${config.features.server.domain}") [
-            "forgejo"
-            "jellyfin"
-            "auth"
-            "matrix"
-            "sable"
-            "cloud"
-            "office"
-            "pds"
-            # atproto handles, see server.share.tranquil
-            "*"
-            "knot"
-          ];
+          cloudflared.publicHosts =
+            map (h: "${h}.${config.features.server.domain}") [
+              "forgejo"
+              "jellyfin"
+              "auth"
+              "matrix"
+              "sable"
+              "cloud"
+              "office"
+              "pds"
+              "knot"
+            ]
+            # atproto handle lookups; drop the legacy entry once no handle uses it
+            ++ map (d: "*.${d}") (
+              [ config.features.server.pds.handleDomain ] ++ config.features.server.pds.legacyHandleDomains
+            );
           lanAccess = {
-            hosts = config.features.server.cloudflared.publicHosts;
+            # the LAN cert only covers <domain> and its first level
+            hosts = lib.filter (
+              h: lib.hasSuffix ".${config.features.server.domain}" h
+            ) config.features.server.cloudflared.publicHosts;
             interface = "enp3s0";
           };
+
+          pds = {
+            handleDomain = "nimeses.dev";
+            legacyHandleDomains = [ "nimeses.com" ];
+            ssoOnly = true;
+          };
+          knot.admins = [ "did:plc:jybfllaz5fcmnatgpnto4yle" ]; # akadmin
+          mail.relay.username = "106c5581-d276-40c6-ba37-1451f7510db2"; # scaleway TEM project
         };
 
         networking.nameservers = [

@@ -37,8 +37,7 @@
 
             username = lib.mkOption {
               type = lib.types.str;
-              # scaleway TEM: the project ID; the IAM secret key is the password
-              default = "106c5581-d276-40c6-ba37-1451f7510db2";
+              description = "SMTP username; for scaleway TEM the project ID (the IAM secret key is the password).";
             };
           };
         };

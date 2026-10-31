@@ -7,22 +7,26 @@
       core.sops
     ];
     nixos =
-      { config, ... }:
+      { config, lib, ... }:
       let
         cfg = config.features.server;
       in
       {
         imports = [ inputs.tangled.nixosModules.knot-rs ];
 
-        services.tangled.knot-rs = {
+        options.features.server.knot.admins = lib.mkOption {
+          type = lib.types.nonEmptyListOf lib.types.str;
+          description = "DIDs with knot-admin authority; the first entry is the advertised owner.";
+        };
+
+        config.services.tangled.knot-rs = {
           enable = true;
           openFirewall = false;
           environmentFile = config.sops.secrets."knot-env".path;
           settings = {
             server = {
               hostname = "knot.${cfg.domain}";
-              # akadmin on pds.nimeses.com; first entry is the advertised owner
-              admins = [ "did:plc:jybfllaz5fcmnatgpnto4yle" ];
+              inherit (cfg.knot) admins;
               ssh_listen_addr = "[::]:2223";
             };
             git.object_format = "sha1";
@@ -39,13 +43,13 @@
           };
         };
 
-        networking.firewall.interfaces."tailscale0".allowedTCPPorts = [ 2223 ];
+        config.networking.firewall.interfaces."tailscale0".allowedTCPPorts = [ 2223 ];
 
-        services.restic.backups.system.paths = [ "/var/lib/knot" ];
+        config.services.restic.backups.system.paths = [ "/var/lib/knot" ];
 
-        sops.secrets."knot-env" = { };
+        config.sops.secrets."knot-env" = { };
 
-        services.nginx.virtualHosts."knot.${cfg.domain}" = {
+        config.services.nginx.virtualHosts."knot.${cfg.domain}" = {
           locations."/" = {
             proxyPass = "http://127.0.0.1:5555";
             proxyWebsockets = true;
