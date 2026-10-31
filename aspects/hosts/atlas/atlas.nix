@@ -119,7 +119,6 @@
 
           pds = {
             handleDomain = "nimeses.dev";
-            legacyHandleDomains = [ "nimeses.com" ];
             ssoOnly = true;
           };
           knot.admins = [ "did:plc:jybfllaz5fcmnatgpnto4yle" ]; # akadmin

@@ -29,6 +29,8 @@
               inherit (cfg.knot) admins;
               ssh_listen_addr = "[::]:2223";
             };
+            # enables `knot-server admin` (members, invites); the value lives in knot-env
+            acl.legacy_admin_secret_env = "KNOT_ADMIN_SECRET";
             git.object_format = "sha1";
             lfs.store_path = "/var/lib/knot/lfs";
             contact.email = "postmaster@${cfg.domain}";
