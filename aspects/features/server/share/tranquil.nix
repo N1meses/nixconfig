@@ -26,6 +26,8 @@
               enable_caddy_on_demand_tls = false;
               # cloudflared -> nginx -> tranquil
               trusted_proxy_count = 2;
+              # handles are <name>.<domain>, resolved via the wildcard vhost below
+              user_handle_domains = [ cfg.domain ];
             };
             email = {
               from_address = config.features.server.mail.from;
@@ -64,6 +66,12 @@
             proxyWebsockets = true;
             extraConfig = "client_max_body_size 100M;";
           };
+        };
+
+        # explicit service vhosts win over the wildcard; it only answers handle lookups
+        services.nginx.virtualHosts."*.${cfg.domain}" = {
+          locations."= /.well-known/atproto-did".proxyPass = "http://127.0.0.1:3010";
+          locations."/".return = "404";
         };
       };
   };

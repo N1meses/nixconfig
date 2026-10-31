@@ -21,8 +21,8 @@
           settings = {
             server = {
               hostname = "knot.${cfg.domain}";
-              # TODO: your DID from the PDS account; first entry is the advertised owner
-              admins = [ "did:plc:REPLACE_ME" ];
+              # akadmin on pds.nimeses.com; first entry is the advertised owner
+              admins = [ "did:plc:jybfllaz5fcmnatgpnto4yle" ];
               ssh_listen_addr = "[::]:2223";
             };
             git.object_format = "sha1";

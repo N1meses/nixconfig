@@ -73,7 +73,7 @@
       server.share.matrix
       server.share.sable
       server.share.tranquil
-      #server.share.tangled
+      server.share.tangled
       server.media.nixarr
       server.media.openCloud
       server.media.collabora
@@ -101,7 +101,9 @@
             "cloud"
             "office"
             "pds"
-            #"knot"
+            # atproto handles, see server.share.tranquil
+            "*"
+            "knot"
           ];
           lanAccess = {
             hosts = config.features.server.cloudflared.publicHosts;
