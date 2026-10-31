@@ -11,6 +11,10 @@
       { config, ... }:
       let
         cfg = config.features.server;
+        registrationDisabled = ''
+          default_type application/json;
+          return 403 '{"error":"RegistrationDisabled","message":"Sign-up is only available via Authentik."}';
+        '';
       in
       {
         services.tranquil-pds = {
@@ -74,9 +78,10 @@
             proxyWebsockets = true;
             extraConfig = "client_max_body_size 100M;";
           };
-          # password/passkey sign-up and migrations; only /oauth/sso/complete-registration creates accounts
-          locations."^~ /xrpc/com.atproto.server.createAccount".return = "403";
-          locations."^~ /xrpc/_account.createPasskeyAccount".return = "403";
+          # password/passkey sign-up and migrations; only /oauth/sso/complete-registration creates accounts.
+          # json body: the frontend parses every response before checking the status
+          locations."^~ /xrpc/com.atproto.server.createAccount".extraConfig = registrationDisabled;
+          locations."^~ /xrpc/_account.createPasskeyAccount".extraConfig = registrationDisabled;
         };
 
         # explicit service vhosts win over the wildcard; it only answers handle lookups
