@@ -28,6 +28,9 @@
               trusted_proxy_count = 2;
               # handles are <name>.<domain>, resolved via the wildcard vhost below
               user_handle_domains = [ cfg.domain ];
+              # authentik is the gate: sso sign-up has no invite exemption upstream, so invites
+              # are off and the non-sso sign-up routes are refused in nginx below
+              invite_code_required = false;
             };
             email = {
               from_address = config.features.server.mail.from;
@@ -46,6 +49,11 @@
             };
           };
         };
+
+        # the module renders config.toml into /etc without a restart trigger
+        systemd.services.tranquil-pds.restartTriggers = [
+          config.environment.etc."tranquil-pds/config.toml".source
+        ];
 
         services.postgresqlBackup = {
           enable = true;
@@ -66,6 +74,9 @@
             proxyWebsockets = true;
             extraConfig = "client_max_body_size 100M;";
           };
+          # password/passkey sign-up and migrations; only /oauth/sso/complete-registration creates accounts
+          locations."^~ /xrpc/com.atproto.server.createAccount".return = "403";
+          locations."^~ /xrpc/_account.createPasskeyAccount".return = "403";
         };
 
         # explicit service vhosts win over the wildcard; it only answers handle lookups
