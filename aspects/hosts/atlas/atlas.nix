@@ -121,7 +121,10 @@
             handleDomain = "nimeses.dev";
             ssoOnly = true;
           };
-          knot.admins = [ "did:plc:jybfllaz5fcmnatgpnto4yle" ]; # akadmin
+          knot = {
+            admins = [ "did:plc:jybfllaz5fcmnatgpnto4yle" ]; # akadmin
+            memberPds = "http://127.0.0.1:${toString config.services.tranquil-pds.settings.server.port}";
+          };
           mail.relay.username = "106c5581-d276-40c6-ba37-1451f7510db2"; # scaleway TEM project
         };
 
