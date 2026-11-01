@@ -13,6 +13,7 @@
         sops.secrets.restic-password = { };
 
         services.restic.backups.system = {
+          initialize = true;
           passwordFile = config.sops.secrets.restic-password.path;
           repository = lib.mkDefault "/backup/${hostName}";
           timerConfig = {
