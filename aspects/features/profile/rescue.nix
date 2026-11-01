@@ -1,12 +1,14 @@
 _: {
   aspects.profile.rescue = {
     description = "Recovery toolkit: filesystem support and repair utilities for a broken boot.";
-    nixos = { pkgs, ... }: {
+    nixos = { pkgs, lib, ... }: {
       boot.supportedFilesystems = [
         "ntfs"
         "exfat"
         "zfs"
       ];
+      # zfs is here for mounting foreign pools by hand; never force-import one at boot
+      boot.zfs.forceImportRoot = lib.mkDefault false;
 
       environment.systemPackages = with pkgs; [
         nixos-install-tools
