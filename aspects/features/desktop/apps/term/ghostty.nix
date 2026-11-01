@@ -15,7 +15,7 @@
         settings = {
           theme = "noctalia";
           font-size = 12;
-          font-family = "IBM Plex Mono";
+          font-family = "Monaspace Neon Frozen";
           term = "xterm-256color";
           confirm-close-surface = false;
         };

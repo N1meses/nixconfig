@@ -17,7 +17,7 @@
           border-color = c.colors.active;
           border-size = c.borders.width;
           border-radius = c.borders.radius;
-          font = "IBM Plex Mono 11";
+          font = "Monaspace Neon Frozen 11";
           width = 360;
           height = 120;
           margin = "8";

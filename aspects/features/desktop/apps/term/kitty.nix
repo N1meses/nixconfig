@@ -17,7 +17,8 @@
         enable = true;
         settings = {
           include = "~/.config/kitty/themes/noctalia.conf";
-          font_family = "IBM Plex Mono";
+          font_family = ''family="Monaspace Neon Frozen" style=Light'';
+          italic_font = ''family="Monaspace Neon Frozen" style="Light Italic"'';
           font_size = 12;
           term = "xterm-256color";
           confirm_os_window_close = 0;

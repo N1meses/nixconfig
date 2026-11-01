@@ -19,6 +19,8 @@
           icon_theme = "Zed (Default)";
           ui_font_size = 18.0;
           buffer_font_size = 18.0;
+          buffer_font_family = "Monaspace Neon Frozen";
+          buffer_font_weight = 300;
         };
       };
     };

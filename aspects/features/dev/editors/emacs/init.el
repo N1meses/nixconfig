@@ -214,6 +214,23 @@ floating window rule."
   (indent-bars-mode 1))
 (add-hook 'prog-mode-hook #'my/indent-bars)
 
+;; Ligatures (GUI only; in a terminal kitty draws them).  Monaspace Neon
+;; Frozen has every stylistic set on already, but Emacs only shapes runs it
+;; is told to compose, so list the sequences (Monaspace ss01-ss10).
+(ligature-set-ligatures
+ 'prog-mode
+ '("==" "===" "!=" "!==" "=!=" "=/=" "/=" "/==" "~=" "=~" "!~"
+   "<=" ">=" "<=>" "<==>" "<->" "<-->"
+   "->" "-->" "<-" "<--" "=>" "==>" "<==" "~>" "<~" "->>" "<<-"
+   "</" "/>" "</>" "<!--"
+   "|>" "<|" "<|>"
+   "##" "###" "++" "+++" "__" "&&" "||"
+   "::" ":::" ":=" "=:" "=:=" "!!"
+   "..=" "..<" ".." "..." ".=" ".-"
+   ">>" ">>>" "<<" "<<<" ">>=" "=<<" "<<=" ">=>" "<=<"
+   "#[" "#(" "#{" "#?" "#!" "#:" "#=" "#_"))
+(global-ligature-mode 1)
+
 ;; LSP: eglot (built in).  Python and Rust need no entry: eglot's default list
 ;; picks pyright-langserver and rust-analyzer from exec-path (devshell/user).
 (with-eval-after-load 'eglot

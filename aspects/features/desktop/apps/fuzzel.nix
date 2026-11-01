@@ -22,7 +22,7 @@
               terminal = "${c.terminal.command}${
                 lib.optionalString (c.terminal.execFlag != "") " ${c.terminal.execFlag}"
               }";
-              font = "IBM Plex Mono:size=12";
+              font = "Monaspace Neon Frozen:size=12";
               prompt = "» ";
               width = 40;
               lines = 10;

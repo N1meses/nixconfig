@@ -2,8 +2,8 @@ _: {
   aspects.desktop.services.fonts = {
     nixos = { pkgs, ... }: {
       fonts.packages = with pkgs; [
-        ibm-plex
-        material-symbols
+        (ibm-plex.override { families = [ "sans" ]; })
+        monaspace.frozen
         nerd-fonts.symbols-only
       ];
     };
@@ -12,10 +12,11 @@ _: {
       fonts = {
         fontconfig.enable = true;
         packages = with pkgs; [
-          ibm-plex
-          material-symbols
+          (ibm-plex.override { families = [ "sans" ]; })
+          monaspace.frozen
           nerd-fonts.symbols-only
           noto-fonts-color-emoji
+          noto-fonts-cjk-sans
           dejavu_fonts
           liberation_ttf
           unifont

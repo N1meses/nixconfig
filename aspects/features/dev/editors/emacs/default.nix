@@ -152,6 +152,7 @@
               epkgs.indent-bars
               epkgs.eldoc-box
               epkgs.plantuml-mode
+              epkgs.ligature
             ];
             earlyInit = builtins.readFile ./early-init.el;
             init = builtins.readFile ./init.el;
