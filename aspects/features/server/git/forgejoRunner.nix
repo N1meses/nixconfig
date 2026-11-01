@@ -12,7 +12,7 @@
             settings = {
               server.connections.default = {
                 url = "http://localhost:3000";
-                uuid = "9ef013b2-2a45-40e6-9c96-255f9bf005f8";
+                uuid = "1cd845f2-b171-4a05-9453-5b05ee2b797f";
               };
               runner.labels = [ "nix:host" ];
             };
