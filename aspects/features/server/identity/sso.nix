@@ -53,10 +53,6 @@
 
         features.server.publicHosts = [ "auth.${cfg.domain}" ];
 
-        services.nginx.virtualHosts."auth.${cfg.domain}".locations."/".extraConfig = ''
-          proxy_set_header X-Forwarded-Proto https;
-        '';
-
         sops.secrets."authentik-env" = { };
       };
   };

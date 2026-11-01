@@ -228,7 +228,6 @@
             proxy_buffering off;
             proxy_request_buffering off;
             proxy_read_timeout 120s;
-            proxy_set_header X-Forwarded-Proto https;
             limit_req zone=opencloud_images burst=500;
           '';
         };

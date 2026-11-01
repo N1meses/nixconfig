@@ -10,8 +10,62 @@ _: {
       }:
       let
         cfg = config.features.server;
+        ingress = cfg.nginx.ingress;
       in
       {
+        # every proxied location gets this one header set instead of the recommended include,
+        # vhosts from other modules included
+        options.services.nginx.virtualHosts = lib.mkOption {
+          type = lib.types.attrsOf (
+            lib.types.submodule {
+              options.locations = lib.mkOption {
+                type = lib.types.attrsOf (
+                  lib.types.submodule (
+                    { config, ... }:
+                    {
+                      # a module that sets recommendedProxySettings itself keeps the stock include
+                      config = lib.mkMerge [
+                        (lib.mkIf (config.proxyPass != null) { recommendedProxySettings = lib.mkDefault false; })
+                        (lib.mkIf (config.proxyPass != null && !config.recommendedProxySettings) {
+                          extraConfig = lib.mkBefore ''
+                            proxy_set_header Host $host;
+                            proxy_set_header X-Real-IP $remote_addr;
+                            proxy_set_header X-Forwarded-For $remote_addr;
+                            proxy_set_header X-Forwarded-Proto $forwarded_proto;
+                            proxy_set_header X-Forwarded-Host $host;
+                            proxy_set_header X-Forwarded-Server $hostname;
+                          '';
+                        })
+                      ];
+                    }
+                  )
+                );
+              };
+            }
+          );
+        };
+
+        options.features.server.nginx.ingress = {
+          proxies = lib.mkOption {
+            type = lib.types.listOf lib.types.str;
+            default = [ ];
+            description = "Socket addresses of a front proxy nginx trusts for the client address.";
+          };
+
+          clientHeader = lib.mkOption {
+            type = lib.types.nullOr lib.types.str;
+            default = null;
+            example = "CF-Connecting-IP";
+            description = "Header the front proxy puts the client address in.";
+          };
+
+          https = lib.mkOption {
+            type = lib.types.bool;
+            default = false;
+            description = "The front proxy terminated TLS, so its plain-HTTP requests are forwarded as https.";
+          };
+        };
+
         options.features.server = {
           domain = lib.mkOption {
             type = lib.types.str;
@@ -34,6 +88,15 @@ _: {
             recommendedTlsSettings = lib.mkIf cfg.tls true;
             recommendedGzipSettings = true;
             recommendedOptimisation = true;
+            # $realip_remote_addr is the socket peer, so only the front proxy itself can claim https
+            commonHttpConfig = ''
+              ${lib.concatMapStrings (p: "set_real_ip_from ${p};\n") ingress.proxies}
+              ${lib.optionalString (ingress.clientHeader != null) "real_ip_header ${ingress.clientHeader};"}
+              map $realip_remote_addr $forwarded_proto {
+                default $scheme;
+                ${lib.optionalString ingress.https (lib.concatMapStrings (p: "${p} https;\n") ingress.proxies)}
+              }
+            '';
           };
 
           networking.firewall.interfaces."tailscale0".allowedTCPPorts = [

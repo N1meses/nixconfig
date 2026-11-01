@@ -59,8 +59,8 @@
                 host = "127.0.0.1";
                 port = 3010;
                 enable_caddy_on_demand_tls = false;
-                # cloudflared -> nginx -> tranquil
-                trusted_proxy_count = 2;
+                # nginx resolves the client and forwards it as the only X-Forwarded-For entry
+                trusted_proxy_count = 1;
                 user_handle_domains = [ pds.handleDomain ];
                 invite_code_required = !pds.ssoOnly;
               };

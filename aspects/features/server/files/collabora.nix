@@ -65,15 +65,20 @@
 
         features.server.publicHosts = [ "office.${cfg.domain}" ];
 
-        services.nginx.virtualHosts."office.${cfg.domain}".locations."/" = {
-          proxyPass = "http://127.0.0.1:9980";
-          proxyWebsockets = true;
-          extraConfig = ''
-            client_max_body_size 0;
-            proxy_read_timeout 36000s;
-            proxy_send_timeout 36000s;
-            proxy_set_header X-Forwarded-Proto https;
-          '';
+        services.nginx.virtualHosts."office.${cfg.domain}".locations = {
+          "/" = {
+            proxyPass = "http://127.0.0.1:9980";
+            proxyWebsockets = true;
+            extraConfig = ''
+              client_max_body_size 0;
+              proxy_read_timeout 36000s;
+              proxy_send_timeout 36000s;
+            '';
+          };
+          # coolwsd's file REST API trusts every caller here (nginx is 127.0.0.1 to it);
+          # opencloud reaches coolwsd on :9980 directly, editing only needs WOPI + websockets
+          "~ ^/(cool|lool)/(convert-to|get-thumbnail|extract-link-targets|extract-document-structure|transform-document-structure|render-search-result)".return =
+            "403";
         };
       };
   };

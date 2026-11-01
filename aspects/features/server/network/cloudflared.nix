@@ -26,6 +26,16 @@
         };
 
         config = {
+          # the tunnel reaches nginx from loopback with the client in CF-Connecting-IP
+          features.server.nginx.ingress = {
+            proxies = [
+              "127.0.0.1"
+              "::1"
+            ];
+            clientHeader = "CF-Connecting-IP";
+            https = true;
+          };
+
           services.cloudflared = {
             enable = true;
             tunnels.${cfg.cloudflared.tunnelId} = {
