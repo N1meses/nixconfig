@@ -5,7 +5,7 @@
 
 # Module Library
 
-134 aspects.
+130 aspects.
 
 An aspect declares any subset of the layer slots `nixos`, `finix`, `home`, plus an
 optional `includes` list. A host names it once; the builder routes it to whichever
@@ -15,7 +15,7 @@ to pull in the names it includes.
 | Aspect | Layers | Description | Includes |
 |--------|--------|-------------|----------|
 | `bundle.apps` | *aggregator* | Everyday graphical apps: file manager, browser, GTK theming, nh and fastfetch. | `desktop.apps.yazi` `desktop.apps.browser.glide` `desktop.apps.gtk` `desktop.apps.nh` `desktop.apps.fastfetch` |
-| `bundle.base` | *aggregator* | Baseline every host gets: nix settings, locale, user accounts and tailscale. | `core.core` `core.local` `core.users` `server.vpn.tailscale` |
+| `bundle.base` | *aggregator* | Baseline every host gets: nix settings, locale, user accounts and tailscale. | `core.core` `core.local` `core.users` `server.network.tailscale` |
 | `bundle.cliEnv` | *aggregator* | Interactive shell environment: shell, file manager, editor, CLI tools and git. | `core.core` `bundle.shell` `desktop.apps.yazi` `dev.tools.cli` `dev.tools.git` |
 | `bundle.desktop` | *aggregator* | Graphical desktop bundle: session services, apps and the noctalia shell. | `bundle.services` `bundle.apps` `desktop.apps.yaziFilechooser` `desktop.noctalia` |
 | `bundle.services` | *aggregator* | Desktop plumbing every graphical session needs: graphics, fonts, portals, audio, bluetooth and user services. | `desktop.services.graphics` `desktop.services.fonts` `desktop.services.portals` `desktop.services.audio` `desktop.services.bluetooth` `desktop.services.userServices` |
@@ -110,39 +110,35 @@ to pull in the names it includes.
 | `profile.performance` | nixos | Performance tuning: zram, sysctls and nix daemon scheduling. | - |
 | `profile.rescue` | nixos | Recovery toolkit: filesystem support and repair utilities for a broken boot. | - |
 | `profile.virtualisation` | nixos+finix | Virtualisation host support: libvirtd + virt-manager on nixos; incus plus per-user session libvirt (qemu:///session, no daemon) on finix. | - |
-| `server.binaryCache` | nixos | nix-serve binary cache, published on the tailnet. | `core.sops` |
-| `server.forgejoRunner` | nixos | Forgejo Actions runner registered against atlas. | `core.sops` |
-| `server.lanAccess` | nixos | Direct LAN HTTPS to nginx vhosts via a wildcard ACME cert (DNS-01, Cloudflare); pair with split-horizon DNS. | `server.nginx` `core.sops` |
+| `server.ai.ollama` | nixos | Ollama local LLM server. | - |
+| `server.backup.restic` | nixos | Nightly restic backups with retention pruning. | `core.sops` |
+| `server.base.core` | nixos | Server baseline: fail2ban, trimmed documentation and headless defaults. | - |
+| `server.base.lanAccess` | nixos | Direct LAN HTTPS to nginx vhosts via a wildcard ACME cert (DNS-01, Cloudflare); pair with split-horizon DNS. | `server.base.nginx` `core.sops` |
+| `server.base.monitoring` | nixos | netdata metrics, streaming to the parent collector over tailscale. | `core.sops` |
+| `server.base.nginx` | nixos | nginx reverse proxy with ACME-backed TLS. | - |
+| `server.base.sshd` | nixos+finix | OpenSSH server, key-only and restricted to declared users. | - |
+| `server.chat.matrix` | nixos | Matrix homeserver. | `server.base.nginx` `server.backup.restic` `core.sops` |
+| `server.chat.sable` | nixos | Sable web client. | `server.base.nginx` |
+| `server.files.collabora` | nixos | Collabora Online, the WOPI document server OpenCloud edits through. | `server.base.nginx` |
+| `server.files.croc` | nixos | croc file-transfer relay on the tailnet. | - |
+| `server.files.openCloud` | nixos | openCloud aspect with collabora integration | `server.base.nginx` `server.backup.restic` `core.sops` |
+| `server.files.sync.client` | home | Continuous two-way Unison sync of the working set with the atlas hub. | `desktop.compositors.compositors` `shell.ssh` |
+| `server.files.sync.host` | nixos | Unison sync hub: a forced-command `sync` user owning the shared working set. | `server.base.sshd` |
+| `server.git.binaryCache` | nixos | nix-serve binary cache, published on the tailnet. | `core.sops` |
+| `server.git.forgejo` | nixos | Forgejo git forge with LFS and Actions. | `server.base.nginx` `server.backup.restic` |
+| `server.git.forgejoRunner` | nixos | Forgejo Actions runner registered against atlas. | `core.sops` |
+| `server.git.knot` | nixos | Tangled knot (atproto git hosting). | `server.base.nginx` `server.backup.restic` `core.sops` |
+| `server.git.spindle` | nixos | Tangled spindle (CI runner, microVM engine). | `server.base.nginx` `server.backup.restic` `server.git.knot` `core.sops` |
+| `server.identity.pds` | nixos | Tranquil atproto PDS with authentik SSO. | `server.base.nginx` `server.backup.restic` `server.mail.relay` `core.sops` |
+| `server.identity.sso` | nixos | Authentik identity provider. | `server.base.nginx` `server.backup.restic` `core.sops` |
+| `server.identity.vaultwarden` | nixos | Vaultwarden password manager. | `server.base.nginx` `server.backup.restic` `core.sops` |
+| `server.mail.alerts` | nixos | Mail alerts through the relay: ZFS events, SMART failures and failed units. | `server.mail.relay` |
 | `server.mail.relay` | nixos | Send-only postfix on loopback, relaying to an authenticated smarthost. | `core.sops` |
-| `server.media.collabora` | nixos | Collabora Online, the WOPI document server OpenCloud edits through. | `server.nginx` |
-| `server.media.jellyfin` | nixos | Jellyfin media server, proxied and backed up. | `server.nginx` `server.security.restic` |
-| `server.media.navidrome` | nixos | Navidrome music streaming server. | `server.nginx` `server.security.restic` |
-| `server.media.nextcloud` | nixos | Nextcloud with a local database. | `server.nginx` `server.security.restic` `core.sops` |
-| `server.media.nixarr` | nixos | The *arr media automation stack. | `server.security.restic` `core.sops` |
-| `server.media.ocis` | nixos | ownCloud Infinite Scale. | `server.nginx` `server.security.restic` |
-| `server.media.openCloud` | nixos | openCloud aspect with collabora integration | `server.nginx` `server.security.restic` `core.sops` |
-| `server.monitoring` | nixos | netdata metrics, streaming to the parent collector over tailscale. | `core.sops` |
-| `server.nginx` | nixos | nginx reverse proxy with ACME-backed TLS. | - |
-| `server.security.authentik` | nixos | Authentik identity provider. | `server.nginx` `server.security.restic` `core.sops` |
-| `server.security.restic` | nixos | Nightly restic backups with retention pruning. | `core.sops` |
-| `server.security.vaultwarden` | nixos | Vaultwarden password manager. | `server.nginx` `server.security.restic` `core.sops` |
-| `server.serverCore` | nixos | Server baseline: fail2ban, trimmed documentation and headless defaults. | - |
-| `server.share.croc` | nixos | croc file-transfer relay on the tailnet. | - |
-| `server.share.element` | nixos | Element web client. | `server.nginx` |
-| `server.share.forgejo` | nixos | Forgejo git forge with LFS and Actions. | `server.nginx` `server.security.restic` |
-| `server.share.matrix` | nixos | Matrix homeserver. | `server.nginx` `server.security.restic` `core.sops` |
-| `server.share.ollama` | nixos | Ollama local LLM server. | - |
-| `server.share.sable` | nixos | Sable web client. | `server.nginx` |
-| `server.share.tangled` | nixos | Tangled knot (atproto git hosting). | `server.nginx` `server.security.restic` `core.sops` |
-| `server.share.tranquil` | nixos | Tranquil atproto PDS with authentik SSO. | `server.nginx` `server.security.restic` `server.mail.relay` `core.sops` |
-| `server.sshd` | nixos+finix | OpenSSH server, key-only and restricted to declared users. | - |
-| `server.sync.client` | home | Continuous two-way Unison sync of the working set with the atlas hub. | `desktop.compositors.compositors` `shell.ssh` |
-| `server.sync.host` | nixos | Unison sync hub: a forced-command `sync` user owning the shared working set. | `server.sshd` |
-| `server.technitium` | nixos | Technitium DNS server. | - |
-| `server.vpn.airvpn` | nixos | AirVPN wireguard tunnel with a sops-held config. | `core.sops` |
-| `server.vpn.cloudflared` | nixos | Cloudflare tunnel exposing declared nginx vhosts publicly. | `server.nginx` `core.sops` |
-| `server.vpn.mullvad` | nixos | Mullvad VPN client. | - |
-| `server.vpn.tailscale` | nixos+finix | Tailscale mesh VPN, trusted in the firewall. | - |
+| `server.media.jellyfin` | nixos | Jellyfin media server, proxied and backed up. | `server.base.nginx` `server.backup.restic` |
+| `server.media.nixarr` | nixos | The *arr media automation stack. | `server.backup.restic` `core.sops` |
+| `server.network.cloudflared` | nixos | Cloudflare tunnel exposing declared nginx vhosts publicly. | `server.base.nginx` `core.sops` |
+| `server.network.tailscale` | nixos+finix | Tailscale mesh VPN, trusted in the firewall. | - |
+| `server.network.technitium` | nixos | Technitium DNS server. | - |
 | `shell.nushell` | nixos+finix+home | Nushell as the interactive shell behind a bash login (or alongside zsh), with inshellah completions. | - |
 | `shell.shellTools` | home | fzf and zoxide, integrated into zsh. | - |
 | `shell.ssh` | home | ssh client config and per-host match blocks. | - |

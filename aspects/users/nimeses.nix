@@ -17,7 +17,7 @@
       bundle.cliEnv
       bundle.desktop
       desktop.compositors.umbriel
-      server.sync.client
+      server.files.sync.client
       dev.editors.emacs
       desktop.apps.term.kitty
       desktop.apps.browser.glide

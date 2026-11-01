@@ -8,7 +8,7 @@
       bundle.cliEnv
       shell.nushell
       bundle.services
-      server.sync.client
+      server.files.sync.client
       dev.editors.emacs
       desktop.compositors.umbriel
       desktop.noctalia

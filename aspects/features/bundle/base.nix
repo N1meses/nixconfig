@@ -5,7 +5,7 @@
       core.core
       core.local
       core.users
-      server.vpn.tailscale
+      server.network.tailscale
     ];
   };
 }

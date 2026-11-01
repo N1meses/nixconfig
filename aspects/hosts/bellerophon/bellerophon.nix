@@ -22,7 +22,7 @@ in
       desktop.compositors.niri
       desktop.services.ly
       profile.laptop
-      server.sshd
+      server.base.sshd
 
       core.finitV5
       finix.doas

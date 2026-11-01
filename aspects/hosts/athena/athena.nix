@@ -18,13 +18,13 @@
     includes = with config.aspectLib.aspectNames; [
       bundle.base
       dev.tools.git
-      server.serverCore
-      server.sshd
+      server.base.core
+      server.base.sshd
       desktop.apps.nh
-      server.monitoring
-      server.security.vaultwarden
-      server.share.croc
-      server.technitium
+      server.base.monitoring
+      server.identity.vaultwarden
+      server.files.croc
+      server.network.technitium
       users.athena
     ];
 

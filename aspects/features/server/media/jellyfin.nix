@@ -2,8 +2,8 @@
   aspects.server.media.jellyfin = {
     description = "Jellyfin media server, proxied and backed up.";
     includes = with config.aspectLib.aspectNames; [
-      server.nginx
-      server.security.restic
+      server.base.nginx
+      server.backup.restic
     ];
     nixos =
       { config, ... }:
@@ -12,6 +12,9 @@
       in
       {
         services.jellyfin.enable = true;
+
+        features.server.publicHosts = [ "jellyfin.${cfg.domain}" ];
+
 
         services.nginx.virtualHosts."jellyfin.${cfg.domain}" = {
           locations."/" = {

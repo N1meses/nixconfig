@@ -7,7 +7,7 @@
   aspects.server.media.nixarr = {
     description = "The *arr media automation stack.";
     includes = with config.aspectLib.aspectNames; [
-      server.security.restic
+      server.backup.restic
       core.sops
     ];
     nixos =

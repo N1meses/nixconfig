@@ -59,26 +59,27 @@
     includes = with config.aspectLib.aspectNames; [
       bundle.base
       dev.tools.git
-      server.serverCore
-      server.sshd
+      server.base.core
+      server.base.sshd
       desktop.apps.nh
-      server.monitoring
-      server.share.forgejo
-      server.binaryCache
-      server.forgejoRunner
+      server.base.monitoring
+      server.git.forgejo
+      server.git.binaryCache
+      server.git.forgejoRunner
       server.media.jellyfin
-      server.security.authentik
-      server.vpn.cloudflared
-      server.lanAccess
-      server.share.matrix
-      server.share.sable
-      server.share.tranquil
-      server.share.tangled
-      server.share.spindle
+      server.identity.sso
+      server.network.cloudflared
+      server.base.lanAccess
+      server.chat.matrix
+      server.chat.sable
+      server.identity.pds
+      server.git.knot
+      server.git.spindle
       server.media.nixarr
-      server.media.openCloud
-      server.media.collabora
-      server.sync.host
+      server.files.openCloud
+      server.files.collabora
+      server.files.sync.host
+      server.mail.alerts
       users.atlas
     ];
 
@@ -94,28 +95,11 @@
 
         features.server = {
           allowedUsers = [ "atlas" ];
-          cloudflared.publicHosts =
-            map (h: "${h}.${config.features.server.domain}") [
-              "forgejo"
-              "jellyfin"
-              "auth"
-              "matrix"
-              "sable"
-              "cloud"
-              "office"
-              "pds"
-              "knot"
-              "spindle"
-            ]
-            # atproto handle lookups; drop the legacy entry once no handle uses it
-            ++ map (d: "*.${d}") (
-              [ config.features.server.pds.handleDomain ] ++ config.features.server.pds.legacyHandleDomains
-            );
           lanAccess = {
             # the LAN cert only covers <domain> and its first level
             hosts = lib.filter (
               h: lib.hasSuffix ".${config.features.server.domain}" h
-            ) config.features.server.cloudflared.publicHosts;
+            ) config.features.server.publicHosts;
             interface = "enp3s0";
           };
 
@@ -127,7 +111,16 @@
             admins = [ "did:plc:jybfllaz5fcmnatgpnto4yle" ]; # akadmin
             memberPds = "http://127.0.0.1:${toString config.services.tranquil-pds.settings.server.port}";
           };
-          mail.relay.username = "106c5581-d276-40c6-ba37-1451f7510db2"; # scaleway TEM project
+          spindle.allowList = [ "did:plc:xeur7no5c2uo6t6nx4rx6pm5" ]; # nimeses
+          mail = {
+            relay.username = "106c5581-d276-40c6-ba37-1451f7510db2"; # scaleway TEM project
+            alerts.units = [
+              "restic-backups-system"
+              "postgresqlBackup-authentik"
+              "postgresqlBackup-tranquil-pds"
+              "knot-member-sync"
+            ];
+          };
         };
 
         networking.nameservers = [

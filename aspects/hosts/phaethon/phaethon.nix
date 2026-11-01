@@ -13,7 +13,7 @@
     system = "x86_64-linux";
     includes = with config.aspectLib.aspectNames; [
       bundle.base
-      server.sshd
+      server.base.sshd
       finix.zfs
       finix.docker
 
