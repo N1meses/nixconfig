@@ -33,16 +33,6 @@ let
         pkgs.nix-output-monitor
         pkgs.jq
       ];
-
-      shellHook = ''
-        echo "nixconfig — flakeless, built with --file ."
-        echo "  nix build --file . checks.nixos-<host>     build a host"
-        echo "  nix build --file . packages.<host>-vm      run a host in a VM"
-        echo "  nix build --file . packages.docs           regenerate aspects/*.md"
-        echo "  nix build --file . checks.aspects          find dead selections"
-        echo "  deploy --file . <host>                     push to a remote"
-        echo "  pnix update [pin]                          update pins"
-      '';
     };
 in
 {
