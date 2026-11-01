@@ -121,17 +121,17 @@ to pull in the names it includes.
 | `server.chat.sable` | nixos | Sable web client. | `server.base.nginx` |
 | `server.files.collabora` | nixos | Collabora Online, the WOPI document server OpenCloud edits through. | `server.base.nginx` |
 | `server.files.croc` | nixos | croc file-transfer relay on the tailnet. | - |
-| `server.files.openCloud` | nixos | openCloud aspect with collabora integration | `server.base.nginx` `server.backup.restic` `core.sops` |
+| `server.files.openCloud` | nixos | openCloud aspect with collabora integration | `server.base.nginx` `server.backup.restic` `server.mail.relay` `core.sops` |
 | `server.files.sync.client` | home | Continuous two-way Unison sync of the working set with the atlas hub. | `desktop.compositors.compositors` `shell.ssh` |
 | `server.files.sync.host` | nixos | Unison sync hub: a forced-command `sync` user owning the shared working set. | `server.base.sshd` |
 | `server.git.binaryCache` | nixos | nix-serve binary cache, published on the tailnet. | `core.sops` |
-| `server.git.forgejo` | nixos | Forgejo git forge with LFS and Actions. | `server.base.nginx` `server.backup.restic` |
+| `server.git.forgejo` | nixos | Forgejo git forge with LFS and Actions. | `server.base.nginx` `server.backup.restic` `server.mail.relay` |
 | `server.git.forgejoRunner` | nixos | Forgejo Actions runner registered against atlas. | `core.sops` |
 | `server.git.knot` | nixos | Tangled knot (atproto git hosting). | `server.base.nginx` `server.backup.restic` `core.sops` |
 | `server.git.spindle` | nixos | Tangled spindle (CI runner, microVM engine). | `server.base.nginx` `server.backup.restic` `server.git.knot` `core.sops` |
 | `server.identity.pds` | nixos | Tranquil atproto PDS with authentik SSO. | `server.base.nginx` `server.backup.restic` `server.mail.relay` `core.sops` |
-| `server.identity.sso` | nixos | Authentik identity provider. | `server.base.nginx` `server.backup.restic` `core.sops` |
-| `server.identity.vaultwarden` | nixos | Vaultwarden password manager. | `server.base.nginx` `server.backup.restic` `core.sops` |
+| `server.identity.sso` | nixos | Authentik identity provider. | `server.base.nginx` `server.backup.restic` `server.mail.relay` `core.sops` |
+| `server.identity.vaultwarden` | nixos | Vaultwarden password manager. | `server.base.nginx` `server.backup.restic` `server.mail.relay` `core.sops` |
 | `server.mail.alerts` | nixos | Mail alerts through the relay: ZFS events, SMART failures and failed units. | `server.mail.relay` |
 | `server.mail.relay` | nixos | Send-only postfix on loopback, relaying to an authenticated smarthost. | `core.sops` |
 | `server.media.jellyfin` | nixos | Jellyfin media server, proxied and backed up. | `server.base.nginx` `server.backup.restic` |

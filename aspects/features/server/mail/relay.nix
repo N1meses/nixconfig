@@ -47,7 +47,7 @@
             enable = true;
             settings.main = {
               myhostname = "${config.networking.hostName}.${cfg.domain}";
-              myorigin = "notify.${cfg.domain}";
+              myorigin = lib.last (lib.splitString "@" mail.from);
 
               # null client: no local delivery, only loopback may submit
               inet_interfaces = "loopback-only";

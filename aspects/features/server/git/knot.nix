@@ -162,7 +162,6 @@
 
         config.features.server.publicHosts = [ "knot.${cfg.domain}" ];
 
-
         config.services.nginx.virtualHosts."knot.${cfg.domain}" = {
           locations."/" = {
             proxyPass = "http://127.0.0.1:5555";

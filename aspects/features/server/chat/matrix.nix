@@ -50,7 +50,6 @@
 
         features.server.publicHosts = [ "matrix.${cfg.domain}" ];
 
-
         services.nginx.virtualHosts."matrix.${cfg.domain}" = {
           locations."/_matrix" = {
             proxyPass = "http://[::1]:6167";

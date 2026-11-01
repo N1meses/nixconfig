@@ -4,6 +4,7 @@
     includes = with config.aspectLib.aspectNames; [
       server.base.nginx
       server.backup.restic
+      server.mail.relay
       core.sops
     ];
 
@@ -160,6 +161,12 @@
             COLLABORATION_APP_PROOF_DISABLE = "true";
 
             COLLABORATION_WOPI_SRC = "http://127.0.0.1:9300";
+
+            NOTIFICATIONS_SMTP_HOST = "127.0.0.1";
+            NOTIFICATIONS_SMTP_PORT = "25";
+            NOTIFICATIONS_SMTP_SENDER = "OpenCloud <${cfg.mail.from}>";
+            NOTIFICATIONS_SMTP_AUTHENTICATION = "none";
+            NOTIFICATIONS_SMTP_ENCRYPTION = "none";
           }
           // lib.optionalAttrs (webApps != [ ]) {
             WEB_ASSET_APPS_PATH = "${pkgs.linkFarm "opencloud-web-apps" webApps}";
@@ -212,7 +219,6 @@
         '';
 
         features.server.publicHosts = [ "cloud.${cfg.domain}" ];
-
 
         services.nginx.virtualHosts."cloud.${cfg.domain}".locations."/" = {
           proxyPass = "http://127.0.0.1:9200";

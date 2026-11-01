@@ -9,6 +9,7 @@
     includes = with config.aspectLib.aspectNames; [
       server.base.nginx
       server.backup.restic
+      server.mail.relay
       core.sops
     ];
     nixos =
@@ -26,6 +27,12 @@
             disable_startup_analytics = true;
             avatars = "initials";
             listen.metrics = [ "[::1]:9300" ];
+            # loopback relay, no auth; an AUTHENTIK_EMAIL__* in authentik-env would override this
+            email = {
+              host = "127.0.0.1";
+              port = 25;
+              from = "Authentik <${cfg.mail.from}>";
+            };
           };
           nginx = {
             enable = true;
@@ -45,7 +52,6 @@
         ];
 
         features.server.publicHosts = [ "auth.${cfg.domain}" ];
-
 
         services.nginx.virtualHosts."auth.${cfg.domain}".locations."/".extraConfig = ''
           proxy_set_header X-Forwarded-Proto https;

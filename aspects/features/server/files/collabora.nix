@@ -65,7 +65,6 @@
 
         features.server.publicHosts = [ "office.${cfg.domain}" ];
 
-
         services.nginx.virtualHosts."office.${cfg.domain}".locations."/" = {
           proxyPass = "http://127.0.0.1:9980";
           proxyWebsockets = true;

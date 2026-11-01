@@ -4,6 +4,7 @@
     includes = with config.aspectLib.aspectNames; [
       server.base.nginx
       server.backup.restic
+      server.mail.relay
       core.sops
     ];
     nixos =
@@ -25,6 +26,12 @@
             SIGNUPS_ALLOWED = false;
             WEBSOCKET_ENABLED = true;
             LOG_LEVEL = "warn";
+
+            SMTP_HOST = "127.0.0.1";
+            SMTP_PORT = 25;
+            SMTP_SECURITY = "off";
+            SMTP_FROM = cfg.mail.from;
+            SMTP_FROM_NAME = "Vaultwarden";
           };
 
           environmentFile = config.sops.secrets."vaultwarden-env".path;

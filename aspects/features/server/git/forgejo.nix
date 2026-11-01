@@ -4,6 +4,7 @@
     includes = with config.aspectLib.aspectNames; [
       server.base.nginx
       server.backup.restic
+      server.mail.relay
     ];
     nixos =
       { config, ... }:
@@ -31,7 +32,17 @@
               MIRROR = 7200;
               CLONE = 7200;
             };
-            service.ALLOW_ONLY_EXTERNAL_REGISTRATION = true;
+            service = {
+              ALLOW_ONLY_EXTERNAL_REGISTRATION = true;
+              ENABLE_NOTIFY_MAIL = true;
+            };
+            mailer = {
+              ENABLED = true;
+              PROTOCOL = "smtp";
+              SMTP_ADDR = "127.0.0.1";
+              SMTP_PORT = 25;
+              FROM = "Forgejo <${cfg.mail.from}>";
+            };
             log.LEVEL = "Warn";
             picture.AVATAR_MAX_FILE_SIZE = 5242880;
             actions.ENABLED = true;
@@ -43,7 +54,6 @@
         services.restic.backups.system.paths = [ "/var/lib/forgejo" ];
 
         features.server.publicHosts = [ "forgejo.${cfg.domain}" ];
-
 
         services.nginx.virtualHosts."forgejo.${cfg.domain}" = {
           locations."/" = {

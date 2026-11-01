@@ -34,7 +34,14 @@
         ...
       }:
       {
-        features.server.allowedUsers = [ "athena" ];
+        features.server = {
+          allowedUsers = [ "athena" ];
+          # the tailnet domain isn't a verified sender at scaleway
+          mail = {
+            from = "noreply@notify.nimeses.com";
+            relay.username = "106c5581-d276-40c6-ba37-1451f7510db2"; # scaleway TEM project
+          };
+        };
 
         boot.kernelPackages = pkgs.linuxPackages_6_18;
 

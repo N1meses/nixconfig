@@ -14,7 +14,7 @@ may inherit another host the same way. Both are selectable by name.
 
 | Host | Classes | Users | Aspects | Description |
 |------|---------|-------|--------:|-------------|
-| `athena` | nixos | `athena` | 28 | Tailnet server: DNS, password vault, monitoring and file drop. |
+| `athena` | nixos | `athena` | 29 | Tailnet server: DNS, password vault, monitoring and file drop. |
 | `atlas` | nixos | `atlas` | 43 | Public-facing server: forgejo, binary cache, media, identity and matrix. |
 | `bellerophon` | finix | `icarus` | 47 | finix laptop with busybox/iwd/mdevd/seatd, part of the finix test matrix. |
 | `hermes` | nixos | `hermes` | 34 | impermanent host and installer for quick access |

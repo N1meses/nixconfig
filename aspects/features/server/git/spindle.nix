@@ -57,7 +57,6 @@
 
         config.features.server.publicHosts = [ "spindle.${cfg.domain}" ];
 
-
         config.services.nginx.virtualHosts."spindle.${cfg.domain}" = {
           locations."/" = {
             proxyPass = "http://127.0.0.1:6555";
