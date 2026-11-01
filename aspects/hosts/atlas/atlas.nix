@@ -74,6 +74,7 @@
       server.share.sable
       server.share.tranquil
       server.share.tangled
+      server.share.spindle
       server.media.nixarr
       server.media.openCloud
       server.media.collabora
@@ -104,6 +105,7 @@
               "office"
               "pds"
               "knot"
+              "spindle"
             ]
             # atproto handle lookups; drop the legacy entry once no handle uses it
             ++ map (d: "*.${d}") (
