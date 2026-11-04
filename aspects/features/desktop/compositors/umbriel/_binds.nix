@@ -29,8 +29,8 @@ let
 
   workspaceBinds = lib.listToAttrs (
     lib.concatMap (n: [
-      (lib.nameValuePair "Mod+${toString n}" "workspace-switch:${toString n}")
-      (lib.nameValuePair "Mod+Shift+${toString n}" "window-move-to-workspace:${toString n}")
+      (lib.nameValuePair "Mod+${toString n}" "workspace-switch ${toString n}")
+      (lib.nameValuePair "Mod+Shift+${toString n}" "window-move-to-workspace ${toString n}")
     ]) (lib.range 1 9)
   );
 
@@ -53,10 +53,10 @@ let
     "Mod+Comma" = "window-consume-left";
     "Mod+Period" = "window-consume-or-expel-right";
 
-    "Mod+Ctrl+l" = "window-modify-width-right:0.1";
-    "Mod+Ctrl+h" = "window-modify-width-right:-0.1";
-    "Mod+Ctrl+j" = "window-modify-height-down:0.1";
-    "Mod+Ctrl+k" = "window-modify-height-down:-0.1";
+    "Mod+Ctrl+l" = "window-modify-width-right 0.1";
+    "Mod+Ctrl+h" = "window-modify-width-right -0.1";
+    "Mod+Ctrl+j" = "window-modify-height-down 0.1";
+    "Mod+Ctrl+k" = "window-modify-height-down -0.1";
 
     "Mod+f" = "window-toggle-maximize";
     "Mod+Ctrl+f" = "window-toggle-maximize-to-edges";
@@ -85,8 +85,8 @@ in
     staticBinds
     // mouseBinds
     // {
-      "Mod+Return" = "spawn:${termSpawn}";
-      "Mod+e" = "spawn:${termExec "yazi"}";
+      "Mod+Return" = "spawn ${termSpawn}";
+      "Mod+e" = "spawn ${termExec "yazi"}";
     }
     // cfg.extraBinds;
 }
