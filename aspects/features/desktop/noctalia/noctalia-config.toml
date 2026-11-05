@@ -3,6 +3,7 @@ high_contrast = false
 ui_scale = 1.0499999523162842
 
 [audio]
+colorize_icons = false
 enable_notification_sounds = true
 enable_overdrive = true
 enable_power_sounds = true
@@ -11,6 +12,7 @@ enable_sounds = false
 enable_volume_sounds = true
 sound_theme = "freedesktop"
 sound_volume = 0.0
+spectrum_frame_rate = 60
 
 [backdrop]
 blur_intensity = 0.5
@@ -23,6 +25,7 @@ order = [ "default" ]
     [bar.default]
     auto_hide = false
     auto_hide_delay_ms = 0
+    auto_hide_reserve_space = false
     background_opacity = 0.89999997615814209
     border = "surface"
     border_width = 0.0
@@ -162,6 +165,7 @@ width = 700
     hide_past_events = false
     past_events_threshold_minutes = 30
     show_events_card = true
+    show_events_location = false
     show_week_numbers = false
 
     [control_center.media]
@@ -202,9 +206,13 @@ auto_hide = false
 background_opacity = 0.68999999761581421
 border = "outline_variant"
 border_width = 0.0
+colorize_icons = false
+compositor_blur = true
 concave_edge_corners = true
 cross_axis_padding = 8
 enabled = false
+icon_saturation = 1.0
+icon_shadow = false
 icon_size = 48
 inactive_opacity = 0.85000002384185791
 inactive_scale = 0.85000002384185791
@@ -528,13 +536,16 @@ border = true
 border_color = "outline_variant"
 border_width = 1.0
 collapse_on_dismiss = true
+colorize_icons = false
 enable_daemon = true
 follow_focused_output = false
+group_by_app = true
 history_retention_hours = 0
 keep_dismissed_in_history = true
 layer = "top"
 max_visible = 0
 monitors = []
+newest_on_edge = false
 offset_x = 8
 offset_y = 8
 position = "top_right"
@@ -601,18 +612,15 @@ enabled = [
     [[plugins.source]]
     enabled = true
     kind = "git"
-    location = "https://github.com/noctalia-dev/official-plugins"
     name = "official"
 
     [[plugins.source]]
     enabled = true
     kind = "git"
-    location = "https://github.com/noctalia-dev/community-plugins"
     name = "community"
 
 [shell]
-app_icon_colorize = false
-avatar_path = "/nix/store/ybmj4zhp3r6wjch26x3dsk3dy647arc7-source/assets/icons/hunter.jpeg"
+avatar_path = "/nix/store/98cmaw8lfc8v80wv54knfa05dg1akl4w-source/assets/icons/hunter.jpeg"
 button_borders = true
 card_borders = true
 clipboard_auto_paste = "auto"
@@ -634,9 +642,11 @@ niri_overview_type_to_launch_enabled = true
 offline_mode = false
 password_style = "random"
 polkit_agent = true
+polkit_colorize_icons = false
 popup_borders = true
 popup_shadows = true
 readline_shortcuts = false
+screen_time_colorize_icons = false
 screen_time_enabled = true
 settings_expand_all_groups = false
 settings_show_advanced = true
@@ -665,6 +675,7 @@ umbriel_overview_type_to_launch_enabled = false
     auto_paste = "auto"
     categories = true
     category_icons_only = false
+    colorize_icons = false
     compact = false
     default_view = "recent"
     fetch_exchange_rates = true
@@ -819,6 +830,7 @@ umbriel_overview_type_to_launch_enabled = false
     direction = "down"
 
     [shell.window_switcher]
+    colorize_icons = false
     current_workspace_only = false
     mru = false
     show_all_outputs = true
@@ -912,6 +924,7 @@ refresh_minutes = 30
 unit = "metric"
 
 [widget.active_window]
+colorize_icons = false
 icon_size = 14.0
 max_length = 260.0
 min_length = 80.0
@@ -931,7 +944,7 @@ type = "battery"
 type = "clock"
 
 [widget.control-center]
-custom_image = "/nix/store/ybmj4zhp3r6wjch26x3dsk3dy647arc7-source/assets/icons/nixos.png"
+custom_image = "/nix/store/98cmaw8lfc8v80wv54knfa05dg1akl4w-source/assets/icons/nixos.png"
 scale = 1.5
 type = "control-center"
 
@@ -1020,6 +1033,7 @@ show_value = false
 type = "sysmon"
 
 [widget.taskbar]
+colorize_icons = false
 group_by_workspace = true
 hide_empty_workspaces = false
 scale = 1.1000000000000001
@@ -1031,6 +1045,7 @@ stat = "cpu_temp"
 type = "sysmon"
 
 [widget.tray]
+colorize_icons = false
 enabled = true
 type = "tray"
 
@@ -1042,3 +1057,7 @@ type = "noctalia/wallhaven:wallhaven"
 
 [widget.widget]
 type = "blackbartblues/audio-switcher:widget"
+
+[widget.workspaces]
+colorize_icons = false
+type = "workspaces"
