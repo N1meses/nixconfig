@@ -7,6 +7,7 @@
   # Relative to each client's home.
   paths = [
     "Projects"
+    "Documents"
     "md_files"
     "nixconfig"
     "agents"
