@@ -13,7 +13,7 @@
       rum.programs.ghostty = {
         enable = true;
         settings = {
-          theme = "noctalia";
+          theme = "noctalia-wallpaper";
           font-size = 12;
           font-family = "Monaspace Neon Frozen";
           term = "xterm-256color";

@@ -47,15 +47,38 @@ in
         ]}";
       };
 
-    home = _: {
-      imports = [
-        flakeConfig.aspectLib.all."desktop.noctaliaSettings".home
-      ];
+    home =
+      { pkgs, ... }:
+      let
+        builtinTemplates = "${
+          inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
+        }/share/noctalia/assets/templates";
+      in
+      {
+        imports = [
+          flakeConfig.aspectLib.all."desktop.noctaliaSettings".home
+        ];
 
-      rum.programs.foot.settings.main.include = "~/.config/foot/themes/noctalia";
+        rum.programs.foot.settings.main.include = "~/.config/foot/themes/noctalia";
 
-      features.compositors.autoStart = [ "noctalia" ];
-    };
+        # 5.4.1's built-in terminal templates pin the ANSI hues, so these replace them
+        # (dropped from builtin_ids). Own output names: disabling a built-in runs its
+        # undo.sh, which deletes themes/noctalia and themes/noctalia.conf.
+        noctalia.settings.theme.templates.user = {
+          ghostty-wallpaper = {
+            input_path = "${./templates/ghostty}";
+            output_path = "$XDG_CONFIG_HOME/ghostty/themes/noctalia-wallpaper";
+            post_hook = "bash ${builtinTemplates}/ghostty/reload.sh";
+          };
+          kitty-wallpaper = {
+            input_path = "${./templates/kitty.conf}";
+            output_path = "$XDG_CONFIG_HOME/kitty/themes/noctalia-wallpaper.conf";
+            post_hook = "pkill -USR1 kitty";
+          };
+        };
+
+        features.compositors.autoStart = [ "noctalia" ];
+      };
   };
 
 }

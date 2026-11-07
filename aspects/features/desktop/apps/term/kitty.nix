@@ -16,7 +16,7 @@
       rum.programs.kitty = {
         enable = true;
         settings = {
-          include = "~/.config/kitty/themes/noctalia.conf";
+          include = "~/.config/kitty/themes/noctalia-wallpaper.conf";
           font_family = ''family="Monaspace Neon Frozen" style=Light'';
           italic_font = ''family="Monaspace Neon Frozen" style="Light Italic"'';
           font_size = 12;
