@@ -101,7 +101,7 @@ _: {
               hostname = {
                 ssh_only = false;
                 format = "[$hostname]($style) ";
-                style = "bold red";
+                style = "bold purple";
               };
 
               jobs.format = "[$symbol$number]($style) ";
