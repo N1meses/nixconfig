@@ -78,14 +78,14 @@
       "owner": "finix-community",
       "repo": "finix",
       "url": "https://github.com/finix-community/finix",
-      "rev": "f7b0ee831c40cf9a02a408705823e385f00b09fd",
+      "rev": "710826273679350489d19bb95e34f646252db6b6",
       "ref": "HEAD",
-      "hash": "sha256-BVK2NtAU8aLCaOQD6tQs6C+Yc15X/hof1zkZLATOyko=",
-      "lastModified": 1794018680,
+      "hash": "sha256-Ve+7iKf/ZJTA83Q9s3ax//7VWIKuC+prwrQXUW2dmvk=",
+      "lastModified": 1794066269,
       "fetch": {
         "kind": "tarball",
-        "url": "https://github.com/finix-community/finix/archive/f7b0ee831c40cf9a02a408705823e385f00b09fd.tar.gz",
-        "hash": "sha256-BVK2NtAU8aLCaOQD6tQs6C+Yc15X/hof1zkZLATOyko="
+        "url": "https://github.com/finix-community/finix/archive/710826273679350489d19bb95e34f646252db6b6.tar.gz",
+        "hash": "sha256-Ve+7iKf/ZJTA83Q9s3ax//7VWIKuC+prwrQXUW2dmvk="
       }
     },
     "glide": {
