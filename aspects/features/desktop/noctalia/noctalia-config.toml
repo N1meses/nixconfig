@@ -892,7 +892,7 @@ sync_color_scheme = true
 wallpaper_scheme = "m3-content"
 
     [theme.templates]
-    builtin_ids = [ "btop", "foot", "gtk3", "gtk4", "ghostty", "kitty", "qt" ]
+    builtin_ids = [ "btop", "foot", "gtk3", "gtk4", "qt" ]
     community_ids = [ "claude-code", "discord", "obsidian", "steam", "vicinae", "zellij", "fzf" ]
     enable_builtin_templates = true
     enable_community_templates = true

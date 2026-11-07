@@ -22,7 +22,7 @@
       desktop.apps.term.kitty
       desktop.apps.browser.glide
       dev.tools.direnv
-      shell.nushell
+      shell.zsh
     ];
     home = { pkgs, ... }: {
       packages = with pkgs; [

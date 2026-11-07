@@ -10,7 +10,7 @@
     keys = map builtins.readFile (lib.filesystem.listFilesRecursive ../features/core/super/keys);
     includes = with config.aspectLib.aspectNames; [
       bundle.cliEnv
-      shell.nushell
+      shell.zsh
       bundle.desktop
       server.files.sync.client
       desktop.compositors.niri

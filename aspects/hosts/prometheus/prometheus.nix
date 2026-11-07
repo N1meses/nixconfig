@@ -81,6 +81,8 @@ in
             };
           };
 
+	  cursor.size = 26;
+
           niri.extraBinds = {
             "XF86AudioRaiseVolume" = {
               spawn = mkNoctaliaNiri "volume-up";

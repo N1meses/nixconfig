@@ -108,6 +108,8 @@ _: {
           alias du='du -h'
           alias df='df -h'
 
+          alias em='emacs -nw'
+
           # history
           HISTSIZE=10000
           SAVEHIST=10000
