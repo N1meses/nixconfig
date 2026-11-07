@@ -152,7 +152,10 @@ in
 
             workspaces.back_and_forth = true;
 
-            overview.zoom = 0.3;
+            overview = {
+	      zoom = 0.3;
+	      workspace_wallpaper = false;
+	    };
 
             environment = {
               _JAVA_AWT_WM_NONREPARENTING = "1";
@@ -206,10 +209,13 @@ in
               corner_radius = builtins.floor c.borders.radius;
             };
 
-            colors.border = {
-              focused = c.colors.active;
-              unfocused = c.colors.inactive;
-            };
+            colors = {
+	      border = {
+		focused = c.colors.active;
+		unfocused = c.colors.inactive;
+              };
+	      overview.workspace_background = "#00000000";
+	    }; 
           }
           // lib.optionalAttrs (c.monitors != null && c.monitors != { }) {
             output = lib.mapAttrs (
