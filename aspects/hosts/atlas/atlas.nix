@@ -55,7 +55,10 @@
     ];
     system = "x86_64-linux";
     stateVersion = "25.05";
-    extraGroups = [ "plugdev" ];
+    extraGroups = [
+      "plugdev"
+      "media"
+    ];
     includes = with config.aspectLib.aspectNames; [
       bundle.base
       dev.tools.git
@@ -67,6 +70,7 @@
       server.git.binaryCache
       server.git.forgejoRunner
       server.media.jellyfin
+      server.media.bookorbit
       server.identity.sso
       server.network.cloudflared
       server.base.lanAccess
