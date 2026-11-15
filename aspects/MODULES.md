@@ -5,7 +5,7 @@
 
 # Module Library
 
-130 aspects.
+131 aspects.
 
 An aspect declares any subset of the layer slots `nixos`, `finix`, `home`, plus an
 optional `includes` list. A host names it once; the builder routes it to whichever
@@ -134,6 +134,7 @@ to pull in the names it includes.
 | `server.identity.vaultwarden` | nixos | Vaultwarden password manager. | `server.base.nginx` `server.backup.restic` `server.mail.relay` `core.sops` |
 | `server.mail.alerts` | nixos | Mail alerts through the relay: ZFS events, SMART failures and failed units. | `server.mail.relay` |
 | `server.mail.relay` | nixos | Send-only postfix on loopback, relaying to an authenticated smarthost. | `core.sops` |
+| `server.media.bookorbit` | nixos | BookOrbit library and reader (ebooks, comics, audiobooks) with Kobo/KOReader sync. | `server.base.nginx` `server.backup.restic` `core.sops` |
 | `server.media.jellyfin` | nixos | Jellyfin media server, proxied and backed up. | `server.base.nginx` `server.backup.restic` |
 | `server.media.nixarr` | nixos | The *arr media automation stack. | `server.backup.restic` `core.sops` |
 | `server.network.cloudflared` | nixos | Cloudflare tunnel exposing declared nginx vhosts publicly. | `server.base.nginx` `core.sops` |
