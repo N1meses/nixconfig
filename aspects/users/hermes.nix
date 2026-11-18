@@ -6,11 +6,11 @@
     keys = map builtins.readFile (lib.filesystem.listFilesRecursive ../features/core/super/keys);
     includes = with config.aspectLib.aspectNames; [
       bundle.cliEnv
-      shell.nushell
+      shell.zsh
       bundle.services
       server.files.sync.client
       dev.editors.emacs
-      desktop.compositors.umbriel
+      desktop.compositors.niri
       desktop.noctalia
       desktop.apps.term.foot
       desktop.apps.yaziFilechooser

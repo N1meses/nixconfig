@@ -1,10 +1,11 @@
+
 {
   config,
   inputs,
   ...
 }:
 let
-  mkNoctaliaUmbriel = config.aspectLib.mkNoctaliaUmbriel;
+  mkNoctaliaNiri = config.aspectLib.mkNoctaliaNiri;
 in
 {
   hosts.hermes = {
@@ -62,10 +63,16 @@ in
           monitors = [ ];
         };
 
-        features.compositors.umbriel.extraBinds = {
-          "Mod+Shift+q" = mkNoctaliaUmbriel "session lock";
-          "Mod+n" = mkNoctaliaUmbriel "panel-toggle launcher";
-          "Mod+b" = mkNoctaliaUmbriel "bar-toggle";
+        features.compositors.niri.extraBinds = {
+          "Mod+Shift+q" = {
+	    spawn = mkNoctaliaNiri "session lock"; 
+	  };
+          "Mod+n" = {
+	    spawn = mkNoctaliaNiri "panel-toggle launcher";
+	  };
+          "Mod+b" = {
+	    spwan = mkNoctaliaNiri "bar-toggle";
+	  };
         };
       };
   };
