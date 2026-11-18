@@ -29,7 +29,7 @@ may inherit another host the same way. Both are selectable by name.
 |------|-------------|----------|
 | `athena` | Admin account on athena. | `bundle.cliEnv` `shell.zsh` `dev.tools.network` `desktop.apps.fastfetch` |
 | `atlas` | Admin account on atlas. | `bundle.cliEnv` `shell.zsh` `dev.tools.network` `desktop.apps.fastfetch` |
-| `hermes` | acc for hermes | `bundle.cliEnv` `shell.nushell` `bundle.services` `server.files.sync.client` `dev.editors.emacs` `desktop.compositors.umbriel` `desktop.noctalia` `desktop.apps.term.foot` `desktop.apps.yaziFilechooser` `desktop.apps.browser.glide` |
+| `hermes` | acc for hermes | `bundle.cliEnv` `shell.zsh` `bundle.services` `server.files.sync.client` `dev.editors.emacs` `desktop.compositors.niri` `desktop.noctalia` `desktop.apps.term.foot` `desktop.apps.yaziFilechooser` `desktop.apps.browser.glide` |
 | `icarus` | Daily account on icarus and bellerophon. | `bundle.cliEnv` `shell.nushell` `desktop.compositors.niri` `bundle.desktop` `dev.languages.nix` `shell.ssh` `desktop.apps.term.foot` `dev.editors.zed` |
 | `nimeses` | user for daily | `bundle.cliEnv` `bundle.desktop` `desktop.compositors.umbriel` `server.files.sync.client` `dev.editors.emacs` `desktop.apps.term.kitty` `desktop.apps.browser.glide` `dev.tools.direnv` `shell.zsh` |
 | `phaethon` | Admin account on phaethon. | `bundle.cliEnv` `shell.zsh` `dev.tools.network` `dev.languages.nix` `desktop.apps.fastfetch` |
