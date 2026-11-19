@@ -71,7 +71,7 @@ in
 	    spawn = mkNoctaliaNiri "panel-toggle launcher";
 	  };
           "Mod+b" = {
-	    spwan = mkNoctaliaNiri "bar-toggle";
+	    spawn = mkNoctaliaNiri "bar-toggle";
 	  };
         };
       };
